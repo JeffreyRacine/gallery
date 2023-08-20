@@ -1,8 +1,6 @@
 ---
-title: Function Index
+title: Index of functions in np/npRmpi and crs
 ---
-
-Index of functions in np/npRmpi and crs
 
 Below you can find an index of functions and datasets contained in the np/npRmpi and crs packages. Further information and working examples can be found by loading the packages and requesting help for a given function by entering \`?foo\' at the R/RStudio console, where foo is a function name from the list below (without the single quotes \`\'). Or in RStudio you can get help by clicking on the package name from the \`Packages\' tab in the lower right pane (default) which will pull up the list of functions contained in the package - clicking on the function will display help. Note that at the bottom of each function description is a set of working examples that you can run, modify etc.
 

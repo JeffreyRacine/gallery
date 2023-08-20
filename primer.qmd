@@ -1,8 +1,6 @@
 ---
-title: "Primer"
+title: Getting started
 ---
-
-Getting started
 
 To get started you will need 
 

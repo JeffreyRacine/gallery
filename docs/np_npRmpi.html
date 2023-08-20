@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gallery Website - np/npRmpi</title>
+<title>Gallery Website - Demos for functions in np/npRmpi</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -87,27 +87,27 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./primer.html" rel="" target="">
- <span class="menu-text">Primer</span></a>
+ <span class="menu-text">Getting started</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./regression.html" rel="" target="">
- <span class="menu-text">Regression</span></a>
+ <span class="menu-text">Kernel regression examples using np</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./np_npRmpi.html" rel="" target="" aria-current="page">
- <span class="menu-text">np/npRmpi</span></a>
+ <span class="menu-text">Demos for functions in np/npRmpi</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./crs.html" rel="" target="">
- <span class="menu-text">crs</span></a>
+ <span class="menu-text">Demos for functions in crs</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./fun.html" rel="" target="">
- <span class="menu-text">Fun</span></a>
+ <span class="menu-text">Fun Interactive Illustrations</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./function_index.html" rel="" target="">
- <span class="menu-text">Function Index</span></a>
+ <span class="menu-text">Index of functions in np/npRmpi and crs</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./R_RStudio.html" rel="" target="">
@@ -136,7 +136,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">np/npRmpi</h1>
+<h1 class="title">Demos for functions in np/npRmpi</h1>
 </div>
 
 
@@ -151,7 +151,6 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Demos for functions in np/npRmpi</p>
 <p>The following examples are a few of the demos included with the npRmpi package. These all use simulated data and were written to demonstrate how one modifies calls to functions in the np package in order to run them in parallel using the npRmpi package. The files *_serial.R are the standard (i.e.&nbsp;single core) versions that are run with the np package. The files *_npRmpi.R are the parallel versions (i.e.&nbsp;multi core) that are run with the npRmpi package. Note that you must install the np package (and optionally npRmpi) in order to run these examples, and you need a functioning MPI implementation in order to run the latter (see my website for further information about installing the npRmpi package).&nbsp;</p>
 <p>Note that in the following examples a) there is timing information used for comparison purposes, and b) these are meant to tax a serial (single core) machine thereby demonstrating the benefits from running in parallel, so expect lengthy run-times with the serial version (i.e.&nbsp;up to a few minutes depending on the speed of your machine).</p>
 <ol type="1">
