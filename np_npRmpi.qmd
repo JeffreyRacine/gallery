@@ -8,29 +8,29 @@ The following examples are a few of the demos included with the npRmpi package. 
 
 Note that in the following examples a) there is timing information used for comparison purposes, and b) these are meant to tax a serial (single core) machine thereby demonstrating the benefits from running in parallel, so expect lengthy run-times with the serial version (i.e. up to a few minutes depending on the speed of your machine).
 
-1.  Least-squares cross-validated conditional density estimation ([npcdensls_serial.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npcdensls_serial.R "np_npRmpi_files/npcdensls_serial.R"), [npcdensls_npRmpi.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npcdensls_npRmpi.R "np_npRmpi_files/npcdensls_npRmpi.R"))
+1.  Least-squares cross-validated conditional density estimation ([npcdensls_serial.R](www/np_npRmpi/npcdensls_serial.R "np_npRmpi_files/npcdensls_serial.R"), [npcdensls_npRmpi.R](www/np_npRmpi/npcdensls_npRmpi.R "np_npRmpi_files/npcdensls_npRmpi.R"))
 
-2.  Consistent parametric model specification testing ([npcmstest_serial.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npcmstest_serial.R "np_npRmpi_files/npcmstest_serial.R"), [npcmstest_npRmpi.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npcmstest_npRmpi.R "np_npRmpi_files/npcmstest_npRmpi.R"))
+2.  Consistent parametric model specification testing ([npcmstest_serial.R](www/np_npRmpi/npcmstest_serial.R "np_npRmpi_files/npcmstest_serial.R"), [npcmstest_npRmpi.R](www/np_npRmpi/npcmstest_npRmpi.R "np_npRmpi_files/npcmstest_npRmpi.R"))
 
-3.  Conditional mode estimation ([npconmode_serial.R, ](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npconmode_serial.R "np_npRmpi_files/npconmode_serial.R")[npconmode_npRmpi.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npconmode_npRmpi.R "np_npRmpi_files/npconmode_npRmpi.R"))
+3.  Conditional mode estimation ([npconmode_serial.R, ](www/np_npRmpi/npconmode_serial.R "np_npRmpi_files/npconmode_serial.R")[npconmode_npRmpi.R](www/np_npRmpi/npconmode_npRmpi.R "np_npRmpi_files/npconmode_npRmpi.R"))
 
-4.  Density equality test ([npdeneqtest_serial.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npdeneqtest_serial.R "np_npRmpi_files/npdeneqtest_serial.R"), [npdeneqtest_npRmpi.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npdeneqtest_npRmpi.R "np_npRmpi_files/npdeneqtest_npRmpi.R"))
+4.  Density equality test ([npdeneqtest_serial.R](www/np_npRmpi/npdeneqtest_serial.R "np_npRmpi_files/npdeneqtest_serial.R"), [npdeneqtest_npRmpi.R](www/np_npRmpi/npdeneqtest_npRmpi.R "np_npRmpi_files/npdeneqtest_npRmpi.R"))
 
-5.  Semiparametric single index model estimation ([npindexich_serial.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npindexich_serial.R "np_npRmpi_files/npindexich_serial.R"), [npindexich_npRmpi.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npindexich_npRmpi.R "np_npRmpi_files/npindexich_npRmpi.R"))
+5.  Semiparametric single index model estimation ([npindexich_serial.R](www/np_npRmpi/npindexich_serial.R "np_npRmpi_files/npindexich_serial.R"), [npindexich_npRmpi.R](www/np_npRmpi/npindexich_npRmpi.R "np_npRmpi_files/npindexich_npRmpi.R"))
 
-6.  Semiparametric partially linear regression ([npplreg_serial.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npplreg_serial.R "np_npRmpi_files/npplreg_serial.R"), [npplreg_npRmpi.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npplreg_npRmpi.R "np_npRmpi_files/npplreg_npRmpi.R"))
+6.  Semiparametric partially linear regression ([npplreg_serial.R](www/np_npRmpi/npplreg_serial.R "np_npRmpi_files/npplreg_serial.R"), [npplreg_npRmpi.R](www/np_npRmpi/npplreg_npRmpi.R "np_npRmpi_files/npplreg_npRmpi.R"))
 
-7.  Local linear regression with AIC bandwidth selection ([npregllaic_serial.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npregllaic_serial.R "np_npRmpi_files/npregllaic_serial.R"), [npregllaic_npRmpi.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npregllaic_npRmpi.R "np_npRmpi_files/npregllaic_npRmpi.R"))
+7.  Local linear regression with AIC bandwidth selection ([npregllaic_serial.R](www/np_npRmpi/npregllaic_serial.R "np_npRmpi_files/npregllaic_serial.R"), [npregllaic_npRmpi.R](www/np_npRmpi/npregllaic_npRmpi.R "np_npRmpi_files/npregllaic_npRmpi.R"))
 
-8.  Test for nonlinear serial dependence ([npsdeptest_serial.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npsdeptest_serial.R "np_npRmpi_files/npsdeptest_serial.R"), [npsdeptest_npRmpi.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npsdeptest_npRmpi.R "np_npRmpi_files/npsdeptest_npRmpi.R"))
+8.  Test for nonlinear serial dependence ([npsdeptest_serial.R](www/np_npRmpi/npsdeptest_serial.R "np_npRmpi_files/npsdeptest_serial.R"), [npsdeptest_npRmpi.R](www/np_npRmpi/npsdeptest_npRmpi.R "np_npRmpi_files/npsdeptest_npRmpi.R"))
 
-9.  Nonparametric significance test ([npsigtest_serial.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npsigtest_serial.R "np_npRmpi_files/npsigtest_serial.R"), [npsigtest_npRmpi.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npsigtest_npRmpi.R "np_npRmpi_files/npsigtest_npRmpi.R"))
+9.  Nonparametric significance test ([npsigtest_serial.R](www/np_npRmpi/npsigtest_serial.R "np_npRmpi_files/npsigtest_serial.R"), [npsigtest_npRmpi.R](www/np_npRmpi/npsigtest_npRmpi.R "np_npRmpi_files/npsigtest_npRmpi.R"))
 
-10. Unconditional density estimation via likelihood cross-validation ([npudensml_serial.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npudensml_serial.R "np_npRmpi_files/npudensml_serial.R"), [npudensml_npRmpi.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/npudensml_npRmpi.R "np_npRmpi_files/npudensml_npRmpi.R"))
+10. Unconditional density estimation via likelihood cross-validation ([npudensml_serial.R](www/np_npRmpi/npudensml_serial.R "np_npRmpi_files/npudensml_serial.R"), [npudensml_npRmpi.R](www/np_npRmpi/npudensml_npRmpi.R "np_npRmpi_files/npudensml_npRmpi.R"))
 
-11. Constrained local polynomial estimation ([lp_k1_prodfunc.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/lp_k1_prodfunc.R "np_npRmpi_files/lp_k1_prodfunc.R"), [lp_k1.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/lp_k1.R "np_npRmpi_files/lp_k1.R"), [lp_radial_mean.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/lp_radial_mean.R "np_npRmpi_files/lp_radial_mean.R"), [lp_radial_deriv.R](https://socialsciences.mcmaster.ca/racinej/Gallery/np_npRmpi_files/lp_radial_deriv.R "np_npRmpi_files/lp_radial_deriv.R"))
+11. Constrained local polynomial estimation ([lp_k1_prodfunc.R](www/np_npRmpi/lp_k1_prodfunc.R "np_npRmpi_files/lp_k1_prodfunc.R"), [lp_k1.R](www/np_npRmpi/lp_k1.R "np_npRmpi_files/lp_k1.R"), [lp_radial_mean.R](www/np_npRmpi/lp_radial_mean.R "np_npRmpi_files/lp_radial_mean.R"), [lp_radial_deriv.R](www/np_npRmpi/lp_radial_deriv.R "np_npRmpi_files/lp_radial_deriv.R"))
 
-Here is a link to the vignette for the np package ([np vignette](http://cran.r-project.org/web/packages/np/vignettes/np.pdf "http://cran.r-project.org/web/packages/np/vignettes/np.pdf")), and here are some references that you may find useful:
+Here is a link to the vignette for the np package ([np vignette](https://cran.r-project.org/web/packages/np/vignettes/np.pdf "https://cran.r-project.org/web/packages/np/vignettes/np.pdf")), and here are some references that you may find useful:
 
 1.  Hayfield, T. and J.S. Racine (2008), "Nonparametric Econometrics: The np Package, Journal of Statistical Software, Volume 27, Number 5, 1-32.
 

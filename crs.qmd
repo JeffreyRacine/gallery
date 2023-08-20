@@ -6,16 +6,16 @@ Demos for functions in crs
 
 The following examples are a few of the demos included with the crs package. These all use simulated data, the categorical B-spline estimator, and were written to demonstrate functionality and graphics. Note that the files \*\_rgl.R require that the rgl package be installed in addition to the crs package itself. 
 
-1.  Cross-validated regression spline estimation of the bivariate radial function plotted using OpenGL ([radial_rgl.R](https://socialsciences.mcmaster.ca/racinej/Gallery/crs_files/radial_rgl.R "crs_files/radial_rgl.R")) (this creates the figure displayed on the page associated with the \`Home\' tab above - you can click on that figure to view a larger image)
+1.  Cross-validated regression spline estimation of the bivariate radial function plotted using OpenGL ([radial_rgl.R](www/crs/radial_rgl.R "crs_files/radial_rgl.R")) (this creates the figure displayed on the page associated with the \`Home\' tab above - you can click on that figure to view a larger image)
 
-2.  Cross-validated regression spline estimation of the bivariate sine function plotted using OpenGL ([sine_rgl.R](https://socialsciences.mcmaster.ca/racinej/Gallery/crs_files/sine_rgl.R "crs_files/sine_rgl.R"))
+2.  Cross-validated regression spline estimation of the bivariate sine function plotted using OpenGL ([sine_rgl.R](www/crs/sine_rgl.R "crs_files/sine_rgl.R"))
 
-3.  Constrained regression spline estimation ([radial_constrained_mean.R](https://socialsciences.mcmaster.ca/racinej/Gallery/crs_files/radial_constrained_mean.R "crs_files/radial_constrained_mean.R"))
+3.  Constrained regression spline estimation ([radial_constrained_mean.R](www/crs/radial_constrained_mean.R "crs_files/radial_constrained_mean.R"))
 
-4.  Constrained regression spline estimation ([radial_constrained_first_partial.R](https://socialsciences.mcmaster.ca/racinej/Gallery/crs_files/radial_constrained_first_partial.R "crs_files/radial_constrained_first_partial.R"))
+4.  Constrained regression spline estimation ([radial_constrained_first_partial.R](www/crs/radial_constrained_first_partial.R "crs_files/radial_constrained_first_partial.R"))
 
-5.  Constrained regression spline estimation ([radial_constrained_second_partial.R](https://socialsciences.mcmaster.ca/racinej/Gallery/crs_files/radial_constrained_second_partial.R "crs_files/radial_constrained_second_partial.R"))
+5.  Constrained regression spline estimation ([radial_constrained_second_partial.R](www/crs/radial_constrained_second_partial.R "crs_files/radial_constrained_second_partial.R"))
 
-Here is a link to the vignette for the crs package ([crs vignette](http://cran.r-project.org/web/packages/crs/vignettes/crs.pdf "http://cran.r-project.org/web/packages/crs/vignettes/crs.pdf")), and here is a reference that you may find useful:
+Here is a link to the vignette for the crs package ([crs vignette](https://cran.r-project.org/web/packages/crs/vignettes/crs.pdf "https://cran.r-project.org/web/packages/crs/vignettes/crs.pdf")), and here is a reference that you may find useful:
 
 Nie, Z. and J.S. Racine (2012), "The crs Package: Nonparametric Regression Splines for Continuous and Categorical Predictors," The R Journal, Volume 4, Issue 2, 48-56.
