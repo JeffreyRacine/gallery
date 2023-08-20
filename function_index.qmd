@@ -1,0 +1,95 @@
+---
+title: Function Index
+---
+
+Index of functions in np/npRmpi and crs
+
+Below you can find an index of functions and datasets contained in the np/npRmpi and crs packages. Further information and working examples can be found by loading the packages and requesting help for a given function by entering \`?foo\' at the R/RStudio console, where foo is a function name from the list below (without the single quotes \`\'). Or in RStudio you can get help by clicking on the package name from the \`Packages\' tab in the lower right pane (default) which will pull up the list of functions contained in the package - clicking on the function will display help. Note that at the bottom of each function description is a set of working examples that you can run, modify etc.
+
+Here is an index of functions contained in the crs package along with a brief description:
+
+1.  crs: Categorical Regression Splines
+
+2.  crsiv: Nonparametric Instrumental Regression
+
+3.  crsivderiv: Nonparametric Instrumental Derivatives
+
+4.  crssigtest: Regression Spline Significance Test with Mixed Data Types
+
+5.  gsl.bs: GSL (GNU Scientific Library) B-spline/B-spline Derivatives
+
+6.  npglpreg: Generalized Local Polynomial Regression
+
+7.  snomadr: R interface to NOMAD
+
+Here is an index of functions contained in the np/npRmpi packages along with a brief description:
+
+1.  npcdens: Kernel Conditional Density and Distribution Estimates with Mixed Data Types
+
+2.  npcdensbw: Kernel Conditional Density Bandwidth Selection with Mixed Data Types
+
+3.  npcdist: Kernel Conditional Density and Distribution Estimates with Mixed Data Types
+
+4.  npcmstest: Kernel Consistent Model Specification Test with Mixed Data Types
+
+5.  npconmode: Kernel Modal Regression with Mixed Data Types
+
+6.  npcopula: Kernel Copula Estimation with Mixed Data Types
+
+7.  npdeneqtest: Kernel Consistent Density Equality Test with Mixed Data Types
+
+8.  npdeptest: Kernel Consistent Pairwise Nonlinear Dependence Test for Univariate Processes
+
+9.  npindex: Semiparametric Single Index Model
+
+10. npindexbw: Semiparametric Single Index Model Parameter and Bandwidth Selection
+
+11. npksum: Kernel Sums with Mixed Data Types
+
+12. npplot: General Purpose Plotting of Nonparametric Objects
+
+13. npplreg: Partially Linear Kernel Regression with Mixed Data Types
+
+14. npplregbw: Partially Linear Kernel Regression Bandwidth Selection with Mixed Data Types
+
+15. npqcmstest: Kernel Consistent Quantile Regression Model Specification Test with Mixed Data Types
+
+16. npqreg: Kernel Quantile Regression with Mixed Data Types
+
+17. npreg: Kernel Regression with Mixed Data Types
+
+18. npregbw: Kernel Regression Bandwidth Selection with Mixed Data Types 
+
+19.  npregiv: Nonparametric Instrumental Regression
+
+20. npregivderiv: Nonparametric Instrumental Derivatives
+
+21. npscoef: Smooth Coefficient Kernel Regression
+
+22. npscoefbw: Smooth Coefficient Kernel Regression Bandwidth Selection
+
+23. npsdeptest: Kernel Consistent Serial Dependence Test for Univariate Nonlinear Processes
+
+24. npsigtest: Kernel Regression Significance Test with Mixed Data Types
+
+25. npsymtest: Kernel Consistent Density Asymmetry Test with Mixed Data Types
+
+26. npudens: Kernel Density and Distribution Estimation with Mixed Data Types
+
+27. npudensbw: Kernel Density Bandwidth Selection with Mixed Data Types
+
+28. npudist: Kernel Density and Distribution Estimation with Mixed Data Types
+
+29. npunitest: Kernel Consistent Univariate Density Equality Test with Mixed Data Types
+
+The packages include the following datasets between them:
+
+1.  cps71: Canadian High School Graduate Earnings
+
+2.  Engel95: 1995 British Family Expenditure Survey
+
+3.  wage1: Cross-Sectional Data on Wages
+
+4.  Italy: Italian GDP Panel
+
+5.  oecdpanel: Cross Country Growth Panel

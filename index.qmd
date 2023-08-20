@@ -1,0 +1,31 @@
+---
+title: "Gallery Website"
+---
+
+Gallery of np/npRmpi/crs examples
+
+Welcome!
+
+This site is intended to provide those interested in semi- and nonparametric methods with illustrative examples using routines found in the R packages \`np\', \`npRmpi\', and \`crs\' (R is a free and open software environment for statistical computing and graphics). These packages are hosted on CRAN (the \`Comprehensive R Archive 
+
+[![](https://socialsciences.mcmaster.ca/racinej/Gallery/Home_files/radial_rgl.jpg){alt=""}](https://socialsciences.mcmaster.ca/racinej/Gallery/Home_files/radial_rgl.png)
+
+Network\') and on GitHub (a web-based hosting service). Additional information regarding these packages can be found on CRAN and on my homepage (listed below). You navigate through the gallery by clicking on the tabs above (i.e. click on the \`Primer\' tab above for tips on getting started and so forth).
+
+My intention here is to provide a forum for users to share code and discover examples and illustrations in addition to the examples and illustrations found in the R help files for the various functions contained in these packages (so perhaps start there first). For a listing of functions and descriptions see the \`Function index\' tab above.
+
+Information on installing R can be found at the \`R/RStudio\' tab above, and a gentle guide to getting started can be found at the \`Primer\' tab above. 
+
+Feedback is most welcome and encouraged, particularly refinements, typos, bug reports and so forth, though you might first consult the FAQ (\`Frequently Asked Questions\') for each package before emailing me in case your query has already been addressed (here are links to the FAQs: [np_faq.pdf](http://socserv.mcmaster.ca/racine/np_faq.pdf "http://socserv.mcmaster.ca/racine/np_faq.pdf"), [crs_faq.pdf](http://socserv.mcmaster.ca/racine/crs_faq.pdf "http://socserv.mcmaster.ca/racine/crs_faq.pdf")). 
+
+You can contact me via email at [racinej\@mcmaster.ca](mailto:racinej@mcmaster.ca?subject=email%20subject "mailto:racinej@mcmaster.ca?subject=email subject"). And, of course, feel free to forward your commented examples and I will post them along with your contact information.
+
+Jeffrey S. Racine
+
+Department of Economics
+
+McMaster University
+
+Hamilton, Ontario, Canada
+
+[www.economics.mcmaster.ca/faculty/racinej](http://www.economics.mcmaster.ca/faculty/racinej "http://www.economics.mcmaster.ca/faculty/racinej")

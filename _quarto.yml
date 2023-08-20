@@ -1,0 +1,26 @@
+project:
+  type: website
+
+website:
+  title: "Gallery_website"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - primer.qmd
+      - regression.qmd   
+      - np_npRmpi.qmd
+      - crs.qmd
+      - fun.qmd
+      - function_index.qmd
+      - R_RStudio.qmd
+      - about.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+
+

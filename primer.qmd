@@ -1,0 +1,25 @@
+---
+title: "Primer"
+---
+
+Getting started
+
+To get started you will need 
+
+1.  An Internet connection
+
+2.  A working installation of R/RStudio (see the \`R/RStudio\' tab above for installation information)
+
+3.  A working installation of each package you wish to use. Note that for the np and crs packages you can simply type \`install.packages(\"np\")\' (without the single quotes \`\') and \`install.packages(\"crs\")\' at the R/RStudio console, and the packages will be automatically downloaded from CRAN and installed. Or, if you are using RStudio, click on the \`Packages\' tab in the lower right pane (default), then click on the \`Install Packages\' icon, then enter the package names you wish to install (note you can install multiple packages here by placing a comma between the name of each package you wish to install)
+
+4.  If you wish to run the npRmpi package which allows for a parallel implementation of the np package using the MPI standard (MPI stands for \`Message Passing Interface\' which is an international standard for parallel computation) kindly see my homepage for further details on installation (in addition to having R/RStudio installed, you need a working MPI implementation)
+
+5.  To test whether your installation of np/crs has been successful, type \`library(crs)\' followed by \`example(crs)\' at the R/RStudio console, or \`library(np)\' followed by \`example(npreg)\' (again without the single quotes \`\')
+
+If you encounter installation difficulties perhaps consult a colleague or see your local tech support person as I am unable to assist with installation problems.
+
+Here are a few references that you may find useful:
+
+1.  Racine, J.S. (2012), "RStudio: A Platform-Independent IDE for R and Sweave," Journal of Applied Econometrics, Volume 27, Issue 1, 167-172.
+
+2.  Racine, J.S. and R. Hyndman (2002), "Using R to Teach Econometrics," Journal of Applied Econometrics, March/April, Volume 17, Issue 2, 175-189.
