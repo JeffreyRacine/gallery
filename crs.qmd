@@ -1,6 +1,8 @@
 ---
-title: Demos for functions in crs
+title: crs
 ---
+
+Demos for functions in crs
 
 The following examples are a few of the demos included with the crs package. These all use simulated data, the categorical B-spline estimator, and were written to demonstrate functionality and graphics. Note that the files \*\_rgl.R require that the rgl package be installed in addition to the crs package itself. 
 

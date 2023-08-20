@@ -1,6 +1,8 @@
 ---
-title: Gallery of np/npRmpi/crs examples
+title: "Gallery Website"
 ---
+
+Gallery of np/npRmpi/crs examples
 
 Welcome!
 

@@ -1,6 +1,8 @@
 ---
-title: Demos for functions in np/npRmpi
+title: np/npRmpi
 ---
+
+Demos for functions in np/npRmpi
 
 The following examples are a few of the demos included with the npRmpi package. These all use simulated data and were written to demonstrate how one modifies calls to functions in the np package in order to run them in parallel using the npRmpi package. The files \*\_serial.R are the standard (i.e. single core) versions that are run with the np package. The files \*\_npRmpi.R are the parallel versions (i.e. multi core) that are run with the npRmpi package. Note that you must install the np package (and optionally npRmpi) in order to run these examples, and you need a functioning MPI implementation in order to run the latter (see my website for further information about installing the npRmpi package). 
 
