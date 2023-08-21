@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Gallery Website - Fun</title>
+<title>Gallery Website - Interactive</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -102,8 +102,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">crs</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./fun.html" rel="" target="" aria-current="page">
- <span class="menu-text">Fun</span></a>
+    <a class="nav-link active" href="./interactive.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Interactive</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./function_index.html" rel="" target="">
@@ -129,14 +129,20 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#interactive-illustrations" id="toc-interactive-illustrations" class="nav-link active" data-scroll-target="#interactive-illustrations">Interactive Illustrations</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Fun</h1>
+<h1 class="title">Interactive</h1>
 </div>
 
 
@@ -151,9 +157,10 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Fun Interactive Illustrations</p>
+<section id="interactive-illustrations" class="level2">
+<h2 class="anchored" data-anchor-id="interactive-illustrations">Interactive Illustrations</h2>
 <p>The following examples illustrate a range of features of kernel density estimation and regression using the `manipulate' package (note that the manipulate package only functions under RStudio, and that you may have to maximize the height of your plot pane in RStudio in order to see the full menu... to reveal the manipulate menu simply click on the tool icon on the top left of the figure produced when you source (execute) the code).&nbsp;</p>
-<p>These examples are interactive in nature, and I hope that you enjoy them! From my perspective they offer valuable pedagogical tools that can enhance one's understanding of kernel estimators. So what are you waiting for? Fire up RStudio and cut-and-paste these into your console, and kindly let me know if you have any suggestions for improvements.</p>
+<p>These examples are interactive in nature, and I hope that you enjoy them! From my perspective they offer valuable pedagogical tools that can enhance one's understanding of kernel estimators. So what are you waiting for? Fire up RStudio, download an R script then run it, and kindly let me know if you have any suggestions for improvements.</p>
 <ol type="1">
 <li><p>Create a dynamic univariate density plot with `sliders' and `pickers' that can be used to dynamically change the bandwidth, kernel function, kernel order, bandwidth type, degrees of freedom of the underlying chi-square distribution, number of observations, and overlay histograms and rugs then immediately see the impact on the resulting estimate (<a href="www/Fun/manipulate_density.R" title="Fun_files/manipulate_density.R">manipulate_density.R</a>).</p></li>
 <li><p>Create a dynamic univariate density plot for the `Old Faithful Eruptions' data with `sliders' and `pickers' that can be used to dynamically change the bandwidth, kernel function, kernel order, bandwidth type, and overlay histograms and rugs then immediately see the impact on the resulting estimate (<a href="www/Fun/manipulate_eruptions.R" title="Fun_files/manipulate_eruptions.R">manipulate_eruptions.R</a>).</p></li>
@@ -171,6 +178,7 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

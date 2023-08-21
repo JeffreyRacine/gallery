@@ -2,7 +2,7 @@
 title: "Gallery Website"
 ---
 
-Gallery of np/npRmpi/crs examples
+## Gallery of np/npRmpi/crs examples
 
 Welcome!
 

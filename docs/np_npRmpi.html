@@ -102,8 +102,8 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">crs</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./fun.html" rel="" target="">
- <span class="menu-text">Fun</span></a>
+    <a class="nav-link" href="./interactive.html" rel="" target="">
+ <span class="menu-text">Interactive</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./function_index.html" rel="" target="">
@@ -129,7 +129,13 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#demos-for-functions-in-npnprmpi" id="toc-demos-for-functions-in-npnprmpi" class="nav-link active" data-scroll-target="#demos-for-functions-in-npnprmpi">Demos for functions in np/npRmpi</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -151,7 +157,8 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Demos for functions in np/npRmpi</p>
+<section id="demos-for-functions-in-npnprmpi" class="level2">
+<h2 class="anchored" data-anchor-id="demos-for-functions-in-npnprmpi">Demos for functions in np/npRmpi</h2>
 <p>The following examples are a few of the demos included with the npRmpi package. These all use simulated data and were written to demonstrate how one modifies calls to functions in the np package in order to run them in parallel using the npRmpi package. The files *_serial.R are the standard (i.e.&nbsp;single core) versions that are run with the np package. The files *_npRmpi.R are the parallel versions (i.e.&nbsp;multi core) that are run with the npRmpi package. Note that you must install the np package (and optionally npRmpi) in order to run these examples, and you need a functioning MPI implementation in order to run the latter (see my website for further information about installing the npRmpi package).&nbsp;</p>
 <p>Note that in the following examples a) there is timing information used for comparison purposes, and b) these are meant to tax a serial (single core) machine thereby demonstrating the benefits from running in parallel, so expect lengthy run-times with the serial version (i.e.&nbsp;up to a few minutes depending on the speed of your machine).</p>
 <ol type="1">
@@ -175,6 +182,7 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

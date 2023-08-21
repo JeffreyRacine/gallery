@@ -1,12 +1,12 @@
 ---
-title: Fun
+title: Interactive
 ---
 
-Fun Interactive Illustrations
+## Interactive Illustrations
 
 The following examples illustrate a range of features of kernel density estimation and regression using the \`manipulate\' package (note that the manipulate package only functions under RStudio, and that you may have to maximize the height of your plot pane in RStudio in order to see the full menu\... to reveal the manipulate menu simply click on the tool icon on the top left of the figure produced when you source (execute) the code). 
 
-These examples are interactive in nature, and I hope that you enjoy them! From my perspective they offer valuable pedagogical tools that can enhance one\'s understanding of kernel estimators. So what are you waiting for? Fire up RStudio and cut-and-paste these into your console, and kindly let me know if you have any suggestions for improvements.
+These examples are interactive in nature, and I hope that you enjoy them! From my perspective they offer valuable pedagogical tools that can enhance one\'s understanding of kernel estimators. So what are you waiting for? Fire up RStudio, download an R script then run it, and kindly let me know if you have any suggestions for improvements.
 
 1.  Create a dynamic univariate density plot with \`sliders\' and \`pickers\' that can be used to dynamically change the bandwidth, kernel function, kernel order, bandwidth type, degrees of freedom of the underlying chi-square distribution, number of observations, and overlay histograms and rugs then immediately see the impact on the resulting estimate ([manipulate_density.R](www/Fun/manipulate_density.R "Fun_files/manipulate_density.R")).
 
