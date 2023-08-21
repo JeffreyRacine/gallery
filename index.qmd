@@ -18,6 +18,8 @@ Feedback is most welcome and encouraged, particularly refinements, typos, bug re
 
 You can contact me via email at [racinej\@mcmaster.ca](mailto:racinej@mcmaster.ca?subject=email%20subject "mailto:racinej@mcmaster.ca?subject=email subject"). And, of course, feel free to forward your commented examples and I will post them along with your contact information.
 
+Additional resources (solutions manuals, code to accompany books, monographs, etc.) can be found at <a href="https://jeffreyracine.github.io/research">jeffreyracine.github.io/research</a>.
+
 Jeffrey S. Racine <br>
 Department of Economics <br>
 McMaster University <br>
