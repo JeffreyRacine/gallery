@@ -2,7 +2,7 @@
 title: R/RStudio
 ---
 
-# R/RStudio
+## R/RStudio
 
 There are many compelling reasons why I use \`R\' for data analysis (the underlying statistical engine) and the R front-end \`RStudio\' (far too many to delve into here). Since RStudio automatically calls R when both are installed, I recommend using RStudio as your default interface to R. You can if you prefer run R in \`stand alone\' mode, but RStudio is an integrated development environment that provides a much more intuitive front end for the user (plus it is platform independent, so whether you use Linux, Mac OS X, MS Windows etc. we will all have the identical menus/options available). Below I discuss each in turn.
 
