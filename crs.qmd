@@ -6,7 +6,7 @@ title: crs
 
 The following examples are a few of the demos included with the crs package. These all use simulated data, the categorical B-spline estimator, and were written to demonstrate functionality and graphics. Note that the files \*\_rgl.R require that the rgl package be installed in addition to the crs package itself. 
 
-1.  Cross-validated regression spline estimation of the bivariate radial function plotted using OpenGL ([radial_rgl.R](www/crs/radial_rgl.R "crs_files/radial_rgl.R")) (this creates the figure displayed on the page associated with the \`Home\' tab above - you can click on that figure to view a larger image)
+1.  Cross-validated regression spline estimation of the bivariate radial function plotted using OpenGL ([radial_rgl.R](www/crs/radial_rgl.R "crs_files/radial_rgl.R")) (this creates the figure displayed on the page associated with the \`Home\' menu item above - you can click on that figure to view a larger image)
 
 2.  Cross-validated regression spline estimation of the bivariate sine function plotted using OpenGL ([sine_rgl.R](www/crs/sine_rgl.R "crs_files/sine_rgl.R"))
 

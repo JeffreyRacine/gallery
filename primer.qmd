@@ -8,7 +8,7 @@ To get started you will need 
 
 1.  An Internet connection
 
-2.  A working installation of R/RStudio (see the \`R/RStudio\' tab above for installation information)
+2.  A working installation of R/RStudio (see the \`R/RStudio\' menu item above for installation information)
 
 3.  A working installation of each package you wish to use. Note that for the np and crs packages you can simply type \`install.packages(\"np\")\' (without the single quotes \`\') and \`install.packages(\"crs\")\' at the R/RStudio console, and the packages will be automatically downloaded from CRAN and installed. Or, if you are using RStudio, click on the \`Packages\' tab in the lower right pane (default), then click on the \`Install Packages\' icon, then enter the package names you wish to install (note you can install multiple packages here by placing a comma between the name of each package you wish to install)
 
