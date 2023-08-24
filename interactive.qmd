@@ -2,7 +2,7 @@
 title: Interactive
 ---
 
-## Interactive Illustrations
+# Interactive Illustrations
 
 The following examples illustrate a range of features of kernel density estimation and regression using the \`manipulate\' package (note that the manipulate package only functions under RStudio, and that you may have to maximize the height of your plot pane in RStudio in order to see the full menu\... to reveal the manipulate menu simply click on the tool icon on the top left of the figure produced when you source (execute) the code). 
 

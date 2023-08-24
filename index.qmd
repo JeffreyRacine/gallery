@@ -2,7 +2,9 @@
 title: "Gallery Website"
 ---
 
-## Gallery of np/npRmpi/crs examples
+This auxiliary website is accessible from my University website <a href="https://experts.mcmaster.ca/display/racinej">experts.mcmaster.ca/display/racinej</a> and is not intended as a substitute.
+
+# Gallery of np/npRmpi/crs examples
 
 Welcome!
 
