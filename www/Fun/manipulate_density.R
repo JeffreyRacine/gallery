@@ -73,7 +73,7 @@ manipulate.plot <- function(n,df,sf,nn,bwtype,ckertype,ckerorder,hist,rug,cv,cv.
          bty="n",
          cex=0.75)
 
-  if(hist) hist(x,breaks=25,freq=FALSE,add=TRUE,lty=3)
+  if(hist) hist(x,breaks=25,freq=FALSE,col=NA,add=TRUE,lty=3)
 
   if(rug) rug(x)
 }
