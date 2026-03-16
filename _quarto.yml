@@ -98,7 +98,9 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme:
+      - default
+      - theme.scss
     css: styles.css
     toc: true
     toc-depth: 3

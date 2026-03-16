@@ -1,0 +1,317 @@
+/*-- scss:defaults --*/
+
+$gallery-paper: #f6f0e2;
+$gallery-paper-deep: #ecdfc6;
+$gallery-panel: #fffaf0;
+$gallery-panel-soft: #f4ecdb;
+$gallery-ink: #1d2f35;
+$gallery-muted: #5d665f;
+$gallery-accent: #0e5c63;
+$gallery-accent-strong: #0b434d;
+$gallery-rust: #a25528;
+$gallery-olive: #667431;
+$gallery-gold: #c49a3a;
+$gallery-border: #d5c7af;
+$gallery-rule: rgba(102, 116, 49, 0.08);
+$gallery-shadow: 0 22px 48px rgba(29, 47, 53, 0.08);
+
+$body-bg: $gallery-paper;
+$body-color: $gallery-ink;
+$link-color: $gallery-accent-strong;
+$link-hover-color: $gallery-accent;
+$border-color: $gallery-border;
+$navbar-bg: rgba(248, 243, 232, 0.9);
+$navbar-fg: $gallery-ink;
+$navbar-hl: $gallery-accent-strong;
+$footer-bg: transparent;
+$code-bg: #efe6d4;
+$code-color: $gallery-ink;
+$pre-bg: #f7f1e4;
+$pre-color: $gallery-ink;
+$table-bg: transparent;
+$table-striped-bg: rgba(255, 255, 255, 0.45);
+$body-secondary-color: $gallery-muted;
+$font-family-sans-serif: "Source Sans 3", "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+$headings-font-family: "Charter", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", "URW Palladio L", Georgia, serif;
+$font-family-monospace: "JetBrains Mono", "SFMono-Regular", "Cascadia Code", Menlo, Consolas, monospace;
+$headings-font-weight: 600;
+$border-radius: 0.7rem;
+$border-radius-lg: 1.1rem;
+$border-radius-xl: 1.3rem;
+$box-shadow: $gallery-shadow;
+
+/*-- scss:rules --*/
+
+:root {
+  --gallery-paper: #{$gallery-paper};
+  --gallery-paper-deep: #{$gallery-paper-deep};
+  --gallery-panel: #{$gallery-panel};
+  --gallery-panel-soft: #{$gallery-panel-soft};
+  --gallery-ink: #{$gallery-ink};
+  --gallery-muted: #{$gallery-muted};
+  --gallery-accent: #{$gallery-accent};
+  --gallery-accent-strong: #{$gallery-accent-strong};
+  --gallery-rust: #{$gallery-rust};
+  --gallery-olive: #{$gallery-olive};
+  --gallery-gold: #{$gallery-gold};
+  --gallery-border: #{$gallery-border};
+  --gallery-shadow: #{$gallery-shadow};
+}
+
+html {
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background:
+    linear-gradient(180deg, rgba(246, 240, 226, 0.98) 0%, rgba(241, 234, 219, 0.98) 100%),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 30px,
+      $gallery-rule 30px,
+      $gallery-rule 31px
+    );
+  color: $gallery-ink;
+  line-height: 1.72;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.navbar-title,
+.sidebar-title {
+  color: $gallery-ink;
+  letter-spacing: 0.01em;
+}
+
+a {
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.15em;
+}
+
+a:hover,
+a:focus {
+  text-decoration-thickness: 0.12em;
+}
+
+.navbar {
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(213, 199, 175, 0.85);
+  box-shadow: 0 10px 26px rgba(29, 47, 53, 0.05);
+}
+
+.navbar-brand,
+.navbar-title {
+  font-size: 1.08rem;
+  letter-spacing: 0.03em;
+}
+
+#quarto-sidebar {
+  background:
+    linear-gradient(180deg, rgba(255, 250, 240, 0.95) 0%, rgba(245, 236, 219, 0.95) 100%);
+  border-right: 1px solid rgba(213, 199, 175, 0.95);
+}
+
+.sidebar-navigation .sidebar-section .sidebar-item-text,
+.sidebar-navigation .sidebar-item .sidebar-item-text {
+  border-radius: 0.65rem;
+}
+
+.sidebar-navigation .sidebar-section .sidebar-item-text {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $gallery-muted;
+}
+
+.sidebar-navigation .sidebar-item-container .sidebar-item-text {
+  padding: 0.3rem 0.55rem;
+}
+
+.sidebar-navigation .sidebar-item-container:hover .sidebar-item-text,
+.sidebar-navigation .sidebar-item-container:focus .sidebar-item-text {
+  background: rgba(14, 92, 99, 0.08);
+}
+
+.sidebar-navigation .sidebar-item-container .active,
+.sidebar-navigation .sidebar-item-container .active:hover {
+  background: rgba(14, 92, 99, 0.12);
+  color: $gallery-accent-strong;
+}
+
+.sidebar-item-toggle {
+  color: $gallery-muted;
+}
+
+.quarto-title-banner,
+.quarto-title-block .quarto-title-banner {
+  background:
+    linear-gradient(135deg, rgba(236, 223, 198, 0.78) 0%, rgba(255, 250, 240, 0.86) 100%);
+  border-bottom: 1px solid rgba(213, 199, 175, 0.8);
+}
+
+.quarto-title .title {
+  font-size: clamp(2rem, 4vw, 3.15rem);
+  line-height: 1.04;
+}
+
+.quarto-title-meta,
+.description,
+.quarto-categories {
+  color: $gallery-muted;
+}
+
+main.content {
+  position: relative;
+}
+
+main.content::before {
+  content: "";
+  position: absolute;
+  top: 0.65rem;
+  bottom: 0.65rem;
+  left: -1.35rem;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(162, 85, 40, 0.35) 12%,
+    rgba(162, 85, 40, 0.18) 88%,
+    transparent 100%
+  );
+}
+
+.quarto-container main.content > :not(.hero-panel):not(.hero-figure):not(.grid) {
+  max-width: 78ch;
+}
+
+.quarto-container main.content table,
+.quarto-container main.content .callout,
+.quarto-container main.content blockquote,
+.quarto-container main.content pre,
+.quarto-container main.content div.sourceCode {
+  max-width: none;
+}
+
+table,
+.table {
+  background: rgba(255, 250, 240, 0.72);
+  border: 1px solid rgba(213, 199, 175, 0.9);
+  border-radius: 0.95rem;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(29, 47, 53, 0.05);
+}
+
+thead th {
+  border-bottom-width: 1px;
+  color: $gallery-muted;
+  font-size: 0.77rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+code:not(pre code) {
+  background: rgba(239, 230, 212, 0.95);
+  border: 1px solid rgba(213, 199, 175, 0.82);
+  border-radius: 0.45rem;
+  padding: 0.08rem 0.38rem;
+}
+
+pre,
+div.sourceCode {
+  background: $pre-bg;
+  border: 1px solid rgba(213, 199, 175, 0.92);
+  border-left: 6px solid rgba(14, 92, 99, 0.7);
+  border-radius: 1rem;
+  box-shadow: 0 16px 34px rgba(29, 47, 53, 0.07);
+}
+
+p:has(+ .code-copy-outer-scaffold),
+.callout-body > p:first-child:has(+ .code-copy-outer-scaffold) {
+  display: inline-block;
+  margin-bottom: 0.55rem;
+  padding: 0.18rem 0.65rem;
+  background: rgba(236, 223, 198, 0.85);
+  border: 1px solid rgba(213, 199, 175, 0.9);
+  border-radius: 999px;
+  color: $gallery-muted;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+}
+
+.code-copy-button {
+  background: rgba(255, 250, 240, 0.95);
+  border: 1px solid rgba(213, 199, 175, 0.9);
+  border-radius: 999px;
+  color: $gallery-accent-strong;
+}
+
+.code-copy-button:hover,
+.code-copy-button:focus {
+  background: rgba(14, 92, 99, 0.08);
+}
+
+.callout {
+  background: rgba(255, 251, 244, 0.82);
+  border: 1px solid rgba(213, 199, 175, 0.92);
+  border-radius: 1.1rem;
+  box-shadow: 0 12px 30px rgba(29, 47, 53, 0.05);
+}
+
+.callout.callout-note {
+  border-left: 6px solid rgba(14, 92, 99, 0.72);
+}
+
+.callout.callout-important,
+.callout.callout-warning {
+  border-left: 6px solid rgba(162, 85, 40, 0.72);
+}
+
+.callout-header {
+  background: rgba(244, 236, 219, 0.7);
+}
+
+blockquote {
+  margin: 1.4rem 0;
+  padding: 0.7rem 1.1rem;
+  background: rgba(255, 250, 240, 0.78);
+  border-left: 5px solid rgba(162, 85, 40, 0.68);
+  color: $gallery-ink;
+}
+
+.quarto-search-button,
+.aa-DetachedSearchButton,
+#quarto-search {
+  border-radius: 999px;
+}
+
+.page-footer {
+  border-top: 1px solid rgba(213, 199, 175, 0.88);
+  color: $gallery-muted;
+}
+
+img,
+.hero-image {
+  border-radius: 1.1rem;
+}
+
+@media (max-width: 991.98px) {
+  main.content::before {
+    display: none;
+  }
+
+  .quarto-container main.content > :not(.hero-panel):not(.hero-figure):not(.grid) {
+    max-width: none;
+  }
+}
