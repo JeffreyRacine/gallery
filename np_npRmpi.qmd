@@ -15,32 +15,9 @@ keywords:
 source("site_helpers.R", local = knitr::knit_global())
 ```
 
-::: {.page-intro .page-intro-np}
-:::{.hero-kicker}
-Serial first, MPI when it earns its keep
-:::
+This page is the practical starting point for kernel-based work. In most cases the right place to begin is `np`, then move to `npRmpi` only when the same workflow becomes too slow or too large in serial.
 
-## Start with `np`, then scale with `npRmpi`
-
-In most cases the right place to begin is `np`, then move to `npRmpi` only when the same workflow becomes too slow or too large in serial. This page is the practical hub for that route.
-
-::: {.package-strip}
-::: {.package-chip .package-chip-np}
-`np` for mixed-data kernels, densities, tests, and semiparametric work
-:::
-
-::: {.package-chip .package-chip-mpi}
-`npRmpi` when bandwidth selection, bootstrap work, or repeated fits become expensive
-:::
-:::
-
-::: {.intro-links}
-[Kernel Primer](kernel_primer.qmd){.intro-link}
-[Quickstarts](quickstarts.qmd){.intro-link}
-[MPI and Large Data](mpi_large_data.qmd){.intro-link}
-[Code Catalog](code_catalog.qmd){.intro-link}
-:::
-:::
+If you want a shorter conceptual introduction before diving into examples, start with [Kernel Primer](kernel_primer.qmd).
 
 If your interest is specifically in entropy-based testing procedures, go to [Entropy and Testing](entropy_tests.qmd).
 
@@ -66,10 +43,6 @@ If your focus is testing whether variables matter or whether a parametric model 
 | work with partially linear, single-index, or varying-coefficient models | [Semiparametric Models](semiparametric_models.qmd) | [np_semiparametric_quickstart.R](www/np_npRmpi/np_semiparametric_quickstart.R) |
 | stay serial for now but look at richer scripts | [Code Catalog](code_catalog.qmd) | [Worked Examples](regression.qmd) |
 | run the same style of workflow with MPI | [MPI and Large Data](mpi_large_data.qmd) | [nprmpi_session_quickstart.R](www/np_npRmpi/nprmpi_session_quickstart.R) |
-
-::: {.route-table-note}
-The table above is meant to be scanned quickly. If you want a smaller conceptual introduction first, start with [Kernel Primer](kernel_primer.qmd). If you want copy-first code before reading, go directly to [Quickstarts](quickstarts.qmd).
-:::
 
 ## A very small `np` workflow
 

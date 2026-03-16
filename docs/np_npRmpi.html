@@ -75,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b6841289c7c531ebf33fd8f7ff054d2c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-288c8b914a9499731edc4c932c6f906e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-b4acf84f37d6d68f6a15c6fe27913e81.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -441,26 +441,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="page-intro page-intro-np">
-<div class="hero-kicker">
-<p>Serial first, MPI when it earns its keep</p>
-</div>
-<section id="start-with-np-then-scale-with-nprmpi" class="level2">
-<h2 class="anchored" data-anchor-id="start-with-np-then-scale-with-nprmpi">Start with <code>np</code>, then scale with <code>npRmpi</code></h2>
-<p>In most cases the right place to begin is <code>np</code>, then move to <code>npRmpi</code> only when the same workflow becomes too slow or too large in serial. This page is the practical hub for that route.</p>
-<div class="package-strip">
-<div class="package-chip package-chip-np">
-<p><code>np</code> for mixed-data kernels, densities, tests, and semiparametric work</p>
-</div>
-<div class="package-chip package-chip-mpi">
-<p><code>npRmpi</code> when bandwidth selection, bootstrap work, or repeated fits become expensive</p>
-</div>
-</div>
-<div class="intro-links">
-<p><a href="./kernel_primer.html" class="intro-link">Kernel Primer</a> <a href="./quickstarts.html" class="intro-link">Quickstarts</a> <a href="./mpi_large_data.html" class="intro-link">MPI and Large Data</a> <a href="./code_catalog.html" class="intro-link">Code Catalog</a></p>
-</div>
-</section>
-</div>
+<p>This page is the practical starting point for kernel-based work. In most cases the right place to begin is <code>np</code>, then move to <code>npRmpi</code> only when the same workflow becomes too slow or too large in serial.</p>
+<p>If you want a shorter conceptual introduction before diving into examples, start with <a href="./kernel_primer.html">Kernel Primer</a>.</p>
 <p>If your interest is specifically in entropy-based testing procedures, go to <a href="./entropy_tests.html">Entropy and Testing</a>.</p>
 <p>If your focus is partially linear, single-index, or varying-coefficient methods, go to <a href="./semiparametric_models.html">Semiparametric Models</a>.</p>
 <p>If you want density, distribution, or quantile workflows rather than regression, go to <a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>.</p>
@@ -511,9 +493,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<div class="route-table-note">
-<p>The table above is meant to be scanned quickly. If you want a smaller conceptual introduction first, start with <a href="./kernel_primer.html">Kernel Primer</a>. If you want copy-first code before reading, go directly to <a href="./quickstarts.html">Quickstarts</a>.</p>
-</div>
 </section>
 <section id="a-very-small-np-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="a-very-small-np-workflow">A very small <code>np</code> workflow</h2>

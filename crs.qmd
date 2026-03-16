@@ -10,27 +10,7 @@ keywords:
   - spline examples
 ---
 
-::: {.page-intro .page-intro-crs}
-:::{.hero-kicker}
-Spline room
-:::
-
-## Use `crs` when spline structure is the natural language of the problem
-
-`crs` is the right first stop when regression splines, shape restrictions, or spline-specific workflows are more natural than kernel estimators. This page is meant to route quickly between a first fit, a conceptual primer, and the longer constrained examples.
-
-::: {.package-strip}
-::: {.package-chip .package-chip-crs}
-`crs` for spline fits, constrained surfaces, and shape-aware examples
-:::
-:::
-
-::: {.intro-links}
-[Spline Primer](spline_primer.qmd){.intro-link}
-[Spline Search and Tuning](spline_search_and_tuning.qmd){.intro-link}
-[crs_quickstart.R](www/crs/crs_quickstart.R){.intro-link}
-:::
-:::
+Use `crs` when regression splines, shape restrictions, or spline-specific workflows are the natural tool rather than kernel estimators.
 
 ## First stop
 

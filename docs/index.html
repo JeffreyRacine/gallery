@@ -37,10 +37,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b6841289c7c531ebf33fd8f7ff054d2c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-288c8b914a9499731edc4c932c6f906e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-b4acf84f37d6d68f6a15c6fe27913e81.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -124,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
@@ -355,9 +355,22 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#gallery-of-code-for-np-nprmpi-and-crs" id="toc-gallery-of-code-for-np-nprmpi-and-crs" class="nav-link active" data-scroll-target="#gallery-of-code-for-np-nprmpi-and-crs">Gallery of code for <code>np</code>, <code>npRmpi</code>, and <code>crs</code></a>
+  <ul class="collapse">
+  <li><a href="#learn-by-topic" id="toc-learn-by-topic" class="nav-link" data-scroll-target="#learn-by-topic">Learn by topic</a></li>
+  <li><a href="#need-help-fast" id="toc-need-help-fast" class="nav-link" data-scroll-target="#need-help-fast">Need help fast?</a></li>
+  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/JeffreyRacine/gallery/blob/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
+    </div>
 <!-- main -->
-<main class="content column-page-right" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Start Here</a></li><li class="breadcrumb-item"><a href="./index.html">Overview</a></li></ol></nav>
 <div class="quarto-title">
@@ -366,7 +379,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<div class="quarto-title-meta column-page-right">
+<div class="quarto-title-meta">
 
     
   
@@ -378,205 +391,154 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="gallery-of-code-for-np-nprmpi-and-crs" class="level1">
+<h1>Gallery of code for <code>np</code>, <code>npRmpi</code>, and <code>crs</code></h1>
+<p>This site is meant to help you get to working code quickly. The sidebar is now organized by task rather than by old document names, and the search box should find function names such as <code>npreg</code>, <code>npudens</code>, <code>crs</code>, and <code>npRmpi.init</code>.</p>
 <div class="grid">
-<div class="g-col-12 g-col-lg-8">
-<div class="hero-panel">
-<div class="hero-kicker">
-<p>Field guide for nonparametric work in R</p>
+<div class="g-col-12 g-col-lg-7">
+<p>This gallery complements the package help pages, examples, and vignettes. The aim is simple: make it easy to see what each package is for, copy a small working example, and then move on to longer scripts only if you need them.</p>
+<p>If you are new to these packages, start with <a href="./primer.html">Choose a Package</a>. If you want runnable code immediately, go to <a href="./quickstarts.html">Quickstarts</a>. If you already know the method you want, go directly to <a href="./np_npRmpi.html">Kernel Methods</a>, <a href="./mpi_large_data.html">MPI and Large Data</a>, <a href="./crs.html">Splines</a>, or <a href="./regression.html">Worked Examples</a>.</p>
 </div>
-<section id="gallery-of-code-for-np-nprmpi-and-crs" class="level1 hero-title">
-<h1 class="hero-title">Gallery of code for <code>np</code>, <code>npRmpi</code>, and <code>crs</code></h1>
-<div class="hero-deck">
-<p>This gallery is built to get you from “which package?” to working code quickly. Use it as a practical companion to the package manuals: choose the right tool, copy a small runnable example, and move to longer scripts only when you need them.</p>
-</div>
-<div class="hero-actions">
-<p><a href="./quickstarts.html" class="hero-link hero-link-primary">Open Quickstarts</a> <a href="./primer.html" class="hero-link hero-link-secondary">Choose a Package</a> <a href="./code_catalog.html" class="hero-link hero-link-secondary">Browse the Code Catalog</a></p>
-</div>
-<div class="package-strip">
-<div class="package-chip package-chip-np">
-<p><code>np</code> for mixed-data kernels and core serial workflows</p>
-</div>
-<div class="package-chip package-chip-mpi">
-<p><code>npRmpi</code> when the same workflow needs MPI scale</p>
-</div>
-<div class="package-chip package-chip-crs">
-<p><code>crs</code> for spline and shape-constrained work</p>
-</div>
-</div>
-</section>
-</div>
-</div>
-<div class="g-col-12 g-col-lg-4">
-<div class="hero-figure">
+<div class="g-col-12 g-col-lg-5">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="www/radial_rgl.png" class="hero-image img-fluid figure-img"></p>
-<figcaption>Spline surface from the gallery archive</figcaption>
+<figcaption>Cross-validated spline illustration</figcaption>
 </figure>
-</div>
-<div class="hero-caption">
-<p>A representative spline surface from the gallery archive. The site now treats figures like this as orientation and context, not as a reason to make users download code before they can learn.</p>
-</div>
 </div>
 </div>
 </div>
 <div class="quick-note">
-<p>This website is linked from my academic site and is meant to help people work, not just read. The default route is now: choose a package, copy a small script, then move into method notes, troubleshooting, and longer examples only as needed.</p>
+<p>This website is linked from my academic site and is intended as a practical working companion, not as a substitute for the package manuals or the underlying papers.</p>
 </div>
-<div class="section-label">
-<p>Start fast</p>
-</div>
-<section id="use-the-site-by-task" class="level2 section-heading">
-<h2 class="section-heading anchored" data-anchor-id="use-the-site-by-task">Use the site by task</h2>
 <div class="grid">
 <div class="g-col-12 g-col-md-6">
-<section id="choose-a-package" class="level3 home-card card-start">
+<section id="choose-a-package" class="level3 home-card">
 <h3 class="anchored" data-anchor-id="choose-a-package"><a href="./primer.html">Choose a Package</a></h3>
-<p>Start here if you are deciding between <code>np</code>, <code>npRmpi</code>, and <code>crs</code>, or if you want the shortest route to the right tool.</p>
+<p>Start here if you are deciding between <code>np</code>, <code>npRmpi</code>, and <code>crs</code>, or if you want a quick route to the right tool.</p>
 </section>
 </div>
 <div class="g-col-12 g-col-md-6">
-<section id="install-and-get-started" class="level3 home-card card-start">
+<section id="install-and-get-started" class="level3 home-card">
 <h3 class="anchored" data-anchor-id="install-and-get-started"><a href="./R_RStudio.html">Install and Get Started</a></h3>
 <p>Short install notes, a minimal first run, and pointers for what to do next once the packages are installed.</p>
 </section>
 </div>
 <div class="g-col-12 g-col-md-6">
-<section id="quickstarts" class="level3 home-card card-start">
+<section id="quickstarts" class="level3 home-card">
 <h3 class="anchored" data-anchor-id="quickstarts"><a href="./quickstarts.html">Quickstarts</a></h3>
 <p>Small runnable scripts for <code>np</code>, <code>npRmpi</code>, and <code>crs</code>, shown inline so you can copy directly from the page.</p>
 </section>
 </div>
 <div class="g-col-12 g-col-md-6">
-<section id="faq-and-troubleshooting" class="level3 home-card card-support">
-<h3 class="anchored" data-anchor-id="faq-and-troubleshooting"><a href="./faq.html">FAQ and Troubleshooting</a></h3>
-<p>Common questions, support routes, and links to the current canonical sources.</p>
-</section>
-</div>
-</div>
-<div class="section-label">
-<p>Method rooms</p>
-</div>
-</section>
-<section id="learn-by-method-and-scale" class="level2 section-heading">
-<h2 class="section-heading anchored" data-anchor-id="learn-by-method-and-scale">Learn by method and scale</h2>
-<div class="grid">
-<div class="g-col-12 g-col-md-6">
-<section id="kernel-methods" class="level3 home-card card-np">
+<section id="kernel-methods" class="level3 home-card">
 <h3 class="anchored" data-anchor-id="kernel-methods"><a href="./np_npRmpi.html">Kernel Methods</a></h3>
 <p>Core workflows for <code>np</code>, together with a clean route to <code>npRmpi</code> when jobs become larger or more time consuming.</p>
 </section>
 </div>
 <div class="g-col-12 g-col-md-6">
-<section id="mpi-and-large-data" class="level3 home-card card-mpi">
+<section id="mpi-and-large-data" class="level3 home-card">
 <h3 class="anchored" data-anchor-id="mpi-and-large-data"><a href="./mpi_large_data.html">MPI and Large Data</a></h3>
 <p>Updated guidance for <code>npRmpi</code>, with <code>session</code> mode now treated as the main interactive path rather than an afterthought.</p>
 </section>
 </div>
 <div class="g-col-12 g-col-md-6">
-<section id="splines" class="level3 home-card card-crs">
-<h3 class="anchored" data-anchor-id="splines"><a href="./crs.html">Splines</a></h3>
-<p>Spline-focused entry page for <code>crs</code>, including constrained examples and a route into the spline primer.</p>
-</section>
-</div>
-<div class="g-col-12 g-col-md-6">
-<section id="kernel-primer" class="level3 home-card card-np">
-<h3 class="anchored" data-anchor-id="kernel-primer"><a href="./kernel_primer.html">Kernel Primer</a></h3>
-<p>Short conceptual introduction to mixed-data kernels, bandwidth objects, and the basic <code>np</code> workflow.</p>
-</section>
-</div>
-<div class="g-col-12 g-col-md-6">
-<section id="density-distribution-quantiles" class="level3 home-card card-np">
-<h3 class="anchored" data-anchor-id="density-distribution-quantiles"><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a></h3>
-<p>Route to <code>npudens</code>, <code>npudist</code>, <code>npcdens</code>, <code>npcdist</code>, and <code>npqreg</code> workflows.</p>
-</section>
-</div>
-<div class="g-col-12 g-col-md-6">
-<section id="semiparametric-models" class="level3 home-card card-np">
-<h3 class="anchored" data-anchor-id="semiparametric-models"><a href="./semiparametric_models.html">Semiparametric Models</a></h3>
-<p>Partially linear, single-index, and varying-coefficient workflows in one place.</p>
-</section>
-</div>
-<div class="g-col-12 g-col-md-6">
-<section id="entropy-and-testing" class="level3 home-card card-np">
-<h3 class="anchored" data-anchor-id="entropy-and-testing"><a href="./entropy_tests.html">Entropy and Testing</a></h3>
-<p>Overview of the entropy-based testing procedures and a small “roll your own” example.</p>
-</section>
-</div>
-<div class="g-col-12 g-col-md-6">
-<section id="classification-and-modes" class="level3 home-card card-np">
-<h3 class="anchored" data-anchor-id="classification-and-modes"><a href="./classification_modes.html">Classification and Modes</a></h3>
-<p>Nonparametric classification and conditional-mode workflows, including the <code>birthwt</code> example.</p>
-</section>
-</div>
-<div class="g-col-12 g-col-md-6">
-<section id="spline-primer" class="level3 home-card card-crs">
-<h3 class="anchored" data-anchor-id="spline-primer"><a href="./spline_primer.html">Spline Primer</a></h3>
-<p>Conceptual introduction to regression splines, knots, basis functions, and how that connects to <code>crs</code>.</p>
-</section>
-</div>
-</div>
-<div class="section-label">
-<p>Work with code</p>
-</div>
-</section>
-<section id="move-from-snippets-to-fuller-scripts" class="level2 section-heading">
-<h2 class="section-heading anchored" data-anchor-id="move-from-snippets-to-fuller-scripts">Move from snippets to fuller scripts</h2>
-<div class="grid">
-<div class="g-col-12 g-col-md-6">
-<section id="worked-examples" class="level3 home-card card-start">
+<section id="worked-examples" class="level3 home-card">
 <h3 class="anchored" data-anchor-id="worked-examples"><a href="./regression.html">Worked Examples</a></h3>
 <p>Copyable code snippets on the page, plus links to longer scripts when you want the full commented version.</p>
 </section>
 </div>
 <div class="g-col-12 g-col-md-6">
-<section id="code-catalog" class="level3 home-card card-start">
-<h3 class="anchored" data-anchor-id="code-catalog"><a href="./code_catalog.html">Code Catalog</a></h3>
-<p>Broader script library across <code>np</code>, <code>npRmpi</code>, and <code>crs</code>, including older scripts and fuller worked examples beyond the first quickstarts.</p>
-</section>
-</div>
-<div class="g-col-12 g-col-md-6">
-<section id="multivariate-regression" class="level3 home-card card-np">
+<section id="multivariate-regression" class="level3 home-card">
 <h3 class="anchored" data-anchor-id="multivariate-regression"><a href="./multivariate_regression.html">Multivariate Regression</a></h3>
 <p>Mixed-data regression, partial plots, and prediction using <code>wage1</code> as a practical first multivariate example.</p>
 </section>
 </div>
 <div class="g-col-12 g-col-md-6">
-<section id="books-papers-and-citation" class="level3 home-card card-support">
-<h3 class="anchored" data-anchor-id="books-papers-and-citation"><a href="./books_papers.html">Books, Papers, and Citation</a></h3>
-<p>Pointers to papers, books, and package citations when you want the longer theoretical or bibliographic route.</p>
+<section id="faq-and-troubleshooting" class="level3 home-card">
+<h3 class="anchored" data-anchor-id="faq-and-troubleshooting"><a href="./faq.html">FAQ and Troubleshooting</a></h3>
+<p>Common questions, support routes, and links to the current canonical sources.</p>
 </section>
 </div>
 </div>
-<div class="section-label">
-<p>Need help fast?</p>
-</div>
-</section>
-<section id="troubleshooting-routes" class="level2 section-heading">
-<h2 class="section-heading anchored" data-anchor-id="troubleshooting-routes">Troubleshooting routes</h2>
+<section id="learn-by-topic" class="level2">
+<h2 class="anchored" data-anchor-id="learn-by-topic">Learn by topic</h2>
 <div class="grid">
 <div class="g-col-12 g-col-md-6">
-<section id="data-preparation" class="level3 home-card card-support">
+<section id="kernel-primer" class="level3 home-card">
+<h3 class="anchored" data-anchor-id="kernel-primer"><a href="./kernel_primer.html">Kernel Primer</a></h3>
+<p>Short conceptual introduction to mixed-data kernels, bandwidth objects, and the basic <code>np</code> workflow.</p>
+</section>
+</div>
+<div class="g-col-12 g-col-md-6">
+<section id="density-distribution-quantiles" class="level3 home-card">
+<h3 class="anchored" data-anchor-id="density-distribution-quantiles"><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a></h3>
+<p>Route to <code>npudens</code>, <code>npudist</code>, <code>npcdens</code>, <code>npcdist</code>, and <code>npqreg</code> workflows.</p>
+</section>
+</div>
+<div class="g-col-12 g-col-md-6">
+<section id="semiparametric-models" class="level3 home-card">
+<h3 class="anchored" data-anchor-id="semiparametric-models"><a href="./semiparametric_models.html">Semiparametric Models</a></h3>
+<p>Partially linear, single-index, and varying-coefficient workflows in one place.</p>
+</section>
+</div>
+<div class="g-col-12 g-col-md-6">
+<section id="entropy-and-testing" class="level3 home-card">
+<h3 class="anchored" data-anchor-id="entropy-and-testing"><a href="./entropy_tests.html">Entropy and Testing</a></h3>
+<p>Overview of the entropy-based testing procedures and a small “roll your own” example.</p>
+</section>
+</div>
+<div class="g-col-12 g-col-md-6">
+<section id="classification-and-modes" class="level3 home-card">
+<h3 class="anchored" data-anchor-id="classification-and-modes"><a href="./classification_modes.html">Classification and Modes</a></h3>
+<p>Nonparametric classification and conditional-mode workflows, including the <code>birthwt</code> example.</p>
+</section>
+</div>
+<div class="g-col-12 g-col-md-6">
+<section id="build-with-npksum" class="level3 home-card">
+<h3 class="anchored" data-anchor-id="build-with-npksum"><a href="./npksum_custom.html">Build With npksum</a></h3>
+<p>For users who want to construct custom kernel objects or estimators rather than only use the higher-level wrappers.</p>
+</section>
+</div>
+<div class="g-col-12 g-col-md-6">
+<section id="spline-primer" class="level3 home-card">
+<h3 class="anchored" data-anchor-id="spline-primer"><a href="./spline_primer.html">Spline Primer</a></h3>
+<p>Conceptual introduction to regression splines, knots, basis functions, and how that connects to <code>crs</code>.</p>
+</section>
+</div>
+<div class="g-col-12 g-col-md-6">
+<section id="code-catalog" class="level3 home-card">
+<h3 class="anchored" data-anchor-id="code-catalog"><a href="./code_catalog.html">Code Catalog</a></h3>
+<p>Broader script library across <code>np</code>, <code>npRmpi</code>, and <code>crs</code>, including older scripts and fuller worked examples beyond the first quickstarts.</p>
+</section>
+</div>
+</div>
+</section>
+<section id="need-help-fast" class="level2">
+<h2 class="anchored" data-anchor-id="need-help-fast">Need help fast?</h2>
+<div class="grid">
+<div class="g-col-12 g-col-md-6">
+<section id="faq-and-troubleshooting-1" class="level3 home-card">
+<h3 class="anchored" data-anchor-id="faq-and-troubleshooting-1"><a href="./faq.html">FAQ and Troubleshooting</a></h3>
+<p>Short answers to the most common “where do I start?” and “why is this happening?” questions.</p>
+</section>
+</div>
+<div class="g-col-12 g-col-md-6">
+<section id="data-preparation" class="level3 home-card">
 <h3 class="anchored" data-anchor-id="data-preparation"><a href="./data_preparation.html">Data Preparation</a></h3>
 <p>Variable classes, factors, ordered variables, formulas, and the data-typing mistakes that most often trip people up.</p>
 </section>
 </div>
 <div class="g-col-12 g-col-md-6">
-<section id="runtime-and-scaling" class="level3 home-card card-support">
+<section id="runtime-and-scaling" class="level3 home-card">
 <h3 class="anchored" data-anchor-id="runtime-and-scaling"><a href="./runtime_and_scaling.html">Runtime and Scaling</a></h3>
 <p>What to do when cross-validation, bootstrap, spline search, or large jobs become slow or memory-hungry.</p>
 </section>
 </div>
 <div class="g-col-12 g-col-md-6">
-<section id="spline-search-and-tuning" class="level3 home-card card-support">
+<section id="spline-search-and-tuning" class="level3 home-card">
 <h3 class="anchored" data-anchor-id="spline-search-and-tuning"><a href="./spline_search_and_tuning.html">Spline Search and Tuning</a></h3>
 <p>Practical <code>crs</code> advice on search size, smoothness, knots, and when to narrow the spline search space.</p>
-</section>
-</div>
-<div class="g-col-12 g-col-md-6">
-<section id="reference" class="level3 home-card card-support">
-<h3 class="anchored" data-anchor-id="reference"><a href="./function_index.html">Reference</a></h3>
-<p>Task-based routing for function names and common entry points when you know roughly what you need but not where it lives.</p>
 </section>
 </div>
 </div>
@@ -587,10 +549,12 @@ ul.task-list li input[type="checkbox"] {
 <li>Search should help if you know the function name but not where it lives.</li>
 <li><a href="./quickstarts.html">Quickstarts</a> is the shortest route to a small runnable script.</li>
 <li>The reference page groups functions by task rather than repeating a long handwritten index.</li>
-<li>Additional materials remain available at <a href="https://jeffreyracine.github.io/research">jeffreyracine.github.io/research</a>.</li>
+<li>Additional resources, including books and papers, are collected on <a href="./books_papers.html">Books, Papers, and Citation</a>.</li>
 </ul>
+<p>Feedback is welcome. My academic page is <a href="https://experts.mcmaster.ca/display/racinej">experts.mcmaster.ca/display/racinej</a>, and additional materials remain available at <a href="https://jeffreyracine.github.io/research">jeffreyracine.github.io/research</a>.</p>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
@@ -999,7 +963,7 @@ ul.task-list li input[type="checkbox"] {
     }
   });
   </script>
-<nav class="page-navigation column-page-right">
+<nav class="page-navigation">
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
@@ -1016,7 +980,7 @@ ul.task-list li input[type="checkbox"] {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/JeffreyRacine/gallery/blob/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/JeffreyRacine/gallery/blob/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">

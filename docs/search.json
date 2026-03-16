@@ -1731,18 +1731,7 @@
     "href": "np_npRmpi.html",
     "title": "Kernel Methods",
     "section": "",
-    "text": "Serial first, MPI when it earns its keep\n\n\n\nIn most cases the right place to begin is np, then move to npRmpi only when the same workflow becomes too slow or too large in serial. This page is the practical hub for that route.\n\n\nnp for mixed-data kernels, densities, tests, and semiparametric work\n\n\nnpRmpi when bandwidth selection, bootstrap work, or repeated fits become expensive\n\n\n\nKernel Primer Quickstarts MPI and Large Data Code Catalog\nIf your interest is specifically in entropy-based testing procedures, go to Entropy and Testing.\nIf your focus is partially linear, single-index, or varying-coefficient methods, go to Semiparametric Models.\nIf you want density, distribution, or quantile workflows rather than regression, go to Density, Distribution, Quantiles.\nIf you want nonparametric classification or conditional mode workflows, go to Classification and Modes.\nIf you want to build custom kernel objects or estimators, go to Build With npksum.\nIf you want a focused guide to plot(), gradients, intervals, and predictions, go to Plotting and Intervals.\nIf your focus is testing whether variables matter or whether a parametric model is misspecified, go to Significance and Specification.",
-    "crumbs": [
-      "Methods",
-      "Kernel Methods"
-    ]
-  },
-  {
-    "objectID": "np_npRmpi.html#start-with-np-then-scale-with-nprmpi",
-    "href": "np_npRmpi.html#start-with-np-then-scale-with-nprmpi",
-    "title": "Kernel Methods",
-    "section": "",
-    "text": "In most cases the right place to begin is np, then move to npRmpi only when the same workflow becomes too slow or too large in serial. This page is the practical hub for that route.\n\n\nnp for mixed-data kernels, densities, tests, and semiparametric work\n\n\nnpRmpi when bandwidth selection, bootstrap work, or repeated fits become expensive\n\n\n\nKernel Primer Quickstarts MPI and Large Data Code Catalog",
+    "text": "This page is the practical starting point for kernel-based work. In most cases the right place to begin is np, then move to npRmpi only when the same workflow becomes too slow or too large in serial.\nIf you want a shorter conceptual introduction before diving into examples, start with Kernel Primer.\nIf your interest is specifically in entropy-based testing procedures, go to Entropy and Testing.\nIf your focus is partially linear, single-index, or varying-coefficient methods, go to Semiparametric Models.\nIf you want density, distribution, or quantile workflows rather than regression, go to Density, Distribution, Quantiles.\nIf you want nonparametric classification or conditional mode workflows, go to Classification and Modes.\nIf you want to build custom kernel objects or estimators, go to Build With npksum.\nIf you want a focused guide to plot(), gradients, intervals, and predictions, go to Plotting and Intervals.\nIf your focus is testing whether variables matter or whether a parametric model is misspecified, go to Significance and Specification.",
     "crumbs": [
       "Methods",
       "Kernel Methods"
@@ -1753,7 +1742,7 @@
     "href": "np_npRmpi.html#fast-routes",
     "title": "Kernel Methods",
     "section": "Fast routes",
-    "text": "Fast routes\n\n\n\nIf you want to…\nStart here\nSmall runnable script\n\n\n\n\nfit a first kernel regression\nKernel Primer\nnp_regression_quickstart.R\n\n\nwork with densities, distributions, or quantiles\nDensity, Distribution, Quantiles\nQuickstarts\n\n\nwork with classification or conditional mode\nClassification and Modes\nnp_classification_quickstart.R\n\n\nwork with partially linear, single-index, or varying-coefficient models\nSemiparametric Models\nnp_semiparametric_quickstart.R\n\n\nstay serial for now but look at richer scripts\nCode Catalog\nWorked Examples\n\n\nrun the same style of workflow with MPI\nMPI and Large Data\nnprmpi_session_quickstart.R\n\n\n\n\nThe table above is meant to be scanned quickly. If you want a smaller conceptual introduction first, start with Kernel Primer. If you want copy-first code before reading, go directly to Quickstarts.",
+    "text": "Fast routes\n\n\n\nIf you want to…\nStart here\nSmall runnable script\n\n\n\n\nfit a first kernel regression\nKernel Primer\nnp_regression_quickstart.R\n\n\nwork with densities, distributions, or quantiles\nDensity, Distribution, Quantiles\nQuickstarts\n\n\nwork with classification or conditional mode\nClassification and Modes\nnp_classification_quickstart.R\n\n\nwork with partially linear, single-index, or varying-coefficient models\nSemiparametric Models\nnp_semiparametric_quickstart.R\n\n\nstay serial for now but look at richer scripts\nCode Catalog\nWorked Examples\n\n\nrun the same style of workflow with MPI\nMPI and Large Data\nnprmpi_session_quickstart.R",
     "crumbs": [
       "Methods",
       "Kernel Methods"
@@ -1973,51 +1962,29 @@
     "href": "index.html",
     "title": "Start Here",
     "section": "",
-    "text": "Field guide for nonparametric work in R\n\n\n\n\nThis gallery is built to get you from “which package?” to working code quickly. Use it as a practical companion to the package manuals: choose the right tool, copy a small runnable example, and move to longer scripts only when you need them.\n\n\nOpen Quickstarts Choose a Package Browse the Code Catalog\n\n\n\nnp for mixed-data kernels and core serial workflows\n\n\nnpRmpi when the same workflow needs MPI scale\n\n\ncrs for spline and shape-constrained work\n\n\n\n\n\n\n\n\n\n\nSpline surface from the gallery archive\n\n\n\nA representative spline surface from the gallery archive. The site now treats figures like this as orientation and context, not as a reason to make users download code before they can learn.",
+    "text": "This site is meant to help you get to working code quickly. The sidebar is now organized by task rather than by old document names, and the search box should find function names such as npreg, npudens, crs, and npRmpi.init.\n\n\nThis gallery complements the package help pages, examples, and vignettes. The aim is simple: make it easy to see what each package is for, copy a small working example, and then move on to longer scripts only if you need them.\nIf you are new to these packages, start with Choose a Package. If you want runnable code immediately, go to Quickstarts. If you already know the method you want, go directly to Kernel Methods, MPI and Large Data, Splines, or Worked Examples.\n\n\n\n\n\nCross-validated spline illustration\n\n\n\n\n\nThis website is linked from my academic site and is intended as a practical working companion, not as a substitute for the package manuals or the underlying papers.\n\n\n\n\n\nStart here if you are deciding between np, npRmpi, and crs, or if you want a quick route to the right tool.\n\n\n\n\n\nShort install notes, a minimal first run, and pointers for what to do next once the packages are installed.\n\n\n\n\n\nSmall runnable scripts for np, npRmpi, and crs, shown inline so you can copy directly from the page.\n\n\n\n\n\nCore workflows for np, together with a clean route to npRmpi when jobs become larger or more time consuming.\n\n\n\n\n\nUpdated guidance for npRmpi, with session mode now treated as the main interactive path rather than an afterthought.\n\n\n\n\n\nCopyable code snippets on the page, plus links to longer scripts when you want the full commented version.\n\n\n\n\n\nMixed-data regression, partial plots, and prediction using wage1 as a practical first multivariate example.\n\n\n\n\n\nCommon questions, support routes, and links to the current canonical sources.\n\n\n\n\n\n\n\n\n\nShort conceptual introduction to mixed-data kernels, bandwidth objects, and the basic np workflow.\n\n\n\n\n\nRoute to npudens, npudist, npcdens, npcdist, and npqreg workflows.\n\n\n\n\n\nPartially linear, single-index, and varying-coefficient workflows in one place.\n\n\n\n\n\nOverview of the entropy-based testing procedures and a small “roll your own” example.\n\n\n\n\n\nNonparametric classification and conditional-mode workflows, including the birthwt example.\n\n\n\n\n\nFor users who want to construct custom kernel objects or estimators rather than only use the higher-level wrappers.\n\n\n\n\n\nConceptual introduction to regression splines, knots, basis functions, and how that connects to crs.\n\n\n\n\n\nBroader script library across np, npRmpi, and crs, including older scripts and fuller worked examples beyond the first quickstarts.\n\n\n\n\n\n\n\n\n\n\nShort answers to the most common “where do I start?” and “why is this happening?” questions.\n\n\n\n\n\nVariable classes, factors, ordered variables, formulas, and the data-typing mistakes that most often trip people up.\n\n\n\n\n\nWhat to do when cross-validation, bootstrap, spline search, or large jobs become slow or memory-hungry.\n\n\n\n\n\nPractical crs advice on search size, smoothness, knots, and when to narrow the spline search space.\n\n\n\n\n\n\n\nSearch should help if you know the function name but not where it lives.\nQuickstarts is the shortest route to a small runnable script.\nThe reference page groups functions by task rather than repeating a long handwritten index.\nAdditional resources, including books and papers, are collected on Books, Papers, and Citation.\n\nFeedback is welcome. My academic page is experts.mcmaster.ca/display/racinej, and additional materials remain available at jeffreyracine.github.io/research.",
     "crumbs": [
       "Start Here",
       "Overview"
     ]
   },
   {
-    "objectID": "index.html#use-the-site-by-task",
-    "href": "index.html#use-the-site-by-task",
+    "objectID": "index.html#learn-by-topic",
+    "href": "index.html#learn-by-topic",
     "title": "Start Here",
-    "section": "Use the site by task",
-    "text": "Use the site by task\n\n\n\nChoose a Package\nStart here if you are deciding between np, npRmpi, and crs, or if you want the shortest route to the right tool.\n\n\n\n\nInstall and Get Started\nShort install notes, a minimal first run, and pointers for what to do next once the packages are installed.\n\n\n\n\nQuickstarts\nSmall runnable scripts for np, npRmpi, and crs, shown inline so you can copy directly from the page.\n\n\n\n\nFAQ and Troubleshooting\nCommon questions, support routes, and links to the current canonical sources.\n\n\n\n\nMethod rooms",
+    "section": "",
+    "text": "Short conceptual introduction to mixed-data kernels, bandwidth objects, and the basic np workflow.\n\n\n\n\n\nRoute to npudens, npudist, npcdens, npcdist, and npqreg workflows.\n\n\n\n\n\nPartially linear, single-index, and varying-coefficient workflows in one place.\n\n\n\n\n\nOverview of the entropy-based testing procedures and a small “roll your own” example.\n\n\n\n\n\nNonparametric classification and conditional-mode workflows, including the birthwt example.\n\n\n\n\n\nFor users who want to construct custom kernel objects or estimators rather than only use the higher-level wrappers.\n\n\n\n\n\nConceptual introduction to regression splines, knots, basis functions, and how that connects to crs.\n\n\n\n\n\nBroader script library across np, npRmpi, and crs, including older scripts and fuller worked examples beyond the first quickstarts.",
     "crumbs": [
       "Start Here",
       "Overview"
     ]
   },
   {
-    "objectID": "index.html#learn-by-method-and-scale",
-    "href": "index.html#learn-by-method-and-scale",
+    "objectID": "index.html#need-help-fast",
+    "href": "index.html#need-help-fast",
     "title": "Start Here",
-    "section": "Learn by method and scale",
-    "text": "Learn by method and scale\n\n\n\nKernel Methods\nCore workflows for np, together with a clean route to npRmpi when jobs become larger or more time consuming.\n\n\n\n\nMPI and Large Data\nUpdated guidance for npRmpi, with session mode now treated as the main interactive path rather than an afterthought.\n\n\n\n\nSplines\nSpline-focused entry page for crs, including constrained examples and a route into the spline primer.\n\n\n\n\nKernel Primer\nShort conceptual introduction to mixed-data kernels, bandwidth objects, and the basic np workflow.\n\n\n\n\nDensity, Distribution, Quantiles\nRoute to npudens, npudist, npcdens, npcdist, and npqreg workflows.\n\n\n\n\nSemiparametric Models\nPartially linear, single-index, and varying-coefficient workflows in one place.\n\n\n\n\nEntropy and Testing\nOverview of the entropy-based testing procedures and a small “roll your own” example.\n\n\n\n\nClassification and Modes\nNonparametric classification and conditional-mode workflows, including the birthwt example.\n\n\n\n\nSpline Primer\nConceptual introduction to regression splines, knots, basis functions, and how that connects to crs.\n\n\n\n\nWork with code",
-    "crumbs": [
-      "Start Here",
-      "Overview"
-    ]
-  },
-  {
-    "objectID": "index.html#move-from-snippets-to-fuller-scripts",
-    "href": "index.html#move-from-snippets-to-fuller-scripts",
-    "title": "Start Here",
-    "section": "Move from snippets to fuller scripts",
-    "text": "Move from snippets to fuller scripts\n\n\n\nWorked Examples\nCopyable code snippets on the page, plus links to longer scripts when you want the full commented version.\n\n\n\n\nCode Catalog\nBroader script library across np, npRmpi, and crs, including older scripts and fuller worked examples beyond the first quickstarts.\n\n\n\n\nMultivariate Regression\nMixed-data regression, partial plots, and prediction using wage1 as a practical first multivariate example.\n\n\n\n\nBooks, Papers, and Citation\nPointers to papers, books, and package citations when you want the longer theoretical or bibliographic route.\n\n\n\n\nNeed help fast?",
-    "crumbs": [
-      "Start Here",
-      "Overview"
-    ]
-  },
-  {
-    "objectID": "index.html#troubleshooting-routes",
-    "href": "index.html#troubleshooting-routes",
-    "title": "Start Here",
-    "section": "Troubleshooting routes",
-    "text": "Troubleshooting routes\n\n\n\nData Preparation\nVariable classes, factors, ordered variables, formulas, and the data-typing mistakes that most often trip people up.\n\n\n\n\nRuntime and Scaling\nWhat to do when cross-validation, bootstrap, spline search, or large jobs become slow or memory-hungry.\n\n\n\n\nSpline Search and Tuning\nPractical crs advice on search size, smoothness, knots, and when to narrow the spline search space.\n\n\n\n\nReference\nTask-based routing for function names and common entry points when you know roughly what you need but not where it lives.",
+    "section": "",
+    "text": "Short answers to the most common “where do I start?” and “why is this happening?” questions.\n\n\n\n\n\nVariable classes, factors, ordered variables, formulas, and the data-typing mistakes that most often trip people up.\n\n\n\n\n\nWhat to do when cross-validation, bootstrap, spline search, or large jobs become slow or memory-hungry.\n\n\n\n\n\nPractical crs advice on search size, smoothness, knots, and when to narrow the spline search space.",
     "crumbs": [
       "Start Here",
       "Overview"
@@ -2027,8 +1994,8 @@
     "objectID": "index.html#notes",
     "href": "index.html#notes",
     "title": "Start Here",
-    "section": "Notes",
-    "text": "Notes\n\nSearch should help if you know the function name but not where it lives.\nQuickstarts is the shortest route to a small runnable script.\nThe reference page groups functions by task rather than repeating a long handwritten index.\nAdditional materials remain available at jeffreyracine.github.io/research.",
+    "section": "",
+    "text": "Search should help if you know the function name but not where it lives.\nQuickstarts is the shortest route to a small runnable script.\nThe reference page groups functions by task rather than repeating a long handwritten index.\nAdditional resources, including books and papers, are collected on Books, Papers, and Citation.\n\nFeedback is welcome. My academic page is experts.mcmaster.ca/display/racinej, and additional materials remain available at jeffreyracine.github.io/research.",
     "crumbs": [
       "Start Here",
       "Overview"
@@ -2644,18 +2611,7 @@
     "href": "crs.html",
     "title": "Splines",
     "section": "",
-    "text": "Spline room\n\n\n\ncrs is the right first stop when regression splines, shape restrictions, or spline-specific workflows are more natural than kernel estimators. This page is meant to route quickly between a first fit, a conceptual primer, and the longer constrained examples.\n\n\ncrs for spline fits, constrained surfaces, and shape-aware examples\n\n\n\nSpline Primer Spline Search and Tuning crs_quickstart.R",
-    "crumbs": [
-      "Methods",
-      "Splines"
-    ]
-  },
-  {
-    "objectID": "crs.html#use-crs-when-spline-structure-is-the-natural-language-of-the-problem",
-    "href": "crs.html#use-crs-when-spline-structure-is-the-natural-language-of-the-problem",
-    "title": "Splines",
-    "section": "",
-    "text": "crs is the right first stop when regression splines, shape restrictions, or spline-specific workflows are more natural than kernel estimators. This page is meant to route quickly between a first fit, a conceptual primer, and the longer constrained examples.\n\n\ncrs for spline fits, constrained surfaces, and shape-aware examples\n\n\n\nSpline Primer Spline Search and Tuning crs_quickstart.R",
+    "text": "Use crs when regression splines, shape restrictions, or spline-specific workflows are the natural tool rather than kernel estimators.",
     "crumbs": [
       "Methods",
       "Splines"

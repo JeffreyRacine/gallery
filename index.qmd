@@ -1,76 +1,38 @@
 ---
 title: "Start Here"
-toc: false
-page-layout: full
 ---
 
+# Gallery of code for `np`, `npRmpi`, and `crs`
+
+This site is meant to help you get to working code quickly. The sidebar is now organized by task rather than by old document names, and the search box should find function names such as `npreg`, `npudens`, `crs`, and `npRmpi.init`.
+
 ::: {.grid}
-::: {.g-col-12 .g-col-lg-8}
-::: {.hero-panel}
-:::{.hero-kicker}
-Field guide for nonparametric work in R
+::: {.g-col-12 .g-col-lg-7}
+This gallery complements the package help pages, examples, and vignettes. The aim is simple: make it easy to see what each package is for, copy a small working example, and then move on to longer scripts only if you need them.
+
+If you are new to these packages, start with [Choose a Package](primer.qmd). If you want runnable code immediately, go to [Quickstarts](quickstarts.qmd). If you already know the method you want, go directly to [Kernel Methods](np_npRmpi.qmd), [MPI and Large Data](mpi_large_data.qmd), [Splines](crs.qmd), or [Worked Examples](regression.qmd).
 :::
 
-# Gallery of code for `np`, `npRmpi`, and `crs` {.hero-title}
-
-::: {.hero-deck}
-This gallery is built to get you from “which package?” to working code quickly. Use it as a practical companion to the package manuals: choose the right tool, copy a small runnable example, and move to longer scripts only when you need them.
-:::
-
-::: {.hero-actions}
-[Open Quickstarts](quickstarts.qmd){.hero-link .hero-link-primary}
-[Choose a Package](primer.qmd){.hero-link .hero-link-secondary}
-[Browse the Code Catalog](code_catalog.qmd){.hero-link .hero-link-secondary}
-:::
-
-::: {.package-strip}
-::: {.package-chip .package-chip-np}
-`np` for mixed-data kernels and core serial workflows
-:::
-
-::: {.package-chip .package-chip-mpi}
-`npRmpi` when the same workflow needs MPI scale
-:::
-
-::: {.package-chip .package-chip-crs}
-`crs` for spline and shape-constrained work
-:::
-:::
-:::
-:::
-
-::: {.g-col-12 .g-col-lg-4}
-::: {.hero-figure}
-![Spline surface from the gallery archive](www/radial_rgl.png){.hero-image}
-
-::: {.hero-caption}
-A representative spline surface from the gallery archive. The site now treats figures like this as orientation and context, not as a reason to make users download code before they can learn.
-:::
-:::
+::: {.g-col-12 .g-col-lg-5}
+![Cross-validated spline illustration](www/radial_rgl.png){.hero-image}
 :::
 :::
 
 ::: {.quick-note}
-This website is linked from my academic site and is meant to help people work, not just read. The default route is now: choose a package, copy a small script, then move into method notes, troubleshooting, and longer examples only as needed.
+This website is linked from my academic site and is intended as a practical working companion, not as a substitute for the package manuals or the underlying papers.
 :::
-
-:::{.section-label}
-Start fast
-:::
-
-## Use the site by task { .section-heading }
 
 ::: {.grid}
 ::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-start}
+::: {.home-card}
 ### [Choose a Package](primer.qmd)
 
-Start here if you are deciding between `np`, `npRmpi`, and `crs`, or if you want the shortest route to the right tool.
+Start here if you are deciding between `np`, `npRmpi`, and `crs`, or if you want a quick route to the right tool.
 :::
 :::
 
 ::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-start}
+::: {.home-card}
 ### [Install and Get Started](R_RStudio.qmd)
 
 Short install notes, a minimal first run, and pointers for what to do next once the packages are installed.
@@ -78,7 +40,7 @@ Short install notes, a minimal first run, and pointers for what to do next once 
 :::
 
 ::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-start}
+::: {.home-card}
 ### [Quickstarts](quickstarts.qmd)
 
 Small runnable scripts for `np`, `npRmpi`, and `crs`, shown inline so you can copy directly from the page.
@@ -86,23 +48,7 @@ Small runnable scripts for `np`, `npRmpi`, and `crs`, shown inline so you can co
 :::
 
 ::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-support}
-### [FAQ and Troubleshooting](faq.qmd)
-
-Common questions, support routes, and links to the current canonical sources.
-:::
-:::
-:::
-
-:::{.section-label}
-Method rooms
-:::
-
-## Learn by method and scale { .section-heading }
-
-::: {.grid}
-::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-np}
+::: {.home-card}
 ### [Kernel Methods](np_npRmpi.qmd)
 
 Core workflows for `np`, together with a clean route to `npRmpi` when jobs become larger or more time consuming.
@@ -110,7 +56,7 @@ Core workflows for `np`, together with a clean route to `npRmpi` when jobs becom
 :::
 
 ::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-mpi}
+::: {.home-card}
 ### [MPI and Large Data](mpi_large_data.qmd)
 
 Updated guidance for `npRmpi`, with `session` mode now treated as the main interactive path rather than an afterthought.
@@ -118,71 +64,7 @@ Updated guidance for `npRmpi`, with `session` mode now treated as the main inter
 :::
 
 ::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-crs}
-### [Splines](crs.qmd)
-
-Spline-focused entry page for `crs`, including constrained examples and a route into the spline primer.
-:::
-:::
-
-::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-np}
-### [Kernel Primer](kernel_primer.qmd)
-
-Short conceptual introduction to mixed-data kernels, bandwidth objects, and the basic `np` workflow.
-:::
-:::
-
-::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-np}
-### [Density, Distribution, Quantiles](density_distribution_quantiles.qmd)
-
-Route to `npudens`, `npudist`, `npcdens`, `npcdist`, and `npqreg` workflows.
-:::
-:::
-
-::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-np}
-### [Semiparametric Models](semiparametric_models.qmd)
-
-Partially linear, single-index, and varying-coefficient workflows in one place.
-:::
-:::
-
-::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-np}
-### [Entropy and Testing](entropy_tests.qmd)
-
-Overview of the entropy-based testing procedures and a small “roll your own” example.
-:::
-:::
-
-::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-np}
-### [Classification and Modes](classification_modes.qmd)
-
-Nonparametric classification and conditional-mode workflows, including the `birthwt` example.
-:::
-:::
-
-::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-crs}
-### [Spline Primer](spline_primer.qmd)
-
-Conceptual introduction to regression splines, knots, basis functions, and how that connects to `crs`.
-:::
-:::
-:::
-
-:::{.section-label}
-Work with code
-:::
-
-## Move from snippets to fuller scripts { .section-heading }
-
-::: {.grid}
-::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-start}
+::: {.home-card}
 ### [Worked Examples](regression.qmd)
 
 Copyable code snippets on the page, plus links to longer scripts when you want the full commented version.
@@ -190,15 +72,7 @@ Copyable code snippets on the page, plus links to longer scripts when you want t
 :::
 
 ::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-start}
-### [Code Catalog](code_catalog.qmd)
-
-Broader script library across `np`, `npRmpi`, and `crs`, including older scripts and fuller worked examples beyond the first quickstarts.
-:::
-:::
-
-::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-np}
+::: {.home-card}
 ### [Multivariate Regression](multivariate_regression.qmd)
 
 Mixed-data regression, partial plots, and prediction using `wage1` as a practical first multivariate example.
@@ -206,23 +80,95 @@ Mixed-data regression, partial plots, and prediction using `wage1` as a practica
 :::
 
 ::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-support}
-### [Books, Papers, and Citation](books_papers.qmd)
+::: {.home-card}
+### [FAQ and Troubleshooting](faq.qmd)
 
-Pointers to papers, books, and package citations when you want the longer theoretical or bibliographic route.
+Common questions, support routes, and links to the current canonical sources.
 :::
 :::
-:::
-
-:::{.section-label}
-Need help fast?
 :::
 
-## Troubleshooting routes { .section-heading }
+## Learn by topic
 
 ::: {.grid}
 ::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-support}
+::: {.home-card}
+### [Kernel Primer](kernel_primer.qmd)
+
+Short conceptual introduction to mixed-data kernels, bandwidth objects, and the basic `np` workflow.
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.home-card}
+### [Density, Distribution, Quantiles](density_distribution_quantiles.qmd)
+
+Route to `npudens`, `npudist`, `npcdens`, `npcdist`, and `npqreg` workflows.
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.home-card}
+### [Semiparametric Models](semiparametric_models.qmd)
+
+Partially linear, single-index, and varying-coefficient workflows in one place.
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.home-card}
+### [Entropy and Testing](entropy_tests.qmd)
+
+Overview of the entropy-based testing procedures and a small “roll your own” example.
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.home-card}
+### [Classification and Modes](classification_modes.qmd)
+
+Nonparametric classification and conditional-mode workflows, including the `birthwt` example.
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.home-card}
+### [Build With npksum](npksum_custom.qmd)
+
+For users who want to construct custom kernel objects or estimators rather than only use the higher-level wrappers.
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.home-card}
+### [Spline Primer](spline_primer.qmd)
+
+Conceptual introduction to regression splines, knots, basis functions, and how that connects to `crs`.
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.home-card}
+### [Code Catalog](code_catalog.qmd)
+
+Broader script library across `np`, `npRmpi`, and `crs`, including older scripts and fuller worked examples beyond the first quickstarts.
+:::
+:::
+:::
+
+## Need help fast?
+
+::: {.grid}
+::: {.g-col-12 .g-col-md-6}
+::: {.home-card}
+### [FAQ and Troubleshooting](faq.qmd)
+
+Short answers to the most common “where do I start?” and “why is this happening?” questions.
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.home-card}
 ### [Data Preparation](data_preparation.qmd)
 
 Variable classes, factors, ordered variables, formulas, and the data-typing mistakes that most often trip people up.
@@ -230,7 +176,7 @@ Variable classes, factors, ordered variables, formulas, and the data-typing mist
 :::
 
 ::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-support}
+::: {.home-card}
 ### [Runtime and Scaling](runtime_and_scaling.qmd)
 
 What to do when cross-validation, bootstrap, spline search, or large jobs become slow or memory-hungry.
@@ -238,18 +184,10 @@ What to do when cross-validation, bootstrap, spline search, or large jobs become
 :::
 
 ::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-support}
+::: {.home-card}
 ### [Spline Search and Tuning](spline_search_and_tuning.qmd)
 
 Practical `crs` advice on search size, smoothness, knots, and when to narrow the spline search space.
-:::
-:::
-
-::: {.g-col-12 .g-col-md-6}
-::: {.home-card .card-support}
-### [Reference](function_index.qmd)
-
-Task-based routing for function names and common entry points when you know roughly what you need but not where it lives.
 :::
 :::
 :::
@@ -259,4 +197,6 @@ Task-based routing for function names and common entry points when you know roug
 - Search should help if you know the function name but not where it lives.
 - [Quickstarts](quickstarts.qmd) is the shortest route to a small runnable script.
 - The reference page groups functions by task rather than repeating a long handwritten index.
-- Additional materials remain available at [jeffreyracine.github.io/research](https://jeffreyracine.github.io/research).
+- Additional resources, including books and papers, are collected on [Books, Papers, and Citation](books_papers.qmd).
+
+Feedback is welcome. My academic page is [experts.mcmaster.ca/display/racinej](https://experts.mcmaster.ca/display/racinej), and additional materials remain available at [jeffreyracine.github.io/research](https://jeffreyracine.github.io/research).
