@@ -1,0 +1,128 @@
+---
+title: "Density, Distribution, Quantiles"
+description: "Practical route to unconditional and conditional density/distribution workflows, plus nonparametric quantile regression in np."
+keywords:
+  - npudens
+  - npudist
+  - npcdens
+  - npcdist
+  - npqreg
+  - density
+  - quantile regression
+---
+
+The `np` package is useful not only for regression but also for unconditional and conditional density estimation, distribution estimation, and nonparametric quantile regression. This page collects those workflows in one place.
+
+If you want a minimal downloadable script for the simplest density workflow, start with [np_density_quickstart.R](www/np_npRmpi/np_density_quickstart.R).
+
+If you want the shortest route to conditional density or quantile workflows, start with:
+
+- [np_distribution_quickstart.R](www/np_npRmpi/np_distribution_quickstart.R)
+- [np_conditional_density_quickstart.R](www/np_npRmpi/np_conditional_density_quickstart.R)
+- [np_conditional_distribution_quickstart.R](www/np_npRmpi/np_conditional_distribution_quickstart.R)
+- [np_quantile_quickstart.R](www/np_npRmpi/np_quantile_quickstart.R)
+
+## Unconditional density and distribution: `npudens` and `npudist`
+
+Use these when the object of interest is the joint or marginal distribution itself rather than a regression function.
+
+The Old Faithful data remain a simple and informative illustration because the shape is not well summarized by a simple parametric family.
+
+```r
+library(np)
+data(faithful, package = "datasets")
+
+f_faithful <- npudens(~ eruptions + waiting, data = faithful)
+F_faithful <- npudist(~ eruptions + waiting, data = faithful)
+
+summary(f_faithful)
+summary(F_faithful)
+```
+
+If you want to visualize the estimated surface, you can then plot the objects.
+
+```r
+plot(f_faithful, view = "fixed", main = "")
+plot(F_faithful, view = "fixed", main = "")
+```
+
+This is a good example of why nonparametric methods can matter: a bimodal or otherwise irregular structure is much easier to reveal when you do not force a simple parametric family on the data.
+
+## Conditional density and distribution: `npcdens` and `npcdist`
+
+Use these when the full conditional distribution matters, not just the conditional mean.
+
+The old GDP panel example remains helpful because the conditional distribution changes shape over time.
+
+```r
+library(np)
+data(Italy, package = "np")
+
+fhat <- npcdens(gdp ~ year, data = Italy)
+Fhat <- npcdist(gdp ~ year, data = Italy)
+
+summary(fhat)
+summary(Fhat)
+```
+
+Plots can then be used to inspect the evolving conditional density and conditional distribution.
+
+```r
+plot(fhat, view = "fixed", main = "")
+plot(Fhat, view = "fixed", main = "")
+```
+
+This route is especially useful when the question is not simply whether the mean changes, but whether the entire distribution changes.
+
+## Nonparametric quantile regression: `npqreg`
+
+Use `npqreg` when your interest lies in conditional quantiles rather than means.
+
+One natural workflow is:
+
+1. compute a conditional-distribution bandwidth object,
+2. reuse it for multiple quantiles.
+
+```r
+library(np)
+data(Italy, package = "np")
+
+bw <- npcdistbw(gdp ~ year, data = Italy)
+q25 <- npqreg(bws = bw, tau = 0.25)
+q50 <- npqreg(bws = bw, tau = 0.50)
+q75 <- npqreg(bws = bw, tau = 0.75)
+```
+
+Then compare the fitted quantiles:
+
+```r
+plot(Italy$year, Italy$gdp, main = "", xlab = "Year", ylab = "GDP Quantiles")
+lines(Italy$year, q25$quantile, col = "red", lty = 1, lwd = 2)
+lines(Italy$year, q50$quantile, col = "blue", lty = 2, lwd = 2)
+lines(Italy$year, q75$quantile, col = "red", lty = 3, lwd = 2)
+```
+
+This is a good example of when it pays to separate bandwidth selection from later estimation rather than recomputing the same object repeatedly.
+
+## When should I use these instead of regression?
+
+| If you want... | Start with |
+|---|---|
+| A regression function or conditional mean | `npreg` |
+| An unconditional density or distribution | `npudens`, `npudist` |
+| A conditional density or conditional distribution | `npcdens`, `npcdist` |
+| Conditional quantiles | `npqreg` |
+
+## Practical advice
+
+- density and conditional-density workflows can be computationally heavier than users expect,
+- use explicit bandwidth objects when reusing the same structure across multiple fits,
+- plots are often the most informative part of the workflow,
+- if the run becomes expensive and the workflow is stable, that may be a reason to move to `npRmpi`.
+
+## What to read next
+
+- [Kernel Primer](kernel_primer.qmd)
+- [Entropy and Testing](entropy_tests.qmd)
+- [Semiparametric Models](semiparametric_models.qmd)
+- [MPI and Large Data](mpi_large_data.qmd)

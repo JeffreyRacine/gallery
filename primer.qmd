@@ -1,25 +1,52 @@
 ---
-title: "Primer"
+title: "Choose a Package"
+description: "Quick routing between np, npRmpi, and crs based on the job you want to do."
+keywords:
+  - np
+  - npRmpi
+  - crs
+  - choose a package
+  - kernel methods
+  - splines
 ---
 
-## Getting started
+If you are deciding where to begin, the short answer is this: start with the package that matches the job, not with the longest document.
 
-To get started you will need 
+| If you want to... | Start with | Why |
+|---|---|---|
+| Fit kernel regression, density, distribution, or related tests on one machine | `np` | This is the core package and the natural starting point for most users. |
+| Run the same style of kernel workflows on larger jobs using MPI | `npRmpi` | The package supports a modern `session` route on macOS/Linux and `attach` under `mpiexec` when that is the appropriate entry path. |
+| Work with categorical regression splines and related constrained spline methods | `crs` | This package is the right entry point for spline-based work rather than kernel-based work. |
 
-1.  An Internet connection
+## A practical rule of thumb
 
-2.  A working installation of R/RStudio (see the \`R/RStudio\' menu item above for installation information)
+- Start with `np` unless you already know that you need MPI.
+- Move to `npRmpi` when the workflow is the same but the job is too large or too slow in serial.
+- Use `crs` when spline bases, shape restrictions, or spline-specific methods are the natural fit.
 
-3.  A working installation of each package you wish to use. Note that for the np and crs packages you can simply type \`install.packages(\"np\")\' (without the single quotes \`\') and \`install.packages(\"crs\")\' at the R/RStudio console, and the packages will be automatically downloaded from CRAN and installed. Or, if you are using RStudio, click on the \`Packages\' tab in the lower right pane (default), then click on the \`Install Packages\' icon, then enter the package names you wish to install (note you can install multiple packages here by placing a comma between the name of each package you wish to install)
+## Common routes
 
-4.  If you wish to run the npRmpi package which allows for a parallel implementation of the np package using the MPI standard (MPI stands for \`Message Passing Interface\' which is an international standard for parallel computation) kindly see my homepage for further details on installation (in addition to having R/RStudio installed, you need a working MPI implementation)
+### I want a simple first success
 
-5.  To test whether your installation of np/crs has been successful, type \`library(crs)\' followed by \`example(crs)\' at the R/RStudio console, or \`library(np)\' followed by \`example(npreg)\' (again without the single quotes \`\')
+Go to [Install and Get Started](R_RStudio.qmd), install the package you need, and then use [Quickstarts](quickstarts.qmd) for the smallest runnable scripts before worrying about longer documents.
 
-If you encounter installation difficulties perhaps consult a colleague or see your local tech support person as I am unable to assist with installation problems.
+### I already know I want kernel methods
 
-Here are a few references that you may find useful:
+Go to [Kernel Methods](np_npRmpi.qmd). That page starts with `np` and then points you to `npRmpi` when parallel execution is warranted.
 
-1.  Racine, J.S. (2012), "RStudio: A Platform-Independent IDE for R and Sweave," Journal of Applied Econometrics, Volume 27, Issue 1, 167-172.
+### I already know I need MPI
 
-2.  Racine, J.S. and R. Hyndman (2002), "Using R to Teach Econometrics," Journal of Applied Econometrics, March/April, Volume 17, Issue 2, 175-189.
+Go directly to [MPI and Large Data](mpi_large_data.qmd). The guidance there is organized around current `session`, `attach`, and `profile` usage rather than the older wrapper-heavy style.
+
+### I want working scripts
+
+Go first to [Quickstarts](quickstarts.qmd) if you want the shortest path to runnable code. Then use [Code Catalog](code_catalog.qmd), [Worked Examples](regression.qmd), or [Interactive Demos](interactive.qmd) when you want more context or a broader script library.
+
+## First commands to remember
+
+```r
+install.packages("np")
+install.packages("crs")
+```
+
+For `npRmpi`, installation depends on your MPI setup and operating system, so it is treated separately on [MPI and Large Data](mpi_large_data.qmd).

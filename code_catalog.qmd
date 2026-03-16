@@ -1,0 +1,172 @@
+---
+title: "Code Catalog"
+description: "A one-page catalog of working scripts and quickstarts for np, npRmpi, and crs."
+keywords:
+  - np
+  - npRmpi
+  - crs
+  - code examples
+  - scripts
+  - quickstart
+---
+
+```{r}
+#| include: false
+source("site_helpers.R", local = knitr::knit_global())
+quickstarts <- read_quickstarts_manifest()
+```
+
+This page is meant to be the quickest route to working scripts. It groups the existing code by package, task, and runtime mode so that you can scan, copy, and then drill down only if you need more context.
+
+## How to use this page
+
+- If you want only the smallest starter scripts, go first to [Quickstarts](quickstarts.qmd).
+- If you want something you can paste into R immediately, start with the short blocks below.
+- If you want a fuller script, use the tables further down.
+- If you know a function name, use the site search box or the [Reference](function_index.qmd) page.
+
+## Minimal starters you can copy immediately
+
+```{r}
+#| echo: false
+#| results: asis
+render_featured_quickstarts(quickstarts)
+```
+
+## `np`: kernel methods in serial
+
+```{r}
+#| echo: false
+#| results: asis
+render_quickstart_catalog_table(subset(quickstarts, section == "np"))
+```
+
+### Additional serial scripts
+
+| Script | Main topic | Functions/features | Start reading here |
+|---|---|---|---|
+| [regression_intro_a.R](www/Regression/regression_intro_a.R) | Univariate regression and plotting | `npreg`, local constant, local linear | [Kernel Primer](kernel_primer.qmd) |
+| [regression_intro_b.R](www/Regression/regression_intro_b.R) | Derivative estimation | `npreg`, derivative output | [Plotting and Intervals](plotting_and_intervals.qmd) |
+| [regression_intro_c.R](www/Regression/regression_intro_c.R) | Plotting fitted objects and intervals | `plot()`, asymptotic and bootstrap error handling | [Plotting and Intervals](plotting_and_intervals.qmd) |
+| [regression_multivar_a.R](www/Regression/regression_multivar_a.R) | Multivariate regression | mixed predictors, multivariate fit | [Multivariate Regression and Prediction](multivariate_regression.qmd) |
+| [demo_poly.R](www/Regression/demo_poly.R) | Generalized local polynomial comparison | `npglpreg`, `crs`, local polynomial comparison | [Worked Examples](regression.qmd) |
+
+## `npRmpi`: modern session-mode quick start
+
+If you want one current downloadable script before anything else, start here.
+
+```{r}
+#| echo: false
+#| results: asis
+render_quickstart_catalog_table(subset(quickstarts, section == "npRmpi"))
+```
+
+## Inline source for common scripts
+
+The blocks below are pulled directly from the script files in `www/`, so they stay aligned with the downloadable versions.
+
+```{r}
+#| echo: false
+#| results: asis
+render_quickstart_callouts(subset(quickstarts, section == "np"), prefix_package = TRUE)
+```
+
+::: {.callout-note collapse="true"}
+## `np`: univariate regression starter
+
+Source file: [regression_intro_a.R](www/Regression/regression_intro_a.R)
+
+```{r}
+#| echo: false
+#| results: asis
+emit_source("www/Regression/regression_intro_a.R")
+```
+:::
+
+::: {.callout-note collapse="true"}
+## `np`: multivariate regression and plotting
+
+Source file: [regression_multivar_a.R](www/Regression/regression_multivar_a.R)
+
+```{r}
+#| echo: false
+#| results: asis
+emit_source("www/Regression/regression_multivar_a.R")
+```
+:::
+
+```{r}
+#| echo: false
+#| results: asis
+render_quickstart_callouts(subset(quickstarts, section == "npRmpi"), prefix_package = TRUE)
+```
+
+## `npRmpi`: serial and MPI comparison scripts
+
+These are older comparison scripts, but still useful if you want to see side-by-side serial and MPI routes. For new work, start with the `session` / `spawn` example above and then come back to these when you want route parity or legacy comparison.
+
+| Task | Serial | MPI | Start reading here |
+|---|---|---|---|
+| Conditional density estimation | [npcdensls_serial.R](www/np_npRmpi/npcdensls_serial.R) | [npcdensls_npRmpi.R](www/np_npRmpi/npcdensls_npRmpi.R) | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
+| Model specification test | [npcmstest_serial.R](www/np_npRmpi/npcmstest_serial.R) | [npcmstest_npRmpi.R](www/np_npRmpi/npcmstest_npRmpi.R) | [Significance and Specification](significance_and_specification.qmd) |
+| Conditional mode estimation | [npconmode_serial.R](www/np_npRmpi/npconmode_serial.R) | [npconmode_npRmpi.R](www/np_npRmpi/npconmode_npRmpi.R) | [Classification and Modes](classification_modes.qmd) |
+| Density equality test | [npdeneqtest_serial.R](www/np_npRmpi/npdeneqtest_serial.R) | [npdeneqtest_npRmpi.R](www/np_npRmpi/npdeneqtest_npRmpi.R) | [Entropy and Testing](entropy_tests.qmd) |
+| Single index estimation | [npindexich_serial.R](www/np_npRmpi/npindexich_serial.R) | [npindexich_npRmpi.R](www/np_npRmpi/npindexich_npRmpi.R) | [Semiparametric Models](semiparametric_models.qmd) |
+| Partially linear regression | [npplreg_serial.R](www/np_npRmpi/npplreg_serial.R) | [npplreg_npRmpi.R](www/np_npRmpi/npplreg_npRmpi.R) | [Semiparametric Models](semiparametric_models.qmd) |
+| Local linear AIC bandwidth selection | [npregllaic_serial.R](www/np_npRmpi/npregllaic_serial.R) | [npregllaic_npRmpi.R](www/np_npRmpi/npregllaic_npRmpi.R) | [Kernel Primer](kernel_primer.qmd) |
+| Serial dependence test | [npsdeptest_serial.R](www/np_npRmpi/npsdeptest_serial.R) | [npsdeptest_npRmpi.R](www/np_npRmpi/npsdeptest_npRmpi.R) | [Entropy and Testing](entropy_tests.qmd) |
+| Significance test | [npsigtest_serial.R](www/np_npRmpi/npsigtest_serial.R) | [npsigtest_npRmpi.R](www/np_npRmpi/npsigtest_npRmpi.R) | [Significance and Specification](significance_and_specification.qmd) |
+| Unconditional density estimation | [npudensml_serial.R](www/np_npRmpi/npudensml_serial.R) | [npudensml_npRmpi.R](www/np_npRmpi/npudensml_npRmpi.R) | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
+
+## `npRmpi`: local polynomial / constrained examples
+
+| Script | Main topic |
+|---|---|
+| [lp_k1_prodfunc.R](www/np_npRmpi/lp_k1_prodfunc.R) | Production-function style local polynomial example |
+| [lp_k1.R](www/np_npRmpi/lp_k1.R) | Local polynomial example |
+| [lp_radial_mean.R](www/np_npRmpi/lp_radial_mean.R) | Constrained radial mean example |
+| [lp_radial_deriv.R](www/np_npRmpi/lp_radial_deriv.R) | Constrained radial derivative example |
+
+## `crs`: spline examples
+
+| Script | Main topic | Notes |
+|---|---|---|
+| [crs_quickstart.R](www/crs/crs_quickstart.R) | Minimal spline-regression workflow | modern quickstart |
+| [radial_rgl.R](www/crs/radial_rgl.R) | Bivariate radial spline surface | requires `rgl` |
+| [sine_rgl.R](www/crs/sine_rgl.R) | Bivariate sine spline surface | requires `rgl` |
+| [radial_constrained_mean.R](www/crs/radial_constrained_mean.R) | Constrained spline mean estimation | uses `quadprog` |
+| [radial_constrained_first_partial.R](www/crs/radial_constrained_first_partial.R) | Constrained first derivative | uses `quadprog` |
+| [radial_constrained_second_partial.R](www/crs/radial_constrained_second_partial.R) | Constrained second derivative | uses `quadprog` |
+
+```{r}
+#| echo: false
+#| results: asis
+render_quickstart_callouts(subset(quickstarts, section == "crs"), prefix_package = TRUE)
+```
+
+## Interactive demos for teaching and exploration
+
+| Script | Main topic | Notes |
+|---|---|---|
+| [manipulate_density.R](www/Fun/manipulate_density.R) | Univariate density with sliders | RStudio + `manipulate` |
+| [manipulate_eruptions.R](www/Fun/manipulate_eruptions.R) | Old Faithful density | RStudio + `manipulate` |
+| [manipulate_distribution.R](www/Fun/manipulate_distribution.R) | Univariate distribution | RStudio + `manipulate` |
+| [manipulate_bivariate_density.R](www/Fun/manipulate_bivariate_density.R) | Bivariate density | RStudio + `manipulate` |
+| [manipulate_faithful_density.R](www/Fun/manipulate_faithful_density.R) | Old Faithful bivariate density | RStudio + `manipulate` |
+| [manipulate_bivariate_distribution.R](www/Fun/manipulate_bivariate_distribution.R) | Bivariate distribution | RStudio + `manipulate` |
+| [manipulate_wage1.R](www/Fun/manipulate_wage1.R) | Multivariate regression partial plots | RStudio + `manipulate` |
+| [manipulate_npglpreg.R](www/Fun/manipulate_npglpreg.R) | Generalized local polynomial regression | RStudio + `manipulate` |
+| [manipulate_npglpreg_sin.R](www/Fun/manipulate_npglpreg_sin.R) | Sinusoidal GLP illustration | RStudio + `manipulate` |
+| [manipulate_constrained_local_polynomial.R](www/Fun/manipulate_constrained_local_polynomial.R) | Constrained local polynomial regression | requires `quadprog` |
+| [manipulate_constrained_local_polynomial_production.R](www/Fun/manipulate_constrained_local_polynomial_production.R) | Constrained production function | requires `quadprog` |
+| [manipulate_constrained_spline.R](www/Fun/manipulate_constrained_spline.R) | Constrained spline surface | requires `quadprog` |
+| [manipulate_constrained_spline_derivative.R](www/Fun/manipulate_constrained_spline_derivative.R) | Constrained spline derivative | requires `quadprog` |
+| [manipulate_copula.R](www/Fun/manipulate_copula.R) | Copula plots | requires `mnormt` |
+| [manipulate_socco.R](www/Fun/manipulate_socco.R) | SOCCO nonlinear-system demo | requires [data.RData](www/Fun/data.RData) and [figures.R](www/Fun/figures.R) |
+
+## Notes
+
+- The gallery still preserves the original scripts, but the site now aims to route you to them more directly.
+- The short blocks near the top are there so you can copy a minimal working pattern without downloading anything first.
+- For MPI-specific launch semantics, see [MPI and Large Data](mpi_large_data.qmd).
+- For short copyable code blocks rather than full scripts, start with [Worked Examples](regression.qmd).

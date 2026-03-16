@@ -2,4 +2,10 @@
 title: "About"
 ---
 
-This site is hosted on GitHub Pages and is linked to from my main academic/professional page. You can contact me at <a href="mailto:racinej@mcmaster.ca">racinej\@mcmaster.ca</a>. My professional website can be found at <a href="https://experts.mcmaster.ca/display/racinej">experts.mcmaster.ca/display/racinej</a>
+This site is hosted on GitHub Pages and is linked from my academic page.
+
+- Contact: [racinej@mcmaster.ca](mailto:racinej@mcmaster.ca)
+- Academic site: [experts.mcmaster.ca/display/racinej](https://experts.mcmaster.ca/display/racinej)
+- Additional materials: [jeffreyracine.github.io/research](https://jeffreyracine.github.io/research)
+
+The purpose of the gallery is practical: help users find the right package, see a small working example quickly, and then move to fuller documentation only when needed.

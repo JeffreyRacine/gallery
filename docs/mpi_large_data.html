@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="keywords" content="npRmpi, npRmpi.init, MPI, mpiexec, session mode, attach mode, profile mode, R_PROFILE_USER, Windows, Linux, macOS">
+<meta name="description" content="Practical install and launch guide for npRmpi across session, attach, and profile workflows.">
+
+<title>MPI and Large Data – Gallery of Code</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./crs.html" rel="next">
+<link href="./npksum_custom.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-b4acf84f37d6d68f6a15c6fe27913e81.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Gallery of Code</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/JeffreyRacine/gallery"> <i class="bi bi-github" role="img" aria-label="Gallery source on GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./np_npRmpi.html">Methods</a></li><li class="breadcrumb-item"><a href="./mpi_large_data.html">MPI and Large Data</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Start Here</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./primer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Choose a Package</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./R_RStudio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Install and Get Started</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./quickstarts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quickstarts</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Methods</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./np_npRmpi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Kernel Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./kernel_primer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Kernel Primer</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./entropy_tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Entropy and Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./semiparametric_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Semiparametric Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./density_distribution_quantiles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Density, Distribution, Quantiles</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./classification_modes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classification and Modes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./significance_and_specification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Significance and Specification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./npksum_custom.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Build With npksum</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mpi_large_data.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">MPI and Large Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./crs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Splines</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spline_primer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spline Primer</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spline_search_and_tuning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spline Search and Tuning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Examples</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./code_catalog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Code Catalog</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Worked Examples</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./multivariate_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multivariate Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plotting_and_intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Plotting and Intervals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./interactive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interactive Demos</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Support</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./faq.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">FAQ and Troubleshooting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Preparation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./runtime_and_scaling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Runtime and Scaling</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./function_index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./legacy_materials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Legacy Materials</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./books_papers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Books, Papers, and Citation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#short-version" id="toc-short-version" class="nav-link active" data-scroll-target="#short-version">Short version</a></li>
+  <li><a href="#mode-chooser" id="toc-mode-chooser" class="nav-link" data-scroll-target="#mode-chooser">Mode chooser</a></li>
+  <li><a href="#a-safe-validation-ladder" id="toc-a-safe-validation-ladder" class="nav-link" data-scroll-target="#a-safe-validation-ladder">A safe validation ladder</a></li>
+  <li><a href="#platform-map" id="toc-platform-map" class="nav-link" data-scroll-target="#platform-map">Platform map</a></li>
+  <li><a href="#install-from-cran" id="toc-install-from-cran" class="nav-link" data-scroll-target="#install-from-cran">Install from CRAN</a></li>
+  <li><a href="#install-the-development-branch" id="toc-install-the-development-branch" class="nav-link" data-scroll-target="#install-the-development-branch">Install the development branch</a></li>
+  <li><a href="#step-1-after-install-make-sure-the-package-loads" id="toc-step-1-after-install-make-sure-the-package-loads" class="nav-link" data-scroll-target="#step-1-after-install-make-sure-the-package-loads">Step 1 after install: make sure the package loads</a></li>
+  <li><a href="#macos-current-documented-local-recipe" id="toc-macos-current-documented-local-recipe" class="nav-link" data-scroll-target="#macos-current-documented-local-recipe">macOS: current documented local recipe</a>
+  <ul class="collapse">
+  <li><a href="#install-mpich" id="toc-install-mpich" class="nav-link" data-scroll-target="#install-mpich">1) Install MPICH</a></li>
+  <li><a href="#export-the-build-environment" id="toc-export-the-build-environment" class="nav-link" data-scroll-target="#export-the-build-environment">2) Export the build environment</a></li>
+  <li><a href="#build-and-install" id="toc-build-and-install" class="nav-link" data-scroll-target="#build-and-install">3) Build and install</a></li>
+  <li><a href="#first-runtime-test" id="toc-first-runtime-test" class="nav-link" data-scroll-target="#first-runtime-test">4) First runtime test</a></li>
+  </ul></li>
+  <li><a href="#linux-current-practical-guidance" id="toc-linux-current-practical-guidance" class="nav-link" data-scroll-target="#linux-current-practical-guidance">Linux: current practical guidance</a></li>
+  <li><a href="#windows-current-practical-guidance" id="toc-windows-current-practical-guidance" class="nav-link" data-scroll-target="#windows-current-practical-guidance">Windows: current practical guidance</a></li>
+  <li><a href="#launch-patterns-you-actually-need" id="toc-launch-patterns-you-actually-need" class="nav-link" data-scroll-target="#launch-patterns-you-actually-need">Launch patterns you actually need</a>
+  <ul class="collapse">
+  <li><a href="#session-spawn" id="toc-session-spawn" class="nav-link" data-scroll-target="#session-spawn"><code>session</code> / <code>spawn</code></a></li>
+  <li><a href="#attach" id="toc-attach" class="nav-link" data-scroll-target="#attach"><code>attach</code></a></li>
+  <li><a href="#profile-manual-broadcast" id="toc-profile-manual-broadcast" class="nav-link" data-scroll-target="#profile-manual-broadcast"><code>profile</code> / manual-broadcast</a></li>
+  </ul></li>
+  <li><a href="#heterogeneous-clusters" id="toc-heterogeneous-clusters" class="nav-link" data-scroll-target="#heterogeneous-clusters">Heterogeneous clusters</a></li>
+  <li><a href="#tiny-demo-harness-smokes" id="toc-tiny-demo-harness-smokes" class="nav-link" data-scroll-target="#tiny-demo-harness-smokes">Tiny demo-harness smokes</a>
+  <ul class="collapse">
+  <li><a href="#serial" id="toc-serial" class="nav-link" data-scroll-target="#serial">Serial</a></li>
+  <li><a href="#attach-1" id="toc-attach-1" class="nav-link" data-scroll-target="#attach-1">Attach</a></li>
+  <li><a href="#profile" id="toc-profile" class="nav-link" data-scroll-target="#profile">Profile</a></li>
+  </ul></li>
+  <li><a href="#mode-auto" id="toc-mode-auto" class="nav-link" data-scroll-target="#mode-auto"><code>mode = "auto"</code></a></li>
+  <li><a href="#common-failure-signatures" id="toc-common-failure-signatures" class="nav-link" data-scroll-target="#common-failure-signatures">Common failure signatures</a>
+  <ul class="collapse">
+  <li><a href="#error-nprmpi-auto-dispatch-requires-an-active-mpi-slave-pool-call-nprmpi.init...-first" id="toc-error-nprmpi-auto-dispatch-requires-an-active-mpi-slave-pool-call-nprmpi.init...-first" class="nav-link" data-scroll-target="#error-nprmpi-auto-dispatch-requires-an-active-mpi-slave-pool-call-nprmpi.init...-first"><code>Error: npRmpi auto-dispatch requires an active MPI slave pool; call npRmpi.init(...) first</code></a></li>
+  <li><a href="#error-could-not-find-function-mpi.bcast.cmd" id="toc-error-could-not-find-function-mpi.bcast.cmd" class="nav-link" data-scroll-target="#error-could-not-find-function-mpi.bcast.cmd"><code>Error: could not find function "mpi.bcast.cmd"</code></a></li>
+  <li><a href="#attach-or-profile-appears-hung" id="toc-attach-or-profile-appears-hung" class="nav-link" data-scroll-target="#attach-or-profile-appears-hung">Attach or profile appears hung</a></li>
+  </ul></li>
+  <li><a href="#canonical-source-material-for-this-page" id="toc-canonical-source-material-for-this-page" class="nav-link" data-scroll-target="#canonical-source-material-for-this-page">Canonical source material for this page</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/JeffreyRacine/gallery/blob/main/mpi_large_data.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./np_npRmpi.html">Methods</a></li><li class="breadcrumb-item"><a href="./mpi_large_data.html">MPI and Large Data</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">MPI and Large Data</h1>
+</div>
+
+<div>
+  <div class="description">
+    Practical install and launch guide for npRmpi across session, attach, and profile workflows.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+<div>
+  <div class="keywords">
+    <div class="block-title">Keywords</div>
+    <p>npRmpi, npRmpi.init, MPI, mpiexec, session mode, attach mode, profile mode, R_PROFILE_USER, Windows, Linux, macOS</p>
+  </div>
+</div>
+
+</header>
+
+
+<p>This page is for users who want the <code>np</code> workflow but need MPI. The short version is simple: do not start with old wrapper-heavy <code>mpi.*</code> patterns unless you truly need manual control. Start with <code>npRmpi.init()</code> and ordinary <code>np</code>-style calls.</p>
+<p>If you want the smallest runnable examples first, go to <a href="./quickstarts.html">Quickstarts</a>. If you want the broader example catalog, go to <a href="./code_catalog.html">Code Catalog</a>.</p>
+<section id="short-version" class="level2">
+<h2 class="anchored" data-anchor-id="short-version">Short version</h2>
+<ul>
+<li>On macOS and Linux, start with <code>session</code> / <code>spawn</code> mode unless you already know you need <code>mpiexec</code>.</li>
+<li>On Windows, start with <code>attach</code> mode under <code>mpiexec</code>.</li>
+<li>On larger or heterogeneous clusters, <code>profile</code> / manual-broadcast mode is the cleanest advanced route.</li>
+<li>For <code>session</code> and <code>attach</code>, the supported modern workflow is <code>npRmpi.init(...)</code> followed by ordinary <code>np*</code> calls.</li>
+<li><code>profile</code> mode is different: it uses an explicit startup profile and explicit broadcast commands.</li>
+</ul>
+</section>
+<section id="mode-chooser" class="level2">
+<h2 class="anchored" data-anchor-id="mode-chooser">Mode chooser</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>If you want to…</th>
+<th>Use this mode</th>
+<th>Launch pattern</th>
+<th>Key rule</th>
+<th>Script</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>work interactively and let <code>npRmpi</code> create workers for you</td>
+<td><code>session</code> / <code>spawn</code></td>
+<td>plain R session</td>
+<td>no <code>.Rprofile</code> bootstrap needed</td>
+<td><a href="www/np_npRmpi/nprmpi_session_quickstart.R">nprmpi_session_quickstart.R</a></td>
+</tr>
+<tr class="even">
+<td>run inside an MPI world created by <code>mpiexec</code></td>
+<td><code>attach</code></td>
+<td><code>mpiexec ... Rscript --no-save foo.R</code></td>
+<td>clear <code>R_PROFILE_USER</code> and <code>R_PROFILE</code></td>
+<td><a href="www/np_npRmpi/nprmpi_attach_quickstart.R">nprmpi_attach_quickstart.R</a></td>
+</tr>
+<tr class="odd">
+<td>keep worker startup and broadcast logic explicit</td>
+<td><code>profile</code> / manual-broadcast</td>
+<td><code>mpiexec ... R CMD BATCH --no-save foo.R</code></td>
+<td>set exactly one <code>R_PROFILE_USER</code>; clear <code>R_PROFILE</code></td>
+<td><a href="www/np_npRmpi/nprmpi_profile_quickstart.R">nprmpi_profile_quickstart.R</a></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="a-safe-validation-ladder" class="level2">
+<h2 class="anchored" data-anchor-id="a-safe-validation-ladder">A safe validation ladder</h2>
+<p>Use this order rather than jumping immediately to a large job.</p>
+<ol type="1">
+<li>Make sure <code>library(npRmpi)</code> loads.</li>
+<li>Run the smallest mode-appropriate quickstart.</li>
+<li>Increase workers only after the tiny run is clean.</li>
+<li>Move to the demo harness only when the first small example works.</li>
+</ol>
+<p>That order is not glamorous, but it avoids chasing MPI launch issues and estimator issues at the same time.</p>
+</section>
+<section id="platform-map" class="level2">
+<h2 class="anchored" data-anchor-id="platform-map">Platform map</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Platform</th>
+<th>First install path</th>
+<th>First mode to try</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>macOS</td>
+<td>source install against a working MPI toolchain</td>
+<td><code>session</code> / <code>spawn</code></td>
+<td>the currently documented local recipe uses MacPorts + MPICH</td>
+</tr>
+<tr class="even">
+<td>Linux</td>
+<td>source install against a system MPI toolchain</td>
+<td><code>session</code> / <code>spawn</code></td>
+<td>include/lib paths depend on the local distribution and MPI stack</td>
+</tr>
+<tr class="odd">
+<td>Windows</td>
+<td>check the current CRAN package pages first, then install the available package build</td>
+<td><code>attach</code></td>
+<td>current package source treats <code>attach</code> as the Windows entry path rather than <code>spawn</code></td>
+</tr>
+<tr class="even">
+<td>heterogeneous cluster</td>
+<td>source install on the target machines</td>
+<td><code>profile</code></td>
+<td>explicit startup and broadcast control is usually the least surprising route</td>
+</tr>
+</tbody>
+</table>
+<p>Current package pages:</p>
+<ul>
+<li><code>npRmpi</code> on CRAN: <a href="https://cran.r-project.org/package=npRmpi">cran.r-project.org/package=npRmpi</a></li>
+<li><code>Rmpi</code> on CRAN: <a href="https://cran.r-project.org/package=Rmpi">cran.r-project.org/package=Rmpi</a></li>
+</ul>
+</section>
+<section id="install-from-cran" class="level2">
+<h2 class="anchored" data-anchor-id="install-from-cran">Install from CRAN</h2>
+<p>If the target machine already has a working MPI toolchain and current package binaries or source prerequisites are in place, this is the shortest route.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"npRmpi"</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="install-the-development-branch" class="level2">
+<h2 class="anchored" data-anchor-id="install-the-development-branch">Install the development branch</h2>
+<p>The development branch lives in <code>R-Package-np</code> under <code>npRmpi</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install_github</span>(<span class="st">"JeffreyRacine/R-Package-np"</span>, <span class="at">ref =</span> <span class="st">"npRmpi"</span>, <span class="at">build_vignettes =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Use <code>build_vignettes = FALSE</code> if TeX is not available.</p>
+</section>
+<section id="step-1-after-install-make-sure-the-package-loads" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-after-install-make-sure-the-package-loads">Step 1 after install: make sure the package loads</h2>
+<p>Do this before worrying about launch modes.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span> <span class="at">-q</span> <span class="at">-e</span> <span class="st">'library(npRmpi); sessionInfo()'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="macos-current-documented-local-recipe" class="level2">
+<h2 class="anchored" data-anchor-id="macos-current-documented-local-recipe">macOS: current documented local recipe</h2>
+<p>The clearest documented local recipe in the repo is MacPorts + MPICH.</p>
+<section id="install-mpich" class="level3">
+<h3 class="anchored" data-anchor-id="install-mpich">1) Install MPICH</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> port install mpich-default</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> port select <span class="at">--set</span> mpi mpich-mp-fortran</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="export-the-build-environment" class="level3">
+<h3 class="anchored" data-anchor-id="export-the-build-environment">2) Export the build environment</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">RMPI_TYPE</span><span class="op">=</span>MPICH</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">RMPI_INCLUDE</span><span class="op">=</span>/opt/local/include/mpich-mp</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">RMPI_LIB_PATH</span><span class="op">=</span>/opt/local/lib/mpich-mp</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">RMPI_LIBS</span><span class="op">=</span><span class="st">"-L/opt/local/lib/mpich-mp -lmpi"</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">CC</span><span class="op">=</span>mpicc</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">CXX</span><span class="op">=</span>mpicxx</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="build-and-install" class="level3">
+<h3 class="anchored" data-anchor-id="build-and-install">3) Build and install</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Users/jracine/Development</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span> CMD build np-npRmpi</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span> CMD INSTALL npRmpi_0.70-1.tar.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="first-runtime-test" class="level3">
+<h3 class="anchored" data-anchor-id="first-runtime-test">4) First runtime test</h3>
+<p>Start with the session quickstart, not with <code>mpiexec</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(npRmpi)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">npRmpi.init</span>(<span class="at">mode =</span> <span class="st">"spawn"</span>, <span class="at">nslaves =</span> <span class="dv">1</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">on.exit</span>(<span class="fu">npRmpi.quit</span>(), <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">npRmpi.autodispatch =</span> <span class="cn">TRUE</span>, <span class="at">np.messages =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">200</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> x) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">200</span>, <span class="at">sd =</span> <span class="fl">0.2</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, x)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>bw <span class="ot">&lt;-</span> <span class="fu">npregbw</span>(y <span class="sc">~</span> x, <span class="at">regtype =</span> <span class="st">"ll"</span>, <span class="at">bwmethod =</span> <span class="st">"cv.ls"</span>, <span class="at">data =</span> dat)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">npreg</span>(<span class="at">bws =</span> bw, <span class="at">data =</span> dat)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="linux-current-practical-guidance" class="level2">
+<h2 class="anchored" data-anchor-id="linux-current-practical-guidance">Linux: current practical guidance</h2>
+<p>The package docs do not yet ship one distro-specific Linux recipe, so the right mindset is:</p>
+<ol type="1">
+<li>install a working MPI implementation and development headers,</li>
+<li>make sure <code>mpicc</code> and <code>mpicxx</code> are available,</li>
+<li>point <code>RMPI_INCLUDE</code>, <code>RMPI_LIB_PATH</code>, and <code>RMPI_LIBS</code> at the matching headers and libraries if needed,</li>
+<li>validate <code>session</code> mode before trying <code>attach</code> or <code>profile</code>.</li>
+</ol>
+<p>A generic environment skeleton looks like this:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">RMPI_TYPE</span><span class="op">=</span>MPICH</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">RMPI_INCLUDE</span><span class="op">=</span>/path/to/mpi/include</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">RMPI_LIB_PATH</span><span class="op">=</span>/path/to/mpi/lib</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">RMPI_LIBS</span><span class="op">=</span><span class="st">"-L/path/to/mpi/lib -lmpi"</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">CC</span><span class="op">=</span>mpicc</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">CXX</span><span class="op">=</span>mpicxx</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The exact paths depend on the local MPI installation, so treat this as a pattern rather than as a finished copy-and-paste recipe.</p>
+</section>
+<section id="windows-current-practical-guidance" class="level2">
+<h2 class="anchored" data-anchor-id="windows-current-practical-guidance">Windows: current practical guidance</h2>
+<p>On Windows, the safest approach is conservative:</p>
+<ol type="1">
+<li>check the current CRAN pages for <code>npRmpi</code> and <code>Rmpi</code>,</li>
+<li>install the available package build,</li>
+<li>confirm that <code>library(npRmpi)</code> loads cleanly,</li>
+<li>start with <code>attach</code> mode under <code>mpiexec</code>,</li>
+<li>only then move on to <code>profile</code> if you need explicit broadcast control.</li>
+</ol>
+<p>The key point is that the current package source does not treat <code>spawn</code> as the Windows entry path. The supported first move is <code>attach</code>.</p>
+<p>A minimal script body looks like this:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(npRmpi)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">npRmpi.init</span>(<span class="at">mode =</span> <span class="st">"attach"</span>, <span class="at">comm =</span> <span class="dv">1</span>, <span class="at">autodispatch =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">np.messages =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">mpi.comm.rank</span>(<span class="dv">0</span>L) <span class="sc">==</span> <span class="dv">0</span>L) {</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">200</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">sin</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> x) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">200</span>, <span class="at">sd =</span> <span class="fl">0.2</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, x)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  bw <span class="ot">&lt;-</span> <span class="fu">npregbw</span>(y <span class="sc">~</span> x, <span class="at">regtype =</span> <span class="st">"ll"</span>, <span class="at">bwmethod =</span> <span class="st">"cv.ls"</span>, <span class="at">data =</span> dat)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">npreg</span>(<span class="at">bws =</span> bw, <span class="at">data =</span> dat)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>(fit)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">npRmpi.quit</span>(<span class="at">mode =</span> <span class="st">"attach"</span>, <span class="at">comm =</span> <span class="dv">1</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Launch with a pre-created MPI world and cleared profile environment:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mpiexec</span> <span class="at">-env</span> R_PROFILE_USER <span class="st">""</span> <span class="at">-env</span> R_PROFILE <span class="st">""</span> <span class="at">-n</span> 2 Rscript <span class="at">--no-save</span> foo.R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="launch-patterns-you-actually-need" class="level2">
+<h2 class="anchored" data-anchor-id="launch-patterns-you-actually-need">Launch patterns you actually need</h2>
+<section id="session-spawn" class="level3">
+<h3 class="anchored" data-anchor-id="session-spawn"><code>session</code> / <code>spawn</code></h3>
+<p>Use this when you are in an ordinary R session and want <code>npRmpi</code> to create workers for you.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(npRmpi)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">npRmpi.init</span>(<span class="at">mode =</span> <span class="st">"spawn"</span>, <span class="at">nslaves =</span> <span class="dv">1</span>, <span class="at">autodispatch =</span> <span class="cn">TRUE</span>, <span class="at">np.messages =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ordinary np-style code goes here</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">npRmpi.quit</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Important note:</p>
+<ul>
+<li><code>.Rprofile</code> bootstrap files are not required for the supported <code>npRmpi.init()</code> workflow in <code>session</code> mode.</li>
+</ul>
+</section>
+<section id="attach" class="level3">
+<h3 class="anchored" data-anchor-id="attach"><code>attach</code></h3>
+<p>Use this when MPI world is already present.</p>
+<p>Launch pattern:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mpiexec</span> <span class="at">-env</span> R_PROFILE_USER <span class="st">""</span> <span class="at">-env</span> R_PROFILE <span class="st">""</span> <span class="at">-n</span> 2 Rscript <span class="at">--no-save</span> foo.R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Inside <code>foo.R</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(npRmpi)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">npRmpi.init</span>(<span class="at">mode =</span> <span class="st">"attach"</span>, <span class="at">autodispatch =</span> <span class="cn">TRUE</span>, <span class="at">np.messages =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ordinary np-style code goes here</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">npRmpi.quit</span>(<span class="at">mode =</span> <span class="st">"attach"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Important notes:</p>
+<ul>
+<li>clear <code>R_PROFILE_USER</code>,</li>
+<li>clear <code>R_PROFILE</code>,</li>
+<li>do not layer a profile bootstrap on top of <code>attach</code>,</li>
+<li>if you want <code>mpiexec</code> plus explicit profile startup, that is no longer <code>attach</code>; that is <code>profile</code>.</li>
+</ul>
+</section>
+<section id="profile-manual-broadcast" class="level3">
+<h3 class="anchored" data-anchor-id="profile-manual-broadcast"><code>profile</code> / manual-broadcast</h3>
+<p>Use this when you want explicit startup and explicit broadcast logic, especially on larger or heterogeneous clusters.</p>
+<p>Get the package startup profile:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">RPROFILE</span><span class="op">=</span><span class="va">$(</span><span class="ex">Rscript</span> <span class="at">--no-save</span> <span class="at">-e</span> <span class="st">'cat(system.file("Rprofile", package="npRmpi"))'</span><span class="va">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Small quickstart launch:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mpiexec</span> <span class="at">-env</span> R_PROFILE_USER <span class="st">"</span><span class="va">$RPROFILE</span><span class="st">"</span> <span class="at">-env</span> R_PROFILE <span class="st">""</span> <span class="at">-n</span> 2 <span class="dt">\</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  Rscript <span class="at">--no-save</span> foo.R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Canonical demo-harness launch:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mpiexec</span> <span class="at">-env</span> R_PROFILE_USER <span class="st">"</span><span class="va">$RPROFILE</span><span class="st">"</span> <span class="at">-env</span> R_PROFILE <span class="st">""</span> <span class="dt">\</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-env</span> NP_RMPI_PROFILE_RECV_TIMEOUT_SEC 180 <span class="at">-n</span> 2 <span class="dt">\</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  R CMD BATCH <span class="at">--no-save</span> foo.R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Important rules:</p>
+<ul>
+<li>provide exactly one profile source,</li>
+<li>set <code>R_PROFILE_USER</code> to the intended profile file,</li>
+<li>clear <code>R_PROFILE</code>,</li>
+<li>do not use <code>--vanilla</code> for profile mode,</li>
+<li>do not attach package <code>Rmpi</code> inside a profile-mode script body.</li>
+</ul>
+</section>
+</section>
+<section id="heterogeneous-clusters" class="level2">
+<h2 class="anchored" data-anchor-id="heterogeneous-clusters">Heterogeneous clusters</h2>
+<p>For heterogeneous clusters, <code>profile</code> is usually the cleanest first choice because:</p>
+<ul>
+<li>startup is explicit,</li>
+<li>worker initialization is explicit,</li>
+<li>broadcast steps are explicit,</li>
+<li>you are not depending on implicit attachment behavior.</li>
+</ul>
+<p>Practical advice:</p>
+<ol type="1">
+<li>use an explicit absolute <code>R_PROFILE_USER</code> path,</li>
+<li>start with a tiny smoke,</li>
+<li>only add <code>FI_*</code> overrides if the local MPI or network stack truly needs them,</li>
+<li>scale workers and sample size only after the tiny run is clean.</li>
+</ol>
+</section>
+<section id="tiny-demo-harness-smokes" class="level2">
+<h2 class="anchored" data-anchor-id="tiny-demo-harness-smokes">Tiny demo-harness smokes</h2>
+<p>These are the documented small checks in the package demo tree.</p>
+<section id="serial" class="level3">
+<h3 class="anchored" data-anchor-id="serial">Serial</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Users/jracine/Development/np-npRmpi/demo/serial</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> <span class="at">-f</span> ../makefile MODE=serial NP_DEMO_N=100</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="attach-1" class="level3">
+<h3 class="anchored" data-anchor-id="attach-1">Attach</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> /Users/jracine/Development/np-npRmpi/demo/n_2_attach</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Users/jracine/Development/np-npRmpi/demo/n_2_attach</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> <span class="at">-f</span> ../makefile MODE=attach NP=2 NP_DEMO_N=100</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="profile" class="level3">
+<h3 class="anchored" data-anchor-id="profile">Profile</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> /Users/jracine/Development/np-npRmpi/demo/n_2_profile</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Users/jracine/Development/np-npRmpi/demo/n_2_profile</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> <span class="at">-f</span> ../makefile MODE=profile NP=2 NP_DEMO_N=100</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>That is a much safer starting point than running the full demo matrix immediately.</p>
+</section>
+</section>
+<section id="mode-auto" class="level2">
+<h2 class="anchored" data-anchor-id="mode-auto"><code>mode = "auto"</code></h2>
+<p>The package also supports:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">npRmpi.init</span>(<span class="at">mode =</span> <span class="st">"auto"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Current package docs describe <code>mode = "auto"</code> this way:</p>
+<ul>
+<li>if <code>mpi.comm.size(0) &gt; 1</code>, choose <code>attach</code>,</li>
+<li>otherwise choose <code>spawn</code>.</li>
+</ul>
+<p>That can be convenient in user scripts, but for teaching and troubleshooting it is usually better to be explicit about whether you want <code>session</code> / <code>spawn</code> or <code>attach</code>.</p>
+</section>
+<section id="common-failure-signatures" class="level2">
+<h2 class="anchored" data-anchor-id="common-failure-signatures">Common failure signatures</h2>
+<section id="error-nprmpi-auto-dispatch-requires-an-active-mpi-slave-pool-call-nprmpi.init...-first" class="level3">
+<h3 class="anchored" data-anchor-id="error-nprmpi-auto-dispatch-requires-an-active-mpi-slave-pool-call-nprmpi.init...-first"><code>Error: npRmpi auto-dispatch requires an active MPI slave pool; call npRmpi.init(...) first</code></h3>
+<p>You are trying to use autodispatch without an active MPI session.</p>
+<p>In practice this means:</p>
+<ul>
+<li>call <code>npRmpi.init(...)</code> before the first estimator call,</li>
+<li>use <code>session</code> / <code>spawn</code> for interactive work,</li>
+<li>use <code>attach</code> only when the MPI world already exists.</li>
+</ul>
+</section>
+<section id="error-could-not-find-function-mpi.bcast.cmd" class="level3">
+<h3 class="anchored" data-anchor-id="error-could-not-find-function-mpi.bcast.cmd"><code>Error: could not find function "mpi.bcast.cmd"</code></h3>
+<p>You are trying to run a profile/manual-broadcast script without the intended startup profile.</p>
+<p>Check the launch first:</p>
+<ol type="1">
+<li>does <code>R_PROFILE_USER</code> point to the profile you intended?</li>
+<li>is <code>R_PROFILE</code> cleared?</li>
+<li>are you avoiding <code>--vanilla</code>?</li>
+<li>are you sure this is a <code>profile</code> script and not an <code>attach</code> script?</li>
+</ol>
+</section>
+<section id="attach-or-profile-appears-hung" class="level3">
+<h3 class="anchored" data-anchor-id="attach-or-profile-appears-hung">Attach or profile appears hung</h3>
+<p>Do the simple things first.</p>
+<ol type="1">
+<li>reduce the job to a tiny smoke,</li>
+<li>try <code>NP=2</code> before larger worker counts,</li>
+<li>confirm that the launch command matches the right mode contract,</li>
+<li>only then start experimenting with host-specific <code>FI_*</code> overrides.</li>
+</ol>
+</section>
+</section>
+<section id="canonical-source-material-for-this-page" class="level2">
+<h2 class="anchored" data-anchor-id="canonical-source-material-for-this-page">Canonical source material for this page</h2>
+<p>The package markdown files remain the canonical low-level source material:</p>
+<ul>
+<li><a href="https://github.com/JeffreyRacine/R-Package-np/blob/npRmpi/README.md"><code>README.md</code> in the <code>npRmpi</code> branch</a></li>
+<li><a href="https://github.com/JeffreyRacine/R-Package-np/blob/npRmpi/inst/MPI_SETUP.md"><code>inst/MPI_SETUP.md</code></a></li>
+<li><a href="https://github.com/JeffreyRacine/R-Package-np/blob/npRmpi/inst/RUN_DEMO.md"><code>inst/RUN_DEMO.md</code></a></li>
+<li><a href="https://github.com/JeffreyRacine/R-Package-np/blob/npRmpi/demo/RUN.md"><code>demo/RUN.md</code></a></li>
+<li><a href="https://github.com/JeffreyRacine/R-Package-np/blob/npRmpi/BUILD.md"><code>BUILD.md</code></a></li>
+<li><a href="https://github.com/JeffreyRacine/R-Package-np/blob/npRmpi/BUILD_MPICH.md"><code>BUILD_MPICH.md</code></a></li>
+</ul>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/jeffreyracine\.github\.io\/gallery\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./npksum_custom.html" class="pagination-link" aria-label="Build With npksum">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Build With npksum</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./crs.html" class="pagination-link" aria-label="Splines">
+        <span class="nav-page-text">Splines</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Working examples and notes for <code>np</code>, <code>npRmpi</code>, and <code>crs</code>.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/JeffreyRacine/gallery/blob/main/mpi_large_data.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://jeffreyracine.github.io/research">
+<p>Research site</p>
+</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="https://cran.r-project.org/">
+<p>CRAN</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

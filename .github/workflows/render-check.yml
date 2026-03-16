@@ -1,0 +1,25 @@
+name: Quarto Render Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      # The current gallery pages use display-only code blocks rather than
+      # executable Quarto computation chunks, so a plain render check is
+      # enough to catch structural breakage. If executable pages are added
+      # later, this workflow should grow the required R/Python dependencies.
+      - name: Render site
+        run: quarto render

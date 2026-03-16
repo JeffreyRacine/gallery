@@ -1,0 +1,66 @@
+---
+title: "Books, Papers, and Citation"
+description: "Reading map and citation guide for the books, package papers, and related references behind np, npRmpi, and crs."
+keywords:
+  - books
+  - papers
+  - citation
+  - np
+  - npRmpi
+  - crs
+---
+
+For theory, methodology, and reproducible examples, the following books and papers are the natural starting points.
+
+## Where should I begin?
+
+| If you want... | Start here |
+|---|---|
+| The main nonparametric econometrics theory reference | Li and Racine, *Nonparametric Econometrics: Theory and Practice* |
+| A reproducible R-oriented route through econometrics | Racine, *Reproducible Econometrics Using R* |
+| A package-focused introduction to `np` | Hayfield and Racine (2008), *Journal of Statistical Software* |
+| The parallel/MPI package paper | Ho, Huynh, and Jacho-Chavez (2011), *Journal of Applied Econometrics* |
+| The spline-package paper | Nie and Racine (2012), *The R Journal* |
+| A shorter website-first route before reading papers | [Kernel Primer](kernel_primer.qmd), [Splines](crs.qmd), and [MPI and Large Data](mpi_large_data.qmd) |
+
+## Books
+
+- Qi Li and Jeffrey S. Racine, *Nonparametric Econometrics: Theory and Practice* (Princeton University Press)
+- Jeffrey S. Racine, *An Introduction to the Advanced Theory and Practice of Nonparametric Econometrics (A Replicable Approach Using R)* (Cambridge manuscript)
+- Jeffrey S. Racine, *Reproducible Econometrics Using R* (Oxford University Press)
+
+## Package papers
+
+- Hayfield, T. and J.S. Racine (2008), "Nonparametric Econometrics: The np Package," *Journal of Statistical Software*, 27(5), 1-32.
+- Ho, A.T., K.P. Huynh, and D.T. Jacho-Chavez (2011), "npRmpi: A Package for Parallel Distributed Kernel Estimation in R," *Journal of Applied Econometrics*, 26, 344-349.
+- Nie, Z. and J.S. Racine (2012), "The crs Package: Nonparametric Regression Splines for Continuous and Categorical Predictors," *The R Journal*, 4(2), 48-56.
+
+These are still useful because they explain package intent, not just function syntax.
+
+## Other useful references
+
+- Harrison, T.D. (2008), "Review of np Software for R," *Journal of Applied Econometrics*, 23, 861-865.
+- Racine, J.S. (2012), "RStudio: A Platform-Independent IDE for R and Sweave," *Journal of Applied Econometrics*, 27(1), 167-172.
+- Racine, J.S. and R. Hyndman (2002), "Using R to Teach Econometrics," *Journal of Applied Econometrics*, 17(2), 175-189.
+
+## Citation from inside R
+
+For package citation, the simplest route is still:
+
+```r
+citation("np")
+citation("npRmpi")
+citation("crs")
+```
+
+That gives you the package’s current citation record directly from the installed package.
+
+## How this page fits with the rest of the site
+
+- Use this page when you want theory, provenance, or formal citation.
+- Use [Code Catalog](code_catalog.qmd) and [Worked Examples](regression.qmd) when you want runnable code quickly.
+- Use [FAQ and Troubleshooting](faq.qmd) when you are stuck on usage rather than theory.
+
+## Additional materials
+
+Further materials, including code and related resources, remain available at [jeffreyracine.github.io/research](https://jeffreyracine.github.io/research).

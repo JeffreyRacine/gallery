@@ -1,12 +1,10 @@
-all:
+render:
 	quarto render
-	git add docs www
 
 preview:
-
 	quarto preview
 
 clean:
-
 	rm -rf docs
 
+all: render

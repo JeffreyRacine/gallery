@@ -1,0 +1,107 @@
+---
+title: "Significance and Specification"
+description: "Practical route to nonparametric significance testing and model-specification testing in np."
+keywords:
+  - npsigtest
+  - npcmstest
+  - significance test
+  - model specification test
+  - np tests
+---
+
+The `np` package includes more than estimators. It also provides nonparametric testing tools for questions that applied users ask all the time:
+
+- is a regressor important,
+- does a parametric model look misspecified,
+- is a simpler model being rejected by the data?
+
+This page focuses on two especially useful functions:
+
+- `npsigtest` for nonparametric regression significance testing,
+- `npcmstest` for consistent model specification testing.
+
+If you want minimal downloadable scripts for the two main routes on this page, start with:
+
+- [np_significance_quickstart.R](www/np_npRmpi/np_significance_quickstart.R)
+- [np_specification_quickstart.R](www/np_npRmpi/np_specification_quickstart.R)
+
+## Significance testing: `npsigtest`
+
+Once a nonparametric regression model has been fitted, `npsigtest` provides a nonparametric counterpart to the familiar significance-testing mindset from parametric regression.
+
+```r
+library(np)
+data(cps71, package = "np")
+
+fit <- npreg(
+  logwage ~ age,
+  regtype = "ll",
+  bwmethod = "cv.aic",
+  gradients = TRUE,
+  data = cps71
+)
+
+npsigtest(fit)
+```
+
+This is useful when you want to know whether a regressor matters without collapsing immediately back to a parametric linear model.
+
+## Model specification testing: `npcmstest`
+
+`npcmstest` is useful when you have a parametric regression model in hand and want to test whether it looks correctly specified against a nonparametric alternative.
+
+The older `wage1` example remains instructive because it starts with a simple linear specification and then asks whether that specification is too restrictive.
+
+```r
+library(np)
+data(wage1, package = "np")
+
+model_ols <- lm(
+  lwage ~ female + married + educ + exper + tenure,
+  x = TRUE,
+  y = TRUE,
+  data = wage1
+)
+
+X <- data.frame(
+  female = wage1$female,
+  married = wage1$married,
+  educ = wage1$educ,
+  exper = wage1$exper,
+  tenure = wage1$tenure
+)
+
+test_out <- npcmstest(
+  model = model_ols,
+  xdat = X,
+  ydat = wage1$lwage,
+  nmulti = 1
+)
+
+summary(test_out)
+```
+
+## Practical warning
+
+These tests can be computationally demanding because they may involve both bandwidth selection and bootstrap procedures.
+
+Practical advice:
+
+- begin with a small or illustrative problem,
+- do not assume that testing is cheap just because estimation already ran,
+- avoid overriding search tolerances casually unless you are deliberately doing a quick exploratory run.
+
+## When should I use these?
+
+| Question | Function |
+|---|---|
+| Is a regressor significant in a nonparametric regression setting? | `npsigtest` |
+| Does a parametric regression model look misspecified against a nonparametric alternative? | `npcmstest` |
+
+## How do these fit with the rest of the site?
+
+- Start with [Kernel Primer](kernel_primer.qmd) if you are new to the main estimation workflow.
+- See [Entropy and Testing](entropy_tests.qmd) for the entropy-based test family.
+- See [Plotting and Intervals](plotting_and_intervals.qmd) if you want uncertainty summaries and graphical output.
+
+Together, these pages cover the main ways in which `np` moves beyond “just fit a regression curve”.

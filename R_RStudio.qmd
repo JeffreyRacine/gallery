@@ -1,35 +1,74 @@
 ---
-title: R/RStudio
+title: "Install and Get Started"
+description: "Minimal install notes and first-run routes for np, npRmpi, and crs."
+keywords:
+  - install np
+  - install npRmpi
+  - install crs
+  - quickstart
+  - RStudio
+  - MPI
 ---
 
-## R/RStudio
+This page is intentionally short. The goal is to get you from installation to a first successful run without making you read a general introduction to R first.
 
-There are many compelling reasons why I use \`R\' for data analysis (the underlying statistical engine) and the R front-end \`RStudio\' (far too many to delve into here). Since RStudio automatically calls R when both are installed, I recommend using RStudio as your default interface to R. You can if you prefer run R in \`stand alone\' mode, but RStudio is an integrated development environment that provides a much more intuitive front end for the user (plus it is platform independent, so whether you use Linux, Mac OS X, MS Windows etc. we will all have the identical menus/options available). Below I discuss each in turn.
+## Step 1: install R and an editor
 
-What is R? This is perhaps best answered by quoting from the R website ([www.r-project.org](https://www.r-project.org/ "https://www.r-project.org")) directly (see \"What is R?\" on the R website for even more details, and also see two New York Times articles for further background information ([article 1 Jan 6 2009](https://www.nytimes.com/2009/01/07/technology/business-computing/07program.html?pagewanted=all "https://www.nytimes.com/2009/01/07/technology/business-computing/07program.html?pagewanted=all"), [article 2 Jan 8 2009](https://bits.blogs.nytimes.com/2009/01/08/r-you-ready-for-r/ "https://bits.blogs.nytimes.com/2009/01/08/r-you-ready-for-r/"))). 
+You will need a working installation of [R](https://www.r-project.org/) and, if you prefer an IDE, [RStudio / Posit Desktop](https://posit.co/download/rstudio-desktop/).
 
-From the R website, we see that 
+## Step 2: install the package you want
 
-\"R is a language and environment for statistical computing and graphics. It is a [GNU project](https://www.gnu.org/ "https://www.gnu.org/") which is similar to the S language and environment which was developed at Bell Laboratories (formerly AT&T, now Lucent Technologies) by John Chambers and colleagues. R can be considered as a different implementation of S. There are some important differences, but much code written for S runs unaltered under R.
+For `np` and `crs`, installation from CRAN is straightforward.
 
-R provides a wide variety of statistical (linear and nonlinear modelling, classical statistical tests, time-series analysis, classification, clustering, \...) and graphical techniques, and is highly extensible. The S language is often the vehicle of choice for research in statistical methodology, and R provides an Open Source route to participation in that activity.
+```r
+install.packages("np")
+install.packages("crs")
+```
 
-One of R's strengths is the ease with which well-designed publication-quality plots can be produced, including mathematical symbols and formulae where needed. Great care has been taken over the defaults for the minor design choices in graphics, but the user retains full control.
+For `npRmpi`, installation depends on the MPI implementation available on your system. The current platform and mode guidance lives on [MPI and Large Data](mpi_large_data.qmd).
 
-R is available as Free Software under the terms of the [Free Software Foundation](https://www.gnu.org/ "https://www.gnu.org/")'s [GNU General Public License](https://www.r-project.org/COPYING "https://www.r-project.org/COPYING")in source code form. It compiles and runs on a wide variety of UNIX platforms and similar systems (including FreeBSD and Linux), Windows and MacOS.\"
+## Step 2a: if you need `npRmpi`, choose the right first run
 
-For an introduction to R you have a range of options. One popular source is titled \"An Introduction to R\" that some may find useful ([R-intro.pdf](https://cran.r-project.org/doc/manuals/R-intro.pdf "https://cran.r-project.org/doc/manuals/R-intro.pdf")). Or, having installed R, you can browse the help facilities that are available within R itself. Or you can see the page \`Getting Help with R\' on the RStudio website ([www.rstudio.org/docs/help_with_r](https://www.rstudio.org/docs/help_with_r "https://www.rstudio.org/docs/help_with_r")).
+- On macOS and Linux, start with the `session` / `spawn` quickstart unless you already know you need `mpiexec`.
+- On Windows, start with `attach` mode under `mpiexec`; the current package source explicitly treats that as the supported entry path rather than `spawn`.
+- If you need explicit broadcast control or a heterogeneous-cluster workflow, use the `profile` route on [MPI and Large Data](mpi_large_data.qmd).
 
-Here is a link to a set (90+) of \`two minute tutorial\' videos describing \`how do do stuff in R in two minutes or less\' ([www.twotorials.com](https://www.twotorials.com/ "https://www.twotorials.com/")).
+## Step 2b: use the smallest runnable script first
 
-And here is a link to R code school ([tryr.codeschool.com](https://tryr.codeschool.com/ "https://tryr.codeschool.com")).
+The quickest way to see working code is now [Quickstarts](quickstarts.qmd). That page shows the small starter scripts inline so you can copy them directly without downloading anything first.
 
-What is \`RStudio\'? RStudio is an IDE (Integrated Development Environment) for R ([www.rstudio.org](https://www.rstudio.org/ "https://www.rstudio.org")) that I highly recommend you install once you have first installed R on your system (RStudio is a platform-independent front-end for R is very user friendly but note you must first install R on your system prior to invoking RStudio). Though RStudio is not necessary for using R, it makes using R more seamless. I can certainly report that all who have experienced using R through the RStudio IDE seem to prefer it to the standard R interface (myself included).
+## Step 3: test that the package loads
 
-For a variety of documents that will assist with using RStudio, kindly see the FAQ ([www.rstudio.org/docs/faq](https://www.rstudio.org/docs/faq "https://www.rstudio.org/docs/faq")) and the documents section of the RStudio website located at [www.rstudio.org/docs](https://www.rstudio.org/docs "https://www.rstudio.org/docs").
+These are simple first checks.
 
-Here are some additional references that may be of interest:
+```r
+library(np)
+example(npreg)
+```
 
-1.  Racine, J.S. (2012), "RStudio: A Platform-Independent IDE for R and Sweave," Journal of Applied Econometrics, Volume 27, Issue 1, 167-172.
+```r
+library(crs)
+example(crs)
+```
 
-2.  Racine, J.S. and R. Hyndman (2002), "Using R to Teach Econometrics," Journal of Applied Econometrics, March/April, Volume 17, Issue 2, 175-189.
+## A small first run in `np`
+
+If you want a very small end-to-end example, this is a good place to begin.
+
+```r
+library(np)
+data(cps71, package = "np")
+
+fit <- npreg(logwage ~ age, data = cps71)
+plot(cps71$age, cps71$logwage, cex = 0.25, col = "grey")
+lines(cps71$age, fitted(fit), col = 2, lwd = 2)
+```
+
+## What next?
+
+- If you are deciding between packages, go to [Choose a Package](primer.qmd).
+- If you want the smallest runnable scripts first, go to [Quickstarts](quickstarts.qmd).
+- If you want more kernel examples, go to [Kernel Methods](np_npRmpi.qmd).
+- If you need MPI, go to [MPI and Large Data](mpi_large_data.qmd).
+- If you want downloadable `npRmpi` quickstarts, go to [Code Catalog](code_catalog.qmd).
+- If you want longer scripts, go to [Worked Examples](regression.qmd).

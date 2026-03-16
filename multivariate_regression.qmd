@@ -1,0 +1,98 @@
+---
+title: "Multivariate Regression and Prediction"
+description: "A practical route to mixed-data multivariate regression, partial plots, and prediction with np."
+keywords:
+  - multivariate regression
+  - prediction
+  - npreg
+  - wage1
+  - partial plots
+  - np
+---
+
+This page is for the common case where the model has more than one regressor and you want a practical route to fitting, plotting, and predicting without having to reconstruct the older gallery scripts from scratch.
+
+## A small mixed-data regression
+
+The `wage1` data are still a useful first example because they combine numeric and categorical predictors in a way that mirrors applied work.
+
+```r
+library(np)
+data(wage1, package = "np")
+
+fit_multi <- npreg(
+  lwage ~ female + educ + exper,
+  regtype = "ll",
+  data = wage1
+)
+
+summary(fit_multi)
+```
+
+The important point is that `female` is a factor while `educ` and `exper` are numeric. In `np`, that is not incidental. The variable classes are part of the estimator definition because they determine which kernel components are used.
+
+## Why this differs from a linear model
+
+The formula looks familiar:
+
+```r
+lwage ~ female + educ + exper
+```
+
+But the estimator is not fitting an ordinary linear-additive model. The formula is simply the interface for telling `np` which variable is the response and which are the regressors.
+
+## Partial regression plots
+
+For multivariate fits, `plot()` is often the quickest way to see what the model is doing.
+
+```r
+plot(
+  fit_multi,
+  plot.errors.method = "asymptotic",
+  plot.errors.style = "band"
+)
+```
+
+These are partial-regression plots. One covariate is allowed to vary while the others are held fixed at representative values such as medians or modes. That is why the resulting plots are usually easier to interpret than a raw scatterplot against one regressor at a time.
+
+If you want bootstrap-based intervals instead, the workflow is the same but the computation can be much heavier.
+
+```r
+plot(
+  fit_multi,
+  plot.errors.method = "bootstrap",
+  plot.errors.style = "band",
+  plot.errors.boot.num = 25
+)
+```
+
+## Prediction
+
+Prediction works by supplying a `newdata` frame with the same predictor structure.
+
+```r
+predict(
+  fit_multi,
+  newdata = wage1[1:5, c("female", "educ", "exper")]
+)
+```
+
+This is often the safest pattern because it preserves the factor structure from the original data.
+
+## A practical workflow
+
+For multivariate work, a good habit is:
+
+1. fit a small model first,
+2. inspect `summary(fit_multi)`,
+3. look at the partial-regression plots,
+4. only then move on to heavier plotting or bootstrap intervals,
+5. move to `npRmpi` only after the serial workflow is the right one but too slow for the job at hand.
+
+## Where to go next
+
+- [Kernel Primer](kernel_primer.qmd)
+- [Worked Examples](regression.qmd)
+- [Plotting and Intervals](plotting_and_intervals.qmd)
+- [MPI and Large Data](mpi_large_data.qmd)
+- [Code Catalog](code_catalog.qmd)

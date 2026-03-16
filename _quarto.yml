@@ -1,27 +1,108 @@
 project:
   type: website
-  output-dir: docs  
+  output-dir: docs
+  resources:
+    - "www/**"
 
 website:
-  title: "Gallery Website"
+  title: "Gallery of Code"
+  site-url: "https://jeffreyracine.github.io/gallery/"
+  repo-url: "https://github.com/JeffreyRacine/gallery"
+  repo-actions: [source]
+  search: true
+  reader-mode: true
+  page-navigation: true
+  back-to-top-navigation: true
   navbar:
-    left:
-      - href: index.qmd
-        text: Home
-      - primer.qmd
-      - regression.qmd   
-      - np_npRmpi.qmd
-      - crs.qmd
-      - interactive.qmd
-      - function_index.qmd
-      - R_RStudio.qmd
-      - about.qmd
+    pinned: true
+    right:
+      - icon: github
+        href: "https://github.com/JeffreyRacine/gallery"
+        aria-label: "Gallery source on GitHub"
+  sidebar:
+    style: docked
+    search: true
+    collapse-level: 1
+    contents:
+      - section: "Start Here"
+        contents:
+          - href: index.qmd
+            text: "Overview"
+          - href: primer.qmd
+            text: "Choose a Package"
+          - href: R_RStudio.qmd
+            text: "Install and Get Started"
+          - href: quickstarts.qmd
+            text: "Quickstarts"
+      - section: "Methods"
+        contents:
+          - href: np_npRmpi.qmd
+            text: "Kernel Methods"
+          - href: kernel_primer.qmd
+            text: "Kernel Primer"
+          - href: entropy_tests.qmd
+            text: "Entropy and Testing"
+          - href: semiparametric_models.qmd
+            text: "Semiparametric Models"
+          - href: density_distribution_quantiles.qmd
+            text: "Density, Distribution, Quantiles"
+          - href: classification_modes.qmd
+            text: "Classification and Modes"
+          - href: significance_and_specification.qmd
+            text: "Significance and Specification"
+          - href: npksum_custom.qmd
+            text: "Build With npksum"
+          - href: mpi_large_data.qmd
+            text: "MPI and Large Data"
+          - href: crs.qmd
+            text: "Splines"
+          - href: spline_primer.qmd
+            text: "Spline Primer"
+          - href: spline_search_and_tuning.qmd
+            text: "Spline Search and Tuning"
+      - section: "Examples"
+        contents:
+          - href: code_catalog.qmd
+            text: "Code Catalog"
+          - href: regression.qmd
+            text: "Worked Examples"
+          - href: multivariate_regression.qmd
+            text: "Multivariate Regression"
+          - href: plotting_and_intervals.qmd
+            text: "Plotting and Intervals"
+          - href: interactive.qmd
+            text: "Interactive Demos"
+      - section: "Support"
+        contents:
+          - href: faq.qmd
+            text: "FAQ and Troubleshooting"
+          - href: data_preparation.qmd
+            text: "Data Preparation"
+          - href: runtime_and_scaling.qmd
+            text: "Runtime and Scaling"
+          - href: function_index.qmd
+            text: "Reference"
+          - href: legacy_materials.qmd
+            text: "Legacy Materials"
+          - href: books_papers.qmd
+            text: "Books, Papers, and Citation"
+          - href: about.qmd
+            text: "About"
+  page-footer:
+    left: "Working examples and notes for `np`, `npRmpi`, and `crs`."
+    right:
+      - text: "Research site"
+        href: "https://jeffreyracine.github.io/research"
+      - text: "CRAN"
+        href: "https://cran.r-project.org/"
 
 format:
   html:
     theme: cosmo
     css: styles.css
     toc: true
-
-
-
+    toc-depth: 3
+    code-copy: true
+    code-overflow: wrap
+    link-external-newwindow: true
+    smooth-scroll: true

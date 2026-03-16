@@ -1,0 +1,166 @@
+---
+title: "Runtime, Memory, and Scaling"
+description: "Practical advice on cross-validation runtime, memory, search size, and when to move from np to npRmpi or narrow crs search."
+keywords:
+  - runtime
+  - memory
+  - scaling
+  - cross-validation
+  - npRmpi
+  - crs
+  - NOMAD
+  - bootstrap
+---
+
+This page collects the practical advice that matters once the method is right but the run becomes slow, memory-hungry, or otherwise awkward. The goal is not to promise that every job will be cheap. The goal is to help you decide what to simplify, what to tune, and when to change execution mode.
+
+## Why can these methods take time?
+
+Because many of the key routines are doing real search, repeated fitting, or resampling rather than evaluating a closed-form expression once.
+
+Common reasons a run is slow:
+
+- bandwidth selection by cross-validation,
+- multistart optimization,
+- bootstrap intervals,
+- multivariate fits,
+- extreme quantiles,
+- large categorical search spaces,
+- spline search over degree and knot structure.
+
+That is normal behavior, not necessarily a sign that something is broken.
+
+## A good default workflow
+
+For `np` and `npRmpi`, a conservative sequence is:
+
+1. get the method right on a small serial run,
+2. inspect the fitted object and bandwidth object,
+3. simplify plotting or interval requests if needed,
+4. only then move to `npRmpi` if the serial workflow is right but too slow.
+
+That sequence avoids introducing MPI complexity before the basic model is settled.
+
+## `np`: bandwidth selection and large jobs
+
+Bandwidth selection is often the expensive part. A practical habit is to make the bandwidth object explicit:
+
+```r
+bw <- npregbw(y ~ x1 + x2, data = mydat)
+fit <- npreg(bws = bw, data = mydat)
+```
+
+That makes it easier to:
+
+- inspect the selected bandwidths,
+- reuse them across later fits,
+- avoid recomputing the same object repeatedly.
+
+## `np`: extreme quantiles can be slower
+
+Very small or very large values of `tau` can make quantile-regression workflows materially slower. If you are exploring, start with central quantiles first, then move outward once the workflow is established.
+
+## `np`: many variables and long formulas
+
+If you have a large number of variables and the formula interface starts failing with an “improper formula” style message, the practical workaround is simple: use the data-frame interface instead of pushing a very long formula string.
+
+## `np`: repeated interruptions and memory
+
+If you repeatedly interrupt large jobs, R may hold on to memory that would otherwise have been released at normal completion. When that starts to bite, the practical fix is often just to restart R and begin a fresh session.
+
+## `np`: turn off status messages in batch work
+
+For quiet runs:
+
+```r
+options(np.messages = FALSE)
+```
+
+If you also want to silence warnings for a controlled batch run, wrap the call in `suppressWarnings(...)`.
+
+## `np`: sparse categorical designs
+
+In some categorical settings, the design can be very sparse in the sense that there are far fewer unique support points than observations. That can create opportunities for custom speedups, but that is an advanced route rather than the normal first stop.
+
+The practical recommendation is:
+
+- first get the model working with the standard high-level interface,
+- then only consider specialized sparse-design logic if the structure is genuinely repetitive and the runtime justifies the extra coding.
+
+## When to move to `npRmpi`
+
+Move to `npRmpi` when:
+
+- the serial `np` workflow is the right workflow,
+- the job is large enough that runtime has become the real bottleneck,
+- or you already know the workload belongs on an MPI-capable host.
+
+For most users:
+
+- `session` / `spawn` is the cleanest first move on macOS and Linux,
+- `attach` is the right first move when the MPI world is already launched,
+- `profile` is the more explicit advanced route, especially on heterogeneous clusters.
+
+See [MPI and Large Data](mpi_large_data.qmd) for the current mode map and quickstart scripts.
+
+## `crs`: search can be expensive too
+
+With `crs`, the expensive part is often the search over degree, knots, basis structure, and categorical handling rather than the final fitted model alone.
+
+If search feels too large:
+
+- restrict the basis dimension,
+- reduce `degree.max` or `segments.max`,
+- search over a smaller complexity class first,
+- or temporarily use additive structure when that is scientifically reasonable.
+
+## `crs`: watch memory during search
+
+If the basis can become very large, restricting the minimum degrees of freedom can help keep the search from wandering into impractical models.
+
+A common practical control is `cv.df.min`, which lets you stop the search from considering bases that are simply too large to be sensible for the problem.
+
+## `crs`: if it seems to just sit there
+
+Sometimes the right move is not to abort, but to ask the optimizer to tell you what it is doing.
+
+```r
+opts <- list("DISPLAY_DEGREE" = 3)
+model <- crs(y ~ x1 + x2, opts = opts)
+```
+
+If that reveals that the search space is too large, then reduce the problem:
+
+- lower `degree.max`,
+- lower `segments.max`,
+- use `complexity = "degree"` or another narrower search,
+- or use `basis = "additive"` if that is a defensible modeling restriction.
+
+## `crs`: quiet runs
+
+For quiet runs:
+
+```r
+options(crs.messages = FALSE)
+```
+
+If you are working directly with `snomadr`, use an options list with `DISPLAY_DEGREE = 0`.
+
+For the more package-specific version of this advice, see [Spline Search and Tuning](spline_search_and_tuning.qmd).
+
+## Practical triage
+
+If a run is too slow or too heavy, work down this list:
+
+1. confirm the model on a small problem,
+2. make the bandwidth or tuning object explicit if possible,
+3. remove avoidable plotting or bootstrap overhead,
+4. simplify the search space,
+5. change execution mode only after the statistical workflow itself is settled.
+
+## Where to go next
+
+- [MPI and Large Data](mpi_large_data.qmd)
+- [Code Catalog](code_catalog.qmd)
+- [FAQ and Troubleshooting](faq.qmd)
+- [Splines](crs.qmd)

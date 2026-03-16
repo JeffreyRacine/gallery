@@ -1,0 +1,147 @@
+---
+title: "Kernel Primer"
+description: "Conceptual and practical introduction to mixed-data kernels, bandwidths, and the basic np workflow."
+keywords:
+  - npreg
+  - npregbw
+  - npplot
+  - mixed-data kernels
+  - bandwidth object
+  - kernel primer
+---
+
+This page is a website-first rewrite of the old `np` vignette material. The emphasis here is practical: what makes the `np` approach distinctive, how the workflow is organized, and what to keep in mind when working with mixed data.
+
+## Why kernel methods?
+
+Kernel methods are attractive because they can reveal structure that a rigid parametric model may miss. The cost, of course, is that they are often computationally more demanding than the parametric alternative.
+
+For `np`, the important point is not just that the methods are nonparametric, but that they are built to handle the mix of continuous, unordered, and ordered data that often appears in applied work.
+
+## Why `np` is different from a basic kernel smoother
+
+Many users first meet kernel methods through routines aimed at continuous data only. In applied work, however, one often has a mixture of:
+
+- continuous regressors,
+- unordered factors,
+- ordered factors.
+
+Traditional sample-splitting or cell-based approaches for categorical variables can be very wasteful. The `np` package instead uses generalized product kernels so that smoothing can proceed directly with mixed data rather than by breaking the sample into many separate cells.
+
+## The primacy of the bandwidth
+
+This is the single most important practical idea in `np`.
+
+In parametric work, one typically thinks first about the functional form. In `np`, one should think first about the bandwidth. The bandwidth object determines the effective smoothness of the estimator and carries the key details of the method with it.
+
+The usual workflow is:
+
+1. compute a bandwidth object,
+2. estimate the model using that bandwidth object,
+3. inspect summaries, fitted values, predictions, plots, and intervals.
+
+A simple example:
+
+```r
+library(np)
+data(cps71, package = "np")
+
+bw <- npregbw(logwage ~ age, data = cps71)
+summary(bw)
+
+fit <- npreg(bws = bw)
+summary(fit)
+```
+
+You can let `npreg()` perform the bandwidth selection implicitly, but for serious work it is often better to be explicit so that you can inspect the resulting bandwidth object.
+
+## Why inspect the bandwidth object?
+
+Bandwidth selection is automatic, but not infallible. Outliers, rounding, and discretization can all affect the result.
+
+A good habit is therefore:
+
+```r
+summary(bw)
+```
+
+That lets you see the chosen bandwidths and decide whether they look plausible for the application at hand.
+
+## Mixed-data workflow
+
+The package relies on the class of each variable to determine which weighting rule is appropriate. This means that correct classing is not incidental; it is part of the estimator definition.
+
+For example:
+
+```r
+mydat <- data.frame(
+  y = rnorm(200),
+  x_cont = runif(200),
+  x_unordered = factor(sample(c("a", "b", "c"), 200, replace = TRUE)),
+  x_ordered = ordered(sample(1:4, 200, replace = TRUE))
+)
+
+bw <- npregbw(y ~ x_cont + x_unordered + x_ordered, data = mydat)
+fit <- npreg(bws = bw)
+```
+
+The same formula syntax is used, but the estimator is not fitting a linear-additive model in the parametric sense. The formula is simply the interface for specifying which variable is the response and which are the covariates.
+
+## Formula interface versus data-frame interface
+
+`np` supports both. The formula interface is often the easiest to read:
+
+```r
+bw <- npregbw(y ~ x1 + x2 + x3, data = mydat)
+```
+
+The data-frame interface is also available and can feel more natural in some workflows:
+
+```r
+bw <- npudensbw(dat = mydat)
+```
+
+The important point is that the variable classes in the data frame should be correct. If a categorical variable is not classed as a factor or ordered factor when appropriate, the wrong kernel treatment will follow.
+
+## Generalized product kernels in one sentence
+
+If the data contain continuous and categorical variables, `np` builds a product kernel using the appropriate component for each variable type, then lets the bandwidths differ across variables.
+
+That is the core device that lets the package handle mixed data in a coherent way.
+
+## Computational reality
+
+Automatic bandwidth selection is one of the strengths of the package, but it can be expensive.
+
+Practical advice:
+
+- start with a smaller problem while you are learning,
+- use explicit bandwidth objects in serious work,
+- inspect the bandwidth summary,
+- expect some plots or bootstrap-based intervals to take time,
+- move to `npRmpi` when the workflow is right but the runtime becomes the bottleneck.
+
+## A small regression example
+
+```r
+library(np)
+data(cps71, package = "np")
+
+fit_lc <- npreg(logwage ~ age, data = cps71)
+fit_ll <- npreg(logwage ~ age, data = cps71, regtype = "ll")
+
+plot(cps71$age, cps71$logwage, cex = 0.25, col = "grey")
+lines(cps71$age, fitted(fit_lc), col = 1, lty = 1)
+lines(cps71$age, fitted(fit_ll), col = 2, lty = 2)
+```
+
+## What to read next
+
+- [Kernel Methods](np_npRmpi.qmd) for the main landing page
+- [MPI and Large Data](mpi_large_data.qmd) if the same workflow needs MPI
+- [Code Catalog](code_catalog.qmd) for the current script library
+- `vignette("np", package = "np")` for the full package vignette
+
+## Historical note
+
+The original Sweave vignette went much deeper into estimator families, function inventories, and a long series of applications. For a website, the cleaner first move is a shorter primer focused on mixed-data kernels, bandwidth workflow, and practical use. The more specialized material can then be split into separate pages rather than preserved as one large article.

@@ -1,0 +1,123 @@
+---
+title: "Data Preparation and Variable Types"
+description: "Practical guidance on factors, ordered variables, formulas, and mixed-data preparation for np and npRmpi."
+keywords:
+  - factor
+  - ordered factor
+  - mixed data
+  - formula interface
+  - dummy variables
+  - np
+  - npRmpi
+---
+
+This page collects the practical data-preparation advice that tends to matter most for `np` and `npRmpi`. The short version is simple: in these packages, variable classes are part of the estimator definition, not just housekeeping.
+
+## Classes matter
+
+For mixed-data kernel methods, `numeric`, `factor`, and `ordered` do not mean the same thing. They determine which kernel component is used.
+
+A quick habit worth keeping is:
+
+```r
+class(mydat$x)
+str(mydat)
+```
+
+If a variable is meant to be unordered categorical, cast it as a `factor`. If it is categorical with a meaningful ordering, cast it as `ordered`.
+
+```r
+mydat$sector <- factor(mydat$sector)
+mydat$year_group <- ordered(mydat$year_group)
+```
+
+## Do not pass one-hot blocks as if this were a linear model
+
+This is one of the most common sources of confusion.
+
+If the underlying variable is really one categorical variable such as year, region, or education group, do not expand it into a full set of 0/1 dummies and then pass those dummies as separate regressors. In `np`, that changes the problem.
+
+The preferred route is to keep the underlying variable intact and classify it correctly:
+
+```r
+mydat$year <- ordered(mydat$year)
+bw <- npregbw(y ~ year + x1 + x2, data = mydat)
+```
+
+The only common exception is a genuinely binary attribute represented by one 0/1 variable. Even there, it is usually better to make the meaning explicit:
+
+```r
+mydat$female <- factor(mydat$female)
+```
+
+## Formula syntax does not imply a linear-additive model
+
+In these packages,
+
+```r
+y ~ x1 + x2 + x3
+```
+
+is the interface for telling the function what the response and regressors are. It is not a commitment to an ordinary linear-additive specification.
+
+This point matters because many users see a familiar formula and then assume the usual linear-model interpretation. That is not what is happening here.
+
+## Prefer `data =` and data frames to `attach()`
+
+Older examples sometimes use `attach()` because that was a common style at the time. For modern work, it is clearer and safer to use:
+
+- `data = mydat`
+- explicit references such as `mydat$x`
+- small preprocessing steps that create a clean modeling data frame
+
+That keeps scope clear and avoids accidental name collisions.
+
+## A common plotting trap
+
+If you create factor or ordered variables inside a data-frame call and then plot a fitted object later, you can sometimes get an error about an object not being found. The safe habit is simple: pass the original data frame to `plot()` when needed.
+
+```r
+bw <- npregbw(y ~ x + z, data = mydat)
+fit <- npreg(bws = bw, data = mydat)
+plot(fit, data = mydat)
+```
+
+## Name variables cleanly
+
+If you construct a data frame with unnamed expressions such as `ordered(year)`, plotting labels can become awkward. It is cleaner to name the variable first or name it inside the data frame:
+
+```r
+mydat <- data.frame(year = ordered(year), gdp = gdp)
+```
+
+## Very large numeric magnitudes
+
+In general, there is no statistical reason to rescale data just because the units are large. But if values are extremely large, numerical issues can arise in optimization or cross-validation just as they can in other methods.
+
+A sensible rule is:
+
+- do not rescale by default,
+- but if you are working with very large magnitudes and see numerical instability, try a simple rescaling and compare results.
+
+## Sample weights
+
+Many high-level `np` functions do not directly expose sample weights in the way users from other modeling frameworks might expect. If weighting is central to the workflow, the lower-level route to inspect is `npksum`, or else a direct reweighting/data-construction approach depending on the application.
+
+For most users, this is an advanced path rather than the first place to start.
+
+## Quick checklist
+
+Before fitting a model, it is worth asking:
+
+1. Are unordered categorical variables really `factor`s?
+2. Are ordered categorical variables really `ordered`?
+3. Have I avoided feeding one-hot blocks where one factor would be the right object?
+4. Am I passing a clean `data =` frame?
+5. If plotting later, do I still have the original data frame available?
+
+## Where to go next
+
+- [Kernel Primer](kernel_primer.qmd)
+- [Multivariate Regression and Prediction](multivariate_regression.qmd)
+- [Plotting and Intervals](plotting_and_intervals.qmd)
+- [FAQ and Troubleshooting](faq.qmd)

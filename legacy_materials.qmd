@@ -1,0 +1,55 @@
+---
+title: "Legacy Materials"
+---
+
+This page keeps the older long-form documents visible without requiring the live website to preserve their original structure or style.
+
+The basic rule is:
+
+- the newer website pages are the preferred first stop,
+- the older PDFs remain valuable as archival references,
+- changelog material should live in one canonical place, not be duplicated in FAQ documents.
+
+## Legacy package PDFs
+
+### `np`
+
+- [Legacy `np` vignette PDF on CRAN](https://cran.r-project.org/web/packages/np/vignettes/np.pdf)
+- [Legacy `entropy_np` vignette PDF on CRAN](https://cran.r-project.org/web/packages/np/vignettes/entropy_np.pdf)
+- [Legacy `np` FAQ PDF on CRAN](https://cran.r-project.org/web/packages/np/vignettes/np_faq.pdf)
+
+### `crs`
+
+- [Legacy `crs` vignette PDF on CRAN](https://cran.r-project.org/web/packages/crs/vignettes/crs.pdf)
+- [Legacy `spline_primer` vignette PDF on CRAN](https://cran.r-project.org/web/packages/crs/vignettes/spline_primer.pdf)
+- [Legacy `crs` FAQ PDF on CRAN](https://cran.r-project.org/web/packages/crs/vignettes/crs_faq.pdf)
+
+## Current website-first replacements
+
+### For `np`
+
+- [Kernel Primer](kernel_primer.qmd)
+- [Density, Distribution, Quantiles](density_distribution_quantiles.qmd)
+- [Semiparametric Models](semiparametric_models.qmd)
+- [Entropy and Testing](entropy_tests.qmd)
+- [Classification and Modes](classification_modes.qmd)
+- [Significance and Specification](significance_and_specification.qmd)
+- [Build With npksum](npksum_custom.qmd)
+- [Plotting and Intervals](plotting_and_intervals.qmd)
+
+### For `crs`
+
+- [Splines](crs.qmd)
+- [Spline Primer](spline_primer.qmd)
+
+### For `npRmpi`
+
+- [MPI and Large Data](mpi_large_data.qmd)
+
+## Why keep the older documents at all?
+
+Because they still contain useful exposition, examples, and historical context, even when the presentation style is now dated. The aim of the redesign is not to erase that material. It is to give users a clearer first route through it.
+
+## What is not being carried forward
+
+The old FAQ habit of manually reproducing changelog material is not being preserved. Current change tracking should live in package release notes and `NEWS.md`, not in multiple hand-maintained PDFs.

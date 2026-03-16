@@ -1,0 +1,135 @@
+---
+title: "Spline Search and Tuning"
+description: "Practical tuning guidance for crs, including search size, smoothness, knot selection, and memory-aware spline search."
+keywords:
+  - crs
+  - spline search
+  - knots
+  - degree
+  - segments
+  - cv.df.min
+  - smoothness
+---
+
+This page collects the practical tuning advice for `crs`: what to do when search is expensive, when the chosen spline is rougher than you expected, and how to impose a narrower search when that is scientifically warranted.
+
+## Why can the search take time?
+
+`crs` is often searching over:
+
+- spline degree,
+- knot or segment structure,
+- basis type,
+- categorical handling.
+
+So if a run feels slow, the first question is not “is something broken?” but rather “how large is the search space I asked for?”
+
+## If the search seems to just sit there
+
+Ask the optimizer to tell you more.
+
+```r
+opts <- list("DISPLAY_DEGREE" = 3)
+model <- crs(y ~ x1 + x2, opts = opts)
+```
+
+If that reveals that the search is wandering in a very large space, reduce the problem before concluding anything more dramatic.
+
+## Memory control during search
+
+If the spline basis can become very large, one practical control is to restrict the minimum degrees of freedom the search is allowed to approach.
+
+In `crs`, that means looking at `cv.df.min`.
+
+The practical interpretation is simple: if the unrestricted search can wander into absurdly large bases, use `cv.df.min` to keep the search in a region that is computationally defensible.
+
+## Reduce the search space deliberately
+
+If you need a smaller problem first, the usual levers are:
+
+- lower `degree.max`,
+- lower `segments.max`,
+- use `complexity = "degree"` or another narrower search,
+- use `basis = "additive"` when additivity is a defensible restriction.
+
+That last option can reduce the combinatorics materially, but of course it changes the model class, so it should be a modeling decision and not just a computational trick.
+
+## What if the fitted spline is not smooth enough?
+
+Cross-validation can legitimately choose a rougher spline than you expected. That is not a bug. It is the optimizer doing what the criterion asked for.
+
+If you want a smoother object, one honest way to do it is to impose a minimum degree:
+
+```r
+model <- crs(y ~ x1 + x2, degree.min = 3)
+```
+
+That is cleaner than pretending the cross-validated solution was wrong while silently using a different one.
+
+## Can `crs` mimic a cubic smoothing-spline style search?
+
+Yes. If you want to hold degree fixed and optimize knot structure instead, a practical route is:
+
+```r
+model <- crs(y ~ x1, complexity = "knots", degree = 3)
+summary(model)
+```
+
+That is not identical to every smoothing-spline implementation, but it is the natural `crs` analogue when you want to hold degree fixed and let the knot search do the work.
+
+## Can `crs` recover linear regression?
+
+Yes. This is worth remembering because it clarifies the model family.
+
+```r
+model_crs <- crs(
+  y ~ x1 + x2 + z1 + z2,
+  cv = "none",
+  kernel = FALSE,
+  degree = rep(1, 2),
+  segments = rep(1, 2)
+)
+```
+
+This is the simple linear-regression-style special case already highlighted on [Splines](crs.qmd).
+
+## Quantile regression splines
+
+If you want a conditional quantile rather than a conditional mean, use `tau`.
+
+```r
+model_q <- crs(y ~ x1 + x2, tau = 0.5)
+```
+
+That gives the conditional median when `tau = 0.5`, or any other conditional quantile for `tau` in `(0, 1)`.
+
+## Retrieving knots
+
+Once a model is fit, the practical route to the knot locations depends on whether uniform or quantile knots were used. The key quantity to inspect is the selected number of segments for each predictor.
+
+For a single predictor `x1`, the old FAQ’s practical rule was:
+
+```r
+seq(min(x1), max(x1), length = model$segments[1] + 1)
+```
+
+for uniform spacing, or
+
+```r
+quantile(x1, probs = seq(0, 1, length = model$segments[1] + 1))
+```
+
+for quantile spacing.
+
+## Compare against a parametric baseline when useful
+
+If you want to compare a parametric model and a spline model on a common predictive criterion, compare the cross-validation score rather than only the fitted curves.
+
+That is often a more honest question than “which summary table looks nicer?”
+
+## Where to go next
+
+- [Splines](crs.qmd)
+- [Spline Primer](spline_primer.qmd)
+- [Runtime, Memory, and Scaling](runtime_and_scaling.qmd)
+- [FAQ and Troubleshooting](faq.qmd)

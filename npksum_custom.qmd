@@ -1,0 +1,82 @@
+---
+title: "Build With npksum"
+description: "Lower-level route for users who want to build custom kernel calculations and estimators with npksum."
+keywords:
+  - npksum
+  - custom kernels
+  - kernel sums
+  - lower-level np
+---
+
+One of the more underappreciated pieces of the `np` package is `npksum`. It is not just another user-facing estimator. It is a lower-level kernel-sum engine that lets you build custom estimators, tests, and related quantities without dropping immediately into C.
+
+## Why `npksum` matters
+
+The higher-level functions in `np` are convenient, but sometimes you want to construct something more specialized. `npksum` exists for that purpose.
+
+In practice, it can be used to:
+
+- build custom kernel estimators,
+- form weighted kernel sums,
+- experiment with leave-one-out constructions,
+- prototype new statistics and test objects.
+
+## A simple local-constant example
+
+The older vignette gave a nice minimal illustration: recover a local-constant estimator directly from kernel sums.
+
+```r
+library(np)
+data(cps71, package = "np")
+
+fit_lc <- npksum(
+  txdat = cps71$age,
+  tydat = cps71$logwage,
+  bws = 2
+)$ksum / npksum(
+  txdat = cps71$age,
+  bws = 2
+)$ksum
+
+plot(cps71$age, cps71$logwage, xlab = "Age", ylab = "log(wage)", cex = 0.1)
+lines(cps71$age, fit_lc, col = "blue")
+```
+
+This is useful because it makes the estimator construction visible rather than hiding everything inside a higher-level call.
+
+## What to keep in mind
+
+`npksum` is flexible, but that flexibility comes with responsibility. Once you leave the higher-level wrappers, you are taking on more of the estimator design yourself.
+
+That means:
+
+- check your variable classes,
+- check your bandwidth choices,
+- verify the object you are constructing really corresponds to the statistic you intend,
+- validate on small known cases first.
+
+## When should I use `npksum`?
+
+Use it when:
+
+- the packaged high-level functions already do what you need, but you want to understand the kernel-sum structure more directly,
+- you are prototyping a custom estimator or test,
+- you want to teach the mechanics of kernel methods,
+- you need a building block rather than a full canned procedure.
+
+Do not use it just to make a standard workflow harder than it needs to be. If `npreg`, `npudens`, `npcdens`, and the other higher-level functions already solve your problem cleanly, use them.
+
+## A good mental model
+
+Think of `npksum` as the “toolbox function” rather than the “applied workflow function”.
+
+- `npreg`, `npudens`, `npqreg`, `npplreg`, and so forth are what most users should start with.
+- `npksum` is what you reach for when you want to build something yourself.
+
+## Related material
+
+- [Kernel Primer](kernel_primer.qmd)
+- [Entropy and Testing](entropy_tests.qmd)
+- [Code Catalog](code_catalog.qmd)
+
+If you are doing large custom kernel-sum work and runtime becomes the bottleneck, the next natural question is whether the workflow should move to [MPI and Large Data](mpi_large_data.qmd).

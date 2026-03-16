@@ -1,0 +1,382 @@
+---
+title: "MPI and Large Data"
+description: "Practical install and launch guide for npRmpi across session, attach, and profile workflows."
+keywords:
+  - npRmpi
+  - npRmpi.init
+  - MPI
+  - mpiexec
+  - session mode
+  - attach mode
+  - profile mode
+  - R_PROFILE_USER
+  - Windows
+  - Linux
+  - macOS
+---
+
+This page is for users who want the `np` workflow but need MPI. The short version is simple: do not start with old wrapper-heavy `mpi.*` patterns unless you truly need manual control. Start with `npRmpi.init()` and ordinary `np`-style calls.
+
+If you want the smallest runnable examples first, go to [Quickstarts](quickstarts.qmd). If you want the broader example catalog, go to [Code Catalog](code_catalog.qmd).
+
+## Short version
+
+- On macOS and Linux, start with `session` / `spawn` mode unless you already know you need `mpiexec`.
+- On Windows, start with `attach` mode under `mpiexec`.
+- On larger or heterogeneous clusters, `profile` / manual-broadcast mode is the cleanest advanced route.
+- For `session` and `attach`, the supported modern workflow is `npRmpi.init(...)` followed by ordinary `np*` calls.
+- `profile` mode is different: it uses an explicit startup profile and explicit broadcast commands.
+
+## Mode chooser
+
+| If you want to... | Use this mode | Launch pattern | Key rule | Script |
+|---|---|---|---|---|
+| work interactively and let `npRmpi` create workers for you | `session` / `spawn` | plain R session | no `.Rprofile` bootstrap needed | [nprmpi_session_quickstart.R](www/np_npRmpi/nprmpi_session_quickstart.R) |
+| run inside an MPI world created by `mpiexec` | `attach` | `mpiexec ... Rscript --no-save foo.R` | clear `R_PROFILE_USER` and `R_PROFILE` | [nprmpi_attach_quickstart.R](www/np_npRmpi/nprmpi_attach_quickstart.R) |
+| keep worker startup and broadcast logic explicit | `profile` / manual-broadcast | `mpiexec ... R CMD BATCH --no-save foo.R` | set exactly one `R_PROFILE_USER`; clear `R_PROFILE` | [nprmpi_profile_quickstart.R](www/np_npRmpi/nprmpi_profile_quickstart.R) |
+
+## A safe validation ladder
+
+Use this order rather than jumping immediately to a large job.
+
+1. Make sure `library(npRmpi)` loads.
+2. Run the smallest mode-appropriate quickstart.
+3. Increase workers only after the tiny run is clean.
+4. Move to the demo harness only when the first small example works.
+
+That order is not glamorous, but it avoids chasing MPI launch issues and estimator issues at the same time.
+
+## Platform map
+
+| Platform | First install path | First mode to try | Notes |
+|---|---|---|---|
+| macOS | source install against a working MPI toolchain | `session` / `spawn` | the currently documented local recipe uses MacPorts + MPICH |
+| Linux | source install against a system MPI toolchain | `session` / `spawn` | include/lib paths depend on the local distribution and MPI stack |
+| Windows | check the current CRAN package pages first, then install the available package build | `attach` | current package source treats `attach` as the Windows entry path rather than `spawn` |
+| heterogeneous cluster | source install on the target machines | `profile` | explicit startup and broadcast control is usually the least surprising route |
+
+Current package pages:
+
+- `npRmpi` on CRAN: [cran.r-project.org/package=npRmpi](https://cran.r-project.org/package=npRmpi)
+- `Rmpi` on CRAN: [cran.r-project.org/package=Rmpi](https://cran.r-project.org/package=Rmpi)
+
+## Install from CRAN
+
+If the target machine already has a working MPI toolchain and current package binaries or source prerequisites are in place, this is the shortest route.
+
+```r
+install.packages("npRmpi", dependencies = TRUE)
+```
+
+## Install the development branch
+
+The development branch lives in `R-Package-np` under `npRmpi`.
+
+```r
+library(devtools)
+install_github("JeffreyRacine/R-Package-np", ref = "npRmpi", build_vignettes = FALSE)
+```
+
+Use `build_vignettes = FALSE` if TeX is not available.
+
+## Step 1 after install: make sure the package loads
+
+Do this before worrying about launch modes.
+
+```bash
+R -q -e 'library(npRmpi); sessionInfo()'
+```
+
+## macOS: current documented local recipe
+
+The clearest documented local recipe in the repo is MacPorts + MPICH.
+
+### 1) Install MPICH
+
+```bash
+sudo port install mpich-default
+sudo port select --set mpi mpich-mp-fortran
+```
+
+### 2) Export the build environment
+
+```bash
+export RMPI_TYPE=MPICH
+export RMPI_INCLUDE=/opt/local/include/mpich-mp
+export RMPI_LIB_PATH=/opt/local/lib/mpich-mp
+export RMPI_LIBS="-L/opt/local/lib/mpich-mp -lmpi"
+export CC=mpicc
+export CXX=mpicxx
+```
+
+### 3) Build and install
+
+```bash
+cd /Users/jracine/Development
+R CMD build np-npRmpi
+R CMD INSTALL npRmpi_0.70-1.tar.gz
+```
+
+### 4) First runtime test
+
+Start with the session quickstart, not with `mpiexec`.
+
+```r
+library(npRmpi)
+npRmpi.init(mode = "spawn", nslaves = 1)
+on.exit(npRmpi.quit(), add = TRUE)
+options(npRmpi.autodispatch = TRUE, np.messages = FALSE)
+
+set.seed(1)
+x <- runif(200)
+y <- sin(2 * pi * x) + rnorm(200, sd = 0.2)
+dat <- data.frame(y, x)
+
+bw <- npregbw(y ~ x, regtype = "ll", bwmethod = "cv.ls", data = dat)
+fit <- npreg(bws = bw, data = dat)
+summary(fit)
+```
+
+## Linux: current practical guidance
+
+The package docs do not yet ship one distro-specific Linux recipe, so the right mindset is:
+
+1. install a working MPI implementation and development headers,
+2. make sure `mpicc` and `mpicxx` are available,
+3. point `RMPI_INCLUDE`, `RMPI_LIB_PATH`, and `RMPI_LIBS` at the matching headers and libraries if needed,
+4. validate `session` mode before trying `attach` or `profile`.
+
+A generic environment skeleton looks like this:
+
+```bash
+export RMPI_TYPE=MPICH
+export RMPI_INCLUDE=/path/to/mpi/include
+export RMPI_LIB_PATH=/path/to/mpi/lib
+export RMPI_LIBS="-L/path/to/mpi/lib -lmpi"
+export CC=mpicc
+export CXX=mpicxx
+```
+
+The exact paths depend on the local MPI installation, so treat this as a pattern rather than as a finished copy-and-paste recipe.
+
+## Windows: current practical guidance
+
+On Windows, the safest approach is conservative:
+
+1. check the current CRAN pages for `npRmpi` and `Rmpi`,
+2. install the available package build,
+3. confirm that `library(npRmpi)` loads cleanly,
+4. start with `attach` mode under `mpiexec`,
+5. only then move on to `profile` if you need explicit broadcast control.
+
+The key point is that the current package source does not treat `spawn` as the Windows entry path. The supported first move is `attach`.
+
+A minimal script body looks like this:
+
+```r
+library(npRmpi)
+npRmpi.init(mode = "attach", comm = 1, autodispatch = TRUE)
+options(np.messages = FALSE)
+
+if (mpi.comm.rank(0L) == 0L) {
+  set.seed(1)
+  x <- runif(200)
+  y <- sin(2 * pi * x) + rnorm(200, sd = 0.2)
+  dat <- data.frame(y, x)
+
+  bw <- npregbw(y ~ x, regtype = "ll", bwmethod = "cv.ls", data = dat)
+  fit <- npreg(bws = bw, data = dat)
+  summary(fit)
+
+  npRmpi.quit(mode = "attach", comm = 1)
+}
+```
+
+Launch with a pre-created MPI world and cleared profile environment:
+
+```bash
+mpiexec -env R_PROFILE_USER "" -env R_PROFILE "" -n 2 Rscript --no-save foo.R
+```
+
+## Launch patterns you actually need
+
+### `session` / `spawn`
+
+Use this when you are in an ordinary R session and want `npRmpi` to create workers for you.
+
+```r
+library(npRmpi)
+npRmpi.init(mode = "spawn", nslaves = 1, autodispatch = TRUE, np.messages = FALSE)
+
+# ordinary np-style code goes here
+
+npRmpi.quit()
+```
+
+Important note:
+
+- `.Rprofile` bootstrap files are not required for the supported `npRmpi.init()` workflow in `session` mode.
+
+### `attach`
+
+Use this when MPI world is already present.
+
+Launch pattern:
+
+```bash
+mpiexec -env R_PROFILE_USER "" -env R_PROFILE "" -n 2 Rscript --no-save foo.R
+```
+
+Inside `foo.R`:
+
+```r
+library(npRmpi)
+npRmpi.init(mode = "attach", autodispatch = TRUE, np.messages = FALSE)
+
+# ordinary np-style code goes here
+
+npRmpi.quit(mode = "attach")
+```
+
+Important notes:
+
+- clear `R_PROFILE_USER`,
+- clear `R_PROFILE`,
+- do not layer a profile bootstrap on top of `attach`,
+- if you want `mpiexec` plus explicit profile startup, that is no longer `attach`; that is `profile`.
+
+### `profile` / manual-broadcast
+
+Use this when you want explicit startup and explicit broadcast logic, especially on larger or heterogeneous clusters.
+
+Get the package startup profile:
+
+```bash
+RPROFILE=$(Rscript --no-save -e 'cat(system.file("Rprofile", package="npRmpi"))')
+```
+
+Small quickstart launch:
+
+```bash
+mpiexec -env R_PROFILE_USER "$RPROFILE" -env R_PROFILE "" -n 2 \
+  Rscript --no-save foo.R
+```
+
+Canonical demo-harness launch:
+
+```bash
+mpiexec -env R_PROFILE_USER "$RPROFILE" -env R_PROFILE "" \
+  -env NP_RMPI_PROFILE_RECV_TIMEOUT_SEC 180 -n 2 \
+  R CMD BATCH --no-save foo.R
+```
+
+Important rules:
+
+- provide exactly one profile source,
+- set `R_PROFILE_USER` to the intended profile file,
+- clear `R_PROFILE`,
+- do not use `--vanilla` for profile mode,
+- do not attach package `Rmpi` inside a profile-mode script body.
+
+## Heterogeneous clusters
+
+For heterogeneous clusters, `profile` is usually the cleanest first choice because:
+
+- startup is explicit,
+- worker initialization is explicit,
+- broadcast steps are explicit,
+- you are not depending on implicit attachment behavior.
+
+Practical advice:
+
+1. use an explicit absolute `R_PROFILE_USER` path,
+2. start with a tiny smoke,
+3. only add `FI_*` overrides if the local MPI or network stack truly needs them,
+4. scale workers and sample size only after the tiny run is clean.
+
+## Tiny demo-harness smokes
+
+These are the documented small checks in the package demo tree.
+
+### Serial
+
+```bash
+cd /Users/jracine/Development/np-npRmpi/demo/serial
+make -f ../makefile MODE=serial NP_DEMO_N=100
+```
+
+### Attach
+
+```bash
+mkdir -p /Users/jracine/Development/np-npRmpi/demo/n_2_attach
+cd /Users/jracine/Development/np-npRmpi/demo/n_2_attach
+make -f ../makefile MODE=attach NP=2 NP_DEMO_N=100
+```
+
+### Profile
+
+```bash
+mkdir -p /Users/jracine/Development/np-npRmpi/demo/n_2_profile
+cd /Users/jracine/Development/np-npRmpi/demo/n_2_profile
+make -f ../makefile MODE=profile NP=2 NP_DEMO_N=100
+```
+
+That is a much safer starting point than running the full demo matrix immediately.
+
+## `mode = "auto"`
+
+The package also supports:
+
+```r
+npRmpi.init(mode = "auto")
+```
+
+Current package docs describe `mode = "auto"` this way:
+
+- if `mpi.comm.size(0) > 1`, choose `attach`,
+- otherwise choose `spawn`.
+
+That can be convenient in user scripts, but for teaching and troubleshooting it is usually better to be explicit about whether you want `session` / `spawn` or `attach`.
+
+## Common failure signatures
+
+### `Error: npRmpi auto-dispatch requires an active MPI slave pool; call npRmpi.init(...) first`
+
+You are trying to use autodispatch without an active MPI session.
+
+In practice this means:
+
+- call `npRmpi.init(...)` before the first estimator call,
+- use `session` / `spawn` for interactive work,
+- use `attach` only when the MPI world already exists.
+
+### `Error: could not find function "mpi.bcast.cmd"`
+
+You are trying to run a profile/manual-broadcast script without the intended startup profile.
+
+Check the launch first:
+
+1. does `R_PROFILE_USER` point to the profile you intended?
+2. is `R_PROFILE` cleared?
+3. are you avoiding `--vanilla`?
+4. are you sure this is a `profile` script and not an `attach` script?
+
+### Attach or profile appears hung
+
+Do the simple things first.
+
+1. reduce the job to a tiny smoke,
+2. try `NP=2` before larger worker counts,
+3. confirm that the launch command matches the right mode contract,
+4. only then start experimenting with host-specific `FI_*` overrides.
+
+## Canonical source material for this page
+
+The package markdown files remain the canonical low-level source material:
+
+- [`README.md` in the `npRmpi` branch](https://github.com/JeffreyRacine/R-Package-np/blob/npRmpi/README.md)
+- [`inst/MPI_SETUP.md`](https://github.com/JeffreyRacine/R-Package-np/blob/npRmpi/inst/MPI_SETUP.md)
+- [`inst/RUN_DEMO.md`](https://github.com/JeffreyRacine/R-Package-np/blob/npRmpi/inst/RUN_DEMO.md)
+- [`demo/RUN.md`](https://github.com/JeffreyRacine/R-Package-np/blob/npRmpi/demo/RUN.md)
+- [`BUILD.md`](https://github.com/JeffreyRacine/R-Package-np/blob/npRmpi/BUILD.md)
+- [`BUILD_MPICH.md`](https://github.com/JeffreyRacine/R-Package-np/blob/npRmpi/BUILD_MPICH.md)

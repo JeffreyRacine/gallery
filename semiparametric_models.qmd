@@ -1,0 +1,151 @@
+---
+title: "Semiparametric Models"
+description: "Practical route to partially linear, single-index, and varying-coefficient models in np."
+keywords:
+  - npplreg
+  - npindex
+  - npscoef
+  - semiparametric models
+  - partially linear
+  - single index
+---
+
+The `np` package is not limited to fully nonparametric regression and density estimation. It also includes a useful set of semiparametric models that are often a good compromise when a fully parametric model feels too restrictive but a fully nonparametric model feels too expensive or too unconstrained.
+
+This page highlights three important families:
+
+- partially linear models via `npplreg`,
+- single-index models via `npindex`,
+- varying coefficient models via `npscoef`.
+
+If you want a minimal downloadable script for the semiparametric route, start with [np_semiparametric_quickstart.R](www/np_npRmpi/np_semiparametric_quickstart.R).
+
+## Why use a semiparametric model?
+
+A semiparametric model is often attractive when:
+
+- you want some structure for interpretability,
+- one part of the relationship is clearly nonlinear,
+- a full nonparametric model is more flexible than you need,
+- or the computational burden of the full model is too high for the problem at hand.
+
+## Partially linear models: `npplreg`
+
+The partially linear model is useful when some regressors can reasonably enter linearly while another part of the relationship is left nonparametric.
+
+In the old `wage1` example, the idea was to treat some regressors parametrically while allowing experience to enter nonparametrically.
+
+```r
+library(np)
+data(wage1, package = "np")
+
+model_pl <- npplreg(
+  lwage ~ female + married + educ + tenure | exper,
+  data = wage1
+)
+
+summary(model_pl)
+```
+
+### Practical warning
+
+Bandwidth selection for partially linear models can be much more expensive than users expect. The model looks simpler than a fully nonparametric regression, but the bandwidth selection problem can be substantially more burdensome because several cross-validated regressions are involved under the hood.
+
+So the practical rule is: do not assume that “partially linear” means “cheap”.
+
+## Single-index models: `npindex`
+
+Single-index models reduce the dimension of the problem by letting the response depend on a low-dimensional index rather than on the regressors directly.
+
+Two important routes are available in `np`:
+
+- Klein-Spady style models for binary outcomes,
+- Ichimura style models for continuous outcomes.
+
+### Binary outcomes
+
+```r
+library(np)
+data(birthwt, package = "MASS")
+
+birthwt$low <- factor(birthwt$low)
+birthwt$smoke <- factor(birthwt$smoke)
+birthwt$race <- factor(birthwt$race)
+birthwt$ht <- factor(birthwt$ht)
+birthwt$ui <- factor(birthwt$ui)
+birthwt$ftv <- factor(birthwt$ftv)
+
+model_index_binary <- npindex(
+  low ~ smoke + race + ht + ui + ftv + age + lwt,
+  method = "kleinspady",
+  gradients = TRUE,
+  data = birthwt
+)
+
+summary(model_index_binary)
+```
+
+### Continuous outcomes
+
+```r
+library(np)
+data(wage1, package = "np")
+
+model_index_continuous <- npindex(
+  lwage ~ female + married + educ + exper + tenure,
+  data = wage1,
+  nmulti = 1
+)
+
+summary(model_index_continuous)
+```
+
+The single-index route can be appealing when you want more flexibility than a parametric model but less curse-of-dimensionality pressure than a fully nonparametric multivariate fit.
+
+## Varying coefficient models: `npscoef`
+
+A varying coefficient model lets the effective coefficients change with another variable. This is useful when you believe the regression effect itself varies systematically across a conditioning variable.
+
+In the old `wage1` illustration, coefficients were allowed to vary with sex.
+
+```r
+library(np)
+data(wage1, package = "np")
+
+wage1_augmented <- wage1
+wage1_augmented$dfemale <- as.integer(wage1$female == "Male")
+wage1_augmented$dmarried <- as.integer(wage1$married == "Notmarried")
+
+model_scoef <- npscoef(
+  lwage ~ dfemale + dmarried + educ + exper + tenure | female,
+  betas = TRUE,
+  data = wage1_augmented
+)
+
+summary(model_scoef)
+```
+
+One practical detail from the older vignette still matters: the `X` variables in the varying-coefficient part need to be numeric, so creating explicit `0/1` versions of factors can be appropriate there.
+
+## How should I choose among these?
+
+| If you want... | Start with |
+|---|---|
+| A mostly linear model with one clearly nonlinear part | `npplreg` |
+| Dimension reduction through an unknown index | `npindex` |
+| Coefficients that vary with another variable | `npscoef` |
+| Maximum flexibility with fewer structural assumptions | `npreg` |
+
+## Practical advice
+
+- Start with a smaller version of the problem first.
+- Be explicit about bandwidth selection when the run is expensive.
+- Inspect summaries carefully.
+- Compare in-sample fit and, where possible, hold-out predictive performance.
+
+## What to read next
+
+- [Kernel Primer](kernel_primer.qmd)
+- [Kernel Methods](np_npRmpi.qmd)
+- [Entropy and Testing](entropy_tests.qmd)
+- [MPI and Large Data](mpi_large_data.qmd) if the semiparametric workflow becomes computationally burdensome

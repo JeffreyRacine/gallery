@@ -1,39 +1,100 @@
 ---
-title: np/npRmpi
+title: "Kernel Methods"
+description: "Practical entry page for np workflows, with a clear route to npRmpi when jobs become large or slow."
+keywords:
+  - np
+  - npreg
+  - npregbw
+  - kernel regression
+  - npRmpi
+  - bandwidth selection
 ---
 
-## Demos for functions in np/npRmpi
+```{r}
+#| include: false
+source("site_helpers.R", local = knitr::knit_global())
+```
 
-The following examples are a few of the demos included with the npRmpi package. These all use simulated data and were written to demonstrate how one modifies calls to functions in the np package in order to run them in parallel using the npRmpi package. The files \*\_serial.R are the standard (i.e. single core) versions that are run with the np package. The files \*\_npRmpi.R are the parallel versions (i.e. multi core) that are run with the npRmpi package. Note that you must install the np package (and optionally npRmpi) in order to run these examples, and you need a functioning MPI implementation in order to run the latter (see my website for further information about installing the npRmpi package). 
+This page is the practical starting point for kernel-based work. In most cases the right place to begin is `np`, then move to `npRmpi` only when the same workflow becomes too slow or too large in serial.
 
-Note that in the following examples a) there is timing information used for comparison purposes, and b) these are meant to tax a serial (single core) machine thereby demonstrating the benefits from running in parallel, so expect lengthy run-times with the serial version (i.e. up to a few minutes depending on the speed of your machine).
+If you want a shorter conceptual introduction before diving into examples, start with [Kernel Primer](kernel_primer.qmd).
 
-1.  Least-squares cross-validated conditional density estimation ([npcdensls_serial.R](www/np_npRmpi/npcdensls_serial.R "np_npRmpi_files/npcdensls_serial.R"), [npcdensls_npRmpi.R](www/np_npRmpi/npcdensls_npRmpi.R "np_npRmpi_files/npcdensls_npRmpi.R"))
+If your interest is specifically in entropy-based testing procedures, go to [Entropy and Testing](entropy_tests.qmd).
 
-2.  Consistent parametric model specification testing ([npcmstest_serial.R](www/np_npRmpi/npcmstest_serial.R "np_npRmpi_files/npcmstest_serial.R"), [npcmstest_npRmpi.R](www/np_npRmpi/npcmstest_npRmpi.R "np_npRmpi_files/npcmstest_npRmpi.R"))
+If your focus is partially linear, single-index, or varying-coefficient methods, go to [Semiparametric Models](semiparametric_models.qmd).
 
-3.  Conditional mode estimation ([npconmode_serial.R, ](www/np_npRmpi/npconmode_serial.R "np_npRmpi_files/npconmode_serial.R")[npconmode_npRmpi.R](www/np_npRmpi/npconmode_npRmpi.R "np_npRmpi_files/npconmode_npRmpi.R"))
+If you want density, distribution, or quantile workflows rather than regression, go to [Density, Distribution, Quantiles](density_distribution_quantiles.qmd).
 
-4.  Density equality test ([npdeneqtest_serial.R](www/np_npRmpi/npdeneqtest_serial.R "np_npRmpi_files/npdeneqtest_serial.R"), [npdeneqtest_npRmpi.R](www/np_npRmpi/npdeneqtest_npRmpi.R "np_npRmpi_files/npdeneqtest_npRmpi.R"))
+If you want nonparametric classification or conditional mode workflows, go to [Classification and Modes](classification_modes.qmd).
 
-5.  Semiparametric single index model estimation ([npindexich_serial.R](www/np_npRmpi/npindexich_serial.R "np_npRmpi_files/npindexich_serial.R"), [npindexich_npRmpi.R](www/np_npRmpi/npindexich_npRmpi.R "np_npRmpi_files/npindexich_npRmpi.R"))
+If you want to build custom kernel objects or estimators, go to [Build With npksum](npksum_custom.qmd).
 
-6.  Semiparametric partially linear regression ([npplreg_serial.R](www/np_npRmpi/npplreg_serial.R "np_npRmpi_files/npplreg_serial.R"), [npplreg_npRmpi.R](www/np_npRmpi/npplreg_npRmpi.R "np_npRmpi_files/npplreg_npRmpi.R"))
+If you want a focused guide to `plot()`, gradients, intervals, and predictions, go to [Plotting and Intervals](plotting_and_intervals.qmd).
 
-7.  Local linear regression with AIC bandwidth selection ([npregllaic_serial.R](www/np_npRmpi/npregllaic_serial.R "np_npRmpi_files/npregllaic_serial.R"), [npregllaic_npRmpi.R](www/np_npRmpi/npregllaic_npRmpi.R "np_npRmpi_files/npregllaic_npRmpi.R"))
+If your focus is testing whether variables matter or whether a parametric model is misspecified, go to [Significance and Specification](significance_and_specification.qmd).
 
-8.  Test for nonlinear serial dependence ([npsdeptest_serial.R](www/np_npRmpi/npsdeptest_serial.R "np_npRmpi_files/npsdeptest_serial.R"), [npsdeptest_npRmpi.R](www/np_npRmpi/npsdeptest_npRmpi.R "np_npRmpi_files/npsdeptest_npRmpi.R"))
+## Fast routes
 
-9.  Nonparametric significance test ([npsigtest_serial.R](www/np_npRmpi/npsigtest_serial.R "np_npRmpi_files/npsigtest_serial.R"), [npsigtest_npRmpi.R](www/np_npRmpi/npsigtest_npRmpi.R "np_npRmpi_files/npsigtest_npRmpi.R"))
+| If you want to... | Start here | Small runnable script |
+|---|---|---|
+| fit a first kernel regression | [Kernel Primer](kernel_primer.qmd) | [np_regression_quickstart.R](www/np_npRmpi/np_regression_quickstart.R) |
+| work with densities, distributions, or quantiles | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) | [Quickstarts](quickstarts.qmd) |
+| work with classification or conditional mode | [Classification and Modes](classification_modes.qmd) | [np_classification_quickstart.R](www/np_npRmpi/np_classification_quickstart.R) |
+| work with partially linear, single-index, or varying-coefficient models | [Semiparametric Models](semiparametric_models.qmd) | [np_semiparametric_quickstart.R](www/np_npRmpi/np_semiparametric_quickstart.R) |
+| stay serial for now but look at richer scripts | [Code Catalog](code_catalog.qmd) | [Worked Examples](regression.qmd) |
+| run the same style of workflow with MPI | [MPI and Large Data](mpi_large_data.qmd) | [nprmpi_session_quickstart.R](www/np_npRmpi/nprmpi_session_quickstart.R) |
 
-10. Unconditional density estimation via likelihood cross-validation ([npudensml_serial.R](www/np_npRmpi/npudensml_serial.R "np_npRmpi_files/npudensml_serial.R"), [npudensml_npRmpi.R](www/np_npRmpi/npudensml_npRmpi.R "np_npRmpi_files/npudensml_npRmpi.R"))
+## A very small `np` workflow
 
-11. Constrained local polynomial estimation ([lp_k1_prodfunc.R](www/np_npRmpi/lp_k1_prodfunc.R "np_npRmpi_files/lp_k1_prodfunc.R"), [lp_k1.R](www/np_npRmpi/lp_k1.R "np_npRmpi_files/lp_k1.R"), [lp_radial_mean.R](www/np_npRmpi/lp_radial_mean.R "np_npRmpi_files/lp_radial_mean.R"), [lp_radial_deriv.R](www/np_npRmpi/lp_radial_deriv.R "np_npRmpi_files/lp_radial_deriv.R"))
+The code below is pulled from the current starter script.
 
-Here is a link to the vignette for the np package ([np vignette](https://cran.r-project.org/web/packages/np/vignettes/np.pdf "https://cran.r-project.org/web/packages/np/vignettes/np.pdf")), and here are some references that you may find useful:
+Source file: [np_regression_quickstart.R](www/np_npRmpi/np_regression_quickstart.R)
 
-1.  Hayfield, T. and J.S. Racine (2008), "Nonparametric Econometrics: The np Package, Journal of Statistical Software, Volume 27, Number 5, 1-32.
+```{r}
+#| echo: false
+#| results: asis
+emit_source("www/np_npRmpi/np_regression_quickstart.R")
+```
 
-2.  Harrison, T.D (2008), "Review of np Software for R," Journal of Applied Econometrics, Volume 23, 861-865.
+If you want density, distribution, conditional-density, conditional-distribution, or quantile starters instead, use [Quickstarts](quickstarts.qmd).
 
-3.  Ho, A.T. and K.P. Huynh and D.T. Jacho-Chavez (2011), "npRmpi: A Package for Parallel Distributed Kernel Estimation in R," Journal of Applied Econometrics, Volume 26, 344-349.
+## A multivariate route
+
+When you move beyond the single-regressor case, the next useful stop is usually [Multivariate Regression and Prediction](multivariate_regression.qmd).
+
+## When to move to `npRmpi`
+
+Move to `npRmpi` when the model you want is essentially the same, but bandwidth selection, bootstrap work, or repeated estimation becomes expensive enough that MPI is worthwhile. On platforms where spawning is supported, the current package offers a `session` mode in which the estimator calls retain the ordinary `np` style once MPI has been initialized.
+
+See [MPI and Large Data](mpi_large_data.qmd) for the updated route, starting with [nprmpi_session_quickstart.R](www/np_npRmpi/nprmpi_session_quickstart.R) on platforms where spawning is supported.
+
+## Longer examples
+
+The following scripts remain useful and are grouped here by task.
+
+- Local constant and local linear regression: [regression_intro_a.R](www/Regression/regression_intro_a.R)
+- Derivative estimation: [regression_intro_b.R](www/Regression/regression_intro_b.R)
+- Plotting fitted objects and intervals: [regression_intro_c.R](www/Regression/regression_intro_c.R)
+- Multivariate regression: [regression_multivar_a.R](www/Regression/regression_multivar_a.R)
+- Infinite-order local polynomial comparison: [demo_poly.R](www/Regression/demo_poly.R)
+
+## Existing serial versus MPI script pairs
+
+These are useful if you want to compare the older serial and MPI example scripts side by side, especially when you want route parity or a historical point of reference.
+
+- Conditional density estimation: [npcdensls_serial.R](www/np_npRmpi/npcdensls_serial.R), [npcdensls_npRmpi.R](www/np_npRmpi/npcdensls_npRmpi.R)
+- Model specification testing: [npcmstest_serial.R](www/np_npRmpi/npcmstest_serial.R), [npcmstest_npRmpi.R](www/np_npRmpi/npcmstest_npRmpi.R)
+- Conditional mode estimation: [npconmode_serial.R](www/np_npRmpi/npconmode_serial.R), [npconmode_npRmpi.R](www/np_npRmpi/npconmode_npRmpi.R)
+- Density equality testing: [npdeneqtest_serial.R](www/np_npRmpi/npdeneqtest_serial.R), [npdeneqtest_npRmpi.R](www/np_npRmpi/npdeneqtest_npRmpi.R)
+- Single index estimation: [npindexich_serial.R](www/np_npRmpi/npindexich_serial.R), [npindexich_npRmpi.R](www/np_npRmpi/npindexich_npRmpi.R)
+- Partially linear regression: [npplreg_serial.R](www/np_npRmpi/npplreg_serial.R), [npplreg_npRmpi.R](www/np_npRmpi/npplreg_npRmpi.R)
+- Local linear regression with AIC bandwidth selection: [npregllaic_serial.R](www/np_npRmpi/npregllaic_serial.R), [npregllaic_npRmpi.R](www/np_npRmpi/npregllaic_npRmpi.R)
+- Serial dependence testing: [npsdeptest_serial.R](www/np_npRmpi/npsdeptest_serial.R), [npsdeptest_npRmpi.R](www/np_npRmpi/npsdeptest_npRmpi.R)
+- Significance testing: [npsigtest_serial.R](www/np_npRmpi/npsigtest_serial.R), [npsigtest_npRmpi.R](www/np_npRmpi/npsigtest_npRmpi.R)
+- Unconditional density estimation: [npudensml_serial.R](www/np_npRmpi/npudensml_serial.R), [npudensml_npRmpi.R](www/np_npRmpi/npudensml_npRmpi.R)
+
+## Papers
+
+- Hayfield, T. and J.S. Racine (2008), "Nonparametric Econometrics: The np Package," *Journal of Statistical Software*, 27(5), 1-32.
+- Harrison, T.D. (2008), "Review of np Software for R," *Journal of Applied Econometrics*, 23, 861-865.
+- Ho, A.T., K.P. Huynh, and D.T. Jacho-Chavez (2011), "npRmpi: A Package for Parallel Distributed Kernel Estimation in R," *Journal of Applied Econometrics*, 26, 344-349.

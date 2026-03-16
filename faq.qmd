@@ -1,0 +1,271 @@
+---
+title: "FAQ and Troubleshooting"
+description: "Short practical answers and routing for common np, npRmpi, and crs questions."
+keywords:
+  - FAQ
+  - troubleshooting
+  - np
+  - npRmpi
+  - crs
+  - install
+  - factor
+  - MPI
+---
+
+This page keeps the useful question-and-answer material and drops the old habit of duplicating changelog text inside the FAQ.
+
+Two support pages now carry the more detailed practical guidance:
+
+- [Data Preparation and Variable Types](data_preparation.qmd)
+- [Runtime, Memory, and Scaling](runtime_and_scaling.qmd)
+
+## Fast routes
+
+| If you need... | Start here |
+|---|---|
+| the smallest runnable scripts | [Quickstarts](quickstarts.qmd) |
+| density, conditional-density, distribution, or quantile examples | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
+| classification or conditional-mode examples | [Classification and Modes](classification_modes.qmd) |
+| plotting, predictions, or interval examples | [Plotting and Intervals](plotting_and_intervals.qmd) |
+| `npRmpi` install and launch guidance | [MPI and Large Data](mpi_large_data.qmd) |
+| factors, ordered variables, and formula traps | [Data Preparation and Variable Types](data_preparation.qmd) |
+| runtime, memory, and scaling advice | [Runtime, Memory, and Scaling](runtime_and_scaling.qmd) |
+| function-name lookup | [Reference and Function Lookup](function_index.qmd) |
+
+## Which package should I start with?
+
+Start with `np` unless you already know that you need MPI or spline methods.
+
+- Use `np` for core kernel regression, density, distribution, and testing on one machine.
+- Use `npRmpi` when the same workflow becomes large or slow enough that MPI is warranted.
+- Use `crs` when regression splines or spline-specific constraints are the natural tool.
+
+The short chooser lives on [Choose a Package](primer.qmd).
+
+## I am new to R. Where should I begin?
+
+Begin with [Install and Get Started](R_RStudio.qmd). Then run one small example from [Quickstarts](quickstarts.qmd) before worrying about the longer scripts.
+
+Good general resources are:
+
+- [R project website](https://www.r-project.org/)
+- [R manuals on CRAN](https://cran.r-project.org/manuals.html)
+- [CRAN task views](https://cran.r-project.org/web/views/)
+
+## How do I keep my installed packages current?
+
+This remains a sensible command:
+
+```r
+update.packages(checkBuilt = TRUE, ask = FALSE)
+```
+
+## Where is the gentlest introduction to the packages?
+
+Use the package vignettes and then the gallery pages.
+
+```r
+vignette("np", package = "np")
+vignette("entropy_np", package = "np")
+vignette("crs", package = "crs")
+vignette("spline_primer", package = "crs")
+```
+
+For a shorter web route, start with:
+
+- [Quickstarts](quickstarts.qmd)
+- [Kernel Methods](np_npRmpi.qmd)
+- [Density, Distribution, Quantiles](density_distribution_quantiles.qmd)
+- [Splines](crs.qmd)
+- [Worked Examples](regression.qmd)
+
+## How do I find functions, examples, and demos quickly?
+
+For package help:
+
+```r
+library(help = "np")
+library(help = "crs")
+?npreg
+?crs
+```
+
+For runnable examples:
+
+```r
+example(npreg)
+example(crs)
+demo(package = "crs")
+```
+
+For website-first routing:
+
+- [Quickstarts](quickstarts.qmd)
+- [Code Catalog](code_catalog.qmd)
+- [Density, Distribution, Quantiles](density_distribution_quantiles.qmd)
+- [Worked Examples](regression.qmd)
+- [Interactive Demos](interactive.qmd)
+
+## Where do I find runnable examples?
+
+- For `np`, start with [Quickstarts](quickstarts.qmd), then move to [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) or [Worked Examples](regression.qmd) depending on the task.
+- For `npRmpi`, start with [Quickstarts](quickstarts.qmd) and then [MPI and Large Data](mpi_large_data.qmd).
+- For `crs`, use `demo(package = "crs")` and the scripts on [Splines](crs.qmd).
+- For interactive teaching examples, use [Interactive Demos](interactive.qmd).
+
+## How should I prepare mixed data?
+
+The class of each variable matters. Continuous variables can remain numeric, but unordered categorical variables should be `factor`s and ordered categorical variables should be `ordered` factors when that distinction is meaningful.
+
+```r
+mydat <- data.frame(
+  y = rnorm(200),
+  x_cont = runif(200),
+  x_unordered = factor(sample(c("a", "b", "c"), 200, replace = TRUE)),
+  x_ordered = ordered(sample(1:4, 200, replace = TRUE))
+)
+```
+
+This is not just bookkeeping. In `np`, the variable class affects the weighting rule used by the estimator.
+
+For a more deliberate checklist, see [Data Preparation and Variable Types](data_preparation.qmd).
+
+## Does formula syntax imply a linear-additive model?
+
+No. In `np`, a formula such as
+
+```r
+y ~ x1 + x2 + x3
+```
+
+simply tells the function which variable is the response and which are the covariates. It does not mean that you are fitting an ordinary linear-additive model. The formula interface is a convenient way to specify the variables, not a commitment to parametric structure.
+
+## Why should I create an explicit bandwidth object?
+
+Because in `np` the bandwidth object is often the key object in the workflow.
+
+```r
+bw <- npregbw(y ~ x1 + x2, data = mydat)
+summary(bw)
+fit <- npreg(bws = bw)
+```
+
+Working explicitly this way makes it easier to inspect the chosen bandwidths, reuse them, and avoid unnecessary recomputation.
+
+For the broader runtime side of this issue, see [Runtime, Memory, and Scaling](runtime_and_scaling.qmd).
+
+## Where do I find the changelog?
+
+The FAQ should not duplicate changelog text.
+
+Use the package page on CRAN and the package repo `NEWS.md` / release notes instead. The point is to keep one canonical record of changes rather than two or three drifting copies.
+
+## Some older examples use `attach()`. Should I?
+
+Older scripts and vignettes sometimes use `attach()` because that was a common style at the time. For modern work, it is usually better to avoid `attach()` and instead use:
+
+- explicit `data =` arguments,
+- explicit data-frame references such as `mydat$x`,
+- or a short preprocessing step that creates a clean data frame.
+
+That keeps variable scope clearer and reduces accidental name collisions.
+
+## Why can bandwidth selection take a while?
+
+Because many of these methods are doing real search and resampling work rather than evaluating a closed-form formula once.
+
+Practical advice:
+
+1. start with a small example,
+2. confirm the workflow in serial first,
+3. move to `npRmpi` only when the serial workflow is the right one but too slow for the job at hand.
+
+The fuller version of that advice now lives on [Runtime, Memory, and Scaling](runtime_and_scaling.qmd).
+
+## I have data from Stata, SAS, SPSS, or elsewhere. Can I still use these packages?
+
+Yes. The important point is not the original file format but the data frame you hand to the modeling function once the data are in R. After import, make sure the variable classes are correct before fitting models, especially for factors and ordered factors.
+
+## How do I cite the packages?
+
+Use `citation()` from inside R and see [Books, Papers, and Citation](books_papers.qmd) for the package papers and books.
+
+```r
+citation("np")
+citation("npRmpi")
+citation("crs")
+```
+
+## I am using `npRmpi` and see `npRmpi auto-dispatch requires an active MPI slave pool`
+
+That means there is no active MPI session.
+
+- For interactive work, call `npRmpi.init(mode = "spawn", ...)` first.
+- For `mpiexec` jobs, initialize with `npRmpi.init(mode = "attach", ...)` near the top of the script.
+
+On current package sources, Windows belongs in the second branch rather than the first.
+
+The detailed route is on [MPI and Large Data](mpi_large_data.qmd).
+
+## I am using `npRmpi` and see `could not find function "mpi.bcast.cmd"`
+
+This usually means a manual-broadcast/profile script started without the required profile startup.
+
+Check the following:
+
+1. `R_PROFILE_USER` points to the intended profile file,
+2. `R_PROFILE` is cleared,
+3. the command is not using `R CMD BATCH --vanilla`,
+4. the effective launch command really includes `-env R_PROFILE_USER <path>`.
+
+## I need examples for `npRmpi` on larger or more complex systems
+
+Use [MPI and Large Data](mpi_large_data.qmd). That page now treats:
+
+- `session` / `spawn` as the default instructional path,
+- `attach` as the normal `mpiexec` autodispatch route,
+- `profile` / manual-broadcast as the advanced route, and often the right one for heterogeneous clusters.
+
+## Where should I look next?
+
+- [Data Preparation and Variable Types](data_preparation.qmd)
+- [Runtime, Memory, and Scaling](runtime_and_scaling.qmd)
+- [MPI and Large Data](mpi_large_data.qmd)
+- [Reference and Function Lookup](function_index.qmd)
+
+## Can `crs` recover something as simple as linear regression?
+
+Yes. Spline methods include simpler structures as special cases when the basis is restricted appropriately. A short illustration now appears on [Splines](crs.qmd).
+
+## I am using `crs` and the search is slow or memory hungry
+
+That usually means the search space is simply large, not that the fit is broken.
+
+The first levers to inspect are:
+
+- `cv.df.min`
+- `degree.max`
+- `segments.max`
+- `basis`
+- `complexity`
+- optimizer display options such as `opts = list("DISPLAY_DEGREE" = 3)`
+
+The practical route now lives on [Spline Search and Tuning](spline_search_and_tuning.qmd), with the broader ecosystem version on [Runtime, Memory, and Scaling](runtime_and_scaling.qmd).
+
+## I want a smoother spline, fixed degree, or the selected knots
+
+Those are all legitimate practical questions, and they are better handled directly than by pretending the cross-validated answer should have been different.
+
+See [Spline Search and Tuning](spline_search_and_tuning.qmd) for:
+
+- imposing a minimum spline degree,
+- holding degree fixed and searching over knots,
+- retrieving knot locations from the fitted model,
+- and the linear-regression special case.
+
+## Legacy FAQ PDFs
+
+The old FAQs still contain useful material, but they also contain obsolete changelog duplication and older presentation choices.
+
+- Legacy `np` FAQ on CRAN: [np_faq.pdf](https://cran.r-project.org/web/packages/np/vignettes/np_faq.pdf)
+- Legacy `crs` FAQ on CRAN: [crs_faq.pdf](https://cran.r-project.org/web/packages/crs/vignettes/crs_faq.pdf)

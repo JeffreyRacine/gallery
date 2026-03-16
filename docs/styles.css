@@ -1,1 +1,124 @@
-/* css styles */
+:root {
+  --gallery-paper: #fcfaf5;
+  --gallery-paper-soft: #f3efe5;
+  --gallery-card: #fffdf8;
+  --gallery-ink: #18343f;
+  --gallery-muted: #5f7077;
+  --gallery-accent: #0f6b6f;
+  --gallery-accent-strong: #144e58;
+  --gallery-border: #d7ddd4;
+  --gallery-shadow: 0 16px 40px rgba(24, 52, 63, 0.08);
+}
+
+body {
+  background: linear-gradient(180deg, #fdfbf7 0%, #f5f1e8 100%);
+  color: var(--gallery-ink);
+  font-family: "Source Sans 3", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.7;
+}
+
+h1,
+h2,
+h3,
+h4,
+.navbar-title,
+.sidebar-title {
+  color: var(--gallery-ink);
+  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  letter-spacing: 0.01em;
+}
+
+a {
+  color: var(--gallery-accent-strong);
+}
+
+a:hover,
+a:focus {
+  color: var(--gallery-accent);
+}
+
+.navbar {
+  background: rgba(252, 250, 245, 0.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--gallery-border);
+}
+
+#quarto-sidebar {
+  background: rgba(255, 253, 248, 0.92);
+  border-right: 1px solid var(--gallery-border);
+}
+
+.hero-image {
+  border: 1px solid var(--gallery-border);
+  border-radius: 1rem;
+  box-shadow: var(--gallery-shadow);
+}
+
+.home-card {
+  height: 100%;
+  padding: 1.2rem 1.25rem;
+  background: var(--gallery-card);
+  border: 1px solid var(--gallery-border);
+  border-radius: 1rem;
+  box-shadow: var(--gallery-shadow);
+}
+
+.home-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.home-card p {
+  margin-bottom: 0;
+}
+
+.quick-note {
+  margin: 1.5rem 0;
+  padding: 1rem 1.15rem;
+  background: #e8f3ef;
+  border-left: 4px solid var(--gallery-accent);
+  border-radius: 0.85rem;
+}
+
+table {
+  background: var(--gallery-card);
+}
+
+pre,
+div.sourceCode {
+  border: 1px solid var(--gallery-border);
+  border-radius: 0.9rem;
+  box-shadow: 0 10px 24px rgba(24, 52, 63, 0.05);
+}
+
+code:not(pre code) {
+  color: var(--gallery-ink);
+  background: #edf4f3;
+  border-radius: 0.35rem;
+  padding: 0.1rem 0.35rem;
+}
+
+.callout {
+  border-radius: 1rem;
+}
+
+.quarto-title-block .quarto-title-banner {
+  background: linear-gradient(135deg, #e5efe8 0%, #f7f4eb 100%);
+  color: var(--gallery-ink);
+  border-bottom: 1px solid var(--gallery-border);
+}
+
+.sidebar nav[role="doc-toc"] ul > li > a.active,
+.sidebar nav[role="doc-toc"] ul > li > ul > li > a.active {
+  color: var(--gallery-accent-strong);
+}
+
+.page-columns .column-screen-inset {
+  background: transparent;
+}
+
+@media (max-width: 991.98px) {
+  .home-card {
+    margin-bottom: 1rem;
+  }
+}

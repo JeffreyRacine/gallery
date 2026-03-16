@@ -1,0 +1,133 @@
+---
+title: "Spline Primer"
+description: "Conceptual introduction to regression splines, knots, basis functions, and how they connect to crs."
+keywords:
+  - spline primer
+  - regression splines
+  - knots
+  - basis functions
+  - crs
+---
+
+This page is a web-native rewrite of the old spline primer. The goal is not to reproduce the entire article verbatim, but to keep the ideas that are most useful when someone wants to understand what the `crs` package is doing and how spline regression differs from the more familiar kernel material in `np`.
+
+## Why splines?
+
+A spline is a function built piecewise from polynomials. In regression work, this gives us a flexible function class without forcing one global polynomial to do all the work.
+
+For the purposes of `crs`, the key practical ideas are:
+
+- splines are built from basis functions,
+- the basis functions are local rather than global,
+- interior knots let the fit adapt across the domain,
+- derivatives and shape restrictions can be handled naturally.
+
+## Regression splines versus smoothing splines
+
+The distinction matters because the terms are often used loosely.
+
+- Regression splines place knots directly, typically at evenly spaced or quantile-based locations.
+- Smoothing splines use a roughness penalty and treat the fit differently from the outset.
+
+This page is about regression splines, which is the relevant framework for `crs`.
+
+## A simple starting point: the basis view
+
+It helps to think of the regression function as a linear combination of basis functions.
+
+```r
+g(x) = beta_1 B_1(x) + beta_2 B_2(x) + ... + beta_K B_K(x)
+```
+
+The flexibility comes from the basis functions `B_j(x)`, while the regression problem is still linear in the coefficients `beta_j`.
+
+## Why B-splines are attractive
+
+B-splines are appealing because they are numerically stable, local, and easy to differentiate. Compared with raw polynomials, they behave much better in practical regression work.
+
+The main tuning choices are:
+
+- polynomial degree,
+- number of interior knots,
+- location of the knots,
+- whether constraints or derivatives are needed.
+
+## Knots
+
+Knots are the breakpoints that define the polynomial pieces.
+
+- With no interior knots, a spline reduces to a much simpler special case.
+- With interior knots, the fit can adapt across regions of the covariate space.
+- Uniform knots divide the range into equal-length segments.
+- Quantile knots place breakpoints so that the data are more evenly distributed across intervals.
+
+Quantile knots are often attractive in applied work because they avoid wasting too much flexibility in sparse regions.
+
+## A simple basis illustration in R
+
+The older primer included recursive code showing how a B-spline basis can be built. For practical work in `crs`, the simpler way to see the basis functions is to use the package helper directly.
+
+```r
+library(crs)
+
+x <- seq(0, 1, length = 1000)
+B <- gsl.bs(x, degree = 3, nbreak = 5, intercept = TRUE)
+matplot(x, B, type = "l", lwd = 2)
+```
+
+This produces the basis functions for a cubic spline with interior knots implied by `nbreak = 5`.
+
+## From basis functions to regression
+
+Once the basis is built, spline regression is just least squares on that basis expansion.
+
+```r
+set.seed(42)
+x <- seq(0, 1, length = 500)
+y <- sin(2 * pi * x) + rnorm(length(x), sd = 0.1)
+
+B <- gsl.bs(x, degree = 3, nbreak = 5, intercept = TRUE)
+model <- lm(y ~ B - 1)
+
+plot(x, y, cex = 0.35, col = "grey")
+lines(x, fitted(model), lwd = 2)
+```
+
+That is the essential spline-regression idea: create a basis, regress on it, and then interpret the fitted function and its derivatives.
+
+## Where `crs` enters
+
+The `crs` package extends this simple picture in useful ways.
+
+### Continuous and categorical predictors
+
+Traditional spline discussions are often written for continuous predictors only. `crs` handles mixed data by combining tensor-product spline structure with kernel weighting for categorical predictors.
+
+### Multivariate fits
+
+For multiple continuous predictors, the basis becomes a tensor-product basis. In practical terms, that means the model can represent flexible surfaces rather than just curves.
+
+### Constraints
+
+This is one of the more distinctive strengths of `crs`. If you need monotonicity, curvature restrictions, or related shape constraints, the package provides examples showing how to impose them.
+
+See:
+
+- [radial_constrained_mean.R](www/crs/radial_constrained_mean.R)
+- [radial_constrained_first_partial.R](www/crs/radial_constrained_first_partial.R)
+- [radial_constrained_second_partial.R](www/crs/radial_constrained_second_partial.R)
+
+## A practical rule of thumb
+
+- Use `np` when kernel methods are the natural starting point.
+- Use `crs` when a spline basis is more natural, when derivative structure matters, or when shape restrictions are central.
+
+## What to read next
+
+- [Splines](crs.qmd) for the main `crs` landing page
+- [Code Catalog](code_catalog.qmd) for the full script list
+- [crs vignette on CRAN](https://cran.r-project.org/web/packages/crs/vignettes/crs.pdf)
+
+## Historical note
+
+The older Sweave primer went deeper into B\'ezier curves, the de Boor recursion, tensor-product notation, and appendix code. That material remains valuable, but for a website the better first step is a shorter conceptual and practical guide like this one.

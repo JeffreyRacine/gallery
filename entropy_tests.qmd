@@ -1,0 +1,172 @@
+---
+title: "Entropy and Testing"
+description: "Overview of the entropy-based testing family in np, including equality, symmetry, and dependence tests."
+keywords:
+  - npdeneqtest
+  - npunitest
+  - npsymtest
+  - npdeptest
+  - npsdeptest
+  - entropy tests
+---
+
+If you want a minimal downloadable script for the quickest first run on this page, start with [np_entropy_quickstart.R](www/np_npRmpi/np_entropy_quickstart.R).
+
+This page is a website-first rewrite of the old entropy vignette. The `np` package includes a useful group of entropy-based procedures for testing density equality, asymmetry, and dependence. These are powerful tools, but they are often more computationally demanding than the basic regression or density workflows, so it helps to know what each function is for before jumping in.
+
+## The main functions
+
+| Function | Main use |
+|---|---|
+| `npdeneqtest` | equality of multivariate densities |
+| `npunitest` | equality of univariate densities |
+| `npsymtest` | asymmetry in a univariate variable or series |
+| `npdeptest` | nonlinear pairwise dependence |
+| `npsdeptest` | nonlinear serial dependence |
+
+These functions are specialized, but they fit naturally with the broader `np` philosophy: kernel-based estimation, mixed-data support where appropriate, and bootstrap-based inference when needed.
+
+## A practical warning
+
+Some of these procedures rely on numerical integration and bootstrap resampling. They can therefore be slow.
+
+Practical advice:
+
+- begin with small examples,
+- use the faster summation/moment versions only for quick exploration when appropriate,
+- for serious work, prefer the default integral-based versions unless you have a good reason not to.
+
+## Equality of multivariate densities: `npdeneqtest`
+
+Use `npdeneqtest` when you want to compare two multivariate samples, including settings with a mixture of continuous and categorical variables.
+
+```r
+library(np)
+set.seed(1234)
+
+n <- 250
+sample_A <- data.frame(
+  a = rnorm(n),
+  b = factor(rbinom(n, 2, 0.5))
+)
+sample_B <- data.frame(
+  a = rnorm(n),
+  b = factor(rbinom(n, 2, 0.5))
+)
+
+npdeneqtest(sample_A, sample_B, boot.num = 99)
+```
+
+The two data frames should have matching variable names and compatible structure.
+
+## Equality of univariate densities: `npunitest`
+
+Use `npunitest` when the problem is one-dimensional and you want to compare two univariate densities or probability functions.
+
+```r
+library(np)
+set.seed(1234)
+
+n <- 1000
+x <- rnorm(n)
+y <- rnorm(n)
+
+npunitest(x, y, boot.num = 99)
+```
+
+It also works with discrete data, not just continuous data.
+
+## Asymmetry testing: `npsymtest`
+
+`npsymtest` is aimed at the null of symmetry about a center such as the mean. This is useful for univariate data and can also be used for time series.
+
+```r
+library(np)
+set.seed(1234)
+
+n <- 100
+y <- rnorm(n)
+
+npsymtest(y, boot.num = 99)
+```
+
+For bootstrap choice, `iid` is the simple resampling route, while block-based choices are relevant when serial dependence matters.
+
+## Pairwise nonlinear dependence: `npdeptest`
+
+Use `npdeptest` when you want a nonparametric measure or test of dependence between two variables. One natural use is to compare observed values with fitted or predicted values.
+
+```r
+library(np)
+set.seed(123)
+
+n <- 100
+x <- rnorm(n)
+y <- 1 + x + rnorm(n)
+model <- lm(y ~ x)
+
+npdeptest(y, fitted(model), boot.num = 99, method = "summation")
+```
+
+For actual applications, the integration-based route remains the stronger default.
+
+## Nonlinear serial dependence: `npsdeptest`
+
+Use `npsdeptest` when the question is serial independence in a univariate series.
+
+```r
+library(np)
+set.seed(123)
+
+ar_series <- function(phi, epsilon) {
+  n <- length(epsilon)
+  y <- numeric(n)
+  y[1] <- epsilon[1] / (1 - phi)
+  for (i in 2:n) {
+    y[i] <- phi * y[i - 1] + epsilon[i]
+  }
+  y
+}
+
+yt <- ar_series(0.95, rnorm(100))
+npsdeptest(yt, lag.num = 2, boot.num = 99, method = "summation")
+```
+
+Again, the fast summation version is useful for illustration, but not the first choice for serious empirical work.
+
+## Rolling your own entropy measure
+
+One of the more interesting features of the old vignette was the reminder that these functions do not have to be treated as a closed box. If you can write down the quantity you want and evaluate the relevant densities, you can build your own entropy-style measure.
+
+Here is a short example comparing a kernel density estimate to a Gaussian benchmark:
+
+```r
+library(np)
+
+Srho <- function(x, y, ...) {
+  integrand <- function(t, x, y) {
+    f_x <- fitted(npudens(tdat = x, edat = t, bws = bw.SJ(x), ...))
+    f_y <- dnorm(t, mean = mean(y), sd = sd(y))
+    0.5 * (sqrt(f_x) - sqrt(f_y))^2
+  }
+
+  integrate(integrand, -Inf, Inf, x = x, y = y)$value
+}
+
+set.seed(123)
+x <- rnorm(1000)
+y <- rnorm(1000, sd = 100)
+Srho(x, y)
+```
+
+That is not meant to replace the packaged procedures. It is meant to show that the package can also serve as a toolkit for custom work.
+
+## What to read next
+
+- [Kernel Primer](kernel_primer.qmd) for the broader `np` workflow
+- [Kernel Methods](np_npRmpi.qmd) for the main landing page
+- `vignette("entropy_np", package = "np")` for the full original package vignette
+
+## Historical note
+
+The old Sweave entropy vignette went function by function and carried more of the formal presentation. For the website, the better first move is to separate the topic into a compact article like this one, with the heavier formal details left to the original vignette and the underlying papers.

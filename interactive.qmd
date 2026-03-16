@@ -1,35 +1,82 @@
 ---
-title: Interactive
+title: "Interactive Demos"
+description: "RStudio-first interactive demos for density, regression, and constrained estimation with np and crs."
+keywords:
+  - interactive demos
+  - manipulate
+  - RStudio
+  - np
+  - crs
 ---
 
-## Interactive Illustrations
+```{r}
+#| include: false
+source("site_helpers.R", local = knitr::knit_global())
+```
 
-The following examples illustrate a range of features of kernel density estimation and regression using the \`manipulate\' package (note that the manipulate package only functions under RStudio, and that you may have to maximize the height of your plot pane in RStudio in order to see the full menu\... to reveal the manipulate menu simply click on the tool icon on the top left of the figure produced when you source (execute) the code). 
+These examples are primarily pedagogical. Most use the `manipulate` package and are intended to be run inside RStudio so that you can move sliders, change kernels, alter smoothing parameters, and immediately see the effect on the estimate.
 
-These examples are interactive in nature, and I hope that you enjoy them! From my perspective they offer valuable pedagogical tools that can enhance one\'s understanding of kernel estimators. So what are you waiting for? Fire up RStudio, download an R script then run it, and kindly let me know if you have any suggestions for improvements.
+## A quick way to run one
 
-1.  Create a dynamic univariate density plot with \`sliders\' and \`pickers\' that can be used to dynamically change the bandwidth, kernel function, kernel order, bandwidth type, degrees of freedom of the underlying chi-square distribution, number of observations, and overlay histograms and rugs then immediately see the impact on the resulting estimate ([manipulate_density.R](www/Fun/manipulate_density.R "Fun_files/manipulate_density.R")).
+Download or open one of the scripts below in RStudio, then source it. Once the plot appears, click the small tool icon in the plot pane if the control panel is not already visible.
 
-2.  Create a dynamic univariate density plot for the \`Old Faithful Eruptions\' data with \`sliders\' and \`pickers\' that can be used to dynamically change the bandwidth, kernel function, kernel order, bandwidth type, and overlay histograms and rugs then immediately see the impact on the resulting estimate ([manipulate_eruptions.R](www/Fun/manipulate_eruptions.R "Fun_files/manipulate_eruptions.R")).
+## Best first demos
 
-3.  Create a dynamic univariate cumulative distribution plot with \`sliders\' and \`pickers\' that can be used to dynamically change the bandwidth, kernel function, kernel order, bandwidth type, degrees of freedom of the underlying chi-square distribution, number of observations, and overlay empirical distribution functions and rugs then immediately see the impact on the resulting estimate ([manipulate_distribution.R](www/Fun/manipulate_distribution.R "Fun_files/manipulate_distribution.R")).
+| If you want to see... | Start here | Notes |
+|---|---|---|
+| How bandwidth, kernel, and sample size change a density estimate | [manipulate_density.R](www/Fun/manipulate_density.R) | good first teaching demo |
+| How off-axis quantiles change multivariate partial plots | [manipulate_wage1.R](www/Fun/manipulate_wage1.R) | uses the `wage1` data and precomputed bandwidth object |
+| Shape restrictions in action | [manipulate_constrained_spline.R](www/Fun/manipulate_constrained_spline.R) | requires `quadprog` |
 
-4.  Create a dynamic bivariate density plot with \`sliders\' and \`pickers\' that can be used to dynamically change the bandwidth, kernel function, kernel order, scale factors, azimuthal viewing direction, number of training, and number of evaluation observations then immediately see the impact on the resulting estimate ([manipulate_bivariate_density.R](www/Fun/manipulate_bivariate_density.R "Fun_files/manipulate_bivariate_density.R")).
+## Density and distribution demos
 
-5.  Create a dynamic bivariate density plot for the \`Old Faithful\' data with \`sliders\' and \`pickers\' that can be used to dynamically change the bandwidth, kernel function, kernel order, scale factors, azimuthal viewing direction, and number of evaluation observations then immediately see the impact on the resulting estimate ([manipulate_faithful_density.R](www/Fun/manipulate_faithful_density.R "Fun_files/manipulate_faithful_density.R")).
+- Univariate density with bandwidth, kernel, and sample-size controls: [manipulate_density.R](www/Fun/manipulate_density.R)
+- Old Faithful univariate density: [manipulate_eruptions.R](www/Fun/manipulate_eruptions.R)
+- Univariate distribution function: [manipulate_distribution.R](www/Fun/manipulate_distribution.R)
+- Bivariate density: [manipulate_bivariate_density.R](www/Fun/manipulate_bivariate_density.R)
+- Old Faithful bivariate density: [manipulate_faithful_density.R](www/Fun/manipulate_faithful_density.R)
+- Bivariate distribution function: [manipulate_bivariate_distribution.R](www/Fun/manipulate_bivariate_distribution.R)
 
-6.  Create a dynamic bivariate cumulative distribution plot with \`sliders\' and \`pickers\' that can be used to dynamically change the bandwidth, kernel function, kernel order, scale factors, azimuthal viewing direction, number of training, and number of evaluation observations then immediately see the impact on the resulting estimate ([manipulate_bivariate_distribution.R](www/Fun/manipulate_bivariate_distribution.R "Fun_files/manipulate_bivariate_distribution.R")).
+## Regression and shape-restriction demos
 
-7.  Create dynamic multivariate regression partial plots with \`sliders\' that can be used to dynamically change the non-axis variable\'s quantile (i.e. the value at which the non-axis predictors are held fixed for constructing the plots) ([manipulate_wage1.R](www/Fun/manipulate_wage1.R "Fun_files/manipulate_wage1.R")).
+- Multivariate regression partial plots: [manipulate_wage1.R](www/Fun/manipulate_wage1.R)
+- Generalized local polynomial regression: [manipulate_npglpreg.R](www/Fun/manipulate_npglpreg.R), [manipulate_npglpreg_sin.R](www/Fun/manipulate_npglpreg_sin.R)
+- Constrained local polynomial regression: [manipulate_constrained_local_polynomial.R](www/Fun/manipulate_constrained_local_polynomial.R)
+- Constrained production function example: [manipulate_constrained_local_polynomial_production.R](www/Fun/manipulate_constrained_local_polynomial_production.R)
+- Constrained spline illustrations: [manipulate_constrained_spline.R](www/Fun/manipulate_constrained_spline.R), [manipulate_constrained_spline_derivative.R](www/Fun/manipulate_constrained_spline_derivative.R)
 
-8.  Create a dynamic bivariate regression plot that can be used to change the polynomial order or sine function frequency, bandwidth, degree of the underlying DGP, and number of observations to illustrate Hall & Racine (2013), \"Infinite-order cross-validated local polynomial regression\" ([manipulate_npglpreg.R](www/Fun/manipulate_npglpreg.R "Fun_files/manipulate_npglpreg.R"), [manipulate_npglpreg_sin.R](www/Fun/manipulate_npglpreg_sin.R "Fun_files/manipulate_npglpreg_sin.R")).
+## Other demos
 
-9.  Create a dynamic bivariate regression plot that can be constrained using the method of Du, Parmeter and Racine (2013), \"Nonparametric Kernel Regression with Multiple Predictors and Multiple Shape Constraints\", (Statistica Sinica) ([manipulate_constrained_local_polynomial.R](www/Fun/manipulate_constrained_local_polynomial.R "Fun_files/manipulate_constrained_local_polynomial.R")). Note that this requires the np and quadprog packages to be installed (np version 0.50-2 or higher).
+- Copula plots: [manipulate_copula.R](www/Fun/manipulate_copula.R)
+- SOCCO example: [manipulate_socco.R](www/Fun/manipulate_socco.R), [data.RData](www/Fun/data.RData), [figures.R](www/Fun/figures.R)
 
-10. Create a dynamic bivariate production function plot that can be constrained using the method of Du, Parmeter and Racine (2013), \"Nonparametric Kernel Regression with Multiple Predictors and Multiple Shape Constraints\", (Statistica Sinica) ([manipulate_constrained_local_polynomial_production.R](www/Fun/manipulate_constrained_local_polynomial_production.R "Fun_files/manipulate_constrained_local_polynomial_production.R")). Note that this requires the np and quadprog packages to be installed (np version 0.50-2 or higher).
+## Notes
 
-11. Create a dynamic bivariate regression plot that can be constrained using the method of Du, Parmeter and Racine (2013), \"Nonparametric Kernel Regression with Multiple Predictors and Multiple Shape Constraints\", (Statistica Sinica) ([manipulate_constrained_spline.R](www/Fun/manipulate_constrained_spline.R "Fun_files/manipulate_constrained_spline.R"), [manipulate_constrained_spline_derivative.R](www/Fun/manipulate_constrained_spline_derivative.R "Fun_files/manipulate_constrained_spline_derivative.R")). Note that this requires the crs and quadprog packages to be installed.
+- Some scripts require additional packages such as `quadprog`, `mnormt`, or `rgl`.
+- The `manipulate` package is tied to RStudio, so these are best treated as RStudio-first examples rather than generic batch scripts.
 
-12. Create dynamic bivariate copula plots with \`sliders\' and \`pickers\' to determine whether to plot the copula, copula density, contours, or overlay the true DGP, among others ([manipulate_copula.R](www/Fun/manipulate_copula.R "Fun_files/manipulate_copula.R")). Note that that this requires that the mnormt package be installed.
+## Inline source for two flagship demos
 
-13. Use the manupulate package from within RStudio to examine complex nonlinear systems with an ensemble of methods including conditional density, conditional mean, conditional distribution, and conditional quantile estimators ([manipulate_socco.R](www/Fun/manipulate_socco.R "Fun_files/manipulate_socco.R"), [data.RData](www/Fun/data.RData "Fun_files/data.RData"), [figures.R](www/Fun/figures.R "Fun_files/figures.R")). We would like to gratefully acknowledge the generous assistance of SOCCO (Southern Ocean Carbon & Climate Observatory socco.org.za). This requires that the R package np be installed and that you place the R code and data in the same directory (make sure to change to this working directory prior to sourcing the code in RStudio).
+::: {.callout-note collapse="true"}
+## Density demo source
+
+Source file: [manipulate_density.R](www/Fun/manipulate_density.R)
+
+```{r}
+#| echo: false
+#| results: asis
+emit_source("www/Fun/manipulate_density.R")
+```
+:::
+
+::: {.callout-note collapse="true"}
+## Multivariate wage demo source
+
+Source file: [manipulate_wage1.R](www/Fun/manipulate_wage1.R)
+
+```{r}
+#| echo: false
+#| results: asis
+emit_source("www/Fun/manipulate_wage1.R")
+```
+:::

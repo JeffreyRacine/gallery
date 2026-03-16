@@ -1,0 +1,59 @@
+---
+title: "Quickstarts"
+description: "Small runnable scripts for the most common np, npRmpi, and crs entry points."
+keywords:
+  - quickstart
+  - np
+  - npRmpi
+  - crs
+  - examples
+  - starter scripts
+---
+
+```{r}
+#| include: false
+source("site_helpers.R", local = knitr::knit_global())
+quickstarts <- read_quickstarts_manifest()
+```
+
+This page is the shortest route from “I need an example” to a small runnable script. The scripts below are the modern quickstarts in the gallery, and each block is pulled directly from the underlying source file.
+
+## Choose a starting point
+
+```{r}
+#| echo: false
+#| results: asis
+render_quickstart_choose_table(quickstarts)
+```
+
+## `np` quickstarts
+
+```{r}
+#| echo: false
+#| results: asis
+render_quickstart_callouts(subset(quickstarts, section == "np"))
+```
+
+## `npRmpi` quickstarts
+
+```{r}
+#| echo: false
+#| results: asis
+render_quickstart_callouts(subset(quickstarts, section == "npRmpi"))
+```
+
+## `crs` quickstart
+
+```{r}
+#| echo: false
+#| results: asis
+render_quickstart_callouts(subset(quickstarts, section == "crs"))
+```
+
+## Where to go next
+
+- [Code Catalog](code_catalog.qmd) for the broader script library
+- [Kernel Methods](np_npRmpi.qmd) for `np`
+- [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) for conditional densities, distributions, and quantiles
+- [MPI and Large Data](mpi_large_data.qmd) for `npRmpi`
+- [Splines](crs.qmd) for `crs`

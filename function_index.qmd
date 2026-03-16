@@ -1,95 +1,93 @@
 ---
-title: Function Index
+title: "Reference and Function Lookup"
+description: "Task-based routing for finding the right np, npRmpi, and crs functions and the best first page for each workflow."
+keywords:
+  - npreg
+  - npudens
+  - npqreg
+  - npRmpi.init
+  - crs
+  - crssigtest
+  - reference
 ---
 
-## Index of functions in np/npRmpi and crs
+This page is not meant to replace the package help system. It is here to help you find the right family of functions quickly, after which the package help pages and examples should do the rest.
 
-Below you can find an index of functions and datasets contained in the np/npRmpi and crs packages. Further information and working examples can be found by loading the packages and requesting help for a given function by entering \`?foo\' at the R/RStudio console, where foo is a function name from the list below (without the single quotes \`\'). Or in RStudio you can get help by clicking on the package name from the \`Packages\' tab in the lower right pane (default) which will pull up the list of functions contained in the package - clicking on the function will display help. Note that at the bottom of each function description is a set of working examples that you can run, modify etc.
+## The fastest route to authoritative help
 
-Here is an index of functions contained in the crs package along with a brief description:
+- In R, type `?npreg`, `?npudens`, `?crs`, and so forth.
+- In RStudio, click the package name in the Packages pane, then select the function help page you want.
+- Use the site search box if you know the function name but not which page mentions it.
 
-1.  crs: Categorical Regression Splines
+## Fast routing by function family
 
-2.  crsiv: Nonparametric Instrumental Regression
+Use this table when you already know roughly what you want to do, but not which page or script should be your first stop.
 
-3.  crsivderiv: Nonparametric Instrumental Derivatives
+| Task | Functions | Best first page | Working code route |
+|---|---|---|---|
+| Kernel regression | `npreg`, `npregbw`, `npplot` | [Kernel Primer](kernel_primer.qmd) | [Quickstarts](quickstarts.qmd) |
+| Unconditional density and distribution | `npudens`, `npudensbw`, `npudist` | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) | [Quickstarts](quickstarts.qmd) |
+| Conditional density and distribution | `npcdens`, `npcdensbw`, `npcdist` | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) | [Quickstarts](quickstarts.qmd) |
+| Quantile regression | `npqreg`, `npcdistbw` | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) | [Quickstarts](quickstarts.qmd) |
+| Semiparametric models | `npplreg`, `npplregbw`, `npindex`, `npindexbw`, `npscoef`, `npscoefbw` | [Semiparametric Models](semiparametric_models.qmd) | [Quickstarts](quickstarts.qmd) |
+| Mode estimation and classification | `npconmode` | [Classification and Modes](classification_modes.qmd) | [Quickstarts](quickstarts.qmd) |
+| Plotting, gradients, and intervals | `plot`, `predict`, `npplot` | [Plotting and Intervals](plotting_and_intervals.qmd) | [Quickstarts](quickstarts.qmd) |
+| Model specification and significance tests | `npcmstest`, `npsigtest` | [Significance and Specification](significance_and_specification.qmd) | [Quickstarts](quickstarts.qmd) |
+| Entropy, equality, symmetry, and dependence tests | `npdeneqtest`, `npunitest`, `npsymtest`, `npdeptest`, `npsdeptest` | [Entropy and Testing](entropy_tests.qmd) | [Quickstarts](quickstarts.qmd) |
+| Kernel sums and lower-level customization | `npksum` | [Build With npksum](npksum_custom.qmd) | [Code Catalog](code_catalog.qmd) |
+| MPI versions of familiar `np` workflows | `npRmpi.init`, `npreg`, `npregbw`, other `np*` calls under autodispatch | [MPI and Large Data](mpi_large_data.qmd) | [Quickstarts](quickstarts.qmd) |
+| Regression splines | `crs` | [Splines](crs.qmd) | [Quickstarts](quickstarts.qmd) |
+| Spline significance testing | `crssigtest` | [Splines](crs.qmd) | [Spline Primer](spline_primer.qmd) |
+| Instrumental regression splines | `crsiv`, `crsivderiv` | [Splines](crs.qmd) | [Code Catalog](code_catalog.qmd) |
+| Generalized local polynomial regression | `npglpreg` | [Worked Examples](regression.qmd) | [Code Catalog](code_catalog.qmd) |
 
-4.  crssigtest: Regression Spline Significance Test with Mixed Data Types
+## `np` and `npRmpi` function families
 
-5.  gsl.bs: GSL (GNU Scientific Library) B-spline/B-spline Derivatives
+| Task | Functions |
+|---|---|
+| Kernel regression | `npreg`, `npregbw`, `npplot` |
+| Unconditional density and distribution | `npudens`, `npudensbw`, `npudist` |
+| Conditional density and distribution | `npcdens`, `npcdensbw`, `npcdist` |
+| Quantile regression | `npqreg`, `npqcmstest` |
+| Semiparametric models | `npplreg`, `npplregbw`, `npindex`, `npindexbw`, `npscoef`, `npscoefbw` |
+| Mode estimation | `npconmode` |
+| Copulas | `npcopula` |
+| Model specification and significance tests | `npcmstest`, `npsigtest`, `npdeneqtest`, `npunitest`, `npsymtest`, `npsdeptest`, `npdeptest` |
+| Instrumental methods | `npregiv`, `npregivderiv` |
+| Kernel sums and lower-level support | `npksum` |
 
-6.  npglpreg: Generalized Local Polynomial Regression
+## `crs` function families
 
-7.  snomadr: R interface to NOMAD
+| Task | Functions |
+|---|---|
+| Regression splines | `crs` |
+| Spline significance testing | `crssigtest` |
+| Instrumental regression splines | `crsiv`, `crsivderiv` |
+| Generalized local polynomial regression | `npglpreg` |
+| Supporting utilities | `gsl.bs`, `snomadr` |
 
-Here is an index of functions contained in the np/npRmpi packages along with a brief description:
+## Common datasets worth remembering
 
-1.  npcdens: Kernel Conditional Density and Distribution Estimates with Mixed Data Types
+Use these when you want quick, reproducible examples without hunting for external data.
 
-2.  npcdensbw: Kernel Conditional Density Bandwidth Selection with Mixed Data Types
+| Dataset | Typical use on this site |
+|---|---|
+| `cps71` | first regression fits with `npreg` |
+| `faithful` | unconditional density and distribution examples |
+| `Italy` | conditional density, distribution, and quantiles |
+| `wage1` | interactive and multivariate regression illustrations |
+| `oecdpanel` | larger-panel style workflows |
 
-3.  npcdist: Kernel Conditional Density and Distribution Estimates with Mixed Data Types
+## Datasets that are often useful when learning
 
-4.  npcmstest: Kernel Consistent Model Specification Test with Mixed Data Types
+- `cps71`
+- `Engel95`
+- `wage1`
+- `Italy`
+- `oecdpanel`
 
-5.  npconmode: Kernel Modal Regression with Mixed Data Types
+## External package documentation
 
-6.  npcopula: Kernel Copula Estimation with Mixed Data Types
-
-7.  npdeneqtest: Kernel Consistent Density Equality Test with Mixed Data Types
-
-8.  npdeptest: Kernel Consistent Pairwise Nonlinear Dependence Test for Univariate Processes
-
-9.  npindex: Semiparametric Single Index Model
-
-10. npindexbw: Semiparametric Single Index Model Parameter and Bandwidth Selection
-
-11. npksum: Kernel Sums with Mixed Data Types
-
-12. npplot: General Purpose Plotting of Nonparametric Objects
-
-13. npplreg: Partially Linear Kernel Regression with Mixed Data Types
-
-14. npplregbw: Partially Linear Kernel Regression Bandwidth Selection with Mixed Data Types
-
-15. npqcmstest: Kernel Consistent Quantile Regression Model Specification Test with Mixed Data Types
-
-16. npqreg: Kernel Quantile Regression with Mixed Data Types
-
-17. npreg: Kernel Regression with Mixed Data Types
-
-18. npregbw: Kernel Regression Bandwidth Selection with Mixed Data Types 
-
-19.  npregiv: Nonparametric Instrumental Regression
-
-20. npregivderiv: Nonparametric Instrumental Derivatives
-
-21. npscoef: Smooth Coefficient Kernel Regression
-
-22. npscoefbw: Smooth Coefficient Kernel Regression Bandwidth Selection
-
-23. npsdeptest: Kernel Consistent Serial Dependence Test for Univariate Nonlinear Processes
-
-24. npsigtest: Kernel Regression Significance Test with Mixed Data Types
-
-25. npsymtest: Kernel Consistent Density Asymmetry Test with Mixed Data Types
-
-26. npudens: Kernel Density and Distribution Estimation with Mixed Data Types
-
-27. npudensbw: Kernel Density Bandwidth Selection with Mixed Data Types
-
-28. npudist: Kernel Density and Distribution Estimation with Mixed Data Types
-
-29. npunitest: Kernel Consistent Univariate Density Equality Test with Mixed Data Types
-
-The packages include the following datasets between them:
-
-1.  cps71: Canadian High School Graduate Earnings
-
-2.  Engel95: 1995 British Family Expenditure Survey
-
-3.  wage1: Cross-Sectional Data on Wages
-
-4.  Italy: Italian GDP Panel
-
-5.  oecdpanel: Cross Country Growth Panel
+- `np` on CRAN: [package page](https://cran.r-project.org/package=np)
+- `crs` on CRAN: [package page](https://cran.r-project.org/package=crs)
+- `npRmpi` on GitHub: [branch in `R-Package-np`](https://github.com/JeffreyRacine/R-Package-np/tree/npRmpi)

@@ -1,0 +1,93 @@
+---
+title: "Classification and Modes"
+description: "Practical route to nonparametric classification and conditional-mode workflows in np."
+keywords:
+  - npconmode
+  - classification
+  - conditional mode
+  - mode estimation
+  - birthwt
+---
+
+The `np` package can also be used for nonparametric classification problems by estimating the conditional density or conditional probability structure and then working with the conditional mode. This is a useful route when a simple parametric classification model feels too rigid.
+
+If you want a minimal downloadable script for the classification route, start with [np_classification_quickstart.R](www/np_npRmpi/np_classification_quickstart.R).
+
+## The basic idea
+
+For binary, multinomial, or ordered outcomes, one practical route is to estimate a nonparametric conditional density and then classify using the conditional mode. In `np`, the function most directly associated with this workflow is `npconmode`.
+
+This is especially useful when the covariates include a mixture of continuous and categorical variables.
+
+## A simple binary-outcome example
+
+The older `birthwt` example remains a good illustration because it contains several categorical covariates that must be classed correctly.
+
+```r
+library(np)
+data(birthwt, package = "MASS")
+
+birthwt$low <- factor(birthwt$low)
+birthwt$smoke <- factor(birthwt$smoke)
+birthwt$race <- factor(birthwt$race)
+birthwt$ht <- factor(birthwt$ht)
+birthwt$ui <- factor(birthwt$ui)
+birthwt$ftv <- factor(birthwt$ftv)
+
+model_logit <- glm(
+  low ~ smoke + race + ht + ui + ftv + age + lwt,
+  family = binomial(link = logit),
+  data = birthwt
+)
+
+model_np <- npconmode(
+  low ~ smoke + race + ht + ui + ftv + age + lwt,
+  data = birthwt
+)
+
+summary(model_np)
+```
+
+## Comparing with a parametric classifier
+
+One natural comparison is a confusion matrix against a parametric logit model.
+
+```r
+cm_logit <- table(
+  birthwt$low,
+  ifelse(fitted(model_logit) > 0.5, 1, 0)
+)
+
+cm_logit
+model_np$confusion.matrix
+```
+
+The exact comparison will of course depend on the data and the tuning, but this is the right general workflow when you want to compare a flexible nonparametric classifier to a familiar parametric benchmark.
+
+## Why this route is useful
+
+- it handles mixed data naturally,
+- it avoids forcing a specific link and linear index structure from the outset,
+- it can uncover classification structure that a simple parametric model misses.
+
+## Practical notes
+
+- Make sure categorical variables are properly classed before fitting.
+- Start with a modest problem size first.
+- Do not casually override search tolerances just because an older example did so for convenience.
+- Treat the confusion matrix as one useful summary, not the whole story.
+
+## What `npconmode` is really doing
+
+Conceptually, the model is building a nonparametric representation of the conditional distribution and then using the most likely outcome category at each conditioning point. That is why the function is useful for classification and modal regression problems.
+
+## Related material
+
+- [Kernel Primer](kernel_primer.qmd)
+- [Semiparametric Models](semiparametric_models.qmd)
+- [Code Catalog](code_catalog.qmd)
+
+For older serial/MPI comparison scripts involving conditional mode estimation, see:
+
+- [npconmode_serial.R](www/np_npRmpi/npconmode_serial.R)
+- [npconmode_npRmpi.R](www/np_npRmpi/npconmode_npRmpi.R)

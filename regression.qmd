@@ -1,27 +1,78 @@
 ---
-title: Regression
+title: "Worked Examples"
+description: "Copy-first regression examples and longer scripts across np and related workflows."
+keywords:
+  - worked examples
+  - npreg
+  - regression examples
+  - local linear
+  - local constant
+  - npglpreg
 ---
 
-## Kernel regression examples using np
+This page is meant to give you working code that you can copy directly. The longer scripts are still linked below, but the first goal is to let you run something useful without downloading a bundle of files.
 
-Below you will find a range of commented examples intended to help you become familiar with applied nonparametric kernel regression in R/RStudio using the np package. You ought to be able to download these examples, open them using R/RStudio, and run them without modification (they may require you to install additional libraries, so if prompted to install libraries select the install option). Or you can save the scripts and then open them in RStudio by navigating the menus File -\> Open File after which you can click the \`Source' icon which will run the code.
+![Comparison of local constant, local linear, and generalized local polynomial fits](www/Regression/demo_poly_all.png){.hero-image}
 
-[![](www/Regression/demo_poly_all.jpg){alt=""}](www/Regression/demo_poly_all.png)
+## A first regression example
 
-Note that my code always begins with the line \`rm(list=ls())' which just uses the UNIX syntax \`rm' to \`remove' stuff from memory if it exists (ensures a clean replicable run) and \`list=ls()' says to remove everything (\`ls' is the UNIX syntax for listing things). Also, I have tried to add comments to describe important features being demonstrated (it is probably good practice to liberally comment your code). Sometimes I create plots to illustrate some feature of an estimated model. Furthermore, you can break a line of code onto multiple lines - this is optional but for me it helps keep the code tidy and legible. Kindly note you must install the np package in order to run these examples.
+This mirrors the spirit of `regression_intro_a.R` in a shorter form.
 
-1.  Introduction to simple univariate local constant and local linear regression and plotting ([regression_intro_a.R](www/Regression/regression_intro_a.R "Regression_files/regression_intro_a.R"))
+```r
+library(np)
+data(cps71, package = "np")
 
-2.  Introduction to simple univariate local constant and local linear regression and derivative estimation ([regression_intro_b.R](www/Regression/regression_intro_b.R "Regression_files/regression_intro_b.R"))
+plot(cps71$age, cps71$logwage, cex = 0.25, col = "grey")
 
-3.  Introduction to plotting objects via \`plot(foo,\...)', where foo is a nonparametric object ([regression_intro_c.R](www/Regression/regression_intro_c.R "Regression_files/regression_intro_c.R")), adding error bounds (asymptotic and bootstrap) and so forth
+fit_lc <- npreg(logwage ~ age, data = cps71)
+fit_ll <- npreg(logwage ~ age, data = cps71, regtype = "ll")
 
-4.  Introduction to multivariate regression ([regression_multivar_a.R](www/Regression/regression_multivar_a.R "Regression_files/regression_multivar_a.R"))
+lines(cps71$age, fitted(fit_lc), col = 1, lty = 1)
+lines(cps71$age, fitted(fit_ll), col = 2, lty = 2)
 
-5.  Comparison of univariate kernel regression estimators - local constant, local linear, and infinite-order local polynomial ([demo_poly.R](www/Regression/demo_poly.R "Regression_files/demo_poly.R")) which creates the figure displayed above (note that this requires that you first install the crs package in order to call the function npglpreg() that conducts the infinite-order/generalized local polynomial estimation)
+legend(
+  "topleft",
+  c("Local constant", "Local linear"),
+  lty = c(1, 2),
+  col = c(1, 2),
+  bty = "n"
+)
+```
 
- 
+## A small bandwidth-selection example
 
- 
+```r
+library(np)
 
- 
+set.seed(42)
+n <- 1000
+x <- runif(n)
+z1 <- factor(rbinom(n, 1, 0.5))
+z2 <- factor(rbinom(n, 1, 0.5))
+y <- cos(2 * pi * x) + z1 + rnorm(n, sd = 0.25)
+mydat <- data.frame(y, x, z1, z2)
+
+bw <- npregbw(y ~ x + z1 + z2, regtype = "ll", bwmethod = "cv.aic", data = mydat)
+fit <- npreg(bws = bw, data = mydat)
+
+summary(bw)
+summary(fit)
+```
+
+## Script library
+
+- Simple univariate local constant and local linear regression: [regression_intro_a.R](www/Regression/regression_intro_a.R)
+- Derivative estimation: [regression_intro_b.R](www/Regression/regression_intro_b.R)
+- Plotting fitted objects and intervals: [regression_intro_c.R](www/Regression/regression_intro_c.R)
+- Multivariate regression: [regression_multivar_a.R](www/Regression/regression_multivar_a.R)
+- Generalized local polynomial comparison: [demo_poly.R](www/Regression/demo_poly.R)
+
+For a website-first route to the multivariate example, see [Multivariate Regression and Prediction](multivariate_regression.qmd).
+
+## Notes
+
+- The script links remain useful because they are more heavily commented than the short code blocks on this page.
+- Some examples call for additional packages. Where that is the case, the script itself says so.
+- `demo_poly.R` requires `crs` because it calls `npglpreg()`.
+- The `wage1` multivariate route now has its own page at [Multivariate Regression and Prediction](multivariate_regression.qmd).
+- For plotting objects, gradients, and uncertainty summaries, see [Plotting and Intervals](plotting_and_intervals.qmd).

@@ -1,21 +1,82 @@
 ---
-title: crs
+title: "Splines"
+description: "Practical entry page for crs spline workflows, constrained fits, and spline-specific examples."
+keywords:
+  - crs
+  - regression splines
+  - crssigtest
+  - constrained splines
+  - crsiv
+  - spline examples
 ---
 
-## Demos for functions in crs
+Use `crs` when regression splines, shape restrictions, or spline-specific workflows are the natural tool rather than kernel estimators.
 
-The following examples are a few of the demos included with the crs package. These all use simulated data, the categorical B-spline estimator, and were written to demonstrate functionality and graphics. Note that the files \*\_rgl.R require that the rgl package be installed in addition to the crs package itself. 
+## First stop
 
-1.  Cross-validated regression spline estimation of the bivariate radial function plotted using OpenGL ([radial_rgl.R](www/crs/radial_rgl.R "crs_files/radial_rgl.R")) (this creates the figure displayed on the page associated with the \`Home\' menu item above - you can click on that figure to view a larger image)
+If you simply want to verify that the package is installed and working, this is the quickest check.
 
-2.  Cross-validated regression spline estimation of the bivariate sine function plotted using OpenGL ([sine_rgl.R](www/crs/sine_rgl.R "crs_files/sine_rgl.R"))
+```r
+library(crs)
+example(crs)
+```
 
-3.  Constrained regression spline estimation ([radial_constrained_mean.R](www/crs/radial_constrained_mean.R "crs_files/radial_constrained_mean.R"))
+If you want a small downloadable script rather than the package example harness, start with [crs_quickstart.R](www/crs/crs_quickstart.R).
 
-4.  Constrained regression spline estimation ([radial_constrained_first_partial.R](www/crs/radial_constrained_first_partial.R "crs_files/radial_constrained_first_partial.R"))
+## What is on this page?
 
-5.  Constrained regression spline estimation ([radial_constrained_second_partial.R](www/crs/radial_constrained_second_partial.R "crs_files/radial_constrained_second_partial.R"))
+- example scripts for categorical regression splines,
+- constrained spline illustrations,
+- a short [Spline Primer](spline_primer.qmd),
+- links to the package vignette and related paper,
+- a clean split from the kernel material in `np` and `npRmpi`.
 
-Here is a link to the vignette for the crs package ([crs vignette](https://cran.r-project.org/web/packages/crs/vignettes/crs.pdf "https://cran.r-project.org/web/packages/crs/vignettes/crs.pdf")), and here is a reference that you may find useful:
+## Example scripts
 
-Nie, Z. and J.S. Racine (2012), "The crs Package: Nonparametric Regression Splines for Continuous and Categorical Predictors," The R Journal, Volume 4, Issue 2, 48-56.
+- Radial function in OpenGL: [radial_rgl.R](www/crs/radial_rgl.R)
+- Sine function in OpenGL: [sine_rgl.R](www/crs/sine_rgl.R)
+- Constrained spline mean estimation: [radial_constrained_mean.R](www/crs/radial_constrained_mean.R)
+- Constrained first partial derivative: [radial_constrained_first_partial.R](www/crs/radial_constrained_first_partial.R)
+- Constrained second partial derivative: [radial_constrained_second_partial.R](www/crs/radial_constrained_second_partial.R)
+
+The `*_rgl.R` scripts require `rgl` in addition to `crs`.
+
+## Start here if you want the concepts first
+
+If you want a short conceptual introduction before diving into scripts, start with [Spline Primer](spline_primer.qmd).
+
+If you want practical advice on search size, memory, smoothness, and knot selection, go next to [Spline Search and Tuning](spline_search_and_tuning.qmd).
+
+## A representative constrained example
+
+The longer constrained scripts construct the unrestricted spline fit, formulate restrictions, solve the quadratic programming problem, and then refit the restricted surface. If you want that style of example, start with [radial_constrained_mean.R](www/crs/radial_constrained_mean.R).
+
+## Can `crs` mimic linear regression?
+
+Yes. A simple way to think about this is that spline methods include simpler linear structures as special cases when the basis is restricted appropriately.
+
+```r
+library(crs)
+
+n <- 1000
+x1 <- runif(n)
+x2 <- runif(n)
+z1 <- factor(rbinom(n, 1, 0.1))
+z2 <- factor(rbinom(n, 1, 0.1))
+y <- x1 + x2^2 + z1 + z2 + rnorm(n)
+
+model_crs <- crs(
+  y ~ x1 + x2 + z1 + z2,
+  cv = "none",
+  kernel = FALSE,
+  degree = rep(1, 2),
+  segments = rep(1, 2)
+)
+
+summary(model_crs)
+```
+
+## References
+
+- Package vignette: [crs vignette on CRAN](https://cran.r-project.org/web/packages/crs/vignettes/crs.pdf)
+- Nie, Z. and J.S. Racine (2012), "The crs Package: Nonparametric Regression Splines for Continuous and Categorical Predictors," *The R Journal*, 4(2), 48-56.

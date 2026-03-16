@@ -155,3 +155,4 @@ dev.off()
 pdf(file="lp_radial_deriv_res.pdf")
 persp(x1.seq, x2.seq, fitted.res, col="lightgrey", ticktype="detailed", 
            ylab="X2", xlab="X1", zlim=zlim.res.unres, zlab="Conditional Expectation", theta=300, phi=30)
+dev.off()
