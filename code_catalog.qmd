@@ -10,7 +10,7 @@ keywords:
   - quickstart
 ---
 
-```{r}
+```{r code-catalog-setup}
 #| include: false
 source("site_helpers.R", local = knitr::knit_global())
 quickstarts <- read_quickstarts_manifest()
@@ -27,7 +27,7 @@ This page is meant to be the quickest route to working scripts. It groups the ex
 
 ## Minimal starters you can copy immediately
 
-```{r}
+```{r featured-quickstarts}
 #| echo: false
 #| results: asis
 render_featured_quickstarts(quickstarts)
@@ -35,7 +35,7 @@ render_featured_quickstarts(quickstarts)
 
 ## `np`: kernel methods in serial
 
-```{r}
+```{r np-quickstart-table}
 #| echo: false
 #| results: asis
 render_quickstart_catalog_table(subset(quickstarts, section == "np"))
@@ -55,7 +55,7 @@ render_quickstart_catalog_table(subset(quickstarts, section == "np"))
 
 If you want one current downloadable script before anything else, start here.
 
-```{r}
+```{r nprmpi-quickstart-table}
 #| echo: false
 #| results: asis
 render_quickstart_catalog_table(subset(quickstarts, section == "npRmpi"))
@@ -65,7 +65,7 @@ render_quickstart_catalog_table(subset(quickstarts, section == "npRmpi"))
 
 The blocks below are pulled directly from the script files in `www/`, so they stay aligned with the downloadable versions.
 
-```{r}
+```{r np-quickstart-callouts}
 #| echo: false
 #| results: asis
 render_quickstart_callouts(subset(quickstarts, section == "np"), prefix_package = TRUE)
@@ -76,7 +76,7 @@ render_quickstart_callouts(subset(quickstarts, section == "np"), prefix_package 
 
 Source file: [regression_intro_a.R](www/Regression/regression_intro_a.R)
 
-```{r}
+```{r regression-intro-source}
 #| echo: false
 #| results: asis
 emit_source("www/Regression/regression_intro_a.R")
@@ -88,14 +88,14 @@ emit_source("www/Regression/regression_intro_a.R")
 
 Source file: [regression_multivar_a.R](www/Regression/regression_multivar_a.R)
 
-```{r}
+```{r regression-multivar-source}
 #| echo: false
 #| results: asis
 emit_source("www/Regression/regression_multivar_a.R")
 ```
 :::
 
-```{r}
+```{r nprmpi-quickstart-callouts}
 #| echo: false
 #| results: asis
 render_quickstart_callouts(subset(quickstarts, section == "npRmpi"), prefix_package = TRUE)
@@ -138,7 +138,7 @@ These are older comparison scripts, but still useful if you want to see side-by-
 | [radial_constrained_first_partial.R](www/crs/radial_constrained_first_partial.R) | Constrained first derivative | uses `quadprog` |
 | [radial_constrained_second_partial.R](www/crs/radial_constrained_second_partial.R) | Constrained second derivative | uses `quadprog` |
 
-```{r}
+```{r crs-quickstart-callouts}
 #| echo: false
 #| results: asis
 render_quickstart_callouts(subset(quickstarts, section == "crs"), prefix_package = TRUE)

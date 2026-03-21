@@ -10,7 +10,7 @@ keywords:
   - bandwidth selection
 ---
 
-```{r}
+```{r kernel-methods-setup}
 #| include: false
 source("site_helpers.R", local = knitr::knit_global())
 ```
@@ -50,7 +50,7 @@ The code below is pulled from the current starter script.
 
 Source file: [np_regression_quickstart.R](www/np_npRmpi/np_regression_quickstart.R)
 
-```{r}
+```{r regression-quickstart-source}
 #| echo: false
 #| results: asis
 emit_source("www/np_npRmpi/np_regression_quickstart.R")

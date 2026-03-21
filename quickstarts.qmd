@@ -10,7 +10,7 @@ keywords:
   - starter scripts
 ---
 
-```{r}
+```{r quickstarts-setup}
 #| include: false
 source("site_helpers.R", local = knitr::knit_global())
 quickstarts <- read_quickstarts_manifest()
@@ -20,7 +20,7 @@ This page is the shortest route from “I need an example” to a small runnable
 
 ## Choose a starting point
 
-```{r}
+```{r quickstart-chooser}
 #| echo: false
 #| results: asis
 render_quickstart_choose_table(quickstarts)
@@ -28,7 +28,7 @@ render_quickstart_choose_table(quickstarts)
 
 ## `np` quickstarts
 
-```{r}
+```{r np-quickstarts-callouts}
 #| echo: false
 #| results: asis
 render_quickstart_callouts(subset(quickstarts, section == "np"))
@@ -36,7 +36,7 @@ render_quickstart_callouts(subset(quickstarts, section == "np"))
 
 ## `npRmpi` quickstarts
 
-```{r}
+```{r nprmpi-quickstarts-callouts}
 #| echo: false
 #| results: asis
 render_quickstart_callouts(subset(quickstarts, section == "npRmpi"))
@@ -44,7 +44,7 @@ render_quickstart_callouts(subset(quickstarts, section == "npRmpi"))
 
 ## `crs` quickstart
 
-```{r}
+```{r crs-quickstarts-callouts}
 #| echo: false
 #| results: asis
 render_quickstart_callouts(subset(quickstarts, section == "crs"))

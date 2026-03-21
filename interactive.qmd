@@ -9,7 +9,7 @@ keywords:
   - crs
 ---
 
-```{r}
+```{r interactive-setup}
 #| include: false
 source("site_helpers.R", local = knitr::knit_global())
 ```
@@ -62,7 +62,7 @@ Download or open one of the scripts below in RStudio, then source it. Once the p
 
 Source file: [manipulate_density.R](www/Fun/manipulate_density.R)
 
-```{r}
+```{r density-demo-source}
 #| echo: false
 #| results: asis
 emit_source("www/Fun/manipulate_density.R")
@@ -74,7 +74,7 @@ emit_source("www/Fun/manipulate_density.R")
 
 Source file: [manipulate_wage1.R](www/Fun/manipulate_wage1.R)
 
-```{r}
+```{r wage-demo-source}
 #| echo: false
 #| results: asis
 emit_source("www/Fun/manipulate_wage1.R")
