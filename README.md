@@ -29,6 +29,13 @@ cd /Users/jracine/Development/Gallery_website
 quarto render
 ```
 
+Run the gallery hygiene lint:
+
+```bash
+cd /Users/jracine/Development/Gallery_website
+./gallery_hygiene_lint.sh
+```
+
 ## Maintenance notes
 
 - keep the sidebar and top-level pages organized by user task, not by historical document names
@@ -42,6 +49,14 @@ quarto render
   - `np_getting_started`
   - `np_entropy_tests`
   - `nprmpi_getting_started`
+- keep current `.qmd` pages free of unnamed R chunks so render logs remain readable
+- keep current `npRmpi` session teaching surfaces consistent with the simple session pattern:
+  - `library(npRmpi)`
+  - `npRmpi.init(nslaves = 1)`
+  - ordinary code
+  - `npRmpi.quit()`
 - legacy vignette names/PDFs belong only on explicitly archival pages such as `legacy_materials.qmd`, not on current-routing pages like `faq.qmd`
+- before publish with gallery changes, run `./gallery_hygiene_lint.sh`
 - before publish, run `/Users/jracine/Development/package_gallery_sync_audit.sh`
 - use `quarto render` before publish so search metadata and inline source blocks stay current
+- prefer `/Users/jracine/Development/release_preflight.sh --render-gallery ...` for combined package/gallery release checks
