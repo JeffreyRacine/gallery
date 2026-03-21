@@ -8,8 +8,7 @@ rm(list = ls())
 
 library(npRmpi)
 
-npRmpi.init(mode = "attach", comm = 1, autodispatch = TRUE)
-options(np.messages = FALSE)
+npRmpi.init(mode = "attach")
 
 if (mpi.comm.rank(0L) == 0L) {
   set.seed(1)
@@ -23,5 +22,5 @@ if (mpi.comm.rank(0L) == 0L) {
   summary(bw)
   summary(fit)
 
-  npRmpi.quit(mode = "attach", comm = 1)
+  npRmpi.quit(mode = "attach")
 }

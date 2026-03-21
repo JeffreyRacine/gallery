@@ -646,7 +646,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="i-am-using-nprmpi-and-see-nprmpi-auto-dispatch-requires-an-active-mpi-slave-pool">I am using <code>npRmpi</code> and see <code>npRmpi auto-dispatch requires an active MPI slave pool</code></h2>
 <p>That means there is no active MPI session.</p>
 <ul>
-<li>For interactive work, call <code>npRmpi.init(mode = "spawn", ...)</code> first.</li>
+<li>For interactive work, call <code>npRmpi.init(nslaves = 1)</code> first.</li>
 <li>For <code>mpiexec</code> jobs, initialize with <code>npRmpi.init(mode = "attach", ...)</code> near the top of the script.</li>
 </ul>
 <p>On current package sources, Windows belongs in the second branch rather than the first.</p>

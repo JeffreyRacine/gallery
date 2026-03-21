@@ -9,10 +9,7 @@ rm(list = ls())
 
 library(npRmpi)
 
-npRmpi.init(mode = "spawn", nslaves = 1)
-on.exit(npRmpi.quit(), add = TRUE)
-
-options(npRmpi.autodispatch = TRUE, np.messages = FALSE)
+npRmpi.init(nslaves = 1)
 
 set.seed(1)
 x <- runif(200)
@@ -28,3 +25,5 @@ summary(fit)
 plot(dat$x, dat$y, cex = 0.35, col = "grey")
 o <- order(dat$x)
 lines(dat$x[o], fitted(fit)[o], col = 2, lwd = 2)
+
+npRmpi.quit()

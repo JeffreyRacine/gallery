@@ -200,7 +200,7 @@ citation("crs")
 
 That means there is no active MPI session.
 
-- For interactive work, call `npRmpi.init(mode = "spawn", ...)` first.
+- For interactive work, call `npRmpi.init(nslaves = 1)` first.
 - For `mpiexec` jobs, initialize with `npRmpi.init(mode = "attach", ...)` near the top of the script.
 
 On current package sources, Windows belongs in the second branch rather than the first.

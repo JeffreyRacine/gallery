@@ -35,7 +35,7 @@ Use this table when you already know roughly what you want to do, but not which 
 | Model specification and significance tests | `npcmstest`, `npsigtest` | [Significance and Specification](significance_and_specification.qmd) | [Quickstarts](quickstarts.qmd) |
 | Entropy, equality, symmetry, and dependence tests | `npdeneqtest`, `npunitest`, `npsymtest`, `npdeptest`, `npsdeptest` | [Entropy and Testing](entropy_tests.qmd) | [Quickstarts](quickstarts.qmd) |
 | Kernel sums and lower-level customization | `npksum` | [Build With npksum](npksum_custom.qmd) | [Code Catalog](code_catalog.qmd) |
-| MPI versions of familiar `np` workflows | `npRmpi.init`, `npreg`, `npregbw`, other `np*` calls under autodispatch | [MPI and Large Data](mpi_large_data.qmd) | [Quickstarts](quickstarts.qmd) |
+| MPI versions of familiar `np` workflows | `npRmpi.init`, `npreg`, `npregbw`, other `np*` calls after session startup | [MPI and Large Data](mpi_large_data.qmd) | [Quickstarts](quickstarts.qmd) |
 | Regression splines | `crs` | [Splines](crs.qmd) | [Quickstarts](quickstarts.qmd) |
 | Spline significance testing | `crssigtest` | [Splines](crs.qmd) | [Spline Primer](spline_primer.qmd) |
 | Instrumental regression splines | `crsiv`, `crsivderiv` | [Splines](crs.qmd) | [Code Catalog](code_catalog.qmd) |

@@ -8,7 +8,6 @@ rm(list = ls())
 ##     Rscript --no-save nprmpi_profile_quickstart.R
 
 invisible(mpi.bcast.cmd(np.mpi.initialize(), caller.execute = TRUE))
-invisible(mpi.bcast.cmd(options(np.messages = FALSE), caller.execute = TRUE))
 
 set.seed(1)
 x <- runif(200)
