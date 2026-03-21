@@ -165,7 +165,7 @@ That is not meant to replace the packaged procedures. It is meant to show that t
 
 - [Kernel Primer](kernel_primer.qmd) for the broader `np` workflow
 - [Kernel Methods](np_npRmpi.qmd) for the main landing page
-- `vignette("entropy_np", package = "np")` for the full original package vignette
+- `vignette("np_entropy_tests", package = "np")` for the installed package vignette
 
 ## Historical note
 

@@ -65,10 +65,10 @@ update.packages(checkBuilt = TRUE, ask = FALSE)
 Use the package vignettes and then the gallery pages.
 
 ```r
-vignette("np", package = "np")
-vignette("entropy_np", package = "np")
-vignette("crs", package = "crs")
-vignette("spline_primer", package = "crs")
+vignette("np_getting_started", package = "np")
+vignette("np_entropy_tests", package = "np")
+vignette("crs_getting_started", package = "crs")
+vignette("nprmpi_getting_started", package = "npRmpi")
 ```
 
 For a shorter web route, start with:

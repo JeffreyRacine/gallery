@@ -37,4 +37,11 @@ quarto render
 - when a quickstart script changes, update the underlying file in `www/` first and let `quickstarts.qmd` / `code_catalog.qmd` pick it up at render time
 - keep `data/quickstarts_manifest.csv` as the single source of truth for quickstart labels, routing text, and featured ordering
 - keep package-specific canonical details in the package repos where practical
+- keep current-routing gallery pages aligned with the shipped package vignette names:
+  - `crs_getting_started`
+  - `np_getting_started`
+  - `np_entropy_tests`
+  - `nprmpi_getting_started`
+- legacy vignette names/PDFs belong only on explicitly archival pages such as `legacy_materials.qmd`, not on current-routing pages like `faq.qmd`
+- before publish, run `/Users/jracine/Development/package_gallery_sync_audit.sh`
 - use `quarto render` before publish so search metadata and inline source blocks stay current

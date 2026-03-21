@@ -140,7 +140,7 @@ lines(cps71$age, fitted(fit_ll), col = 2, lty = 2)
 - [Kernel Methods](np_npRmpi.qmd) for the main landing page
 - [MPI and Large Data](mpi_large_data.qmd) if the same workflow needs MPI
 - [Code Catalog](code_catalog.qmd) for the current script library
-- `vignette("np", package = "np")` for the full package vignette
+- `vignette("np_getting_started", package = "np")` for the installed package vignette
 
 ## Historical note
 

@@ -609,7 +609,7 @@
     "href": "entropy_tests.html#what-to-read-next",
     "title": "Entropy and Testing",
     "section": "What to read next",
-    "text": "What to read next\n\nKernel Primer for the broader np workflow\nKernel Methods for the main landing page\nvignette(\"entropy_np\", package = \"np\") for the full original package vignette",
+    "text": "What to read next\n\nKernel Primer for the broader np workflow\nKernel Methods for the main landing page\nvignette(\"np_entropy_tests\", package = \"np\") for the installed package vignette",
     "crumbs": [
       "Methods",
       "Entropy and Testing"
@@ -2072,7 +2072,7 @@
     "href": "faq.html#where-is-the-gentlest-introduction-to-the-packages",
     "title": "FAQ and Troubleshooting",
     "section": "Where is the gentlest introduction to the packages?",
-    "text": "Where is the gentlest introduction to the packages?\nUse the package vignettes and then the gallery pages.\nvignette(\"np\", package = \"np\")\nvignette(\"entropy_np\", package = \"np\")\nvignette(\"crs\", package = \"crs\")\nvignette(\"spline_primer\", package = \"crs\")\nFor a shorter web route, start with:\n\nQuickstarts\nKernel Methods\nDensity, Distribution, Quantiles\nSplines\nWorked Examples",
+    "text": "Where is the gentlest introduction to the packages?\nUse the package vignettes and then the gallery pages.\nvignette(\"np_getting_started\", package = \"np\")\nvignette(\"np_entropy_tests\", package = \"np\")\nvignette(\"crs_getting_started\", package = \"crs\")\nvignette(\"nprmpi_getting_started\", package = \"npRmpi\")\nFor a shorter web route, start with:\n\nQuickstarts\nKernel Methods\nDensity, Distribution, Quantiles\nSplines\nWorked Examples",
     "crumbs": [
       "Support",
       "FAQ and Troubleshooting"
@@ -2589,7 +2589,7 @@
     "href": "kernel_primer.html#what-to-read-next",
     "title": "Kernel Primer",
     "section": "What to read next",
-    "text": "What to read next\n\nKernel Methods for the main landing page\nMPI and Large Data if the same workflow needs MPI\nCode Catalog for the current script library\nvignette(\"np\", package = \"np\") for the full package vignette",
+    "text": "What to read next\n\nKernel Methods for the main landing page\nMPI and Large Data if the same workflow needs MPI\nCode Catalog for the current script library\nvignette(\"np_getting_started\", package = \"np\") for the installed package vignette",
     "crumbs": [
       "Methods",
       "Kernel Primer"
