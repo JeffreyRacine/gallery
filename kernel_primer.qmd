@@ -121,6 +121,31 @@ Practical advice:
 - expect some plots or bootstrap-based intervals to take time,
 - move to `npRmpi` when the workflow is right but the runtime becomes the bottleneck.
 
+## Modern LP shortcut: `nomad = TRUE`
+
+For LP-capable families, there is now a second modern entry path alongside the
+basic bandwidth-object workflow:
+
+```r
+library(np)
+data(cps71, package = "np")
+
+fit_lp <- npreg(logwage ~ age, data = cps71, nomad = TRUE, degree.max = 2L, nmulti = 1L)
+```
+
+This is the recommended convenience route when you want automatic
+local-polynomial degree and bandwidth search in one call. It does not replace
+the bandwidth-object-first workflow explained above; it complements it.
+
+If you want a small runnable script for this route, start with
+[np_regression_nomad_quickstart.R](www/np_npRmpi/np_regression_nomad_quickstart.R).
+
+Practical note:
+
+- `nomad = TRUE` requires the `crs` package because NOMAD degree search is
+  provided there.
+- after fitting, inspect `fit$bws$nomad.shortcut` to see the normalized preset.
+
 ## A small regression example
 
 ```r

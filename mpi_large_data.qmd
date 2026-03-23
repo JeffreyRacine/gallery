@@ -27,6 +27,17 @@ If you want the smallest runnable examples first, go to [Quickstarts](quickstart
 - For `session` and `attach`, the supported modern workflow is `npRmpi.init(...)` followed by ordinary `np*` calls.
 - `profile` mode is different: it uses an explicit startup profile and explicit broadcast commands.
 
+## The same LP shortcut after MPI initialization
+
+Once `npRmpi.init(...)` has been called, the same `nomad = TRUE` convenience
+route available in serial `np` is available here for LP-capable families.
+
+If you want the smallest runnable example of that pattern, start with
+[nprmpi_session_nomad_quickstart.R](www/np_npRmpi/nprmpi_session_nomad_quickstart.R).
+
+As in serial `np`, this shortcut requires the `crs` package because NOMAD
+degree search is provided there.
+
 ## Mode chooser
 
 | If you want to... | Use this mode | Launch pattern | Key rule | Script |

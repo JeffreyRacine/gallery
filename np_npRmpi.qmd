@@ -38,11 +38,27 @@ If your focus is testing whether variables matter or whether a parametric model 
 | If you want to... | Start here | Small runnable script |
 |---|---|---|
 | fit a first kernel regression | [Kernel Primer](kernel_primer.qmd) | [np_regression_quickstart.R](www/np_npRmpi/np_regression_quickstart.R) |
+| use the modern local-polynomial shortcut | [Kernel Primer](kernel_primer.qmd) | [np_regression_nomad_quickstart.R](www/np_npRmpi/np_regression_nomad_quickstart.R) |
 | work with densities, distributions, or quantiles | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) | [Quickstarts](quickstarts.qmd) |
 | work with classification or conditional mode | [Classification and Modes](classification_modes.qmd) | [np_classification_quickstart.R](www/np_npRmpi/np_classification_quickstart.R) |
 | work with partially linear, single-index, or varying-coefficient models | [Semiparametric Models](semiparametric_models.qmd) | [np_semiparametric_quickstart.R](www/np_npRmpi/np_semiparametric_quickstart.R) |
 | stay serial for now but look at richer scripts | [Code Catalog](code_catalog.qmd) | [Worked Examples](regression.qmd) |
 | run the same style of workflow with MPI | [MPI and Large Data](mpi_large_data.qmd) | [nprmpi_session_quickstart.R](www/np_npRmpi/nprmpi_session_quickstart.R) |
+
+## Modern LP shortcut
+
+For LP-capable families, the modern convenience route is now
+`nomad = TRUE`. This is not a replacement for the basic bandwidth-object
+workflow above; it is the easiest front door when you want automatic
+local-polynomial degree and bandwidth search in one call.
+
+Start with:
+
+- [np_regression_nomad_quickstart.R](www/np_npRmpi/np_regression_nomad_quickstart.R) for serial `np`
+- [nprmpi_session_nomad_quickstart.R](www/np_npRmpi/nprmpi_session_nomad_quickstart.R) for `npRmpi` after MPI initialization
+
+This LP shortcut requires the `crs` package because NOMAD degree search is
+provided there.
 
 ## A very small `np` workflow
 

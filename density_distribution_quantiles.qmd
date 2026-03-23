@@ -74,6 +74,17 @@ plot(Fhat, view = "fixed", main = "")
 
 This route is especially useful when the question is not simply whether the mean changes, but whether the entire distribution changes.
 
+For LP-capable conditional families, the same modern shortcut is now available:
+
+```r
+fhat_lp <- npcdens(eruptions ~ waiting, data = dat, nomad = TRUE, nmulti = 1)
+Fhat_lp <- npcdist(eruptions ~ waiting, data = dat, nomad = TRUE, nmulti = 1)
+```
+
+That is the convenience route for automatic local-polynomial degree and
+bandwidth search in a single call. As with regression, it requires the `crs`
+package because NOMAD degree search is provided there.
+
 ## Nonparametric quantile regression: `npqreg`
 
 Use `npqreg` when your interest lies in conditional quantiles rather than means.

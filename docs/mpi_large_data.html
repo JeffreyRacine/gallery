@@ -399,6 +399,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#short-version" id="toc-short-version" class="nav-link active" data-scroll-target="#short-version">Short version</a></li>
+  <li><a href="#the-same-lp-shortcut-after-mpi-initialization" id="toc-the-same-lp-shortcut-after-mpi-initialization" class="nav-link" data-scroll-target="#the-same-lp-shortcut-after-mpi-initialization">The same LP shortcut after MPI initialization</a></li>
   <li><a href="#mode-chooser" id="toc-mode-chooser" class="nav-link" data-scroll-target="#mode-chooser">Mode chooser</a></li>
   <li><a href="#a-safe-validation-ladder" id="toc-a-safe-validation-ladder" class="nav-link" data-scroll-target="#a-safe-validation-ladder">A safe validation ladder</a></li>
   <li><a href="#platform-map" id="toc-platform-map" class="nav-link" data-scroll-target="#platform-map">Platform map</a></li>
@@ -482,6 +483,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>For <code>session</code> and <code>attach</code>, the supported modern workflow is <code>npRmpi.init(...)</code> followed by ordinary <code>np*</code> calls.</li>
 <li><code>profile</code> mode is different: it uses an explicit startup profile and explicit broadcast commands.</li>
 </ul>
+</section>
+<section id="the-same-lp-shortcut-after-mpi-initialization" class="level2">
+<h2 class="anchored" data-anchor-id="the-same-lp-shortcut-after-mpi-initialization">The same LP shortcut after MPI initialization</h2>
+<p>Once <code>npRmpi.init(...)</code> has been called, the same <code>nomad = TRUE</code> convenience route available in serial <code>np</code> is available here for LP-capable families.</p>
+<p>If you want the smallest runnable example of that pattern, start with <a href="www/np_npRmpi/nprmpi_session_nomad_quickstart.R">nprmpi_session_nomad_quickstart.R</a>.</p>
+<p>As in serial <code>np</code>, this shortcut requires the <code>crs</code> package because NOMAD degree search is provided there.</p>
 </section>
 <section id="mode-chooser" class="level2">
 <h2 class="anchored" data-anchor-id="mode-chooser">Mode chooser</h2>

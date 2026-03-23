@@ -406,6 +406,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#formula-interface-versus-data-frame-interface" id="toc-formula-interface-versus-data-frame-interface" class="nav-link" data-scroll-target="#formula-interface-versus-data-frame-interface">Formula interface versus data-frame interface</a></li>
   <li><a href="#generalized-product-kernels-in-one-sentence" id="toc-generalized-product-kernels-in-one-sentence" class="nav-link" data-scroll-target="#generalized-product-kernels-in-one-sentence">Generalized product kernels in one sentence</a></li>
   <li><a href="#computational-reality" id="toc-computational-reality" class="nav-link" data-scroll-target="#computational-reality">Computational reality</a></li>
+  <li><a href="#modern-lp-shortcut-nomad-true" id="toc-modern-lp-shortcut-nomad-true" class="nav-link" data-scroll-target="#modern-lp-shortcut-nomad-true">Modern LP shortcut: <code>nomad = TRUE</code></a></li>
   <li><a href="#a-small-regression-example" id="toc-a-small-regression-example" class="nav-link" data-scroll-target="#a-small-regression-example">A small regression example</a></li>
   <li><a href="#what-to-read-next" id="toc-what-to-read-next" class="nav-link" data-scroll-target="#what-to-read-next">What to read next</a></li>
   <li><a href="#historical-note" id="toc-historical-note" class="nav-link" data-scroll-target="#historical-note">Historical note</a></li>
@@ -529,17 +530,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>move to <code>npRmpi</code> when the workflow is right but the runtime becomes the bottleneck.</li>
 </ul>
 </section>
-<section id="a-small-regression-example" class="level2">
-<h2 class="anchored" data-anchor-id="a-small-regression-example">A small regression example</h2>
+<section id="modern-lp-shortcut-nomad-true" class="level2">
+<h2 class="anchored" data-anchor-id="modern-lp-shortcut-nomad-true">Modern LP shortcut: <code>nomad = TRUE</code></h2>
+<p>For LP-capable families, there is now a second modern entry path alongside the basic bandwidth-object workflow:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(cps71, <span class="at">package =</span> <span class="st">"np"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>fit_lc <span class="ot">&lt;-</span> <span class="fu">npreg</span>(logwage <span class="sc">~</span> age, <span class="at">data =</span> cps71)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>fit_ll <span class="ot">&lt;-</span> <span class="fu">npreg</span>(logwage <span class="sc">~</span> age, <span class="at">data =</span> cps71, <span class="at">regtype =</span> <span class="st">"ll"</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cps71<span class="sc">$</span>age, cps71<span class="sc">$</span>logwage, <span class="at">cex =</span> <span class="fl">0.25</span>, <span class="at">col =</span> <span class="st">"grey"</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(cps71<span class="sc">$</span>age, <span class="fu">fitted</span>(fit_lc), <span class="at">col =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(cps71<span class="sc">$</span>age, <span class="fu">fitted</span>(fit_ll), <span class="at">col =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>fit_lp <span class="ot">&lt;-</span> <span class="fu">npreg</span>(logwage <span class="sc">~</span> age, <span class="at">data =</span> cps71, <span class="at">nomad =</span> <span class="cn">TRUE</span>, <span class="at">degree.max =</span> <span class="dv">2</span>L, <span class="at">nmulti =</span> <span class="dv">1</span>L)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This is the recommended convenience route when you want automatic local-polynomial degree and bandwidth search in one call. It does not replace the bandwidth-object-first workflow explained above; it complements it.</p>
+<p>If you want a small runnable script for this route, start with <a href="www/np_npRmpi/np_regression_nomad_quickstart.R">np_regression_nomad_quickstart.R</a>.</p>
+<p>Practical note:</p>
+<ul>
+<li><code>nomad = TRUE</code> requires the <code>crs</code> package because NOMAD degree search is provided there.</li>
+<li>after fitting, inspect <code>fit$bws$nomad.shortcut</code> to see the normalized preset.</li>
+</ul>
+</section>
+<section id="a-small-regression-example" class="level2">
+<h2 class="anchored" data-anchor-id="a-small-regression-example">A small regression example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(cps71, <span class="at">package =</span> <span class="st">"np"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>fit_lc <span class="ot">&lt;-</span> <span class="fu">npreg</span>(logwage <span class="sc">~</span> age, <span class="at">data =</span> cps71)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>fit_ll <span class="ot">&lt;-</span> <span class="fu">npreg</span>(logwage <span class="sc">~</span> age, <span class="at">data =</span> cps71, <span class="at">regtype =</span> <span class="st">"ll"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cps71<span class="sc">$</span>age, cps71<span class="sc">$</span>logwage, <span class="at">cex =</span> <span class="fl">0.25</span>, <span class="at">col =</span> <span class="st">"grey"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(cps71<span class="sc">$</span>age, <span class="fu">fitted</span>(fit_lc), <span class="at">col =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(cps71<span class="sc">$</span>age, <span class="fu">fitted</span>(fit_ll), <span class="at">col =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="what-to-read-next" class="level2">
 <h2 class="anchored" data-anchor-id="what-to-read-next">What to read next</h2>

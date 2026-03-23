@@ -20,6 +20,26 @@ This page highlights three important families:
 
 If you want a minimal downloadable script for the semiparametric route, start with [np_semiparametric_quickstart.R](www/np_npRmpi/np_semiparametric_quickstart.R).
 
+For LP-capable semiparametric families, there is now also a modern convenience
+route via `nomad = TRUE`. The simplest example is partially linear regression:
+
+```r
+library(np)
+
+set.seed(42)
+n <- 200
+x1 <- rnorm(n)
+z <- runif(n)
+y <- 1 + 2 * x1 + sin(2 * pi * z) + rnorm(n, sd = 0.2)
+dat <- data.frame(y, x1, z)
+
+fit_pl_lp <- npplreg(y ~ x1 | z, data = dat, nomad = TRUE, degree.max = 2L, nmulti = 1)
+```
+
+The same shortcut is available for `npindex` and `npscoef` on their supported
+LP-capable routes. As with the regression and conditional-density families, it
+requires the `crs` package because NOMAD degree search is provided there.
+
 ## Why use a semiparametric model?
 
 A semiparametric model is often attractive when:

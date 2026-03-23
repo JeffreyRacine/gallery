@@ -399,6 +399,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#fast-routes" id="toc-fast-routes" class="nav-link active" data-scroll-target="#fast-routes">Fast routes</a></li>
+  <li><a href="#modern-lp-shortcut" id="toc-modern-lp-shortcut" class="nav-link" data-scroll-target="#modern-lp-shortcut">Modern LP shortcut</a></li>
   <li><a href="#a-very-small-np-workflow" id="toc-a-very-small-np-workflow" class="nav-link" data-scroll-target="#a-very-small-np-workflow">A very small <code>np</code> workflow</a></li>
   <li><a href="#a-multivariate-route" id="toc-a-multivariate-route" class="nav-link" data-scroll-target="#a-multivariate-route">A multivariate route</a></li>
   <li><a href="#when-to-move-to-nprmpi" id="toc-when-to-move-to-nprmpi" class="nav-link" data-scroll-target="#when-to-move-to-nprmpi">When to move to <code>npRmpi</code></a></li>
@@ -467,32 +468,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><a href="www/np_npRmpi/np_regression_quickstart.R">np_regression_quickstart.R</a></td>
 </tr>
 <tr class="even">
+<td>use the modern local-polynomial shortcut</td>
+<td><a href="./kernel_primer.html">Kernel Primer</a></td>
+<td><a href="www/np_npRmpi/np_regression_nomad_quickstart.R">np_regression_nomad_quickstart.R</a></td>
+</tr>
+<tr class="odd">
 <td>work with densities, distributions, or quantiles</td>
 <td><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a></td>
 <td><a href="./quickstarts.html">Quickstarts</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>work with classification or conditional mode</td>
 <td><a href="./classification_modes.html">Classification and Modes</a></td>
 <td><a href="www/np_npRmpi/np_classification_quickstart.R">np_classification_quickstart.R</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>work with partially linear, single-index, or varying-coefficient models</td>
 <td><a href="./semiparametric_models.html">Semiparametric Models</a></td>
 <td><a href="www/np_npRmpi/np_semiparametric_quickstart.R">np_semiparametric_quickstart.R</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>stay serial for now but look at richer scripts</td>
 <td><a href="./code_catalog.html">Code Catalog</a></td>
 <td><a href="./regression.html">Worked Examples</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>run the same style of workflow with MPI</td>
 <td><a href="./mpi_large_data.html">MPI and Large Data</a></td>
 <td><a href="www/np_npRmpi/nprmpi_session_quickstart.R">nprmpi_session_quickstart.R</a></td>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="modern-lp-shortcut" class="level2">
+<h2 class="anchored" data-anchor-id="modern-lp-shortcut">Modern LP shortcut</h2>
+<p>For LP-capable families, the modern convenience route is now <code>nomad = TRUE</code>. This is not a replacement for the basic bandwidth-object workflow above; it is the easiest front door when you want automatic local-polynomial degree and bandwidth search in one call.</p>
+<p>Start with:</p>
+<ul>
+<li><a href="www/np_npRmpi/np_regression_nomad_quickstart.R">np_regression_nomad_quickstart.R</a> for serial <code>np</code></li>
+<li><a href="www/np_npRmpi/nprmpi_session_nomad_quickstart.R">nprmpi_session_nomad_quickstart.R</a> for <code>npRmpi</code> after MPI initialization</li>
+</ul>
+<p>This LP shortcut requires the <code>crs</code> package because NOMAD degree search is provided there.</p>
 </section>
 <section id="a-very-small-np-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="a-very-small-np-workflow">A very small <code>np</code> workflow</h2>
