@@ -47,7 +47,7 @@ Without gates, the likely failure mode is:
 
 ### 3. It proposed homepage surfacing before asset proof
 
-Promoting `np.pairs` and `crsiv` before the new quickstarts exist and are proven
+Promoting new routes such as `crsiv` before the supporting quickstarts exist and are proven
 would create “promised routes” instead of actual routes.
 
 The safer order is:
@@ -265,9 +265,8 @@ Goal:
 
 Candidates:
 
-1. `www/np_npRmpi/np_pairs_quickstart.R`
-2. `www/crs/crs_iv_quickstart.R`
-3. optional later:
+1. `www/crs/crs_iv_quickstart.R`
+2. optional later:
    - `www/crs/crs_ivderiv_quickstart.R`
 
 Files allowed in this tranche:
@@ -368,7 +367,6 @@ Primary file:
 
 Possible additions:
 
-- `np.pairs`
 - `np.kernels`
 - `np.options`
 - `npreghat` / `npcdenshat` family as advanced-helper routes
@@ -409,7 +407,7 @@ Allowed emphasis:
 - `nomad = TRUE`
 - joint LP degree/bandwidth selection
 - where to go from classic bandwidth-object workflow to newer LP workflow
-- optional advanced pointers to `np.options`, `np.kernels`, `np.pairs`
+- optional advanced pointers to `np.options` and `np.kernels`
 
 Validation:
 
@@ -499,7 +497,7 @@ Validation:
 
 The safest highest-ROI implementation order is:
 
-1. Tranche 1: add `np_pairs_quickstart.R` and `crs_iv_quickstart.R`
+1. Tranche 1: add `crs_iv_quickstart.R`
 2. Tranche 2: update `index.qmd` and `primer.qmd`
 3. Tranche 3: update `quickstarts.qmd` and `code_catalog.qmd`
 4. Tranche 4: modernize `function_index.qmd`
