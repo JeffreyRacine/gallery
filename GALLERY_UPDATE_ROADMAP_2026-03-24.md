@@ -26,6 +26,8 @@ Primary feature emphasis for the next wave:
   predictors
 - bounded-kernel conditional density/distribution capability, especially for
   known bounds and practical unknown-bound workflows
+- pointwise, Bonferroni, and simultaneous variability bounds, with
+  `plot.errors.type = "all"` as the convenient comparison surface
 - operational distinction:
   - `np`: methodology and modeling capability
   - `npRmpi`: operational execution of the same capability at scale
@@ -186,6 +188,8 @@ When a gallery page foregrounds the new LP surface, the lead claim should be:
 - joint degree-and-bandwidth selection over mixed data
 - bounded-support conditional density/distribution capability where it changes
   practice materially
+- modern variability bounds where pointwise, Bonferroni, and simultaneous
+  choices affect interpretation directly
 
 not:
 
@@ -348,6 +352,9 @@ Allowed changes:
 - concise explanation that bounded-kernel conditional density/distribution
   workflows are now part of the current package story for known and practical
   unknown-bound settings
+- concise explanation that modern variability-bound choices now include
+  pointwise, Bonferroni, and simultaneous bands, with
+  `plot.errors.type = "all"` as the user-friendly discovery surface
 
 Not allowed:
 
@@ -389,6 +396,8 @@ Allowed changes:
   broader LP-capable conditional-family workflow
 - callouts that distinguish unbounded default workflows from bounded-support
   conditional density/distribution workflows
+- callouts that distinguish pointwise, Bonferroni, and simultaneous
+  variability-bound use cases
 
 Not allowed:
 
@@ -457,6 +466,8 @@ Allowed emphasis:
   workflow
 - where bounded-support conditional density/distribution fits, including known
   bounds and empirical-range fallback language
+- where to route users who want pointwise versus Bonferroni versus
+  simultaneous bounds
 - methodological signposting that matches the shipped `.Rd` references to Hall
   and Racine plus Li, Li, and Racine
 - optional advanced pointers to `np.options` and `np.kernels`
@@ -486,6 +497,8 @@ Allowed emphasis:
   `npRmpi.init(...)`
 - bounded-kernel conditional density/distribution examples taught operationally
   without changing the underlying methodological emphasis
+- current plot error-band choices taught operationally without clutter:
+  pointwise, Bonferroni, simultaneous, and `plot.errors.type = "all"`
 
 Not allowed:
 
