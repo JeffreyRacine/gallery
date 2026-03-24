@@ -57,7 +57,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -454,23 +474,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td>The main nonparametric econometrics theory reference</td>
-<td>Li and Racine, <em>Nonparametric Econometrics: Theory and Practice</em></td>
+<td>Li and Racine, <em>Nonparametric Econometrics: Theory and Practice</em> <span class="citation" data-cites="book-li_2007">(<a href="#ref-book-li_2007" role="doc-biblioref">Li and Racine 2007</a>)</span></td>
 </tr>
 <tr class="even">
 <td>A reproducible R-oriented route through econometrics</td>
-<td>Racine, <em>Reproducible Econometrics Using R</em></td>
+<td>Racine, <em>Reproducible Econometrics Using R</em> <span class="citation" data-cites="book-racine_2019b">(<a href="#ref-book-racine_2019b" role="doc-biblioref">Racine 2019</a>)</span></td>
 </tr>
 <tr class="odd">
 <td>A package-focused introduction to <code>np</code></td>
-<td>Hayfield and Racine (2008), <em>Journal of Statistical Software</em></td>
+<td>Hayfield and Racine (2008) <span class="citation" data-cites="hayfield_2008">(<a href="#ref-hayfield_2008" role="doc-biblioref">Hayfield and Racine 2008</a>)</span></td>
 </tr>
 <tr class="even">
 <td>The parallel/MPI package paper</td>
-<td>Ho, Huynh, and Jacho-Chavez (2011), <em>Journal of Applied Econometrics</em></td>
+<td>Ho, Huynh, and Jacho-Chavez (2011) <span class="citation" data-cites="ho_2011">(<a href="#ref-ho_2011" role="doc-biblioref">Ho, Huynh, and Jacho-Chavez 2011</a>)</span></td>
 </tr>
 <tr class="odd">
 <td>The spline-package paper</td>
-<td>Nie and Racine (2012), <em>The R Journal</em></td>
+<td>Nie and Racine (2012) <span class="citation" data-cites="nie_2012">(<a href="#ref-nie_2012" role="doc-biblioref">Nie and Racine 2012</a>)</span></td>
 </tr>
 <tr class="even">
 <td>A shorter website-first route before reading papers</td>
@@ -482,17 +502,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="books" class="level2">
 <h2 class="anchored" data-anchor-id="books">Books</h2>
 <ul>
-<li>Qi Li and Jeffrey S. Racine, <em>Nonparametric Econometrics: Theory and Practice</em> (Princeton University Press)</li>
-<li>Jeffrey S. Racine, <em>An Introduction to the Advanced Theory and Practice of Nonparametric Econometrics (A Replicable Approach Using R)</em> (Cambridge manuscript)</li>
-<li>Jeffrey S. Racine, <em>Reproducible Econometrics Using R</em> (Oxford University Press)</li>
+<li>Qi Li and Jeffrey S. Racine, <em>Nonparametric Econometrics: Theory and Practice</em> <span class="citation" data-cites="book-li_2007">(<a href="#ref-book-li_2007" role="doc-biblioref">Li and Racine 2007</a>)</span></li>
+<li>Jeffrey S. Racine, <em>Reproducible Econometrics Using R</em> <span class="citation" data-cites="book-racine_2019b">(<a href="#ref-book-racine_2019b" role="doc-biblioref">Racine 2019</a>)</span></li>
 </ul>
 </section>
 <section id="package-papers" class="level2">
 <h2 class="anchored" data-anchor-id="package-papers">Package papers</h2>
 <ul>
-<li>Hayfield, T. and J.S. Racine (2008), “Nonparametric Econometrics: The np Package,” <em>Journal of Statistical Software</em>, 27(5), 1-32.</li>
-<li>Ho, A.T., K.P. Huynh, and D.T. Jacho-Chavez (2011), “npRmpi: A Package for Parallel Distributed Kernel Estimation in R,” <em>Journal of Applied Econometrics</em>, 26, 344-349.</li>
-<li>Nie, Z. and J.S. Racine (2012), “The crs Package: Nonparametric Regression Splines for Continuous and Categorical Predictors,” <em>The R Journal</em>, 4(2), 48-56.</li>
+<li>Hayfield, T. and J.S. Racine (2008), “Nonparametric Econometrics: The np Package” <span class="citation" data-cites="hayfield_2008">(<a href="#ref-hayfield_2008" role="doc-biblioref">Hayfield and Racine 2008</a>)</span>.</li>
+<li>Ho, A.T., K.P. Huynh, and D.T. Jacho-Chavez (2011), “npRmpi: A Package for Parallel Distributed Kernel Estimation in R” <span class="citation" data-cites="ho_2011">(<a href="#ref-ho_2011" role="doc-biblioref">Ho, Huynh, and Jacho-Chavez 2011</a>)</span>.</li>
+<li>Nie, Z. and J.S. Racine (2012), “The crs Package: Nonparametric Regression Splines for Continuous and Categorical Predictors” <span class="citation" data-cites="nie_2012">(<a href="#ref-nie_2012" role="doc-biblioref">Nie and Racine 2012</a>)</span>.</li>
 </ul>
 <p>These are still useful because they explain package intent, not just function syntax.</p>
 </section>
@@ -525,9 +544,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Further materials, including code and related resources, remain available at <a href="https://jeffreyracine.github.io/research">jeffreyracine.github.io/research</a>.</p>
 
 
+
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-hayfield_2008" class="csl-entry" role="listitem">
+Hayfield, T., and J. S. Racine. 2008. <span>“Nonparametric Econometrics: The Np Package.”</span> <em>Journal of Statistical Software</em> 27 (5): 1–32. <a href="https://doi.org/10.18637/jss.v027.i05">https://doi.org/10.18637/jss.v027.i05</a>.
+</div>
+<div id="ref-ho_2011" class="csl-entry" role="listitem">
+Ho, A. T., K. P. Huynh, and D. T. Jacho-Chavez. 2011. <span>“npRmpi: A Package for Parallel Distributed Kernel Estimation in <span>R</span>.”</span> <em>Journal of Applied Econometrics</em> 26: 344–49.
+</div>
+<div id="ref-book-li_2007" class="csl-entry" role="listitem">
+Li, Q., and J. S. Racine. 2007. <em>Nonparametric Econometrics: Theory and Practice</em>. Princeton University Press. <a href="https://press.princeton.edu/books/hardcover/9780691121611/nonparametric-econometrics">https://press.princeton.edu/books/hardcover/9780691121611/nonparametric-econometrics</a>.
+</div>
+<div id="ref-nie_2012" class="csl-entry" role="listitem">
+Nie, Z., and J. S. Racine. 2012. <span>“The Crs Package: Nonparametric Regression Splines for Continuous and Categorical Predictors.”</span> <em>The <span>R</span> Journal</em> 4 (2): 48–56. <a href="https://doi.org/10.32614/rj-2012-012">https://doi.org/10.32614/rj-2012-012</a>.
+</div>
+<div id="ref-book-racine_2019b" class="csl-entry" role="listitem">
+Racine, J. S. 2019. <em>Reproducible Econometrics Using <span>R</span></em>. Oxford University Press. <a href="https://doi.org/10.1093/oso/9780190900663.001.0001">https://doi.org/10.1093/oso/9780190900663.001.0001</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

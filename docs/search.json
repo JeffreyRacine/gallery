@@ -2465,7 +2465,7 @@
     "href": "books_papers.html#where-should-i-begin",
     "title": "Books, Papers, and Citation",
     "section": "Where should I begin?",
-    "text": "Where should I begin?\n\n\n\nIf you want…\nStart here\n\n\n\n\nThe main nonparametric econometrics theory reference\nLi and Racine, Nonparametric Econometrics: Theory and Practice\n\n\nA reproducible R-oriented route through econometrics\nRacine, Reproducible Econometrics Using R\n\n\nA package-focused introduction to np\nHayfield and Racine (2008), Journal of Statistical Software\n\n\nThe parallel/MPI package paper\nHo, Huynh, and Jacho-Chavez (2011), Journal of Applied Econometrics\n\n\nThe spline-package paper\nNie and Racine (2012), The R Journal\n\n\nA shorter website-first route before reading papers\nKernel Primer, Splines, and MPI and Large Data",
+    "text": "Where should I begin?\n\n\n\nIf you want…\nStart here\n\n\n\n\nThe main nonparametric econometrics theory reference\nLi and Racine, Nonparametric Econometrics: Theory and Practice (Li and Racine 2007)\n\n\nA reproducible R-oriented route through econometrics\nRacine, Reproducible Econometrics Using R (Racine 2019)\n\n\nA package-focused introduction to np\nHayfield and Racine (2008) (Hayfield and Racine 2008)\n\n\nThe parallel/MPI package paper\nHo, Huynh, and Jacho-Chavez (2011) (Ho, Huynh, and Jacho-Chavez 2011)\n\n\nThe spline-package paper\nNie and Racine (2012) (Nie and Racine 2012)\n\n\nA shorter website-first route before reading papers\nKernel Primer, Splines, and MPI and Large Data",
     "crumbs": [
       "Support",
       "Books, Papers, and Citation"
@@ -2476,7 +2476,7 @@
     "href": "books_papers.html#books",
     "title": "Books, Papers, and Citation",
     "section": "Books",
-    "text": "Books\n\nQi Li and Jeffrey S. Racine, Nonparametric Econometrics: Theory and Practice (Princeton University Press)\nJeffrey S. Racine, An Introduction to the Advanced Theory and Practice of Nonparametric Econometrics (A Replicable Approach Using R) (Cambridge manuscript)\nJeffrey S. Racine, Reproducible Econometrics Using R (Oxford University Press)",
+    "text": "Books\n\nQi Li and Jeffrey S. Racine, Nonparametric Econometrics: Theory and Practice (Li and Racine 2007)\nJeffrey S. Racine, Reproducible Econometrics Using R (Racine 2019)",
     "crumbs": [
       "Support",
       "Books, Papers, and Citation"
@@ -2487,7 +2487,7 @@
     "href": "books_papers.html#package-papers",
     "title": "Books, Papers, and Citation",
     "section": "Package papers",
-    "text": "Package papers\n\nHayfield, T. and J.S. Racine (2008), “Nonparametric Econometrics: The np Package,” Journal of Statistical Software, 27(5), 1-32.\nHo, A.T., K.P. Huynh, and D.T. Jacho-Chavez (2011), “npRmpi: A Package for Parallel Distributed Kernel Estimation in R,” Journal of Applied Econometrics, 26, 344-349.\nNie, Z. and J.S. Racine (2012), “The crs Package: Nonparametric Regression Splines for Continuous and Categorical Predictors,” The R Journal, 4(2), 48-56.\n\nThese are still useful because they explain package intent, not just function syntax.",
+    "text": "Package papers\n\nHayfield, T. and J.S. Racine (2008), “Nonparametric Econometrics: The np Package” (Hayfield and Racine 2008).\nHo, A.T., K.P. Huynh, and D.T. Jacho-Chavez (2011), “npRmpi: A Package for Parallel Distributed Kernel Estimation in R” (Ho, Huynh, and Jacho-Chavez 2011).\nNie, Z. and J.S. Racine (2012), “The crs Package: Nonparametric Regression Splines for Continuous and Categorical Predictors” (Nie and Racine 2012).\n\nThese are still useful because they explain package intent, not just function syntax.",
     "crumbs": [
       "Support",
       "Books, Papers, and Citation"
