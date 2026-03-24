@@ -28,7 +28,7 @@ This website is linked from my academic site and is intended as a practical work
 - [Bounded-support density and distribution methods](density_distribution_quantiles.qmd): conditional density and distribution workflows now include bounded-kernel routes for known bounds and practical unknown-bound settings.
 - [Variability bounds on plots](regression.qmd): Bonferroni and simultaneous bounds are new additions to the plotting surface, while `plot.errors.type = "all"` now presents those together with the traditional pointwise bounds.
 - [Data overlays on y/x plots](plotting_and_intervals.qmd): `plot.data.overlay = TRUE/FALSE` now controls whether the data are shown directly on y/x plots, with overlay enabled by default.
-- [MPI operational routes](mpi_large_data.qmd): `npRmpi` now teaches the same modeling surface through current `session`, `attach`, and `profile` workflows.
+- [MPI operational routes](mpi_large_data.qmd): `npRmpi` is no longer limited to the older profile/manual-broadcast interface; current `session` and `attach` routes let users work far more directly with `np`-style code while retaining the profile route when needed.
 
 ::: {.grid}
 ::: {.g-col-12 .g-col-md-6}

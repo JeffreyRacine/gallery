@@ -30,7 +30,7 @@ If you are deciding where to begin, the short answer is this: start with the pac
 - [Density, Distribution, Quantiles](density_distribution_quantiles.qmd): bounded-kernel conditional density and distribution routes are now available when support bounds are known or when practical unknown-bound proxies are appropriate.
 - [Worked Examples](regression.qmd): Bonferroni and simultaneous variability bounds are new plotting additions, and `plot.errors.type = "all"` now shows them jointly with the traditional pointwise bounds.
 - [Plotting and Intervals](plotting_and_intervals.qmd): `plot.data.overlay = TRUE/FALSE` now controls whether y/x plots include the observed data, with overlay enabled by default.
-- [MPI and Large Data](mpi_large_data.qmd): `npRmpi` now presents current `session`, `attach`, and `profile` routes without forcing users into the older wrapper-heavy entry style.
+- [MPI and Large Data](mpi_large_data.qmd): `npRmpi` is no longer confined to the older profile/manual-broadcast interface; current `session` and `attach` routes make `np` and `npRmpi` code much more interchangeable while preserving the profile route for users who want it.
 
 ## Common routes
 
