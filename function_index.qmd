@@ -39,7 +39,6 @@ Use this table when you already know roughly what you want to do, but not which 
 | Regression splines | `crs` | [Splines](crs.qmd) | [Quickstarts](quickstarts.qmd) |
 | Spline significance testing | `crssigtest` | [Splines](crs.qmd) | [Spline Primer](spline_primer.qmd) |
 | Instrumental regression splines | `crsiv`, `crsivderiv` | [Splines](crs.qmd) | [Code Catalog](code_catalog.qmd) |
-| Generalized local polynomial regression | `npglpreg` | [Worked Examples](regression.qmd) | [Code Catalog](code_catalog.qmd) |
 
 ## `np` and `npRmpi` function families
 
@@ -63,8 +62,10 @@ Use this table when you already know roughly what you want to do, but not which 
 | Regression splines | `crs` |
 | Spline significance testing | `crssigtest` |
 | Instrumental regression splines | `crsiv`, `crsivderiv` |
-| Generalized local polynomial regression | `npglpreg` |
 | Supporting utilities | `gsl.bs`, `snomadr` |
+
+Legacy note: `npglpreg` is an older route (to be deprecated). For new work,
+prefer `npreg(..., regtype = "ll", nomad = TRUE)`.
 
 ## Common datasets worth remembering
 
