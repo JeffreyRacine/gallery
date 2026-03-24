@@ -1,327 +1,521 @@
 # Gallery Update Roadmap
 
-## Purpose
+## Role
 
-Turn the recent package modernization into a clearer gallery experience without
-losing the breadth that already serves:
+This is a revised execution plan for updating the gallery after reviewing the
+first draft from a stricter engineering and risk-control perspective.
 
-- first-time users,
-- working applied users who want code immediately,
-- advanced users who need route/method-specific guidance,
-- package users who still benefit from older scripts and reference material.
-
-This roadmap is derived from:
+Inputs:
 
 - `/Users/jracine/Development/CRAN_DELTA_AUDIT_2026-03-24.md`
-- the current gallery source tree in
-  `/Users/jracine/Development/Gallery_website`
+- current gallery source under `/Users/jracine/Development/Gallery_website`
 
-## North Star
+Goal:
 
-The gallery should be:
+- make the gallery more informative and easier to navigate,
+- surface the most helpful current package capabilities,
+- preserve the existing breadth of advice and examples,
+- minimize regression risk and collateral documentation drift.
 
-1. informative,
-2. easy to navigate,
-3. explicit about what is new and helpful in the current package generation,
-4. still broad enough to serve users with very different needs and levels of
-   experience.
+## Critique Of The First Draft
 
-The right design principle is:
+The first draft was directionally sound, but too broad for a safe rollout.
 
-- \strong{surface the modern defaults early, preserve the broader library just
-  behind them}.
+### 1. The phases were too large
 
-## Current Strengths To Preserve
+Several proposed phases mixed:
 
-The current gallery already does several things well and should not be
-reorganized destructively:
+- new content creation,
+- homepage routing changes,
+- manifest changes,
+- reference-surface rewrites,
+- and method-page edits
 
-1. The sidebar is task-oriented rather than organized around old vignette names:
-   `_quarto.yml`.
-2. The home page already routes users by intent:
-   `index.qmd`.
-3. The quickstart manifest is a genuine single source of truth for current small
-   runnable scripts:
-   `data/quickstarts_manifest.csv`.
-4. `npRmpi` operational guidance is already much better than older materials:
-   `mpi_large_data.qmd`.
-5. Breadth is retained through:
-   - `code_catalog.qmd`
-   - `function_index.qmd`
-   - `runtime_and_scaling.qmd`
-   - `data_preparation.qmd`
-   - `legacy_materials.qmd`
+in a way that increases blast radius. That is a content analogue of changing
+API, routing, and rendering in one tranche.
 
-Do not give up that breadth in the name of “cleanliness.” The gallery is more
-useful because it serves both first-run and deeper follow-up needs.
+### 2. It lacked hard acceptance criteria
 
-## Main Gaps To Fix
+The first draft described desired outcomes, but not the exact validation gates
+required before declaring a tranche safe.
 
-### 1. New features exist, but are not yet prominent enough
+Without gates, the likely failure mode is:
 
-The gallery already contains:
+- improved prose locally,
+- hidden drift elsewhere,
+- or broken routing/render only discovered later.
 
-- `np` LP `nomad = TRUE` quickstart
-- `npRmpi` session/attach/profile quickstarts
-- `npRmpi` session LP `nomad = TRUE` quickstart
+### 3. It proposed homepage surfacing before asset proof
 
-But these are not yet surfaced strongly enough on:
+Promoting `np.pairs` and `crsiv` before the new quickstarts exist and are proven
+would create “promised routes” instead of actual routes.
 
-- `index.qmd`
-- `primer.qmd`
+The safer order is:
+
+1. create the route,
+2. validate it,
+3. then promote it.
+
+### 4. It treated all method pages as one tranche
+
+Touching:
+
+- `kernel_primer.qmd`
+- `np_npRmpi.qmd`
+- `density_distribution_quantiles.qmd`
+- `semiparametric_models.qmd`
+- `mpi_large_data.qmd`
+- `crs.qmd`
+
+in one broad pass is too much surface area. These pages are high-traffic and
+semantically different. They should not be bundled.
+
+### 5. It did not define current-routing invariants tightly enough
+
+A safe gallery plan needs explicit rules for what current-routing pages may say.
+For example:
+
+- current-routing pages should prefer current package surfaces,
+- legacy scripts may remain,
+- but legacy names should not be the first route unless intentionally labeled as
+  archival or comparison material.
+
+That rule needs to be explicit before editing pages such as
+`function_index.qmd`.
+
+### 6. It under-specified source-of-truth boundaries
+
+The first draft correctly valued `data/quickstarts_manifest.csv`, but it did not
+fully separate:
+
+- quickstart metadata source of truth,
+- page narrative source of truth,
+- package-surface source of truth.
+
+Without that, drift is likely to reappear.
+
+### 7. It lacked rollback-friendly tranche design
+
+For a documentation site with many routing pages, the safe default is:
+
+- small tranche,
+- one user-facing risk axis,
+- easy revert,
+- immediately re-renderable,
+- easy to review diff.
+
+The first draft was too editorially bundled.
+
+## Revised Operating Principles
+
+This revised plan uses the following hard rules.
+
+### 1. One-risk-axis-per-tranche
+
+Each tranche may change only one of:
+
+- add a new quickstart route,
+- promote existing routes on entry pages,
+- modernize current-routing/reference language,
+- add method-page callouts,
+- relabel legacy breadth surfaces.
+
+### 2. No promotion before proof
+
+Do not promote a route on `index.qmd`, `primer.qmd`, or similar pages until:
+
+1. the underlying quickstart/script exists,
+2. the metadata entry exists if needed,
+3. the route renders cleanly,
+4. the script has passed a small local smoke.
+
+### 3. Keep navigation stable unless evidence demands change
+
+Do not change `_quarto.yml` sidebar structure in the first rollout. The current
+task-oriented navigation is already a strength. Improve page content first.
+
+### 4. Preserve breadth explicitly
+
+Do not delete broad/legacy/comparison materials simply because modern routes are
+being promoted. Instead:
+
+- keep them,
+- label them,
+- demote them only in routing priority, not by removal.
+
+### 5. Current-routing language must prefer current package surfaces
+
+On current-routing pages:
+
+- prefer current vignette names,
+- prefer current startup/help routes,
+- prefer `plot()` over stale `npplot`-first wording when routing users,
+- prefer `npRmpi.init()` / `npRmpi.quit()` over older operational names.
+
+Legacy script comments may remain historically faithful when not acting as the
+main routing surface.
+
+### 6. Every tranche must be render-safe and reviewable
+
+Each tranche should produce a small, legible diff that a human can review
+without scanning the whole site.
+
+## Source-Of-Truth Map
+
+### Quickstart assets
+
+Source of truth:
+
+- `www/**` quickstart script files
+- `data/quickstarts_manifest.csv`
+
+Derived surfaces:
+
 - `quickstarts.qmd`
 - `code_catalog.qmd`
 
-Current users can find them, but they are not yet framed as major current
-capabilities.
+Rule:
 
-### 2. Some of the best new package surfaces are not routed at all
+- do not hand-copy quickstart code into pages when the script can be sourced
+  from `www/`.
 
-The gallery currently under-surfaces:
+### Current package discovery references
+
+Source of truth:
+
+- package vignettes/help/startup surfaces in package repos
+
+Derived gallery routing pages:
+
+- `faq.qmd`
+- `primer.qmd`
+- `index.qmd`
+- `function_index.qmd`
+- method pages that point users to installed vignettes
+
+Rule:
+
+- gallery routing text must mirror current package-surface names.
+
+### Legacy/comparison breadth
+
+Source of truth:
+
+- historical scripts in `www/`
+- legacy pages such as `legacy_materials.qmd`
+
+Rule:
+
+- keep these available, but label them as comparison/legacy/advanced where
+  needed.
+
+## Required Validation Gates
+
+Every tranche touching gallery source should pass:
+
+1. `shellcheck` on any touched shell scripts
+2. `/Users/jracine/Development/Gallery_website/gallery_hygiene_lint.sh`
+3. `quarto render` in `/Users/jracine/Development/Gallery_website`
+
+Additional gates by tranche type:
+
+### If a tranche changes package-routing text
+
+Run:
+
+- `/Users/jracine/Development/package_gallery_sync_audit.sh`
+
+### If a tranche changes current release-facing gallery routes substantially
+
+Prefer:
+
+- `/Users/jracine/Development/release_preflight.sh --render-gallery <touched package set>`
+
+### If a tranche adds or changes quickstart scripts
+
+Run a small smoke for each new/changed quickstart using the corresponding local
+packages before promotion. If a dedicated wrapper does not yet exist, use small
+ad hoc `Rscript` runs and record the commands in the commit summary.
+
+## Reformulated Plan
+
+### Tranche 0: Define Invariants, Not Content
+
+Goal:
+
+- lock the rules before editing high-traffic pages
+
+Files:
+
+- this roadmap only
+
+Outcome:
+
+- execution order, source-of-truth boundaries, and validation gates are frozen
+
+Why first:
+
+- prevents editorial drift during later implementation.
+
+### Tranche 1: Add Missing Quickstart Assets Only
+
+Goal:
+
+- create the missing high-value routes before surfacing them
+
+Candidates:
+
+1. `www/np_npRmpi/np_pairs_quickstart.R`
+2. `www/crs/crs_iv_quickstart.R`
+3. optional later:
+   - `www/crs/crs_ivderiv_quickstart.R`
+
+Files allowed in this tranche:
+
+- new quickstart scripts
+- `data/quickstarts_manifest.csv`
+
+Files not touched in this tranche:
+
+- `index.qmd`
+- `primer.qmd`
+- `function_index.qmd`
+- method pages
+
+Validation:
+
+- quickstart-local smoke runs
+- `quarto render`
+- `gallery_hygiene_lint.sh`
+
+Why this order:
+
+- it proves the routes before any promotion.
+
+### Tranche 2: Promote Existing And Newly-Proven Routes On Entry Pages Only
+
+Goal:
+
+- improve discoverability from the first click
+
+Files:
+
+- `index.qmd`
+- `primer.qmd`
+
+Allowed changes:
+
+- highlight blocks
+- “current featured capabilities” copy
+- direct links to already-proven quickstarts
+
+Not allowed:
+
+- sidebar restructuring
+- method-page rewrites
+- reference-page rewrites
+
+Validation:
+
+- `quarto render`
+- `gallery_hygiene_lint.sh`
+- `package_gallery_sync_audit.sh` if package-routing text changes
+
+Why isolated:
+
+- homepage/chooser changes have the highest visibility and should remain small.
+
+### Tranche 3: Quickstart/Code Catalog Promotion Only
+
+Goal:
+
+- make the quickstart and code-library pages reflect the new priorities without
+  altering broader method narratives yet
+
+Files:
+
+- `quickstarts.qmd`
+- `code_catalog.qmd`
+
+Allowed changes:
+
+- feature ordering
+- headings/callouts
+- labels that distinguish:
+  - modern default route,
+  - advanced route,
+  - legacy comparison route
+
+Not allowed:
+
+- edits to method pages
+- edits to reference routing
+
+Validation:
+
+- `quarto render`
+- `gallery_hygiene_lint.sh`
+
+### Tranche 4: Current-Routing Reference Cleanup Only
+
+Goal:
+
+- clean up routing language without mixing in new quickstarts or entry-page work
+
+Primary file:
+
+- `function_index.qmd`
+
+Possible additions:
 
 - `np.pairs`
 - `np.kernels`
 - `np.options`
-- public `*hat` helper surfaces for advanced users
-- `crsiv` / `crsivderiv` as a modern public `crs` story
+- `npreghat` / `npcdenshat` family as advanced-helper routes
+- stronger `crsiv` / `crsivderiv` routing
+- current `npRmpi.init()` / `npRmpi.quit()` routing
 
-### 3. `crs` is still under-featured relative to its current package surface
+Specific correction:
 
-The gallery exposes spline basics and constrained examples, but the newer
-installed-vignette/discovery work and the public IV surface are not yet
-prominent enough.
+- replace or soften stale `npplot`-first routing language on current-routing
+  surfaces
 
-### 4. Current-routing pages still contain some stale language
+Validation:
 
-Notably:
+- `quarto render`
+- `gallery_hygiene_lint.sh`
+- `package_gallery_sync_audit.sh`
 
-- `function_index.qmd` still routes users through `npplot`, even though the
-  current package surface is better described through `plot()` plus the newer
-  documented helpers.
+Why isolated:
 
-Legacy script comments may continue to mention old names when they are
-historically faithful, but current-routing text should prefer current package
-surfaces.
+- reference pages can silently propagate stale package language if bundled with
+  broader content edits.
 
-### 5. There are still missing “small first success” routes
-
-Two especially useful candidates are not yet present as gallery quickstarts:
-
-1. `np.pairs()` / `np.pairs.plot()`
-2. `crsiv()` (and possibly a second derivative-focused `crsivderiv()` example)
-
-These would give the gallery more visible coverage of genuine current package
-deltas.
-
-## Recommended Content Hierarchy
-
-The gallery should explicitly separate four layers of use:
-
-1. \strong{Start now}
-   - smallest runnable scripts
-   - package chooser
-   - install/get-started
-2. \strong{Modern featured capabilities}
-   - current new or newly matured routes worth highlighting
-3. \strong{Task-based method pages}
-   - regression, density/distribution, entropy, semiparametrics, splines, MPI
-4. \strong{Deep library / legacy breadth}
-   - code catalog
-   - function index
-   - legacy materials
-   - broader script tables
-
-This keeps the site easy to enter without flattening everything into a shallow
-“getting started only” gallery.
-
-## Proposed Phases
-
-### Phase 1: Surface The Current Highlights
+### Tranche 5A: `np` Method-Page Callouts
 
 Goal:
 
-- make the major new package capabilities visible from the first click
+- make current `np` capabilities easier to notice without broad site churn
 
-Target files:
-
-- `index.qmd`
-- `primer.qmd`
-- `quickstarts.qmd`
-- `code_catalog.qmd`
-
-Edits:
-
-1. Add a short “Current Highlights” or “What’s New in Current Releases” section
-   to `index.qmd`.
-2. Add a matching smaller “If you want the newer features first” table/block to
-   `primer.qmd`.
-3. Promote these routes near the top of `quickstarts.qmd` and
-   `code_catalog.qmd`:
-   - `np`: automatic LP degree search via `nomad = TRUE`
-   - `npRmpi`: session/spawn, attach, and profile workflows
-   - `npRmpi`: session LP `nomad = TRUE`
-   - `crs`: spline quickstart plus IV spline route once added
-4. Keep the broader code library below; do not remove the existing tables.
-
-Expected user outcome:
-
-- a new user can see the modern current routes immediately
-- a returning user can still reach the deeper library quickly
-
-### Phase 2: Add Missing Featured Quickstarts
-
-Goal:
-
-- create small copyable entry points for the most meaningful new package
-  capabilities not yet represented in the gallery
-
-New quickstart candidates:
-
-1. `np_pairs_quickstart.R`
-   - minimal `np.pairs()` / `np.pairs.plot()` example
-2. `crs_iv_quickstart.R`
-   - minimal `crsiv()` example
-3. optional follow-on:
-   - `crs_ivderiv_quickstart.R` if the derivative route deserves separate
-     treatment rather than a note on the same page
-
-Likely file updates:
-
-- new scripts under `www/np_npRmpi/` and `www/crs/`
-- `data/quickstarts_manifest.csv`
-- `quickstarts.qmd`
-- `code_catalog.qmd`
-
-Why these first:
-
-- `np.pairs` is compact, visual, and clearly new
-- `crsiv` is a meaningful public `crs` capability that is not yet surfaced well
-
-### Phase 3: Strengthen Method Pages Without Losing Breadth
-
-Goal:
-
-- make the key method pages explicitly tell users what is modern and important
-
-Priority pages:
+Files:
 
 - `kernel_primer.qmd`
 - `np_npRmpi.qmd`
-- `semiparametric_models.qmd`
 - `density_distribution_quantiles.qmd`
+- `semiparametric_models.qmd`
+
+Allowed emphasis:
+
+- `nomad = TRUE`
+- joint LP degree/bandwidth selection
+- where to go from classic bandwidth-object workflow to newer LP workflow
+- optional advanced pointers to `np.options`, `np.kernels`, `np.pairs`
+
+Validation:
+
+- `quarto render`
+- `gallery_hygiene_lint.sh`
+- `package_gallery_sync_audit.sh`
+
+### Tranche 5B: `npRmpi` Operational Method-Page Callouts
+
+Goal:
+
+- keep MPI guidance operational and current
+
+Files:
+
 - `mpi_large_data.qmd`
+- possibly a small synchronized note in `np_npRmpi.qmd` if needed
+
+Allowed emphasis:
+
+- session/spawn as current interactive route where appropriate
+- attach/profile role distinction
+- LP `nomad = TRUE` after `npRmpi.init(...)`
+
+Not allowed:
+
+- new broad script libraries in the same tranche
+
+Validation:
+
+- `quarto render`
+- `gallery_hygiene_lint.sh`
+
+### Tranche 5C: `crs` Method-Page Callouts
+
+Goal:
+
+- elevate the modern public `crs` story without disturbing kernel pages
+
+Files:
+
 - `crs.qmd`
+- optionally `spline_primer.qmd`
 
-Edits:
+Allowed emphasis:
 
-1. `kernel_primer.qmd`
-   - keep the basic bandwidth-object workflow
-   - add a clearer boxed note that `nomad = TRUE` is a modern LP shortcut, not a
-     replacement for the classic workflow
-2. `np_npRmpi.qmd`
-   - add a short “featured modern routes” section near the top
-   - explicitly separate serial `np` from the “same workflow under MPI” handoff
-3. `semiparametric_models.qmd`
-   - explicitly note that semiparametric LP-capable families share the modern
-     `nomad = TRUE` route
-4. `density_distribution_quantiles.qmd`
-   - call out that conditional density/distribution also participate in the new
-     LP route
-5. `mpi_large_data.qmd`
-   - keep operational tone
-   - add a short box clarifying that the same LP shortcut now survives after
-     `npRmpi.init(...)`
-6. `crs.qmd`
-   - elevate `crsiv` / `crsivderiv`
-   - add a short note about the installed getting-started vignette
-   - keep constrained examples and `rgl` examples in place
+- `crs_getting_started`
+- `crsiv`
+- `crsivderiv`
+- constrained vs IV vs basic spline entry paths
 
-### Phase 4: Modernize Current-Routing Reference Surfaces
+Validation:
+
+- `quarto render`
+- `gallery_hygiene_lint.sh`
+- `package_gallery_sync_audit.sh` if vignette-routing text changes
+
+### Tranche 6: Legacy/Comparison Labeling Pass
 
 Goal:
 
-- reduce confusion on the “I know the function name” pages
+- preserve breadth while reducing ambiguity
 
-Priority file:
+Files:
 
-- `function_index.qmd`
+- `code_catalog.qmd`
+- any page listing older serial/MPI comparison scripts
 
-Edits:
+Allowed changes:
 
-1. Replace or soften current-routing references to `npplot`.
-2. Add entries for:
-   - `np.pairs`
-   - `np.kernels`
-   - `np.options`
-   - `npreghat` / `npcdenshat` / related advanced helpers as an advanced route
-   - `npRmpi.init` / `npRmpi.quit` as the startup surface
-   - `crsiv` / `crsivderiv` with a stronger first-stop page
-3. Distinguish:
-   - current package help/discovery surface
-   - historical script/library surface
+- add labels such as:
+  - modern default
+  - current quickstart
+  - advanced route
+  - older comparison script
 
-Expected user outcome:
+Not allowed:
 
-- users searching by function family get routed through the modern package
-  surface instead of stale names
+- deleting breadth material unless explicitly obsolete and unused
 
-### Phase 5: Preserve Breadth By Explicit Layering
+Validation:
 
-Goal:
+- `quarto render`
+- `gallery_hygiene_lint.sh`
 
-- keep advanced and legacy material available without letting it overshadow the
-  modern first route
+## Recommended Immediate Next Move
 
-Rules:
+The safest highest-ROI implementation order is:
 
-1. Keep `code_catalog.qmd` broad.
-2. Keep `legacy_materials.qmd` as the place for old PDFs/route history.
-3. Keep older comparison scripts in the catalog, but label them as:
-   - historical comparison,
-   - parity/reference,
-   - or advanced route
-4. Prefer wording such as:
-   - “modern default”
-   - “current first route”
-   - “older but still useful comparison script”
+1. Tranche 1: add `np_pairs_quickstart.R` and `crs_iv_quickstart.R`
+2. Tranche 2: update `index.qmd` and `primer.qmd`
+3. Tranche 3: update `quickstarts.qmd` and `code_catalog.qmd`
+4. Tranche 4: modernize `function_index.qmd`
 
-This allows breadth without ambiguity.
+That sequence gives the biggest discoverability improvement with the lowest
+chance of routing regressions or site-wide collateral damage.
 
-## Highest-ROI Concrete Edits
+## Non-Goals For The First Rollout
 
-If sequencing must be tight, the best order is:
+Do not include these in the first gallery modernization pass:
 
-1. `index.qmd`
-2. `primer.qmd`
-3. `data/quickstarts_manifest.csv`
-4. add `np_pairs_quickstart.R`
-5. add `crs_iv_quickstart.R`
-6. `quickstarts.qmd`
-7. `code_catalog.qmd`
-8. `function_index.qmd`
-9. `crs.qmd`
-10. targeted method-page callouts (`kernel_primer.qmd`, `np_npRmpi.qmd`,
-    `mpi_large_data.qmd`, `semiparametric_models.qmd`,
-    `density_distribution_quantiles.qmd`)
+1. sidebar/navigation restructuring in `_quarto.yml`
+2. broad visual redesign
+3. full rewrite of legacy pages
+4. large-scale pruning of script libraries
+5. simultaneous editing of all method pages
 
-## Suggested Messaging Themes
-
-These are the themes worth repeating across the gallery:
-
-1. `np`: modern automatic LP route
-2. `npRmpi`: same style of workflow, now with clear modern operational modes
-3. `crs`: splines plus IV/constrained routes, not just a spline afterthought
-4. package vignettes are the installed first-run path; the gallery is the
-   broader teaching surface
-
-## Recommended Near-Term Deliverable
-
-The best near-term gallery tranche is:
-
-1. add homepage/chooser highlight blocks,
-2. add `np.pairs` and `crsiv` quickstarts,
-3. modernize `function_index.qmd`,
-4. add short “modern feature” callouts to the highest-traffic method pages.
-
-That would materially improve discoverability without requiring a full-site
-rewrite.
+These are classic sources of documentation churn without commensurate user
+benefit.
