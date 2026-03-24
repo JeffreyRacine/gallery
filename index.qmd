@@ -22,6 +22,13 @@ If you are new to these packages, start with [Choose a Package](primer.qmd). If 
 This website is linked from my academic site and is intended as a practical working companion, not as a substitute for the package manuals or the underlying papers.
 :::
 
+## Recent Extensions
+
+- [Local polynomial workflows](np_npRmpi.qmd): `np` and `npRmpi` now support local polynomial capability across the conditional family, with joint selection of polynomial degrees and bandwidths for mixed data.
+- [Bounded-support density and distribution methods](density_distribution_quantiles.qmd): conditional density and distribution workflows now include bounded-kernel routes for known bounds and practical unknown-bound settings.
+- [Variability bounds on plots](regression.qmd): pointwise, Bonferroni, and simultaneous bounds are now part of the modern plotting surface, with `plot.errors.type = "all"` as a convenient comparison route.
+- [MPI operational routes](mpi_large_data.qmd): `npRmpi` now teaches the same modeling surface through current `session`, `attach`, and `profile` workflows.
+
 ::: {.grid}
 ::: {.g-col-12 .g-col-md-6}
 ::: {.home-card}

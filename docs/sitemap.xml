@@ -5,67 +5,43 @@
     <lastmod>2026-03-16T15:25:07.198Z</lastmod>
   </url>
   <url>
-    <loc>https://jeffreyracine.github.io/gallery/plotting_and_intervals.html</loc>
-    <lastmod>2026-03-16T15:25:07.227Z</lastmod>
+    <loc>https://jeffreyracine.github.io/gallery/GALLERY_UPDATE_ROADMAP_2026-03-24.html</loc>
+    <lastmod>2026-03-24T22:28:11.875Z</lastmod>
   </url>
   <url>
-    <loc>https://jeffreyracine.github.io/gallery/quickstarts.html</loc>
-    <lastmod>2026-03-21T20:25:08.399Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/R_RStudio.html</loc>
-    <lastmod>2026-03-16T15:25:07.197Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/books_papers.html</loc>
-    <lastmod>2026-03-16T15:25:07.198Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/regression.html</loc>
-    <lastmod>2026-03-16T15:25:07.227Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/entropy_tests.html</loc>
-    <lastmod>2026-03-21T19:20:59.348Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/spline_primer.html</loc>
-    <lastmod>2026-03-16T15:25:07.228Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/spline_search_and_tuning.html</loc>
-    <lastmod>2026-03-16T15:25:07.228Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/legacy_materials.html</loc>
-    <lastmod>2026-03-16T15:25:07.225Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/npksum_custom.html</loc>
-    <lastmod>2026-03-16T15:25:07.226Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/data_preparation.html</loc>
+    <loc>https://jeffreyracine.github.io/gallery/crs.html</loc>
     <lastmod>2026-03-16T15:25:07.199Z</lastmod>
   </url>
   <url>
-    <loc>https://jeffreyracine.github.io/gallery/primer.html</loc>
-    <lastmod>2026-03-16T15:25:07.227Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/interactive.html</loc>
-    <lastmod>2026-03-21T20:25:08.399Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/runtime_and_scaling.html</loc>
-    <lastmod>2026-03-16T15:25:07.227Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/semiparametric_models.html</loc>
+    <loc>https://jeffreyracine.github.io/gallery/kernel_primer.html</loc>
     <lastmod>2026-03-23T11:44:16.411Z</lastmod>
   </url>
   <url>
-    <loc>https://jeffreyracine.github.io/gallery/mpi_large_data.html</loc>
+    <loc>https://jeffreyracine.github.io/gallery/code_catalog.html</loc>
+    <lastmod>2026-03-21T20:25:45.343Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/multivariate_regression.html</loc>
+    <lastmod>2026-03-16T15:25:07.226Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/faq.html</loc>
+    <lastmod>2026-03-21T20:19:02.946Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/about.html</loc>
+    <lastmod>2026-03-16T15:25:07.198Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/index.html</loc>
+    <lastmod>2026-03-24T22:30:05.590Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/significance_and_specification.html</loc>
+    <lastmod>2026-03-16T15:25:07.228Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/density_distribution_quantiles.html</loc>
     <lastmod>2026-03-23T11:43:49.750Z</lastmod>
   </url>
   <url>
@@ -73,40 +49,68 @@
     <lastmod>2026-03-23T11:44:16.411Z</lastmod>
   </url>
   <url>
-    <loc>https://jeffreyracine.github.io/gallery/density_distribution_quantiles.html</loc>
+    <loc>https://jeffreyracine.github.io/gallery/mpi_large_data.html</loc>
     <lastmod>2026-03-23T11:43:49.750Z</lastmod>
   </url>
   <url>
-    <loc>https://jeffreyracine.github.io/gallery/significance_and_specification.html</loc>
-    <lastmod>2026-03-16T15:25:07.228Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/index.html</loc>
-    <lastmod>2026-03-16T15:25:07.225Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/about.html</loc>
-    <lastmod>2026-03-16T15:25:07.198Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/faq.html</loc>
-    <lastmod>2026-03-21T20:19:02.946Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/multivariate_regression.html</loc>
-    <lastmod>2026-03-16T15:25:07.226Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/code_catalog.html</loc>
-    <lastmod>2026-03-21T20:25:45.343Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/kernel_primer.html</loc>
+    <loc>https://jeffreyracine.github.io/gallery/semiparametric_models.html</loc>
     <lastmod>2026-03-23T11:44:16.411Z</lastmod>
   </url>
   <url>
-    <loc>https://jeffreyracine.github.io/gallery/crs.html</loc>
+    <loc>https://jeffreyracine.github.io/gallery/runtime_and_scaling.html</loc>
+    <lastmod>2026-03-16T15:25:07.227Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/interactive.html</loc>
+    <lastmod>2026-03-21T20:25:08.399Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/primer.html</loc>
+    <lastmod>2026-03-24T22:30:15.184Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/data_preparation.html</loc>
     <lastmod>2026-03-16T15:25:07.199Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/npksum_custom.html</loc>
+    <lastmod>2026-03-16T15:25:07.226Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/legacy_materials.html</loc>
+    <lastmod>2026-03-16T15:25:07.225Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/spline_search_and_tuning.html</loc>
+    <lastmod>2026-03-16T15:25:07.228Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/spline_primer.html</loc>
+    <lastmod>2026-03-16T15:25:07.228Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/entropy_tests.html</loc>
+    <lastmod>2026-03-21T19:20:59.348Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/regression.html</loc>
+    <lastmod>2026-03-16T15:25:07.227Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/books_papers.html</loc>
+    <lastmod>2026-03-16T15:25:07.198Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/R_RStudio.html</loc>
+    <lastmod>2026-03-16T15:25:07.197Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/quickstarts.html</loc>
+    <lastmod>2026-03-21T20:25:08.399Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/plotting_and_intervals.html</loc>
+    <lastmod>2026-03-16T15:25:07.227Z</lastmod>
   </url>
   <url>
     <loc>https://jeffreyracine.github.io/gallery/function_index.html</loc>

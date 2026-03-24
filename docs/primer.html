@@ -399,6 +399,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#a-practical-rule-of-thumb" id="toc-a-practical-rule-of-thumb" class="nav-link active" data-scroll-target="#a-practical-rule-of-thumb">A practical rule of thumb</a></li>
+  <li><a href="#recent-extensions" id="toc-recent-extensions" class="nav-link" data-scroll-target="#recent-extensions">Recent Extensions</a></li>
   <li><a href="#common-routes" id="toc-common-routes" class="nav-link" data-scroll-target="#common-routes">Common routes</a>
   <ul class="collapse">
   <li><a href="#i-want-a-simple-first-success" id="toc-i-want-a-simple-first-success" class="nav-link" data-scroll-target="#i-want-a-simple-first-success">I want a simple first success</a></li>
@@ -481,6 +482,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Start with <code>np</code> unless you already know that you need MPI.</li>
 <li>Move to <code>npRmpi</code> when the workflow is the same but the job is too large or too slow in serial.</li>
 <li>Use <code>crs</code> when spline bases, shape restrictions, or spline-specific methods are the natural fit.</li>
+</ul>
+</section>
+<section id="recent-extensions" class="level2">
+<h2 class="anchored" data-anchor-id="recent-extensions">Recent Extensions</h2>
+<ul>
+<li><a href="./np_npRmpi.html">Kernel Methods</a>: <code>np</code> and <code>npRmpi</code> now expose local polynomial capability across the conditional family, together with joint degree and bandwidth selection for mixed data.</li>
+<li><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>: bounded-kernel conditional density and distribution routes are now available when support bounds are known or when practical unknown-bound proxies are appropriate.</li>
+<li><a href="./regression.html">Worked Examples</a>: the plotting surface now makes pointwise, Bonferroni, and simultaneous variability bounds easier to discover, including <code>plot.errors.type = "all"</code>.</li>
+<li><a href="./mpi_large_data.html">MPI and Large Data</a>: <code>npRmpi</code> now presents current <code>session</code>, <code>attach</code>, and <code>profile</code> routes without forcing users into the older wrapper-heavy entry style.</li>
 </ul>
 </section>
 <section id="common-routes" class="level2">
