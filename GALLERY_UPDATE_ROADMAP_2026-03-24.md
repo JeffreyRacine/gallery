@@ -17,6 +17,21 @@ Goal:
 - preserve the existing breadth of advice and examples,
 - minimize regression risk and collateral documentation drift.
 
+Primary feature emphasis for the next wave:
+
+- `np` / `npRmpi` local-polynomial capability across the full conditional
+  family: `npcdens`, `npcdist`, `npreg`, `npscoef`, `npplreg`, `npindex`
+- joint selection of polynomial degree separately for each continuous
+  predictor, together with bandwidths for continuous and categorical
+  predictors
+- operational distinction:
+  - `np`: methodology and modeling capability
+  - `npRmpi`: operational execution of the same capability at scale
+- supporting references already cited in the shipped help pages include the
+  Hall and Racine local-polynomial work, the Li, Li, and Racine
+  conditional-density work, and the Ma, Racine, Yang spline/categorical-kernel
+  work
+
 ## Critique Of The First Draft
 
 The first draft was directionally sound, but too broad for a safe rollout.
@@ -159,6 +174,20 @@ main routing surface.
 
 Each tranche should produce a small, legible diff that a human can review
 without scanning the whole site.
+
+### 7. Highlight methodological capability, not convenience flags
+
+When a gallery page foregrounds the new LP surface, the lead claim should be:
+
+- local-polynomial capability across the conditional families
+- joint degree-and-bandwidth selection over mixed data
+
+not:
+
+- a convenience shortcut such as `nomad = TRUE` by itself
+
+Convenience flags may appear, but only as secondary operational guidance after
+the underlying capability is clear.
 
 ## Source-Of-Truth Map
 
@@ -307,6 +336,10 @@ Allowed changes:
 - highlight blocks
 - “current featured capabilities” copy
 - direct links to already-proven quickstarts
+- concise explanation that the major current `np` / `npRmpi` advance is LP
+  capability across `npcdens`, `npcdist`, `npreg`, `npscoef`, `npplreg`, and
+  `npindex`, with joint selection of per-continuous-predictor degrees and
+  mixed-data bandwidths
 
 Not allowed:
 
@@ -344,6 +377,8 @@ Allowed changes:
   - modern default route,
   - advanced route,
   - legacy comparison route
+- callouts that route users from classic bandwidth-object workflows to the
+  broader LP-capable conditional-family workflow
 
 Not allowed:
 
@@ -404,9 +439,14 @@ Files:
 
 Allowed emphasis:
 
-- `nomad = TRUE`
-- joint LP degree/bandwidth selection
-- where to go from classic bandwidth-object workflow to newer LP workflow
+- LP capability across `npcdens`, `npcdist`, `npreg`, `npscoef`, `npplreg`,
+  and `npindex`
+- joint selection of polynomial degree for each continuous predictor together
+  with continuous/categorical bandwidths
+- where to go from classic bandwidth-object workflow to the broader modern LP
+  workflow
+- methodological signposting that matches the shipped `.Rd` references to Hall
+  and Racine plus Li, Li, and Racine
 - optional advanced pointers to `np.options` and `np.kernels`
 
 Validation:
@@ -430,7 +470,8 @@ Allowed emphasis:
 
 - session/spawn as current interactive route where appropriate
 - attach/profile role distinction
-- LP `nomad = TRUE` after `npRmpi.init(...)`
+- the same LP conditional-family capability as `np`, taught operationally after
+  `npRmpi.init(...)`
 
 Not allowed:
 
@@ -498,8 +539,10 @@ Validation:
 The safest highest-ROI implementation order is:
 
 1. Tranche 1: add `crs_iv_quickstart.R`
-2. Tranche 2: update `index.qmd` and `primer.qmd`
-3. Tranche 3: update `quickstarts.qmd` and `code_catalog.qmd`
+2. Tranche 2: update `index.qmd` and `primer.qmd` so the headline feature is
+   the conditional-family LP expansion
+3. Tranche 3: update `quickstarts.qmd` and `code_catalog.qmd` to route users
+   from classic workflows to the broader LP surface
 4. Tranche 4: modernize `function_index.qmd`
 
 That sequence gives the biggest discoverability improvement with the lowest
