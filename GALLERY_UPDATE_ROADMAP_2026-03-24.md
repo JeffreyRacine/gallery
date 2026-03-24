@@ -24,13 +24,16 @@ Primary feature emphasis for the next wave:
 - joint selection of polynomial degree separately for each continuous
   predictor, together with bandwidths for continuous and categorical
   predictors
+- bounded-kernel conditional density/distribution capability, especially for
+  known bounds and practical unknown-bound workflows
 - operational distinction:
   - `np`: methodology and modeling capability
   - `npRmpi`: operational execution of the same capability at scale
 - supporting references already cited in the shipped help pages include the
   Hall and Racine local-polynomial work, the Li, Li, and Racine
-  conditional-density work, and the Ma, Racine, Yang spline/categorical-kernel
-  work
+  conditional-density/bounded-kernel work, the boundary-adaptive update for
+  known and empirical bounds, and the Ma, Racine, Yang
+  spline/categorical-kernel work
 
 ## Critique Of The First Draft
 
@@ -181,6 +184,8 @@ When a gallery page foregrounds the new LP surface, the lead claim should be:
 
 - local-polynomial capability across the conditional families
 - joint degree-and-bandwidth selection over mixed data
+- bounded-support conditional density/distribution capability where it changes
+  practice materially
 
 not:
 
@@ -340,6 +345,9 @@ Allowed changes:
   capability across `npcdens`, `npcdist`, `npreg`, `npscoef`, `npplreg`, and
   `npindex`, with joint selection of per-continuous-predictor degrees and
   mixed-data bandwidths
+- concise explanation that bounded-kernel conditional density/distribution
+  workflows are now part of the current package story for known and practical
+  unknown-bound settings
 
 Not allowed:
 
@@ -379,6 +387,8 @@ Allowed changes:
   - legacy comparison route
 - callouts that route users from classic bandwidth-object workflows to the
   broader LP-capable conditional-family workflow
+- callouts that distinguish unbounded default workflows from bounded-support
+  conditional density/distribution workflows
 
 Not allowed:
 
@@ -445,6 +455,8 @@ Allowed emphasis:
   with continuous/categorical bandwidths
 - where to go from classic bandwidth-object workflow to the broader modern LP
   workflow
+- where bounded-support conditional density/distribution fits, including known
+  bounds and empirical-range fallback language
 - methodological signposting that matches the shipped `.Rd` references to Hall
   and Racine plus Li, Li, and Racine
 - optional advanced pointers to `np.options` and `np.kernels`
@@ -472,6 +484,8 @@ Allowed emphasis:
 - attach/profile role distinction
 - the same LP conditional-family capability as `np`, taught operationally after
   `npRmpi.init(...)`
+- bounded-kernel conditional density/distribution examples taught operationally
+  without changing the underlying methodological emphasis
 
 Not allowed:
 
@@ -540,9 +554,10 @@ The safest highest-ROI implementation order is:
 
 1. Tranche 1: add `crs_iv_quickstart.R`
 2. Tranche 2: update `index.qmd` and `primer.qmd` so the headline feature is
-   the conditional-family LP expansion
+   the conditional-family LP expansion together with bounded-support
+   conditional density/distribution
 3. Tranche 3: update `quickstarts.qmd` and `code_catalog.qmd` to route users
-   from classic workflows to the broader LP surface
+   from classic workflows to the broader LP surface and bounded-support routes
 4. Tranche 4: modernize `function_index.qmd`
 
 That sequence gives the biggest discoverability improvement with the lowest
