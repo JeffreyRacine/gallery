@@ -85,6 +85,11 @@ That is the convenience route for automatic local-polynomial degree and
 bandwidth search in a single call. As with regression, it requires the `crs`
 package because NOMAD degree search is provided there.
 
+When the local-polynomial degree is above zero, `proper = TRUE` is also
+available in the `npc*` calls and related plot routes. This enforces proper
+conditional density/distribution output in the practical sense used here:
+non-negative and integrating to one conditional on `x`.
+
 ## Nonparametric quantile regression: `npqreg`
 
 Use `npqreg` when your interest lies in conditional quantiles rather than means.

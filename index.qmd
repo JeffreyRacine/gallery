@@ -25,7 +25,7 @@ This website is linked from my academic site and is intended as a practical work
 ## Recent Extensions
 
 - [Local polynomial workflows](np_npRmpi.qmd): `np` and `npRmpi` now support local polynomial capability across the conditional family, with joint selection of polynomial degrees and bandwidths for mixed data.
-- [Bounded-support density and distribution methods](density_distribution_quantiles.qmd): conditional density and distribution workflows now include bounded-kernel routes for known bounds and practical unknown-bound settings.
+- [Bounded-support and proper conditional density/distribution methods](density_distribution_quantiles.qmd): conditional density and distribution workflows now include bounded-kernel routes for known bounds and practical unknown-bound settings, plus `proper = TRUE` for proper local-polynomial conditional density/distribution estimates when degree exceeds zero.
 - [Variability bounds on plots](regression.qmd): Bonferroni and simultaneous bounds are new additions to the plotting surface, while `plot.errors.type = "all"` now presents those together with the traditional pointwise bounds.
 - [Data overlays on y/x plots](plotting_and_intervals.qmd): `plot.data.overlay = TRUE/FALSE` now controls whether the data are shown directly on y/x plots, with overlay enabled by default.
 - [MPI operational routes](mpi_large_data.qmd): `npRmpi` is no longer limited to the older profile/manual-broadcast interface; current `session` and `attach` routes let users work far more directly with `np`-style code while retaining the profile route when needed.
