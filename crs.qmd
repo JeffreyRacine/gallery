@@ -61,9 +61,11 @@ library(crs)
 n <- 1000
 x1 <- runif(n)
 x2 <- runif(n)
-z1 <- factor(rbinom(n, 1, 0.1))
-z2 <- factor(rbinom(n, 1, 0.1))
+z1 <- rbinom(n, 1, 0.1)
+z2 <- rbinom(n, 1, 0.1)
 y <- x1 + x2^2 + z1 + z2 + rnorm(n)
+z1 <- factor(z1)
+z2 <- factor(z2)
 
 model_crs <- crs(
   y ~ x1 + x2 + z1 + z2,

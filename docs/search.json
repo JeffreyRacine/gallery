@@ -499,7 +499,7 @@
     "href": "regression.html#a-small-bandwidth-selection-example",
     "title": "Worked Examples",
     "section": "A small bandwidth-selection example",
-    "text": "A small bandwidth-selection example\nlibrary(np)\n\nset.seed(42)\nn &lt;- 1000\nx &lt;- runif(n)\nz1 &lt;- factor(rbinom(n, 1, 0.5))\nz2 &lt;- factor(rbinom(n, 1, 0.5))\ny &lt;- cos(2 * pi * x) + z1 + rnorm(n, sd = 0.25)\nmydat &lt;- data.frame(y, x, z1, z2)\n\nbw &lt;- npregbw(y ~ x + z1 + z2, regtype = \"ll\", bwmethod = \"cv.aic\", data = mydat)\nfit &lt;- npreg(bws = bw, data = mydat)\n\nsummary(bw)\nsummary(fit)",
+    "text": "A small bandwidth-selection example\nlibrary(np)\n\nset.seed(42)\nn &lt;- 1000\nx &lt;- runif(n)\nz1 &lt;- rbinom(n, 1, 0.5)\nz2 &lt;- rbinom(n, 1, 0.5)\ny &lt;- cos(2 * pi * x) + z1 + rnorm(n, sd = 0.25)\nz1 &lt;- factor(z1)\nz2 &lt;- factor(z2)\nmydat &lt;- data.frame(y, x, z1, z2)\n\nbw &lt;- npregbw(y ~ x + z1 + z2, regtype = \"ll\", bwmethod = \"cv.aic\", data = mydat)\nfit &lt;- npreg(bws = bw, data = mydat)\n\nsummary(bw)\nsummary(fit)",
     "crumbs": [
       "Examples",
       "Worked Examples"
@@ -2754,7 +2754,7 @@
     "href": "crs.html#can-crs-mimic-linear-regression",
     "title": "Splines",
     "section": "Can crs mimic linear regression?",
-    "text": "Can crs mimic linear regression?\nYes. A simple way to think about this is that spline methods include simpler linear structures as special cases when the basis is restricted appropriately.\nlibrary(crs)\n\nn &lt;- 1000\nx1 &lt;- runif(n)\nx2 &lt;- runif(n)\nz1 &lt;- factor(rbinom(n, 1, 0.1))\nz2 &lt;- factor(rbinom(n, 1, 0.1))\ny &lt;- x1 + x2^2 + z1 + z2 + rnorm(n)\n\nmodel_crs &lt;- crs(\n  y ~ x1 + x2 + z1 + z2,\n  cv = \"none\",\n  kernel = FALSE,\n  degree = rep(1, 2),\n  segments = rep(1, 2)\n)\n\nsummary(model_crs)",
+    "text": "Can crs mimic linear regression?\nYes. A simple way to think about this is that spline methods include simpler linear structures as special cases when the basis is restricted appropriately.\nlibrary(crs)\n\nn &lt;- 1000\nx1 &lt;- runif(n)\nx2 &lt;- runif(n)\nz1 &lt;- rbinom(n, 1, 0.1)\nz2 &lt;- rbinom(n, 1, 0.1)\ny &lt;- x1 + x2^2 + z1 + z2 + rnorm(n)\nz1 &lt;- factor(z1)\nz2 &lt;- factor(z2)\n\nmodel_crs &lt;- crs(\n  y ~ x1 + x2 + z1 + z2,\n  cv = \"none\",\n  kernel = FALSE,\n  degree = rep(1, 2),\n  segments = rep(1, 2)\n)\n\nsummary(model_crs)",
     "crumbs": [
       "Methods",
       "Splines"
