@@ -345,7 +345,7 @@
     "href": "R_RStudio.html#a-small-first-run-in-np",
     "title": "Install and Get Started",
     "section": "A small first run in np",
-    "text": "A small first run in np\nIf you want a very small end-to-end example, this is a good place to begin.\nlibrary(np)\ndata(cps71, package = \"np\")\n\nfit &lt;- npreg(logwage ~ age, data = cps71)\nplot(cps71$age, cps71$logwage, cex = 0.25, col = \"grey\")\nlines(cps71$age, fitted(fit), col = 2, lwd = 2)",
+    "text": "A small first run in np\nIf you want a very small end-to-end example, this is a good place to begin.\nlibrary(np)\ndata(cps71, package = \"np\")\n\nmodel.lc &lt;- npreg(logwage ~ age, data = cps71)\nplot(model.lc)",
     "crumbs": [
       "Start Here",
       "Install and Get Started"

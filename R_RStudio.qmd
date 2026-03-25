@@ -59,9 +59,8 @@ If you want a very small end-to-end example, this is a good place to begin.
 library(np)
 data(cps71, package = "np")
 
-fit <- npreg(logwage ~ age, data = cps71)
-plot(cps71$age, cps71$logwage, cex = 0.25, col = "grey")
-lines(cps71$age, fitted(fit), col = 2, lwd = 2)
+model.lc <- npreg(logwage ~ age, data = cps71)
+plot(model.lc)
 ```
 
 ## What next?
