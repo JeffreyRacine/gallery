@@ -43,13 +43,12 @@ plot(model.ll,plot.errors.method="asymptotic",plot.errors.style="band")
 
 plot(model.ll,plot.errors.method="bootstrap",plot.errors.style="band")
 
-## Alternately, we might compute true nonparametric confidence
-## intervals using (by default) the 0.025 and 0.975 percentiles of the
-## pointwise bootstrap distributions
+## Alternately, we might compare the modern pointwise, Bonferroni, and
+## simultaneous bootstrap error bounds on the same plot.
 
-plot(model.ll,plot.errors.method="bootstrap",plot.errors.type="quantiles",plot.errors.style="band")
+plot(model.ll,plot.errors.method="bootstrap",plot.errors.type="all",plot.errors.style="band")
 
 ## Note that adding the argument `gradients=TRUE' to the plot call
 ## will automatically plot the derivatives instead
 
-plot(model.ll,plot.errors.method="bootstrap",plot.errors.type="quantiles",plot.errors.style="band",gradients=TRUE)
+plot(model.ll,plot.errors.method="bootstrap",plot.errors.type="all",plot.errors.style="band",gradients=TRUE)

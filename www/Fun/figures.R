@@ -18,13 +18,13 @@ opts_chunk$set(concordance=TRUE,
 library(np)
 options(np.messages=FALSE,crs.messages=FALSE)
 library(maps)
-library(mapdata)
+if (requireNamespace("mapdata", quietly = TRUE)) library(mapdata)
 load("data.RData")
 
 ## ----out.width='.5\\textwidth'-------------------------------------------
-foo <- read.table("Data/npcdist/leg1_sanae50.dat",header=TRUE)
-attach(foo)
-plot(CO2f~Chl,
+foo <- foo.leg1.50
+plot(CO2f_sst ~ Chl_conc,
+     data = foo,
      ylab="Mean fCO2",
      xlab="Chlorophyll-a",
      type="b")
@@ -436,4 +436,3 @@ text(c(xleft - 0.2),
      pos = 2)
 
 dev.off()
-
