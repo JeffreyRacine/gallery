@@ -334,7 +334,7 @@
     "href": "R_RStudio.html#step-3-test-that-the-package-loads",
     "title": "Install and Get Started",
     "section": "Step 3: test that the package loads",
-    "text": "Step 3: test that the package loads\nThese are simple first checks.\nlibrary(np)\nexample(npreg)\nlibrary(crs)\nexample(crs)",
+    "text": "Step 3: test that the package loads\nThese are simple first checks.\nlibrary(np)\nlibrary(crs)",
     "crumbs": [
       "Start Here",
       "Install and Get Started"

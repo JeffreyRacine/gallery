@@ -43,12 +43,10 @@ These are simple first checks.
 
 ```r
 library(np)
-example(npreg)
 ```
 
 ```r
 library(crs)
-example(crs)
 ```
 
 ## A small first run in `np`
