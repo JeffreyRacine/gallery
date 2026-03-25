@@ -21,16 +21,14 @@ Start with the smallest possible case.
 library(np)
 data(cps71, package = "np")
 
-fit <- npreg(
-  logwage ~ age,
-  regtype = "ll",
-  bwmethod = "cv.aic",
-  gradients = TRUE,
-  data = cps71
+model.ll <- npreg(logwage ~ age, regtype = "ll", data = cps71)
+plot(
+  model.ll,
+  plot.errors.method = "bootstrap",
+  plot.errors.boot.method = "inid",
+  plot.errors.boot.num = 9999,
+  plot.errors.type = "all"
 )
-
-plot(cps71$age, cps71$logwage, cex = 0.1, xlab = "age", ylab = "log(wage)")
-lines(cps71$age, fitted(fit), col = "blue")
 ```
 
 ## Asymptotic intervals
@@ -38,21 +36,21 @@ lines(cps71$age, fitted(fit), col = "blue")
 For many users, asymptotic intervals are the first reasonable uncertainty summary because they are much lighter than full bootstrap procedures.
 
 ```r
-plot(fit, plot.errors.method = "asymptotic")
+plot(model.ll, plot.errors.method = "asymptotic")
 ```
 
 ## Gradients
 
-If the model was fitted with `gradients = TRUE`, you can also look at derivative information.
+For derivative views, request gradients in the plot call.
 
 ```r
-plot(fit, gradients = TRUE)
+plot(model.ll, gradients = TRUE)
 ```
 
 And again with asymptotic intervals:
 
 ```r
-plot(fit, gradients = TRUE, plot.errors.method = "asymptotic")
+plot(model.ll, gradients = TRUE, plot.errors.method = "asymptotic")
 ```
 
 ## Bootstrap intervals
@@ -61,7 +59,7 @@ Bootstrap-based intervals are often appealing because they are less tied to asym
 
 ```r
 plot(
-  fit,
+  model.ll,
   plot.errors.method = "bootstrap",
   plot.errors.boot.num = 25
 )
@@ -102,7 +100,7 @@ Once a model is fitted, prediction is straightforward. Supply new explanatory da
 
 ```r
 cps_eval <- data.frame(age = seq(10, 70, by = 10))
-predict(fit, newdata = cps_eval)
+predict(model.ll, newdata = cps_eval)
 ```
 
 If you request `se.fit = TRUE`, the prediction route will also return asymptotic standard errors where supported.
