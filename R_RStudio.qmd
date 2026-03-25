@@ -63,6 +63,29 @@ model.lc <- npreg(logwage ~ age, data = cps71)
 plot(model.lc)
 ```
 
+## A small first run in `npRmpi`
+
+```r
+library(npRmpi)
+npRmpi.init(nslaves = 1)
+data(cps71, package = "npRmpi")
+
+model.lc <- npreg(logwage ~ age, data = cps71)
+plot(model.lc)
+
+npRmpi.quit()
+```
+
+## A small first run in `crs`
+
+```r
+library(crs)
+data(cps71, package = "crs")
+
+model.crs <- crs(logwage ~ age, data = cps71)
+plot(model.crs, mean = TRUE)
+```
+
 ## What next?
 
 - If you are deciding between packages, go to [Choose a Package](primer.qmd).

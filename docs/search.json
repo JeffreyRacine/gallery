@@ -352,6 +352,28 @@
     ]
   },
   {
+    "objectID": "R_RStudio.html#a-small-first-run-in-nprmpi",
+    "href": "R_RStudio.html#a-small-first-run-in-nprmpi",
+    "title": "Install and Get Started",
+    "section": "A small first run in npRmpi",
+    "text": "A small first run in npRmpi\nlibrary(npRmpi)\nnpRmpi.init(nslaves = 1)\ndata(cps71, package = \"npRmpi\")\n\nmodel.lc &lt;- npreg(logwage ~ age, data = cps71)\nplot(model.lc)\n\nnpRmpi.quit()",
+    "crumbs": [
+      "Start Here",
+      "Install and Get Started"
+    ]
+  },
+  {
+    "objectID": "R_RStudio.html#a-small-first-run-in-crs",
+    "href": "R_RStudio.html#a-small-first-run-in-crs",
+    "title": "Install and Get Started",
+    "section": "A small first run in crs",
+    "text": "A small first run in crs\nlibrary(crs)\ndata(cps71, package = \"crs\")\n\nmodel.crs &lt;- crs(logwage ~ age, data = cps71)\nplot(model.crs, mean = TRUE)",
+    "crumbs": [
+      "Start Here",
+      "Install and Get Started"
+    ]
+  },
+  {
     "objectID": "R_RStudio.html#what-next",
     "href": "R_RStudio.html#what-next",
     "title": "Install and Get Started",

@@ -404,6 +404,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#step-2b-use-the-smallest-runnable-script-first" id="toc-step-2b-use-the-smallest-runnable-script-first" class="nav-link" data-scroll-target="#step-2b-use-the-smallest-runnable-script-first">Step 2b: use the smallest runnable script first</a></li>
   <li><a href="#step-3-test-that-the-package-loads" id="toc-step-3-test-that-the-package-loads" class="nav-link" data-scroll-target="#step-3-test-that-the-package-loads">Step 3: test that the package loads</a></li>
   <li><a href="#a-small-first-run-in-np" id="toc-a-small-first-run-in-np" class="nav-link" data-scroll-target="#a-small-first-run-in-np">A small first run in <code>np</code></a></li>
+  <li><a href="#a-small-first-run-in-nprmpi" id="toc-a-small-first-run-in-nprmpi" class="nav-link" data-scroll-target="#a-small-first-run-in-nprmpi">A small first run in <code>npRmpi</code></a></li>
+  <li><a href="#a-small-first-run-in-crs" id="toc-a-small-first-run-in-crs" class="nav-link" data-scroll-target="#a-small-first-run-in-crs">A small first run in <code>crs</code></a></li>
   <li><a href="#what-next" id="toc-what-next" class="nav-link" data-scroll-target="#what-next">What next?</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/JeffreyRacine/gallery/blob/main/R_RStudio.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
@@ -481,6 +483,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>model.lc <span class="ot">&lt;-</span> <span class="fu">npreg</span>(logwage <span class="sc">~</span> age, <span class="at">data =</span> cps71)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.lc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="a-small-first-run-in-nprmpi" class="level2">
+<h2 class="anchored" data-anchor-id="a-small-first-run-in-nprmpi">A small first run in <code>npRmpi</code></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(npRmpi)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">npRmpi.init</span>(<span class="at">nslaves =</span> <span class="dv">1</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(cps71, <span class="at">package =</span> <span class="st">"npRmpi"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>model.lc <span class="ot">&lt;-</span> <span class="fu">npreg</span>(logwage <span class="sc">~</span> age, <span class="at">data =</span> cps71)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.lc)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">npRmpi.quit</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="a-small-first-run-in-crs" class="level2">
+<h2 class="anchored" data-anchor-id="a-small-first-run-in-crs">A small first run in <code>crs</code></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(crs)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(cps71, <span class="at">package =</span> <span class="st">"crs"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>model.crs <span class="ot">&lt;-</span> <span class="fu">crs</span>(logwage <span class="sc">~</span> age, <span class="at">data =</span> cps71)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.crs, <span class="at">mean =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="what-next" class="level2">
 <h2 class="anchored" data-anchor-id="what-next">What next?</h2>
