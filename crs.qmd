@@ -39,7 +39,9 @@ If you want a small downloadable script rather than the package example harness,
 - Constrained first partial derivative: [radial_constrained_first_partial.R](www/crs/radial_constrained_first_partial.R)
 - Constrained second partial derivative: [radial_constrained_second_partial.R](www/crs/radial_constrained_second_partial.R)
 
-The `*_rgl.R` scripts require `rgl` in addition to `crs`.
+The `*_rgl.R` scripts require `rgl` in addition to `crs` and are best viewed
+in RStudio, where the interactive surface appears in the Viewer pane rather
+than the Plot pane.
 
 ## Start here if you want the concepts first
 

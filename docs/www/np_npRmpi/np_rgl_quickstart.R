@@ -1,4 +1,6 @@
 ## Minimal interactive np plotting example using the rgl renderer.
+## Best viewed in RStudio: the interactive surface appears in the
+## Viewer pane rather than the Plot pane.
 ##
 ## If you are working on a headless system, you may want:
 ## options(rgl.useNULL = TRUE)

@@ -74,6 +74,9 @@ via `renderer = "rgl"`. That gives you a manipulable display: drag with the
 mouse to rotate and use the scroll wheel to zoom. The same plotting surface now
 also supports 1D/2D rugs via `plot.rug = TRUE`.
 
+These are best viewed in RStudio, where the interactive surface appears in the
+Viewer pane rather than the Plot pane.
+
 If you want a minimal runnable script for this route, use
 [np_rgl_quickstart.R](www/np_npRmpi/np_rgl_quickstart.R).
 

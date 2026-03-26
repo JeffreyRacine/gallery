@@ -1,5 +1,7 @@
 ## This illustration considers a product sine function and plots the
 ## results by constructing a 3D real-time rendering plot using OpenGL.
+## Best viewed in RStudio: the interactive surface appears in the
+## Viewer pane rather than the Plot pane.
 
 require(crs)
 options(rgl.useNULL = TRUE)

@@ -147,7 +147,7 @@
     "href": "plotting_and_intervals.html#interactive-rgl-rendering-and-rugs",
     "title": "Plotting and Intervals",
     "section": "Interactive rgl rendering and rugs",
-    "text": "Interactive rgl rendering and rugs\nWhen rgl is installed, plot methods can also render interactive 3D surfaces via renderer = \"rgl\". That gives you a manipulable display: drag with the mouse to rotate and use the scroll wheel to zoom. The same plotting surface now also supports 1D/2D rugs via plot.rug = TRUE.\nIf you want a minimal runnable script for this route, use np_rgl_quickstart.R.\nlibrary(np)\ndata(wage1, package = \"np\")\n\nfit_rgl &lt;- npreg(\n  lwage ~ educ + exper,\n  regtype = \"ll\",\n  data = wage1\n)\n\nplot(\n  fit_rgl,\n  view = \"fixed\",\n  renderer = \"rgl\",\n  plot.data.overlay = FALSE,\n  plot.errors.method = \"asymptotic\",\n  plot.rug = TRUE\n)\nThe same renderer is also useful for conditional density/distribution surfaces when you want to inspect shape changes interactively rather than through a fixed static viewpoint.",
+    "text": "Interactive rgl rendering and rugs\nWhen rgl is installed, plot methods can also render interactive 3D surfaces via renderer = \"rgl\". That gives you a manipulable display: drag with the mouse to rotate and use the scroll wheel to zoom. The same plotting surface now also supports 1D/2D rugs via plot.rug = TRUE.\nThese are best viewed in RStudio, where the interactive surface appears in the Viewer pane rather than the Plot pane.\nIf you want a minimal runnable script for this route, use np_rgl_quickstart.R.\nlibrary(np)\ndata(wage1, package = \"np\")\n\nfit_rgl &lt;- npreg(\n  lwage ~ educ + exper,\n  regtype = \"ll\",\n  data = wage1\n)\n\nplot(\n  fit_rgl,\n  view = \"fixed\",\n  renderer = \"rgl\",\n  plot.data.overlay = FALSE,\n  plot.errors.method = \"asymptotic\",\n  plot.rug = TRUE\n)\nThe same renderer is also useful for conditional density/distribution surfaces when you want to inspect shape changes interactively rather than through a fixed static viewpoint.",
     "crumbs": [
       "Examples",
       "Plotting and Intervals"
@@ -2732,7 +2732,7 @@
     "href": "crs.html#example-scripts",
     "title": "Splines",
     "section": "Example scripts",
-    "text": "Example scripts\n\nRadial function in OpenGL: radial_rgl.R\nSine function in OpenGL: sine_rgl.R\nConstrained spline mean estimation: radial_constrained_mean.R\nConstrained first partial derivative: radial_constrained_first_partial.R\nConstrained second partial derivative: radial_constrained_second_partial.R\n\nThe *_rgl.R scripts require rgl in addition to crs.",
+    "text": "Example scripts\n\nRadial function in OpenGL: radial_rgl.R\nSine function in OpenGL: sine_rgl.R\nConstrained spline mean estimation: radial_constrained_mean.R\nConstrained first partial derivative: radial_constrained_first_partial.R\nConstrained second partial derivative: radial_constrained_second_partial.R\n\nThe *_rgl.R scripts require rgl in addition to crs and are best viewed in RStudio, where the interactive surface appears in the Viewer pane rather than the Plot pane.",
     "crumbs": [
       "Methods",
       "Splines"
