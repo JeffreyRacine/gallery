@@ -67,6 +67,40 @@ plot(
 
 For serious work, this is exactly the sort of route where separating bandwidth selection from later estimation and plotting is especially worthwhile.
 
+## Interactive `rgl` rendering and rugs
+
+When `rgl` is installed, plot methods can also render interactive 3D surfaces
+via `renderer = "rgl"`. That gives you a manipulable display: drag with the
+mouse to rotate and use the scroll wheel to zoom. The same plotting surface now
+also supports 1D/2D rugs via `plot.rug = TRUE`.
+
+If you want a minimal runnable script for this route, use
+[np_rgl_quickstart.R](www/np_npRmpi/np_rgl_quickstart.R).
+
+```r
+library(np)
+data(wage1, package = "np")
+
+fit_rgl <- npreg(
+  lwage ~ educ + exper,
+  regtype = "ll",
+  data = wage1
+)
+
+plot(
+  fit_rgl,
+  view = "fixed",
+  renderer = "rgl",
+  plot.data.overlay = FALSE,
+  plot.errors.method = "asymptotic",
+  plot.rug = TRUE
+)
+```
+
+The same renderer is also useful for conditional density/distribution surfaces
+when you want to inspect shape changes interactively rather than through a fixed
+static viewpoint.
+
 ## Partial regression plots
 
 For multivariate models, `plot()` typically constructs partial regression plots: one covariate varies while the others are held fixed at representative values such as medians or modes.

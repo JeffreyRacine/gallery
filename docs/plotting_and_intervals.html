@@ -402,6 +402,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#asymptotic-intervals" id="toc-asymptotic-intervals" class="nav-link" data-scroll-target="#asymptotic-intervals">Asymptotic intervals</a></li>
   <li><a href="#gradients" id="toc-gradients" class="nav-link" data-scroll-target="#gradients">Gradients</a></li>
   <li><a href="#bootstrap-intervals" id="toc-bootstrap-intervals" class="nav-link" data-scroll-target="#bootstrap-intervals">Bootstrap intervals</a></li>
+  <li><a href="#interactive-rgl-rendering-and-rugs" id="toc-interactive-rgl-rendering-and-rugs" class="nav-link" data-scroll-target="#interactive-rgl-rendering-and-rugs">Interactive <code>rgl</code> rendering and rugs</a></li>
   <li><a href="#partial-regression-plots" id="toc-partial-regression-plots" class="nav-link" data-scroll-target="#partial-regression-plots">Partial regression plots</a></li>
   <li><a href="#a-multivariate-example" id="toc-a-multivariate-example" class="nav-link" data-scroll-target="#a-multivariate-example">A multivariate example</a></li>
   <li><a href="#prediction" id="toc-prediction" class="nav-link" data-scroll-target="#prediction">Prediction</a></li>
@@ -483,6 +484,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For serious work, this is exactly the sort of route where separating bandwidth selection from later estimation and plotting is especially worthwhile.</p>
 </section>
+<section id="interactive-rgl-rendering-and-rugs" class="level2">
+<h2 class="anchored" data-anchor-id="interactive-rgl-rendering-and-rugs">Interactive <code>rgl</code> rendering and rugs</h2>
+<p>When <code>rgl</code> is installed, plot methods can also render interactive 3D surfaces via <code>renderer = "rgl"</code>. That gives you a manipulable display: drag with the mouse to rotate and use the scroll wheel to zoom. The same plotting surface now also supports 1D/2D rugs via <code>plot.rug = TRUE</code>.</p>
+<p>If you want a minimal runnable script for this route, use <a href="www/np_npRmpi/np_rgl_quickstart.R">np_rgl_quickstart.R</a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wage1, <span class="at">package =</span> <span class="st">"np"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>fit_rgl <span class="ot">&lt;-</span> <span class="fu">npreg</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  lwage <span class="sc">~</span> educ <span class="sc">+</span> exper,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">regtype =</span> <span class="st">"ll"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> wage1</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  fit_rgl,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">view =</span> <span class="st">"fixed"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">renderer =</span> <span class="st">"rgl"</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot.data.overlay =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot.errors.method =</span> <span class="st">"asymptotic"</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot.rug =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The same renderer is also useful for conditional density/distribution surfaces when you want to inspect shape changes interactively rather than through a fixed static viewpoint.</p>
+</section>
 <section id="partial-regression-plots" class="level2">
 <h2 class="anchored" data-anchor-id="partial-regression-plots">Partial regression plots</h2>
 <p>For multivariate models, <code>plot()</code> typically constructs partial regression plots: one covariate varies while the others are held fixed at representative values such as medians or modes.</p>
@@ -490,27 +514,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="a-multivariate-example" class="level2">
 <h2 class="anchored" data-anchor-id="a-multivariate-example">A multivariate example</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wage1, <span class="at">package =</span> <span class="st">"np"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>fit_multi <span class="ot">&lt;-</span> <span class="fu">npreg</span>(</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  lwage <span class="sc">~</span> female <span class="sc">+</span> married <span class="sc">+</span> educ <span class="sc">+</span> exper <span class="sc">+</span> tenure,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">regtype =</span> <span class="st">"ll"</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> wage1</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  fit_multi,</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot.errors.method =</span> <span class="st">"bootstrap"</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot.errors.boot.num =</span> <span class="dv">25</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wage1, <span class="at">package =</span> <span class="st">"np"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>fit_multi <span class="ot">&lt;-</span> <span class="fu">npreg</span>(</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  lwage <span class="sc">~</span> female <span class="sc">+</span> married <span class="sc">+</span> educ <span class="sc">+</span> exper <span class="sc">+</span> tenure,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">regtype =</span> <span class="st">"ll"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> wage1</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  fit_multi,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot.errors.method =</span> <span class="st">"bootstrap"</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot.errors.boot.num =</span> <span class="dv">25</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This is a high-value visualization, but it is not a cheap one.</p>
 </section>
 <section id="prediction" class="level2">
 <h2 class="anchored" data-anchor-id="prediction">Prediction</h2>
 <p>Once a model is fitted, prediction is straightforward. Supply new explanatory data via <code>newdata</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>cps_eval <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">age =</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">70</span>, <span class="at">by =</span> <span class="dv">10</span>))</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(model.ll, <span class="at">newdata =</span> cps_eval)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cps_eval <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">age =</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">70</span>, <span class="at">by =</span> <span class="dv">10</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(model.ll, <span class="at">newdata =</span> cps_eval)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If you request <code>se.fit = TRUE</code>, the prediction route will also return asymptotic standard errors where supported.</p>
 </section>
 <section id="a-practical-warning-about-runtime" class="level2">
