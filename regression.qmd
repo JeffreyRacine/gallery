@@ -7,12 +7,9 @@ keywords:
   - regression examples
   - local linear
   - local constant
-  - npglpreg
 ---
 
 This page is meant to give you working code that you can copy directly. The longer scripts are still linked below, but the first goal is to let you run something useful without downloading a bundle of files.
-
-![Comparison of local constant, local linear, and generalized local polynomial fits](www/Regression/demo_poly_all.png){.hero-image}
 
 ## A first regression example
 
@@ -67,7 +64,6 @@ summary(fit)
 - Derivative estimation: [regression_intro_b.R](www/Regression/regression_intro_b.R)
 - Plotting fitted objects and intervals: [regression_intro_c.R](www/Regression/regression_intro_c.R)
 - Multivariate regression: [regression_multivar_a.R](www/Regression/regression_multivar_a.R)
-- Generalized local polynomial comparison: [demo_poly.R](www/Regression/demo_poly.R)
 
 For a website-first route to the multivariate example, see [Multivariate Regression and Prediction](multivariate_regression.qmd).
 
@@ -75,6 +71,6 @@ For a website-first route to the multivariate example, see [Multivariate Regress
 
 - The script links remain useful because they are more heavily commented than the short code blocks on this page.
 - Some examples call for additional packages. Where that is the case, the script itself says so.
-- `demo_poly.R` requires `crs` because it calls `npglpreg()`.
+- As of `crs` version `0.15-41`, `npglpreg` is deprecated. For a functional replacement, use `npreg(..., nomad = TRUE)` in `np` or `npRmpi`.
 - The `wage1` multivariate route now has its own page at [Multivariate Regression and Prediction](multivariate_regression.qmd).
 - For plotting objects, gradients, and uncertainty summaries, see [Plotting and Intervals](plotting_and_intervals.qmd).

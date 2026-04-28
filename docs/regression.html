@@ -2,15 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="keywords" content="worked examples, npreg, regression examples, local linear, local constant, npglpreg">
+<meta name="keywords" content="worked examples, npreg, regression examples, local linear, local constant">
 <meta name="description" content="Copy-first regression examples and longer scripts across np and related workflows.">
 
 <title>Worked Examples – Gallery of Code</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -70,15 +73,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./code_catalog.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b4acf84f37d6d68f6a15c6fe27913e81.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -119,8 +121,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Gallery of Code</span>
     </a>
@@ -165,10 +165,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
-      </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
@@ -431,7 +427,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
   <div class="keywords">
     <div class="block-title">Keywords</div>
-    <p>worked examples, npreg, regression examples, local linear, local constant, npglpreg</p>
+    <p>worked examples, npreg, regression examples, local linear, local constant</p>
   </div>
 </div>
 
@@ -439,12 +435,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>This page is meant to give you working code that you can copy directly. The longer scripts are still linked below, but the first goal is to let you run something useful without downloading a bundle of files.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="www/Regression/demo_poly_all.png" class="hero-image img-fluid figure-img"></p>
-<figcaption>Comparison of local constant, local linear, and generalized local polynomial fits</figcaption>
-</figure>
-</div>
 <section id="a-first-regression-example" class="level2">
 <h2 class="anchored" data-anchor-id="a-first-regression-example">A first regression example</h2>
 <p>This mirrors the spirit of <code>regression_intro_a.R</code> in a shorter form.</p>
@@ -494,7 +484,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Derivative estimation: <a href="www/Regression/regression_intro_b.R">regression_intro_b.R</a></li>
 <li>Plotting fitted objects and intervals: <a href="www/Regression/regression_intro_c.R">regression_intro_c.R</a></li>
 <li>Multivariate regression: <a href="www/Regression/regression_multivar_a.R">regression_multivar_a.R</a></li>
-<li>Generalized local polynomial comparison: <a href="www/Regression/demo_poly.R">demo_poly.R</a></li>
 </ul>
 <p>For a website-first route to the multivariate example, see <a href="./multivariate_regression.html">Multivariate Regression and Prediction</a>.</p>
 </section>
@@ -503,7 +492,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>The script links remain useful because they are more heavily commented than the short code blocks on this page.</li>
 <li>Some examples call for additional packages. Where that is the case, the script itself says so.</li>
-<li><code>demo_poly.R</code> requires <code>crs</code> because it calls <code>npglpreg()</code>.</li>
+<li>As of <code>crs</code> version <code>0.15-41</code>, <code>npglpreg</code> is deprecated. For a functional replacement, use <code>npreg(..., nomad = TRUE)</code> in <code>np</code> or <code>npRmpi</code>.</li>
 <li>The <code>wage1</code> multivariate route now has its own page at <a href="./multivariate_regression.html">Multivariate Regression and Prediction</a>.</li>
 <li>For plotting objects, gradients, and uncertainty summaries, see <a href="./plotting_and_intervals.html">Plotting and Intervals</a>.</li>
 </ul>

@@ -18,9 +18,47 @@
 rm(list=ls())
 require(manipulate)
 require(np)
-require(crs)
-options(np.tree=TRUE,crs.messages=FALSE,np.messages=FALSE)
+options(np.tree=TRUE,np.messages=FALSE)
 require(quadprog)
+
+build_manual_lp_bw <- function(formula, data, degree, bw = NULL, ckertype, bandwidth.compute = TRUE) {
+  args <- list(
+    formula,
+    data = data,
+    regtype = "lp",
+    degree = as.integer(degree),
+    degree.select = "manual",
+    bernstein.basis = TRUE,
+    ckertype = ckertype,
+    bandwidth.compute = bandwidth.compute
+  )
+
+  if (!is.null(bw))
+    args$bws <- bw
+
+  do.call(npregbw, args)
+}
+
+build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.max, ckertype, nmulti) {
+  if (!requireNamespace("crs", quietly = TRUE)) {
+    stop(
+      "Automatic LP degree search uses npregbw(..., nomad = TRUE), ",
+      "which currently requires the 'crs' package."
+    )
+  }
+
+  npregbw(
+    formula,
+    data = data,
+    regtype = "lp",
+    ckertype = ckertype,
+    nomad = TRUE,
+    degree.min = as.integer(degree.min),
+    degree.max = as.integer(degree.max),
+    degree.start = as.integer(degree.start),
+    nmulti = as.integer(nmulti)
+  )
+}
 
 ## Call the manipulate function on a plot object
 manipulate.plot <- function(n,p,bw,ckertype,constraints,weighted,unweighted,cv,cv.complexity) {
@@ -32,17 +70,39 @@ manipulate.plot <- function(n,p,bw,ckertype,constraints,weighted,unweighted,cv,c
   dgp <- function(x) {dgp <- sqrt(x)}
   y <- dgp(x) - abs(rnorm(n,sd=.1))
   y <- ifelse(y>=0,y,0)
+  lp.data <- data.frame(y = y, x = x)
 
   if(cv) {
-    model <- npglpreg(y~x,
-                      ckertype=ckertype,
-                      cv=cv.complexity,
-                      degree=p,
-                      degree.max=7,
-                      nmulti=1,
-                      cv.shrink=TRUE)
-    bw <- model$bws
-    p <- model$degree
+    lp.bw <- if(cv.complexity == "bandwidth") {
+      build_manual_lp_bw(
+        formula = y ~ x,
+        data = lp.data,
+        degree = p,
+        ckertype = ckertype,
+        bandwidth.compute = TRUE
+      )
+    } else {
+      build_nomad_lp_bw(
+        formula = y ~ x,
+        data = lp.data,
+        degree.start = p,
+        degree.min = 2L,
+        degree.max = 7L,
+        ckertype = ckertype,
+        nmulti = 1L
+      )
+    }
+    bw <- lp.bw$bw[1L]
+    p <- as.integer(lp.bw$degree[1L])
+  } else {
+    lp.bw <- build_manual_lp_bw(
+      formula = y ~ x,
+      data = lp.data,
+      degree = p,
+      bw = bw,
+      ckertype = ckertype,
+      bandwidth.compute = FALSE
+    )
   }
 
   plot(x,dgp(x),
@@ -61,25 +121,27 @@ manipulate.plot <- function(n,p,bw,ckertype,constraints,weighted,unweighted,cv,c
 
   ## Estimate the unrestricted model
 
-  W <- crs:::W.glp(xdat=x,
-                   degree=p)
-  
-  W.deriv.1 <- crs:::W.glp(xdat=x,
-                           degree=p,
-                           gradient.vec=c(1))
+  H.mean <- npreghat(
+    bws = lp.bw,
+    txdat = data.frame(x = x),
+    output = "matrix"
+  )
+  H.deriv.1 <- npreghat(
+    bws = lp.bw,
+    txdat = data.frame(x = x),
+    output = "matrix",
+    s = 1L
+  )
+  H.deriv.2 <- npreghat(
+    bws = lp.bw,
+    txdat = data.frame(x = x),
+    output = "matrix",
+    s = 2L
+  )
 
-  W.deriv.2 <- crs:::W.glp(xdat=x,
-                           degree=p,
-                           gradient.vec=c(2))
-
-  K <- npksum(txdat=x,
-              bws=bw,
-              ckertype=ckertype,
-              return.kernel.weights=TRUE)$kw
-  
-  A <- sapply(1:n,function(i){W[i,,drop=FALSE]%*%chol2inv(chol(t(W)%*%(K[,i]*W)))%*%t(W)*y*K[,i]})
-  A.deriv.1 <- sapply(1:n,function(i){W.deriv.1[i,,drop=FALSE]%*%chol2inv(chol(t(W)%*%(K[,i]*W)))%*%t(W)*y*K[,i]})
-  A.deriv.2 <- sapply(1:n,function(i){W.deriv.2[i,,drop=FALSE]%*%chol2inv(chol(t(W)%*%(K[,i]*W)))%*%t(W)*y*K[,i]})
+  A <- t(H.mean) * y
+  A.deriv.1 <- t(H.deriv.1) * y
+  A.deriv.2 <- t(H.deriv.2) * y
   
   p.u <- rep(1,n)
 
@@ -143,8 +205,8 @@ manipulate.plot <- function(n,p,bw,ckertype,constraints,weighted,unweighted,cv,c
   
   ## Get the solution and estimate the unrestricted and restricted models
 
-  fitted.unres <- t(A)%*%p.u
-  fitted.res <- t(A)%*%p.hat
+  fitted.unres <- drop(H.mean %*% y)
+  fitted.res <- drop(H.mean %*% (y * p.hat))
 
   ## Plot the unrestricted and restricted models and restricted y
   

@@ -14,8 +14,7 @@ rm(list=ls())
 
 library(np)
 library(quadprog)
-library(crs)
-options(np.tree=TRUE,np.messages=FALSE,crs.messages=FALSE)
+options(np.tree=TRUE,np.messages=FALSE)
 
 ## Set the kernel function.
 
@@ -34,14 +33,12 @@ y <- dgp - abs(rnorm(n,sd=.1))
 y <- ifelse(y>=0,y,0)
 
 ## X (data frame of regressors) and y are passed below, so if you add
-## extra regressors simply add them to X. W.glp is the generalized
-## polynomial (i.e. Taylor series with potentially different degrees
-## for each predictor), and formula.glp is the formula fed to
-## npglpreg() to obtain cross-validated local polynomial bandwidths.
+## extra regressors simply add them to X.
 
 X <- data.frame(x)
 
 formula.glp <- formula(y~x)
+lp.data <- data.frame(y = y, X)
 
 ## Gradient vec contains one entry for each variable. With multiple
 ## predictors all entries except the index of the variable whose
@@ -53,52 +50,46 @@ gradient.vec.2 <- c(2)
 
 if(any(c(gradient.vec.1,gradient.vec.2) > p)) stop(" the order of the gradient being restricted exceeds the order of the local polynomial")
 
-## W is the matrix for the local polynomial estimator, W.deriv.1 and
-## W.deriv.2 the matrices for the derivatives.
+## Generate the cross-validated bandwidths optimal for the fixed order
+## of the local polynomial, then build the required hat operators.
 
-W <- crs:::W.glp(xdat=X,
-                 degree=rep(p,NCOL(X)),
-                 Bernstein=TRUE)
+lp.bw <- npregbw(
+  formula.glp,
+  data = lp.data,
+  regtype = "lp",
+  degree = rep.int(as.integer(p), NCOL(X)),
+  degree.select = "manual",
+  bernstein.basis = TRUE,
+  ckertype = ckertype
+)
 
-W.deriv.1 <- crs:::W.glp(xdat=X,
-                         degree=rep(p,NCOL(X)),
-                         gradient.vec = gradient.vec.1,
-                         Bernstein=TRUE)
-W.deriv.2 <- crs:::W.glp(xdat=X,
-                         degree=rep(p,NCOL(X)),
-                         gradient.vec = gradient.vec.2,
-                         Bernstein=TRUE)
+H.mean <- npreghat(
+  bws = lp.bw,
+  txdat = X,
+  output = "matrix"
+)
+H.deriv.1 <- npreghat(
+  bws = lp.bw,
+  txdat = X,
+  output = "matrix",
+  s = as.integer(gradient.vec.1)
+)
+H.deriv.2 <- npreghat(
+  bws = lp.bw,
+  txdat = X,
+  output = "matrix",
+  s = as.integer(gradient.vec.2)
+)
 
-W.deriv.1[,1] <- 0
-W.deriv.2[,1] <- 0
-
-## Generate the cross-validated bandwidths optimal for the order of
-## the local polynomial at hand.
-
-bws <- crs:::npglpreg(formula=formula.glp,
-                      cv="bandwidth",
-                      degree=rep(p,NCOL(X)),
-                      ckertype=ckertype,
-                      nmulti=min(NCOL(X),5))$bws
-
-## Generate the matrix of kernel weights using data-driven bandwidths
-## that are optimal for the unconstrained model.
-
-K <- npksum(txdat=X,
-            bws=bws,
-            ckertype=ckertype,
-            return.kernel.weights=TRUE)$kw
-
-## Create the uniform weights p.u and matrix A for which t(A)%*%p is
-## the constrained local polynomial estimator \hat g(x|p), A.deriv.1
-## for which t(A.deriv.1)%*%p is the first derivative, and A.deriv.2
-## for which t(A.deriv.2)%*%p is the second derivative.
+## Create the uniform weights p.u and matrices for which H %*% (y * p)
+## delivers the constrained local polynomial estimator and its
+## derivatives.
 
 p.u <- rep(1,n)
 
-A <- sapply(1:n,function(i){W[i,,drop=FALSE]%*%chol2inv(chol(t(W)%*%(K[,i]*W)))%*%t(W)*y*K[,i]})
-A.deriv.1 <- sapply(1:n,function(i){W.deriv.1[i,,drop=FALSE]%*%chol2inv(chol(t(W)%*%(K[,i]*W)))%*%t(W)*y*K[,i]})
-A.deriv.2 <- sapply(1:n,function(i){W.deriv.2[i,,drop=FALSE]%*%chol2inv(chol(t(W)%*%(K[,i]*W)))%*%t(W)*y*K[,i]})
+A <- t(H.mean) * y
+A.deriv.1 <- t(H.deriv.1) * y
+A.deriv.2 <- t(H.deriv.2) * y
 
 ## Solve the quadratic program. The function solve.QP in the quadprog
 ## package solves the problem min (p-p.u)'(p-p.u) subject to the
@@ -124,8 +115,8 @@ if(!is.na(as.logical(all.equal(p.u,p.hat)))) warning(" constraints not binding")
 
 ## Compute the unconstrained and constrained fits
 
-fit.unres <- t(A)%*%p.u
-fit.res <- t(A)%*%p.hat
+fit.unres <- drop(H.mean %*% y)
+fit.res <- drop(H.mean %*% (y * p.hat))
 
 ## Plot the DGP, unrestricted, and restricted fits along with the
 ## constraints and data. We plot the y*p.hat (translated data) in

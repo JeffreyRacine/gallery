@@ -49,7 +49,6 @@ render_quickstart_catalog_table(subset(quickstarts, section == "np"))
 | [regression_intro_b.R](www/Regression/regression_intro_b.R) | Derivative estimation | `npreg`, derivative output | [Plotting and Intervals](plotting_and_intervals.qmd) |
 | [regression_intro_c.R](www/Regression/regression_intro_c.R) | Plotting fitted objects and intervals | `plot()`, asymptotic and bootstrap error handling | [Plotting and Intervals](plotting_and_intervals.qmd) |
 | [regression_multivar_a.R](www/Regression/regression_multivar_a.R) | Multivariate regression | mixed predictors, multivariate fit | [Multivariate Regression and Prediction](multivariate_regression.qmd) |
-| [demo_poly.R](www/Regression/demo_poly.R) | Generalized local polynomial comparison | `npglpreg`, `crs`, local polynomial comparison | [Worked Examples](regression.qmd) |
 
 ## `npRmpi`: modern session-mode quick start
 
@@ -120,6 +119,11 @@ These are older comparison scripts, but still useful if you want to see side-by-
 
 ## `npRmpi`: local polynomial / constrained examples
 
+As of `crs` version `0.15-41`, `npglpreg` is deprecated. These retained local
+polynomial scripts use the current `npregbw()` + `npreghat()` route instead.
+For the automatic LP replacement path, use `npreg(..., nomad = TRUE)` in `np`
+or `npRmpi`.
+
 | Script | Main topic |
 |---|---|
 | [lp_k1_prodfunc.R](www/np_npRmpi/lp_k1_prodfunc.R) | Production-function style local polynomial example |
@@ -155,8 +159,6 @@ render_quickstart_callouts(subset(quickstarts, section == "crs"), prefix_package
 | [manipulate_faithful_density.R](www/Fun/manipulate_faithful_density.R) | Old Faithful bivariate density | RStudio + `manipulate` |
 | [manipulate_bivariate_distribution.R](www/Fun/manipulate_bivariate_distribution.R) | Bivariate distribution | RStudio + `manipulate` |
 | [manipulate_wage1.R](www/Fun/manipulate_wage1.R) | Multivariate regression partial plots | RStudio + `manipulate` |
-| [manipulate_npglpreg.R](www/Fun/manipulate_npglpreg.R) | Generalized local polynomial regression | RStudio + `manipulate` |
-| [manipulate_npglpreg_sin.R](www/Fun/manipulate_npglpreg_sin.R) | Sinusoidal GLP illustration | RStudio + `manipulate` |
 | [manipulate_constrained_local_polynomial.R](www/Fun/manipulate_constrained_local_polynomial.R) | Constrained local polynomial regression | requires `quadprog` |
 | [manipulate_constrained_local_polynomial_production.R](www/Fun/manipulate_constrained_local_polynomial_production.R) | Constrained production function | requires `quadprog` |
 | [manipulate_constrained_spline.R](www/Fun/manipulate_constrained_spline.R) | Constrained spline surface | requires `quadprog` |

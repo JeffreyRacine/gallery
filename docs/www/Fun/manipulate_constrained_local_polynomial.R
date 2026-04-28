@@ -10,14 +10,48 @@
 rm(list=ls())
 require(manipulate)
 require(np)
-require(crs)
 options(np.tree=TRUE)
 require(quadprog)
+
+build_manual_lp_bw <- function(formula, data, degree, bw, ckertype) {
+  npregbw(
+    formula,
+    data = data,
+    regtype = "lp",
+    degree = as.integer(degree),
+    degree.select = "manual",
+    bernstein.basis = TRUE,
+    ckertype = ckertype,
+    bandwidth.compute = FALSE,
+    bws = bw
+  )
+}
+
+build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.max, ckertype, nmulti) {
+  if (!requireNamespace("crs", quietly = TRUE)) {
+    stop(
+      "Automatic LP degree search uses npregbw(..., nomad = TRUE), ",
+      "which currently requires the 'crs' package."
+    )
+  }
+
+  npregbw(
+    formula,
+    data = data,
+    regtype = "lp",
+    ckertype = ckertype,
+    nomad = TRUE,
+    degree.min = as.integer(degree.min),
+    degree.max = as.integer(degree.max),
+    degree.start = as.integer(degree.start),
+    nmulti = as.integer(nmulti)
+  )
+}
 
 ## Call the manipulate function on a plot object
 manipulate.plot <- function(n,dgp.frequency,p,gradient,bw,ckertype,lower,upper,weighted,cv) {
 
-  if(gradient > p) stop(" order of polynomial < gradient specified")
+  if(!cv && gradient > p) stop(" order of polynomial < gradient specified")
 
   if(lower > upper) {
     lower <- upper - 0.01
@@ -32,12 +66,31 @@ manipulate.plot <- function(n,dgp.frequency,p,gradient,bw,ckertype,lower,upper,w
   x <- sort(runif(n))
   dgp <- function(x) {dgp<- sin(dgp.frequency*pi*x);dgp/sd(dgp)}
   y <- dgp(x) + rnorm(n,sd=.5)
+  lp.data <- data.frame(y = y, x = x)
 
   if(cv) {
-    model <- npglpreg(y~x,ckertype=ckertype,nmulti=2)
-    bw <- model$bws
-    p <- model$degree
+    lp.bw <- build_nomad_lp_bw(
+      formula = y ~ x,
+      data = lp.data,
+      degree.start = max(p, gradient),
+      degree.min = gradient,
+      degree.max = 5L,
+      ckertype = ckertype,
+      nmulti = 2L
+    )
+    bw <- lp.bw$bw[1L]
+    p <- as.integer(lp.bw$degree[1L])
+  } else {
+    lp.bw <- build_manual_lp_bw(
+      formula = y ~ x,
+      data = lp.data,
+      degree = p,
+      bw = bw,
+      ckertype = ckertype
+    )
   }
+
+  if(gradient > p) stop(" order of polynomial < gradient specified")
 
   plot(x,y,
        cex=0.2,
@@ -61,32 +114,31 @@ manipulate.plot <- function(n,dgp.frequency,p,gradient,bw,ckertype,lower,upper,w
 
   ## Estimate the unrestricted model
 
-  W.gradient <- W <- crs:::W.glp(xdat=x,
-                                 degree=p)
+  H.mean <- npreghat(
+    bws = lp.bw,
+    txdat = data.frame(x = x),
+    output = "matrix"
+  )
 
-  if(any(gradient>0)) {
-    W.gradient <- crs:::W.glp(xdat=x,
-                              degree=p,
-                              gradient = gradient)
+  H.object <- if(any(gradient > 0)) {
+    npreghat(
+      bws = lp.bw,
+      txdat = data.frame(x = x),
+      output = "matrix",
+      s = as.integer(gradient)
+    )
+  } else {
+    H.mean
   }
 
-  K <- npksum(txdat=x,
-              bws=bw,
-              ckertype=ckertype,
-              return.kernel.weights=TRUE)$kw
-  
   p.u <- rep(1,n)
-
-  A.mean <- A <- sapply(1:n,function(i){W.gradient[i,,drop=FALSE]%*%chol2inv(chol(t(W)%*%(K[,i]*W)))%*%t(W)*y*K[,i]})
+  A.mean <- t(H.mean) * y
+  A <- t(H.object) * y
 
   ## Compute the unrestricted model/object being constrained
 
-  object.unres <- fitted.unres <- t(A)%*%p.u
-
-  if(any(gradient>0)) {
-    A.mean <- sapply(1:n,function(i){W[i,,drop=FALSE]%*%chol2inv(chol(t(W)%*%(K[,i]*W)))%*%t(W)*y*K[,i]})
-    fitted.unres <- t(A.mean)%*%p.u  
-  }
+  object.unres <- drop(H.object %*% y)
+  fitted.unres <- drop(H.mean %*% y)
 
   ## Solve the quadratic programming problem. We branch to avoid
   ## imposing nonbinding constraints (solve.QP will handle these cases
@@ -119,7 +171,7 @@ manipulate.plot <- function(n,dgp.frequency,p,gradient,bw,ckertype,lower,upper,w
 
   ## Compute the restricted model
 
-  fitted.res <- t(A.mean)%*%p.hat
+  fitted.res <- drop(H.mean %*% (y * p.hat))
 
   ## Plot the unrestricted and restricted models and restricted y
   

@@ -13,8 +13,7 @@ rm(list=ls())
 
 library(np)
 library(quadprog)
-library(crs)
-options(np.tree=TRUE,np.messages=FALSE,crs.messages=FALSE)
+options(np.tree=TRUE,np.messages=FALSE)
 
 ## Set the kernel function.
 
@@ -35,17 +34,11 @@ x2 <- runif(n,-5,5)
 y <- sin(sqrt(x1^2+x2^2))/sqrt(x1^2+x2^2) + rnorm(n,sd=.1)
 
 ## X (data frame of regressors) and y are passed below, so if you add
-## extra regressors simply add them to X here and be done. W.glp is
-## the generalized polynomial (i.e. Taylor series with potentially
-## different degrees for each predictor), and formula.glp is the
-## formula fed to npglpreg() to obtain cross-validated local
-## polynomial bandwidths.
+## extra regressors simply add them to X here and be done.
 
 X <- data.frame(x1,x2)
 formula.glp <- formula(y~x1+x2)
-W <- crs:::W.glp(xdat=X,
-                 degree=rep(p,NCOL(X)),
-                 Bernstein=TRUE)
+lp.data <- data.frame(y = y, X)
 
 ## Set up bounds for the quadratic program. We are going to require
 ## the lower and upper constraints l(x) and u(x) for g(x). Here they
@@ -57,24 +50,25 @@ upper <- rep(0.5,n)
 ## Generate the cross-validated bandwidths optimal for the order of
 ## the local polynomial at hand.
 
-bws <- crs:::npglpreg(formula=formula.glp,
-                      cv="bandwidth",
-                      degree=rep(p,NCOL(X)),
-                      ckertype=ckertype,
-                      nmulti=min(NCOL(X),5))$bws
+lp.bw <- npregbw(
+  formula.glp,
+  data = lp.data,
+  regtype = "lp",
+  degree = rep.int(as.integer(p), NCOL(X)),
+  degree.select = "manual",
+  bernstein.basis = TRUE,
+  ckertype = ckertype
+)
 
-## Generate the matrix of kernel weights using data-driven bandwidths
-## that are optimal for the unconstrained model.
+## Build the mean hat operator and the constraint matrix for H %*% (y * p).
 
-K <- npksum(txdat=X,
-            bws=bws,
-            ckertype=ckertype,
-            return.kernel.weights=TRUE)$kw
+H.train <- npreghat(
+  bws = lp.bw,
+  txdat = X,
+  output = "matrix"
+)
 
-## Create the uniform weights p.u and matrix A for which t(A)%*%p is
-## the constrained local polynomial estimator \hat g(x|p).
-
-A <- sapply(1:n,function(i){W[i,,drop=FALSE]%*%chol2inv(chol(t(W)%*%(K[,i]*W)))%*%t(W)*y*K[,i]})
+A <- t(H.train) * y
 p.u <- rep(1,n)
 
 ## Solve the quadratic program. The function solve.QP in the quadprog
@@ -102,21 +96,15 @@ x2.seq <- seq(min(x2),max(x2),length=n.eval)
 
 X.eval <- expand.grid(x1=x2.seq,x2=x2.seq)
 
-W.eval <- crs:::W.glp(xdat=X,
-                      exdat=X.eval,
-                      degree=rep(p,NCOL(X)),
-                      Bernstein=TRUE)
+H.eval <- npreghat(
+  bws = lp.bw,
+  txdat = X,
+  exdat = X.eval,
+  output = "matrix"
+)
 
-K <- npksum(txdat=X,
-            exdat=X.eval,
-            bws=bws,
-            ckertype=ckertype,
-            return.kernel.weights=TRUE)$kw
-
-A <- sapply(1:nrow(X.eval),function(i){W.eval[i,,drop=FALSE]%*%chol2inv(chol(t(W)%*%(K[,i]*W)))%*%t(W)*y*K[,i]})
-
-fit.unres <- t(A)%*%p.u
-fit.res <- t(A)%*%p.hat
+fit.unres <- drop(H.eval %*% y)
+fit.res <- drop(H.eval %*% (y * p.hat))
 
 ## Plot the unrestricted and restricted fits
 
@@ -130,12 +118,11 @@ zlim.res <- c(min(fit.res),max(fit.res))
 zlim.res.unres <- c(min(fit.unres,fit.res),max(fit.unres,fit.res))
 
 pdf(file="lp_radial_mean_unres.pdf")
-persp(x1.seq, x2.seq, fitted.unres, col="lightgrey", ticktype="detailed", 
+persp(x1.seq, x2.seq, fitted.unres, col="lightgrey", ticktype="detailed",
            ylab="X2", xlab="X1", zlim=zlim.res.unres, zlab="Conditional Expectation", theta=300, phi=30)
 dev.off()
 
 pdf(file="lp_radial_mean_res.pdf")
-persp(x1.seq, x2.seq, fitted.res, col="lightgrey", ticktype="detailed", 
+persp(x1.seq, x2.seq, fitted.res, col="lightgrey", ticktype="detailed",
            ylab="X2", xlab="X1", zlim=zlim.res.unres, zlab="Conditional Expectation", theta=300, phi=30)
 dev.off()
-

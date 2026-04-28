@@ -40,7 +40,6 @@ Download or open one of the scripts below in RStudio, then source it. Once the p
 ## Regression and shape-restriction demos
 
 - Multivariate regression partial plots: [manipulate_wage1.R](www/Fun/manipulate_wage1.R)
-- Generalized local polynomial regression: [manipulate_npglpreg.R](www/Fun/manipulate_npglpreg.R), [manipulate_npglpreg_sin.R](www/Fun/manipulate_npglpreg_sin.R)
 - Constrained local polynomial regression: [manipulate_constrained_local_polynomial.R](www/Fun/manipulate_constrained_local_polynomial.R)
 - Constrained production function example: [manipulate_constrained_local_polynomial_production.R](www/Fun/manipulate_constrained_local_polynomial_production.R)
 - Constrained spline illustrations: [manipulate_constrained_spline.R](www/Fun/manipulate_constrained_spline.R), [manipulate_constrained_spline_derivative.R](www/Fun/manipulate_constrained_spline_derivative.R)
@@ -53,6 +52,7 @@ Download or open one of the scripts below in RStudio, then source it. Once the p
 ## Notes
 
 - Some scripts require additional packages such as `quadprog`, `mnormt`, or `rgl`.
+- As of `crs` version `0.15-41`, `npglpreg` is deprecated. For a functional replacement, use `npreg(..., nomad = TRUE)` in `np` or `npRmpi`.
 - The `manipulate` package is tied to RStudio, so these are best treated as RStudio-first examples rather than generic batch scripts.
 
 ## Inline source for two flagship demos

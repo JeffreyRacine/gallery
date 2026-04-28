@@ -411,7 +411,7 @@
     "href": "books_papers.html#where-should-i-begin",
     "title": "Books, Papers, and Citation",
     "section": "Where should I begin?",
-    "text": "Where should I begin?\n\n\n\nIf you want…\nStart here\n\n\n\n\nThe main nonparametric econometrics theory reference\nLi and Racine, Nonparametric Econometrics: Theory and Practice (Li and Racine 2007)\n\n\nA reproducible R-oriented route through econometrics\nRacine, Reproducible Econometrics Using R (Racine 2019)\n\n\nA package-focused introduction to np\nHayfield and Racine (2008) (Hayfield and Racine 2008)\n\n\nThe parallel/MPI package paper\nHo, Huynh, and Jacho-Chavez (2011) (Ho, Huynh, and Jacho-Chavez 2011)\n\n\nThe spline-package paper\nNie and Racine (2012) (Nie and Racine 2012)\n\n\nA shorter website-first route before reading papers\nKernel Primer, Splines, and MPI and Large Data",
+    "text": "Where should I begin?\n\n\n\nIf you want…\nStart here\n\n\n\n\nThe main nonparametric econometrics theory reference\nLi and Racine, Nonparametric Econometrics: Theory and Practice (Li and Racine 2007)\n\n\nA reproducible R-oriented route through econometrics\nRacine, Reproducible Econometrics Using R (Racine 2019)\n\n\nA package-focused introduction to np\nHayfield and Racine (2008) (Hayfield and Racine 2008)\n\n\nThe parallel/MPI package paper\nHo, Huynh, and Jacho-Chavez (2011) (Ho et al. 2011)\n\n\nThe spline-package paper\nNie and Racine (2012) (Nie and Racine 2012)\n\n\nA shorter website-first route before reading papers\nKernel Primer, Splines, and MPI and Large Data",
     "crumbs": [
       "Support",
       "Books, Papers, and Citation"
@@ -433,7 +433,7 @@
     "href": "books_papers.html#package-papers",
     "title": "Books, Papers, and Citation",
     "section": "Package papers",
-    "text": "Package papers\n\nHayfield, T. and J.S. Racine (2008), “Nonparametric Econometrics: The np Package” (Hayfield and Racine 2008).\nHo, A.T., K.P. Huynh, and D.T. Jacho-Chavez (2011), “npRmpi: A Package for Parallel Distributed Kernel Estimation in R” (Ho, Huynh, and Jacho-Chavez 2011).\nNie, Z. and J.S. Racine (2012), “The crs Package: Nonparametric Regression Splines for Continuous and Categorical Predictors” (Nie and Racine 2012).\n\nThese are still useful because they explain package intent, not just function syntax.",
+    "text": "Package papers\n\nHayfield, T. and J.S. Racine (2008), “Nonparametric Econometrics: The np Package” (Hayfield and Racine 2008).\nHo, A.T., K.P. Huynh, and D.T. Jacho-Chavez (2011), “npRmpi: A Package for Parallel Distributed Kernel Estimation in R” (Ho et al. 2011).\nNie, Z. and J.S. Racine (2012), “The crs Package: Nonparametric Regression Splines for Continuous and Categorical Predictors” (Nie and Racine 2012).\n\nThese are still useful because they explain package intent, not just function syntax.",
     "crumbs": [
       "Support",
       "Books, Papers, and Citation"
@@ -521,7 +521,7 @@
     "href": "regression.html#script-library",
     "title": "Worked Examples",
     "section": "Script library",
-    "text": "Script library\n\nSimple univariate local constant and local linear regression: regression_intro_a.R\nDerivative estimation: regression_intro_b.R\nPlotting fitted objects and intervals: regression_intro_c.R\nMultivariate regression: regression_multivar_a.R\nGeneralized local polynomial comparison: demo_poly.R\n\nFor a website-first route to the multivariate example, see Multivariate Regression and Prediction.",
+    "text": "Script library\n\nSimple univariate local constant and local linear regression: regression_intro_a.R\nDerivative estimation: regression_intro_b.R\nPlotting fitted objects and intervals: regression_intro_c.R\nMultivariate regression: regression_multivar_a.R\n\nFor a website-first route to the multivariate example, see Multivariate Regression and Prediction.",
     "crumbs": [
       "Examples",
       "Worked Examples"
@@ -532,7 +532,7 @@
     "href": "regression.html#notes",
     "title": "Worked Examples",
     "section": "Notes",
-    "text": "Notes\n\nThe script links remain useful because they are more heavily commented than the short code blocks on this page.\nSome examples call for additional packages. Where that is the case, the script itself says so.\ndemo_poly.R requires crs because it calls npglpreg().\nThe wage1 multivariate route now has its own page at Multivariate Regression and Prediction.\nFor plotting objects, gradients, and uncertainty summaries, see Plotting and Intervals.",
+    "text": "Notes\n\nThe script links remain useful because they are more heavily commented than the short code blocks on this page.\nSome examples call for additional packages. Where that is the case, the script itself says so.\nAs of crs version 0.15-41, npglpreg is deprecated. For a functional replacement, use npreg(..., nomad = TRUE) in np or npRmpi.\nThe wage1 multivariate route now has its own page at Multivariate Regression and Prediction.\nFor plotting objects, gradients, and uncertainty summaries, see Plotting and Intervals.",
     "crumbs": [
       "Examples",
       "Worked Examples"
@@ -1280,7 +1280,7 @@
     "href": "interactive.html#regression-and-shape-restriction-demos",
     "title": "Interactive Demos",
     "section": "Regression and shape-restriction demos",
-    "text": "Regression and shape-restriction demos\n\nMultivariate regression partial plots: manipulate_wage1.R\nGeneralized local polynomial regression: manipulate_npglpreg.R, manipulate_npglpreg_sin.R\nConstrained local polynomial regression: manipulate_constrained_local_polynomial.R\nConstrained production function example: manipulate_constrained_local_polynomial_production.R\nConstrained spline illustrations: manipulate_constrained_spline.R, manipulate_constrained_spline_derivative.R",
+    "text": "Regression and shape-restriction demos\n\nMultivariate regression partial plots: manipulate_wage1.R\nConstrained local polynomial regression: manipulate_constrained_local_polynomial.R\nConstrained production function example: manipulate_constrained_local_polynomial_production.R\nConstrained spline illustrations: manipulate_constrained_spline.R, manipulate_constrained_spline_derivative.R",
     "crumbs": [
       "Examples",
       "Interactive Demos"
@@ -1302,7 +1302,7 @@
     "href": "interactive.html#notes",
     "title": "Interactive Demos",
     "section": "Notes",
-    "text": "Notes\n\nSome scripts require additional packages such as quadprog, mnormt, or rgl.\nThe manipulate package is tied to RStudio, so these are best treated as RStudio-first examples rather than generic batch scripts.",
+    "text": "Notes\n\nSome scripts require additional packages such as quadprog, mnormt, or rgl.\nAs of crs version 0.15-41, npglpreg is deprecated. For a functional replacement, use npreg(..., nomad = TRUE) in np or npRmpi.\nThe manipulate package is tied to RStudio, so these are best treated as RStudio-first examples rather than generic batch scripts.",
     "crumbs": [
       "Examples",
       "Interactive Demos"
@@ -1808,7 +1808,7 @@
     "href": "np_npRmpi.html#modern-lp-shortcut",
     "title": "Kernel Methods",
     "section": "Modern LP shortcut",
-    "text": "Modern LP shortcut\nFor LP-capable families, the modern convenience route is now nomad = TRUE. This is not a replacement for the basic bandwidth-object workflow above; it is the easiest front door when you want automatic local-polynomial degree and bandwidth search in one call.\nStart with:\n\nnp_regression_nomad_quickstart.R for serial np\nnprmpi_session_nomad_quickstart.R for npRmpi after MPI initialization\n\nThis LP shortcut requires the crs package because NOMAD degree search is provided there.",
+    "text": "Modern LP shortcut\nFor LP-capable families, the modern convenience route is now nomad = TRUE. This is not a replacement for the basic bandwidth-object workflow above; it is the easiest front door when you want automatic local-polynomial degree and bandwidth search in one call.\nStart with:\n\nnp_regression_nomad_quickstart.R for serial np\nnprmpi_session_nomad_quickstart.R for npRmpi after MPI initialization\n\nThis LP shortcut requires the crs package because NOMAD degree search is provided there.\nAs of crs version 0.15-41, the older npglpreg route is deprecated. For a functional replacement, use npreg(..., nomad = TRUE) in np or npRmpi.",
     "crumbs": [
       "Methods",
       "Kernel Methods"
@@ -1852,7 +1852,7 @@
     "href": "np_npRmpi.html#longer-examples",
     "title": "Kernel Methods",
     "section": "Longer examples",
-    "text": "Longer examples\nThe following scripts remain useful and are grouped here by task.\n\nLocal constant and local linear regression: regression_intro_a.R\nDerivative estimation: regression_intro_b.R\nPlotting fitted objects and intervals: regression_intro_c.R\nMultivariate regression: regression_multivar_a.R\nInfinite-order local polynomial comparison: demo_poly.R",
+    "text": "Longer examples\nThe following scripts remain useful and are grouped here by task.\n\nLocal constant and local linear regression: regression_intro_a.R\nDerivative estimation: regression_intro_b.R\nPlotting fitted objects and intervals: regression_intro_c.R\nMultivariate regression: regression_multivar_a.R",
     "crumbs": [
       "Methods",
       "Kernel Methods"
@@ -2468,7 +2468,7 @@
     "href": "code_catalog.html#np-kernel-methods-in-serial",
     "title": "Code Catalog",
     "section": "np: kernel methods in serial",
-    "text": "np: kernel methods in serial\n\n\n\nScript\nMain topic\nFunctions/features\nStart reading here\n\n\n\n\nnp_regression_quickstart.R\nMinimal kernel-regression workflow\nnpregbw, npreg\nKernel Primer\n\n\nnp_regression_nomad_quickstart.R\nMinimal LP NOMAD workflow\nnpreg, nomad = TRUE\nKernel Primer\n\n\nnp_density_quickstart.R\nMinimal density-estimation workflow\nnpudensbw, npudens\nDensity, Distribution, Quantiles\n\n\nnp_distribution_quickstart.R\nMinimal distribution-estimation workflow\nnpudistbw, npudist\nDensity, Distribution, Quantiles\n\n\nnp_conditional_density_quickstart.R\nMinimal conditional-density workflow\nnpcdensbw, npcdens\nDensity, Distribution, Quantiles\n\n\nnp_conditional_distribution_quickstart.R\nMinimal conditional-distribution workflow\nnpcdistbw, npcdist\nDensity, Distribution, Quantiles\n\n\nnp_quantile_quickstart.R\nMinimal quantile-regression workflow\nnpcdistbw, npqreg\nDensity, Distribution, Quantiles\n\n\nnp_classification_quickstart.R\nMinimal classification / conditional-mode workflow\nnpconmode\nClassification and Modes\n\n\nnp_plotting_quickstart.R\nMinimal plotting and interval workflow\nnpreg, plot, predict\nPlotting and Intervals\n\n\nnp_entropy_quickstart.R\nMinimal entropy/testing workflow\nnpunitest\nEntropy and Testing\n\n\nnp_semiparametric_quickstart.R\nMinimal semiparametric workflow\nnpplreg\nSemiparametric Models\n\n\nnp_significance_quickstart.R\nMinimal significance-testing workflow\nnpreg, npsigtest\nSignificance and Specification\n\n\nnp_specification_quickstart.R\nMinimal model-specification workflow\nlm, npcmstest\nSignificance and Specification\n\n\n\n\nAdditional serial scripts\n\n\n\nScript\nMain topic\nFunctions/features\nStart reading here\n\n\n\n\nregression_intro_a.R\nUnivariate regression and plotting\nnpreg, local constant, local linear\nKernel Primer\n\n\nregression_intro_b.R\nDerivative estimation\nnpreg, derivative output\nPlotting and Intervals\n\n\nregression_intro_c.R\nPlotting fitted objects and intervals\nplot(), asymptotic and bootstrap error handling\nPlotting and Intervals\n\n\nregression_multivar_a.R\nMultivariate regression\nmixed predictors, multivariate fit\nMultivariate Regression and Prediction\n\n\ndemo_poly.R\nGeneralized local polynomial comparison\nnpglpreg, crs, local polynomial comparison\nWorked Examples",
+    "text": "np: kernel methods in serial\n\n\n\nScript\nMain topic\nFunctions/features\nStart reading here\n\n\n\n\nnp_regression_quickstart.R\nMinimal kernel-regression workflow\nnpregbw, npreg\nKernel Primer\n\n\nnp_regression_nomad_quickstart.R\nMinimal LP NOMAD workflow\nnpreg, nomad = TRUE\nKernel Primer\n\n\nnp_density_quickstart.R\nMinimal density-estimation workflow\nnpudensbw, npudens\nDensity, Distribution, Quantiles\n\n\nnp_distribution_quickstart.R\nMinimal distribution-estimation workflow\nnpudistbw, npudist\nDensity, Distribution, Quantiles\n\n\nnp_conditional_density_quickstart.R\nMinimal conditional-density workflow\nnpcdensbw, npcdens\nDensity, Distribution, Quantiles\n\n\nnp_conditional_distribution_quickstart.R\nMinimal conditional-distribution workflow\nnpcdistbw, npcdist\nDensity, Distribution, Quantiles\n\n\nnp_quantile_quickstart.R\nMinimal quantile-regression workflow\nnpcdistbw, npqreg\nDensity, Distribution, Quantiles\n\n\nnp_classification_quickstart.R\nMinimal classification / conditional-mode workflow\nnpconmode\nClassification and Modes\n\n\nnp_plotting_quickstart.R\nMinimal plotting and interval workflow\nnpreg, plot, predict\nPlotting and Intervals\n\n\nnp_entropy_quickstart.R\nMinimal entropy/testing workflow\nnpunitest\nEntropy and Testing\n\n\nnp_semiparametric_quickstart.R\nMinimal semiparametric workflow\nnpplreg\nSemiparametric Models\n\n\nnp_significance_quickstart.R\nMinimal significance-testing workflow\nnpreg, npsigtest\nSignificance and Specification\n\n\nnp_specification_quickstart.R\nMinimal model-specification workflow\nlm, npcmstest\nSignificance and Specification\n\n\n\n\nAdditional serial scripts\n\n\n\nScript\nMain topic\nFunctions/features\nStart reading here\n\n\n\n\nregression_intro_a.R\nUnivariate regression and plotting\nnpreg, local constant, local linear\nKernel Primer\n\n\nregression_intro_b.R\nDerivative estimation\nnpreg, derivative output\nPlotting and Intervals\n\n\nregression_intro_c.R\nPlotting fitted objects and intervals\nplot(), asymptotic and bootstrap error handling\nPlotting and Intervals\n\n\nregression_multivar_a.R\nMultivariate regression\nmixed predictors, multivariate fit\nMultivariate Regression and Prediction",
     "crumbs": [
       "Examples",
       "Code Catalog"
@@ -2512,7 +2512,7 @@
     "href": "code_catalog.html#nprmpi-local-polynomial-constrained-examples",
     "title": "Code Catalog",
     "section": "npRmpi: local polynomial / constrained examples",
-    "text": "npRmpi: local polynomial / constrained examples\n\n\n\nScript\nMain topic\n\n\n\n\nlp_k1_prodfunc.R\nProduction-function style local polynomial example\n\n\nlp_k1.R\nLocal polynomial example\n\n\nlp_radial_mean.R\nConstrained radial mean example\n\n\nlp_radial_deriv.R\nConstrained radial derivative example",
+    "text": "npRmpi: local polynomial / constrained examples\nAs of crs version 0.15-41, npglpreg is deprecated. These retained local polynomial scripts use the current npregbw() + npreghat() route instead. For the automatic LP replacement path, use npreg(..., nomad = TRUE) in np or npRmpi.\n\n\n\nScript\nMain topic\n\n\n\n\nlp_k1_prodfunc.R\nProduction-function style local polynomial example\n\n\nlp_k1.R\nLocal polynomial example\n\n\nlp_radial_mean.R\nConstrained radial mean example\n\n\nlp_radial_deriv.R\nConstrained radial derivative example",
     "crumbs": [
       "Examples",
       "Code Catalog"
@@ -2534,7 +2534,7 @@
     "href": "code_catalog.html#interactive-demos-for-teaching-and-exploration",
     "title": "Code Catalog",
     "section": "Interactive demos for teaching and exploration",
-    "text": "Interactive demos for teaching and exploration\n\n\n\nScript\nMain topic\nNotes\n\n\n\n\nmanipulate_density.R\nUnivariate density with sliders\nRStudio + manipulate\n\n\nmanipulate_eruptions.R\nOld Faithful density\nRStudio + manipulate\n\n\nmanipulate_distribution.R\nUnivariate distribution\nRStudio + manipulate\n\n\nmanipulate_bivariate_density.R\nBivariate density\nRStudio + manipulate\n\n\nmanipulate_faithful_density.R\nOld Faithful bivariate density\nRStudio + manipulate\n\n\nmanipulate_bivariate_distribution.R\nBivariate distribution\nRStudio + manipulate\n\n\nmanipulate_wage1.R\nMultivariate regression partial plots\nRStudio + manipulate\n\n\nmanipulate_npglpreg.R\nGeneralized local polynomial regression\nRStudio + manipulate\n\n\nmanipulate_npglpreg_sin.R\nSinusoidal GLP illustration\nRStudio + manipulate\n\n\nmanipulate_constrained_local_polynomial.R\nConstrained local polynomial regression\nrequires quadprog\n\n\nmanipulate_constrained_local_polynomial_production.R\nConstrained production function\nrequires quadprog\n\n\nmanipulate_constrained_spline.R\nConstrained spline surface\nrequires quadprog\n\n\nmanipulate_constrained_spline_derivative.R\nConstrained spline derivative\nrequires quadprog\n\n\nmanipulate_copula.R\nCopula plots\nrequires mnormt\n\n\nmanipulate_socco.R\nSOCCO nonlinear-system demo\nrequires data.RData and figures.R",
+    "text": "Interactive demos for teaching and exploration\n\n\n\nScript\nMain topic\nNotes\n\n\n\n\nmanipulate_density.R\nUnivariate density with sliders\nRStudio + manipulate\n\n\nmanipulate_eruptions.R\nOld Faithful density\nRStudio + manipulate\n\n\nmanipulate_distribution.R\nUnivariate distribution\nRStudio + manipulate\n\n\nmanipulate_bivariate_density.R\nBivariate density\nRStudio + manipulate\n\n\nmanipulate_faithful_density.R\nOld Faithful bivariate density\nRStudio + manipulate\n\n\nmanipulate_bivariate_distribution.R\nBivariate distribution\nRStudio + manipulate\n\n\nmanipulate_wage1.R\nMultivariate regression partial plots\nRStudio + manipulate\n\n\nmanipulate_constrained_local_polynomial.R\nConstrained local polynomial regression\nrequires quadprog\n\n\nmanipulate_constrained_local_polynomial_production.R\nConstrained production function\nrequires quadprog\n\n\nmanipulate_constrained_spline.R\nConstrained spline surface\nrequires quadprog\n\n\nmanipulate_constrained_spline_derivative.R\nConstrained spline derivative\nrequires quadprog\n\n\nmanipulate_copula.R\nCopula plots\nrequires mnormt\n\n\nmanipulate_socco.R\nSOCCO nonlinear-system demo\nrequires data.RData and figures.R",
     "crumbs": [
       "Examples",
       "Code Catalog"
@@ -2831,7 +2831,7 @@
     "href": "function_index.html#crs-function-families",
     "title": "Reference and Function Lookup",
     "section": "crs function families",
-    "text": "crs function families\n\n\n\nTask\nFunctions\n\n\n\n\nRegression splines\ncrs\n\n\nSpline significance testing\ncrssigtest\n\n\nInstrumental regression splines\ncrsiv, crsivderiv\n\n\nSupporting utilities\ngsl.bs, snomadr\n\n\n\nLegacy note: npglpreg is an older route (to be deprecated). For new work, prefer npreg(..., regtype = \"ll\", nomad = TRUE).",
+    "text": "crs function families\n\n\n\nTask\nFunctions\n\n\n\n\nRegression splines\ncrs\n\n\nSpline significance testing\ncrssigtest\n\n\nInstrumental regression splines\ncrsiv, crsivderiv\n\n\nSupporting utilities\ngsl.bs, snomadr\n\n\n\nLegacy note: as of crs version 0.15-41, npglpreg is deprecated. For a functional replacement, use npreg(..., nomad = TRUE) in np or npRmpi.",
     "crumbs": [
       "Support",
       "Reference"

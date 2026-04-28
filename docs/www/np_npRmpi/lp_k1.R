@@ -13,8 +13,38 @@ rm(list=ls())
 
 library(np)
 library(quadprog)
-library(crs)
-options(np.tree=TRUE,np.messages=FALSE,crs.messages=FALSE)
+options(np.tree=TRUE,np.messages=FALSE)
+
+build_manual_lp_bw <- function(formula, data, degree, ckertype) {
+  npregbw(
+    formula,
+    data = data,
+    regtype = "lp",
+    degree = as.integer(degree),
+    degree.select = "manual",
+    bernstein.basis = TRUE,
+    ckertype = ckertype
+  )
+}
+
+build_nomad_lp_bw <- function(formula, data, degree.max, ckertype, nmulti) {
+  if (!requireNamespace("crs", quietly = TRUE)) {
+    stop(
+      "Automatic LP degree search uses npregbw(..., nomad = TRUE), ",
+      "which currently requires the 'crs' package."
+    )
+  }
+
+  npregbw(
+    formula,
+    data = data,
+    regtype = "lp",
+    ckertype = ckertype,
+    nomad = TRUE,
+    degree.max = as.integer(degree.max),
+    nmulti = as.integer(nmulti)
+  )
+}
 
 ## Set the kernel function.
 
@@ -67,68 +97,52 @@ y <- dgp + sd(dgp)*rnorm(n,sd=0.5)
 
 X <- data.frame(x)
 
-## Generate the cross-validated bandwidths optimal for the order of
-## the local polynomial at hand.
+## Generate the local-polynomial bandwidth object using the current
+## npregbw()/npreghat() route. Setting p < 0 triggers automatic
+## degree-and-bandwidth search via nomad = TRUE.
 
 formula.glp <- formula(y~x)
+lp.data <- data.frame(y = y, X)
 
-model.glp <- crs:::npglpreg(formula=formula.glp,
-                            cv=ifelse(p>=0,"bandwidth","degree-bandwidth"),
-                            degree=ifelse(p>=0,rep(p,NCOL(X)),rep(0,NCOL(X))),
-                            ckertype=ckertype,
-                            nmulti=min(NCOL(X),5))
+lp.bw <- if (p >= 0) {
+  build_manual_lp_bw(
+    formula = formula.glp,
+    data = lp.data,
+    degree = rep.int(as.integer(p), NCOL(X)),
+    ckertype = ckertype
+  )
+} else {
+  build_nomad_lp_bw(
+    formula = formula.glp,
+    data = lp.data,
+    degree.max = 10L,
+    ckertype = ckertype,
+    nmulti = min(NCOL(X), 5L)
+  )
+}
 
-bws <- model.glp$bws
-p <- model.glp$degree
+bws <- lp.bw$bw
+p <- as.integer(lp.bw$degree)
 
 if(any(gradient.vec > p)) stop(" the order of the gradient being restricted exceeds the order of the local polynomial")
 
-## The function W.glp is the generalized polynomial (i.e. Taylor
-## series with potentially different degrees for each predictor, using
-## the Bernstein polynomial), and formula.glp is the formula fed to
-## npglpreg() to obtain cross-validated local polynomial bandwidths.
-
-W <- crs:::W.glp(xdat=X,
-                 degree=rep(p,NCOL(X)),
-                 Bernstein=TRUE)
-
-if(any(gradient.vec>0)) {
-  W.gradient <- crs:::W.glp(xdat=X,
-                            degree=rep(p,NCOL(X)),
-                            gradient.vec = gradient.vec,
-                            Bernstein=TRUE)
-  W.gradient[,1] <- 0
+H.mean <- npreghat(
+  bws = lp.bw,
+  txdat = X,
+  output = "matrix"
+)
+H.object <- if(any(gradient.vec > 0)) {
+  npreghat(
+    bws = lp.bw,
+    txdat = X,
+    output = "matrix",
+    s = as.integer(gradient.vec)
+  )
 } else {
-  W.gradient <- W ## can we avoid copy?
+  H.mean
 }
 
-if(n.eval>0) {
-  x.eval <- seq(min(x),max(x),length=n.eval)
-  X.eval <- data.frame(x=x.eval)
-  if(any(gradient.vec>0)) {
-    W.eval <- crs:::W.glp(xdat=X,
-                          exdat=X.eval,
-                          degree=rep(p,NCOL(X)),
-                          gradient.vec = gradient.vec,
-                          Bernstein=TRUE)
-    W.eval[,1] <- 0    
-  } else {
-    W.eval <- crs:::W.glp(xdat=X,
-                          exdat=X.eval,
-                          degree=rep(p,NCOL(X)),
-                          Bernstein=TRUE)
-  }
-}
-
-## Generate the matrix of kernel weights using data-driven bandwidths
-## that are optimal for the unconstrained model.
-
-K <- npksum(txdat=X,
-            bws=bws,
-            ckertype=ckertype,
-            return.kernel.weights=TRUE)$kw
-
-A <- sapply(1:n,function(i){W.gradient[i,,drop=FALSE]%*%chol2inv(chol(t(W)%*%(K[,i]*W)))%*%t(W)*y*K[,i]})
+A <- t(H.object) * y
 
 ## Create the uniform weights p.u and matrix A for which t(A)%*%p is
 ## the constrained local polynomial estimator \hat g(x|p).
@@ -139,12 +153,16 @@ p.u <- rep(1,n)
 ## associated matrix for the fit on the evaluation data.
 
 if(n.eval>0) {
-  K.eval <- npksum(txdat=X,
-                   exdat=X.eval,
-                   bws=bws,
-                   ckertype=ckertype,
-                   return.kernel.weights=TRUE)$kw
-  A.eval <- sapply(1:n.eval,function(i){W.eval[i,,drop=FALSE]%*%chol2inv(chol(t(W)%*%(K.eval[,i]*W)))%*%t(W)*y*K.eval[,i]})
+  x.eval <- seq(min(x),max(x),length=n.eval)
+  X.eval <- data.frame(x=x.eval)
+  H.eval <- npreghat(
+    bws = lp.bw,
+    txdat = X,
+    exdat = X.eval,
+    output = "matrix",
+    s = if(any(gradient.vec > 0)) as.integer(gradient.vec) else NULL
+  )
+  A.eval <- t(H.eval) * y
 }
 
 
@@ -174,12 +192,8 @@ if(!is.na(as.logical(all.equal(p.u,p.hat)))) warning(" constraints not binding")
 
 ## Compute the unconstrained and constrained estimators.
 
-if(any(gradient.vec>0)) {
-  A <- sapply(1:n,function(i){W[i,,drop=FALSE]%*%chol2inv(chol(t(W)%*%(K[,i]*W)))%*%t(W)*y*K[,i]})
-}
-
-fit.unres <- t(A)%*%p.u
-fit.res <- t(A)%*%p.hat
+fit.unres <- drop(H.mean %*% y)
+fit.res <- drop(H.mean %*% (y * p.hat))
 
 ## Plot the DGP, unrestricted, and restricted fits along with the
 ## constraints and data. We plot the y*p.hat (translated data) in

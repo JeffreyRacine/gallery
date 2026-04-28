@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,6 +11,9 @@
 
 <title>Code Catalog – Gallery of Code</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -70,15 +73,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./spline_search_and_tuning.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b4acf84f37d6d68f6a15c6fe27913e81.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -119,8 +121,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Gallery of Code</span>
     </a>
@@ -165,10 +165,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
-      </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
@@ -708,12 +704,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Multivariate regression</td>
 <td>mixed predictors, multivariate fit</td>
 <td><a href="./multivariate_regression.html">Multivariate Regression and Prediction</a></td>
-</tr>
-<tr class="odd">
-<td><a href="www/Regression/demo_poly.R">demo_poly.R</a></td>
-<td>Generalized local polynomial comparison</td>
-<td><code>npglpreg</code>, <code>crs</code>, local polynomial comparison</td>
-<td><a href="./regression.html">Worked Examples</a></td>
 </tr>
 </tbody>
 </table>
@@ -1677,6 +1667,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="nprmpi-local-polynomial-constrained-examples" class="level2">
 <h2 class="anchored" data-anchor-id="nprmpi-local-polynomial-constrained-examples"><code>npRmpi</code>: local polynomial / constrained examples</h2>
+<p>As of <code>crs</code> version <code>0.15-41</code>, <code>npglpreg</code> is deprecated. These retained local polynomial scripts use the current <code>npregbw()</code> + <code>npreghat()</code> route instead. For the automatic LP replacement path, use <code>npreg(..., nomad = TRUE)</code> in <code>np</code> or <code>npRmpi</code>.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1830,16 +1821,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td><a href="www/Fun/manipulate_wage1.R">manipulate_wage1.R</a></td>
 <td>Multivariate regression partial plots</td>
-<td>RStudio + <code>manipulate</code></td>
-</tr>
-<tr class="even">
-<td><a href="www/Fun/manipulate_npglpreg.R">manipulate_npglpreg.R</a></td>
-<td>Generalized local polynomial regression</td>
-<td>RStudio + <code>manipulate</code></td>
-</tr>
-<tr class="odd">
-<td><a href="www/Fun/manipulate_npglpreg_sin.R">manipulate_npglpreg_sin.R</a></td>
-<td>Sinusoidal GLP illustration</td>
 <td>RStudio + <code>manipulate</code></td>
 </tr>
 <tr class="even">

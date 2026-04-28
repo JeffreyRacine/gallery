@@ -60,6 +60,9 @@ Start with:
 This LP shortcut requires the `crs` package because NOMAD degree search is
 provided there.
 
+As of `crs` version `0.15-41`, the older `npglpreg` route is deprecated. For a
+functional replacement, use `npreg(..., nomad = TRUE)` in `np` or `npRmpi`.
+
 ## A very small `np` workflow
 
 The code below is pulled from the current starter script.
@@ -92,7 +95,6 @@ The following scripts remain useful and are grouped here by task.
 - Derivative estimation: [regression_intro_b.R](www/Regression/regression_intro_b.R)
 - Plotting fitted objects and intervals: [regression_intro_c.R](www/Regression/regression_intro_c.R)
 - Multivariate regression: [regression_multivar_a.R](www/Regression/regression_multivar_a.R)
-- Infinite-order local polynomial comparison: [demo_poly.R](www/Regression/demo_poly.R)
 
 ## Existing serial versus MPI script pairs
 
