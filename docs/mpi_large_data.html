@@ -399,8 +399,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#mode-chooser" id="toc-mode-chooser" class="nav-link" data-scroll-target="#mode-chooser">Mode chooser</a></li>
   <li><a href="#a-safe-validation-ladder" id="toc-a-safe-validation-ladder" class="nav-link" data-scroll-target="#a-safe-validation-ladder">A safe validation ladder</a></li>
   <li><a href="#platform-map" id="toc-platform-map" class="nav-link" data-scroll-target="#platform-map">Platform map</a></li>
-  <li><a href="#install-from-cran" id="toc-install-from-cran" class="nav-link" data-scroll-target="#install-from-cran">Install from CRAN</a></li>
-  <li><a href="#install-the-development-branch" id="toc-install-the-development-branch" class="nav-link" data-scroll-target="#install-the-development-branch">Install the development branch</a></li>
+  <li><a href="#install-from-cran-first" id="toc-install-from-cran-first" class="nav-link" data-scroll-target="#install-from-cran-first">Install from CRAN first</a></li>
+  <li><a href="#temporary-fallback-if-cran-has-not-updated-yet" id="toc-temporary-fallback-if-cran-has-not-updated-yet" class="nav-link" data-scroll-target="#temporary-fallback-if-cran-has-not-updated-yet">Temporary fallback if CRAN has not updated yet</a></li>
   <li><a href="#step-1-after-install-make-sure-the-package-loads" id="toc-step-1-after-install-make-sure-the-package-loads" class="nav-link" data-scroll-target="#step-1-after-install-make-sure-the-package-loads">Step 1 after install: make sure the package loads</a></li>
   <li><a href="#macos-current-documented-local-recipe" id="toc-macos-current-documented-local-recipe" class="nav-link" data-scroll-target="#macos-current-documented-local-recipe">macOS: current documented local recipe</a>
   <ul class="collapse">
@@ -583,15 +583,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>npRmpi</code> on CRAN: <a href="https://cran.r-project.org/package=npRmpi">cran.r-project.org/package=npRmpi</a></li>
 <li><code>Rmpi</code> on CRAN: <a href="https://cran.r-project.org/package=Rmpi">cran.r-project.org/package=Rmpi</a></li>
 </ul>
+<p>This gallery is aligned to the current package heads intended for the imminent <code>0.70-1</code> release surface. If CRAN still shows the older <code>0.60-20</code> release when you read this page, use the branch install below as a temporary fallback until the CRAN update lands.</p>
 </section>
-<section id="install-from-cran" class="level2">
-<h2 class="anchored" data-anchor-id="install-from-cran">Install from CRAN</h2>
-<p>If the target machine already has a working MPI toolchain and current package binaries or source prerequisites are in place, this is the shortest route.</p>
+<section id="install-from-cran-first" class="level2">
+<h2 class="anchored" data-anchor-id="install-from-cran-first">Install from CRAN first</h2>
+<p>Once CRAN reflects the current release, this is the shortest public route. If the target machine already has a working MPI toolchain and current package binaries or source prerequisites are in place, start here.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"npRmpi"</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="install-the-development-branch" class="level2">
-<h2 class="anchored" data-anchor-id="install-the-development-branch">Install the development branch</h2>
-<p>The development branch lives in <code>R-Package-np</code> under <code>npRmpi</code>.</p>
+<section id="temporary-fallback-if-cran-has-not-updated-yet" class="level2">
+<h2 class="anchored" data-anchor-id="temporary-fallback-if-cran-has-not-updated-yet">Temporary fallback if CRAN has not updated yet</h2>
+<p>If CRAN is still on the older public release and you specifically need the current gallery/package surface, install the current <code>npRmpi</code> branch from <code>R-Package-np</code> temporarily.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install_github</span>(<span class="st">"JeffreyRacine/R-Package-np"</span>, <span class="at">ref =</span> <span class="st">"npRmpi"</span>, <span class="at">build_vignettes =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Use <code>build_vignettes = FALSE</code> if TeX is not available.</p>

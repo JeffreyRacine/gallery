@@ -71,17 +71,26 @@ Current package pages:
 - `npRmpi` on CRAN: [cran.r-project.org/package=npRmpi](https://cran.r-project.org/package=npRmpi)
 - `Rmpi` on CRAN: [cran.r-project.org/package=Rmpi](https://cran.r-project.org/package=Rmpi)
 
-## Install from CRAN
+This gallery is aligned to the current package heads intended for the imminent
+`0.70-1` release surface. If CRAN still shows the older `0.60-20` release when
+you read this page, use the branch install below as a temporary fallback until
+the CRAN update lands.
 
-If the target machine already has a working MPI toolchain and current package binaries or source prerequisites are in place, this is the shortest route.
+## Install from CRAN first
+
+Once CRAN reflects the current release, this is the shortest public route. If
+the target machine already has a working MPI toolchain and current package
+binaries or source prerequisites are in place, start here.
 
 ```r
 install.packages("npRmpi", dependencies = TRUE)
 ```
 
-## Install the development branch
+## Temporary fallback if CRAN has not updated yet
 
-The development branch lives in `R-Package-np` under `npRmpi`.
+If CRAN is still on the older public release and you specifically need the
+current gallery/package surface, install the current `npRmpi` branch from
+`R-Package-np` temporarily.
 
 ```r
 library(devtools)
