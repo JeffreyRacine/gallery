@@ -2864,7 +2864,7 @@
     "href": "function_index.html#external-package-documentation",
     "title": "Reference and Function Lookup",
     "section": "External package documentation",
-    "text": "External package documentation\n\nnp on CRAN: package page\ncrs on CRAN: package page\nnpRmpi on GitHub: branch in R-Package-np",
+    "text": "External package documentation\n\nnp on CRAN: package page\ncrs on CRAN: package page\nnpRmpi on CRAN: package page\nnpRmpi development branch: branch in R-Package-np",
     "crumbs": [
       "Support",
       "Reference"

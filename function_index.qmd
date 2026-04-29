@@ -91,4 +91,5 @@ Use these when you want quick, reproducible examples without hunting for externa
 
 - `np` on CRAN: [package page](https://cran.r-project.org/package=np)
 - `crs` on CRAN: [package page](https://cran.r-project.org/package=crs)
-- `npRmpi` on GitHub: [branch in `R-Package-np`](https://github.com/JeffreyRacine/R-Package-np/tree/npRmpi)
+- `npRmpi` on CRAN: [package page](https://cran.r-project.org/package=npRmpi)
+- `npRmpi` development branch: [branch in `R-Package-np`](https://github.com/JeffreyRacine/R-Package-np/tree/npRmpi)
