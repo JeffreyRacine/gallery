@@ -130,7 +130,9 @@ basic bandwidth-object workflow:
 library(np)
 data(cps71, package = "np")
 
-fit_lp <- npreg(logwage ~ age, data = cps71, nomad = TRUE, degree.max = 2L, nmulti = 1L)
+fit_lp <- npreg(logwage ~ age, data = cps71, nomad = TRUE)
+plot(fit_lp)
+summary(fit_lp)
 ```
 
 This is the recommended convenience route when you want automatic
