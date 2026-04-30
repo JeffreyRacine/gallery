@@ -159,6 +159,14 @@ fit_ll <- npreg(logwage ~ age, data = cps71, regtype = "ll")
 
 plot(fit_lc)
 lines(cps71$age, fitted(fit_ll), col = 2, lty = 2)
+
+legend(
+  "topleft",
+  c("Local constant", "Local linear"),
+  lty = c(1, 2),
+  col = c(1, 2),
+  bty = "n"
+)
 ```
 
 ## What to read next

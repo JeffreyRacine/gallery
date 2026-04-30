@@ -2666,7 +2666,7 @@
     "href": "kernel_primer.html#a-small-regression-example",
     "title": "Kernel Primer",
     "section": "A small regression example",
-    "text": "A small regression example\nlibrary(np)\ndata(cps71, package = \"np\")\n\nfit_lc &lt;- npreg(logwage ~ age, data = cps71)\nfit_ll &lt;- npreg(logwage ~ age, data = cps71, regtype = \"ll\")\n\nplot(fit_lc)\nlines(cps71$age, fitted(fit_ll), col = 2, lty = 2)",
+    "text": "A small regression example\nlibrary(np)\ndata(cps71, package = \"np\")\n\nfit_lc &lt;- npreg(logwage ~ age, data = cps71)\nfit_ll &lt;- npreg(logwage ~ age, data = cps71, regtype = \"ll\")\n\nplot(fit_lc)\nlines(cps71$age, fitted(fit_ll), col = 2, lty = 2)\n\nlegend(\n  \"topleft\",\n  c(\"Local constant\", \"Local linear\"),\n  lty = c(1, 2),\n  col = c(1, 2),\n  bty = \"n\"\n)",
     "crumbs": [
       "Methods",
       "Kernel Primer"
