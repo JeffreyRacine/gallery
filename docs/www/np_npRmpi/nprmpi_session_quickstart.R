@@ -20,8 +20,6 @@ fit <- npreg(bws = bw, data = dat)
 summary(bw)
 summary(fit)
 
-plot(dat$x, dat$y, cex = 0.35, col = "grey")
-o <- order(dat$x)
-lines(dat$x[o], fitted(fit)[o], col = 2, lwd = 2)
+plot(fit)
 
 npRmpi.quit()

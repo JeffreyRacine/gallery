@@ -157,8 +157,7 @@ data(cps71, package = "np")
 fit_lc <- npreg(logwage ~ age, data = cps71)
 fit_ll <- npreg(logwage ~ age, data = cps71, regtype = "ll")
 
-plot(cps71$age, cps71$logwage, cex = 0.25, col = "grey")
-lines(cps71$age, fitted(fit_lc), col = 1, lty = 1)
+plot(fit_lc)
 lines(cps71$age, fitted(fit_ll), col = 2, lty = 2)
 ```
 
