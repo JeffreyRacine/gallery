@@ -68,7 +68,7 @@ Use the package vignettes and then the gallery pages.
 vignette("np_getting_started", package = "np")
 vignette("np_entropy_tests", package = "np")
 vignette("crs_getting_started", package = "crs")
-vignette("nprmpi_getting_started", package = "npRmpi")
+vignette("npRmpi_getting_started", package = "npRmpi")
 ```
 
 For a shorter web route, start with:
