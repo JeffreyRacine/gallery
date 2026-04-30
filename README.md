@@ -48,7 +48,7 @@ cd /Users/jracine/Development/Gallery_website
   - `crs_getting_started`
   - `np_getting_started`
   - `np_entropy_tests`
-  - `nprmpi_getting_started`
+  - `npRmpi_getting_started`
 - keep current `.qmd` pages free of unnamed R chunks so render logs remain readable
 - keep current `npRmpi` session teaching surfaces consistent with the simple session pattern:
   - `library(npRmpi)`
