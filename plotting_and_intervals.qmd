@@ -2,7 +2,7 @@
 title: "Plotting and Intervals"
 description: "Practical guidance on plotting fitted objects, gradients, intervals, and object-driven graphics in np."
 keywords:
-  - npplot
+  - plot.np
   - plotting
   - confidence intervals
   - bootstrap intervals

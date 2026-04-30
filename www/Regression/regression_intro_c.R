@@ -1,6 +1,6 @@
 ## Here is a simple illustration to help you get started with
 ## univariate kernel regression and plotting via R's `plot' function
-## (which calls the np function `npplot')
+## (which dispatches to the `plot.np' S3 method family)
 
 ## First, let's grab some data from the np package
 
@@ -24,13 +24,13 @@ attach(cps71)
 model.ll <- npreg(logwage~age,regtype="ll")
 
 ## model.ll will be an object of class `npreg'. The generic R function
-## `plot' will call `npplot' when it is deployed on an object of this
-## type (see ?npplot for details on supported npplot
-## arguments). Calling plot on a npreg object allows you to do some
+## `plot' will dispatch to the `plot.np' S3 methods when it is deployed
+## on an object of this type (see ?plot.np for details on supported
+## plotting arguments). Calling plot on a npreg object allows you to do some
 ## tedious things without having to write code such as including
 ## confidence intervals as the following example demonstrates. Note
 ## also that we do not explicitly have to specify `gradients=TRUE' in
-## the call to npreg() as plot (npplot) will take care of this for
+## the call to npreg() as plot.np will take care of this for
 ## us. Below we use the asymptotic standard error estimates and then
 ## take +- 1.96 standard error)
 

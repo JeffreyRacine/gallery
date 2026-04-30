@@ -4,7 +4,7 @@ description: "Conceptual and practical introduction to mixed-data kernels, bandw
 keywords:
   - npreg
   - npregbw
-  - npplot
+  - plot.np
   - mixed-data kernels
   - bandwidth object
   - kernel primer
