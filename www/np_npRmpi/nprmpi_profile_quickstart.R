@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal profile/manual-broadcast npRmpi example.
 ##
 ## Launch with an explicit profile source, for example:

@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal np classification / conditional-mode example.
 ##
 ## This keeps the first run compact while still showing the basic

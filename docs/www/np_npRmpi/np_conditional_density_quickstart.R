@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal np conditional-density example.
 ##
 ## This keeps the first run small enough to be practical while still

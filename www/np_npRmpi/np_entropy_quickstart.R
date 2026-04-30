@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal np entropy/testing example.
 ##
 ## This uses the univariate density-equality test because it is a

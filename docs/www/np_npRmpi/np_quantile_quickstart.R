@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal np quantile-regression example.
 ##
 ## The key idea is to compute a conditional-distribution bandwidth once

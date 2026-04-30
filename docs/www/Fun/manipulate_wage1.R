@@ -5,7 +5,6 @@
 ## quantiles for the local linear regression estimator using the
 ## `wage1' data.
 
-rm(list=ls())
 require(manipulate)
 require(np)
 

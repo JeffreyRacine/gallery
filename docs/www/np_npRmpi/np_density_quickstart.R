@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal np density-estimation example.
 ##
 ## The intended workflow is:

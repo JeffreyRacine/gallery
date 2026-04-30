@@ -1,5 +1,3 @@
-rm(list=ls())
-
 ## Here is a simple illustration to help you get started with
 ## univariate kernel regression and plotting via R's `plot' function
 ## (which calls the np function `npplot')

@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal np distribution example.
 ##
 ## This mirrors the usual density workflow but targets the

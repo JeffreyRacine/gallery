@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal np semiparametric example.
 ##
 ## This uses a partially linear model because it is the clearest

@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal np plotting and interval example.
 ##
 ## This fits a simple local-linear model and then shows the

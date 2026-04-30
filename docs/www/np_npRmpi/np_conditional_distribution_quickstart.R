@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal np conditional-distribution example.
 ##
 ## This uses a small first run so the standard two-step workflow stays

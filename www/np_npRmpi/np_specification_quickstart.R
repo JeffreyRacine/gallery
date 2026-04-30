@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal np model-specification test example.
 ##
 ## The idea is to fit a simple linear model to nonlinear data and then

@@ -7,7 +7,6 @@
 ## Racine (2013) "Nonparametric Kernel Regression with Multiple
 ## Predictors and Multiple Shape Constraints" (Statistica Sinica).
 
-rm(list=ls())
 require(manipulate)
 require(np)
 options(np.tree=TRUE)

@@ -7,7 +7,6 @@
 ## the kernel function, order of the kernel function, number of
 ## observations, and correleation among the variables.
 
-rm(list=ls())
 require(manipulate)
 require(np)
 options(np.tree=TRUE)

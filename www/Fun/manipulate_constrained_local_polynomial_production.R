@@ -15,7 +15,6 @@
 ## appearing to violate the imposed constraint. Any such divergence
 ## will vanish as the bandwidth increases.
 
-rm(list=ls())
 require(manipulate)
 require(np)
 options(np.tree=TRUE,np.messages=FALSE)

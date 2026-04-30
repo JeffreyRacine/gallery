@@ -8,7 +8,6 @@
 ## with Multiple Predictors and Multiple Shape Constraints"
 ## (Statistica Sinica)
 
-rm(list=ls())
 require(manipulate)
 require(crs)
 require(quadprog)

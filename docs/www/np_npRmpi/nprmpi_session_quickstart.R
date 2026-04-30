@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal modern npRmpi example.
 ##
 ## The intended workflow is:

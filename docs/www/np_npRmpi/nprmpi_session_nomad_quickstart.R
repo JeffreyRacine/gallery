@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal modern npRmpi NOMAD example.
 ##
 ## The intended workflow is:

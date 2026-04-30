@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal np regression example.
 ##
 ## The intended workflow is:
@@ -19,6 +17,4 @@ fit <- npreg(bws = bw, data = dat)
 summary(bw)
 summary(fit)
 
-plot(dat$age, dat$logwage, cex = 0.25, col = "grey")
-o <- order(dat$age)
-lines(dat$age[o], fitted(fit)[o], col = 2, lwd = 2)
+plot(fit)

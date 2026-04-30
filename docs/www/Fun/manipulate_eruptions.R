@@ -8,7 +8,6 @@
 ## kernel function, and whether to use fixed, generalized_nn, or
 ## adaptive_nn bandwidths..
 
-rm(list=ls())
 require(manipulate)
 require(np)
 options(np.tree=TRUE)

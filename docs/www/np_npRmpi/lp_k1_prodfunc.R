@@ -8,8 +8,6 @@
 ## and Multiple Shape Constraints," Statistica Sinica, Volume 23,
 ## Number 3, 1343-1372).
 
-rm(list=ls())
-
 ## Load required packages, set options.
 
 library(np)

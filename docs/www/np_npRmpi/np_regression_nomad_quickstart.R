@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal np local-polynomial NOMAD example.
 ##
 ## This is the modern convenience route for supported LP workflows:

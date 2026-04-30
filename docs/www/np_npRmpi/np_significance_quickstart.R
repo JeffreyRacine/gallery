@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal np significance-testing example.
 ##
 ## The idea is to fit a model with one irrelevant regressor and then

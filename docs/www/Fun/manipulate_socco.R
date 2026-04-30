@@ -12,7 +12,6 @@
 ## data available (Southern Ocean Carbon & Climate Observatory
 ## (socco.org.za)
 
-rm(list=ls())
 require(manipulate)
 require(np)
 options(np.tree=TRUE)

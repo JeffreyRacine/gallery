@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal crs spline-regression example.
 ##
 ## This is the smallest useful workflow:

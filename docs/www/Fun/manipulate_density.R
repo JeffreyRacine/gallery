@@ -11,7 +11,6 @@
 ## number of observations. We also plot the true density for
 ## comparison purposes.
 
-rm(list=ls())
 require(manipulate)
 require(np)
 options(np.tree=TRUE)

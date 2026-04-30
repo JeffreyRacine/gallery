@@ -1,5 +1,3 @@
-rm(list = ls())
-
 ## Minimal attach-mode npRmpi example.
 ##
 ## Launch with a pre-created MPI world, for example:
