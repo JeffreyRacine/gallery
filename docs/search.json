@@ -1643,7 +1643,7 @@
     "href": "mpi_large_data.html#platform-map",
     "title": "MPI and Large Data",
     "section": "Platform map",
-    "text": "Platform map\n\n\n\n\n\n\n\n\n\nPlatform\nFirst install path\nFirst mode to try\nNotes\n\n\n\n\nmacOS\nsource install against a working MPI toolchain\nsession / spawn\nthe currently documented local recipe uses MacPorts + MPICH\n\n\nLinux\nsource install against a system MPI toolchain\nsession / spawn\ninclude/lib paths depend on the local distribution and MPI stack\n\n\nWindows\ncheck the current CRAN package pages first, then install the available package build\nattach\ncurrent package source treats attach as the Windows entry path rather than spawn\n\n\nheterogeneous cluster\nsource install on the target machines\nprofile\nexplicit startup and broadcast control is usually the least surprising route\n\n\n\nCurrent package pages:\n\nnpRmpi on CRAN: cran.r-project.org/package=npRmpi\nRmpi on CRAN: cran.r-project.org/package=Rmpi\n\nThis gallery is aligned to the current package heads intended for the imminent 0.70-1 release surface. If CRAN still shows the older 0.60-20 release when you read this page, use the branch install below as a temporary fallback until the CRAN update lands.",
+    "text": "Platform map\n\n\n\n\n\n\n\n\n\nPlatform\nFirst install path\nFirst mode to try\nNotes\n\n\n\n\nmacOS\nsource install against a working MPI toolchain\nsession / spawn\nthe currently documented local recipe uses MacPorts + MPICH\n\n\nLinux\nsource install against a system MPI toolchain\nsession / spawn\ninclude/lib paths depend on the local distribution and MPI stack\n\n\nWindows\ncheck the current CRAN package pages first, then install the available package build\nattach\ncurrent package source treats attach as the Windows entry path rather than spawn\n\n\nheterogeneous cluster\nsource install on the target machines\nprofile\nexplicit startup and broadcast control is usually the least surprising route\n\n\n\nCurrent package pages:\n\nnpRmpi on CRAN: cran.r-project.org/package=npRmpi\nRmpi on CRAN: cran.r-project.org/package=Rmpi",
     "crumbs": [
       "Methods",
       "MPI and Large Data"
@@ -1654,18 +1654,18 @@
     "href": "mpi_large_data.html#install-from-cran-first",
     "title": "MPI and Large Data",
     "section": "Install from CRAN first",
-    "text": "Install from CRAN first\nOnce CRAN reflects the current release, this is the shortest public route. If the target machine already has a working MPI toolchain and current package binaries or source prerequisites are in place, start here.\ninstall.packages(\"npRmpi\", dependencies = TRUE)",
+    "text": "Install from CRAN first\nThis is the shortest public route. If the target machine already has a working MPI toolchain and current package binaries or source prerequisites are in place, start here.\ninstall.packages(\"npRmpi\", dependencies = TRUE)",
     "crumbs": [
       "Methods",
       "MPI and Large Data"
     ]
   },
   {
-    "objectID": "mpi_large_data.html#temporary-fallback-if-cran-has-not-updated-yet",
-    "href": "mpi_large_data.html#temporary-fallback-if-cran-has-not-updated-yet",
+    "objectID": "mpi_large_data.html#optional-github-branch-install-for-development-or-troubleshooting",
+    "href": "mpi_large_data.html#optional-github-branch-install-for-development-or-troubleshooting",
     "title": "MPI and Large Data",
-    "section": "Temporary fallback if CRAN has not updated yet",
-    "text": "Temporary fallback if CRAN has not updated yet\nIf CRAN is still on the older public release and you specifically need the current gallery/package surface, install the current npRmpi branch from R-Package-np temporarily.\nlibrary(devtools)\ninstall_github(\"JeffreyRacine/R-Package-np\", ref = \"npRmpi\", build_vignettes = FALSE)\nUse build_vignettes = FALSE if TeX is not available.",
+    "section": "Optional GitHub branch install for development or troubleshooting",
+    "text": "Optional GitHub branch install for development or troubleshooting\nIf you specifically need the live npRmpi branch rather than the current CRAN release, install the npRmpi branch from R-Package-np.\nlibrary(devtools)\ninstall_github(\"JeffreyRacine/R-Package-np\", ref = \"npRmpi\", build_vignettes = FALSE)\nUse build_vignettes = FALSE if TeX is not available.",
     "crumbs": [
       "Methods",
       "MPI and Large Data"
@@ -2864,7 +2864,7 @@
     "href": "function_index.html#external-package-documentation",
     "title": "Reference and Function Lookup",
     "section": "External package documentation",
-    "text": "External package documentation\n\nnp on CRAN: package page\ncrs on CRAN: package page\nnpRmpi on CRAN: package page\nnpRmpi development branch: branch in R-Package-np",
+    "text": "External package documentation\n\nnp on CRAN: package page\ncrs on CRAN: package page\nnpRmpi on CRAN: package page\nnpRmpi source repo branch: branch in R-Package-np",
     "crumbs": [
       "Support",
       "Reference"
