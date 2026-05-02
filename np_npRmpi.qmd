@@ -60,8 +60,8 @@ Start with:
 This LP shortcut requires the `crs` package because NOMAD degree search is
 provided there.
 
-As of `crs` version `0.15-41`, the older `npglpreg` route is deprecated. For a
-functional replacement, use `npreg(..., nomad = TRUE)` in `np` or `npRmpi`.
+The older `npglpreg` route is deprecated. For a functional replacement, use
+`npreg(..., nomad = TRUE)` in `np` or `npRmpi`.
 
 ## A very small `np` workflow
 

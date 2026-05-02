@@ -52,7 +52,7 @@ Download or open one of the scripts below in RStudio, then source it. Once the p
 ## Notes
 
 - Some scripts require additional packages such as `quadprog`, `mnormt`, or `rgl`.
-- As of `crs` version `0.15-41`, `npglpreg` is deprecated. For a functional replacement, use `npreg(..., nomad = TRUE)` in `np` or `npRmpi`.
+- The older `npglpreg` route is deprecated. For a functional replacement, use `npreg(..., nomad = TRUE)` in `np` or `npRmpi`.
 - The `manipulate` package is tied to RStudio, so these are best treated as RStudio-first examples rather than generic batch scripts.
 
 ## Inline source for two flagship demos

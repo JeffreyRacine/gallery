@@ -532,7 +532,7 @@
     "href": "regression.html#notes",
     "title": "Worked Examples",
     "section": "Notes",
-    "text": "Notes\n\nThe script links remain useful because they are more heavily commented than the short code blocks on this page.\nSome examples call for additional packages. Where that is the case, the script itself says so.\nAs of crs version 0.15-41, npglpreg is deprecated. For a functional replacement, use npreg(..., nomad = TRUE) in np or npRmpi.\nThe wage1 multivariate route now has its own page at Multivariate Regression and Prediction.\nFor plotting objects, gradients, and uncertainty summaries, see Plotting and Intervals.",
+    "text": "Notes\n\nThe script links remain useful because they are more heavily commented than the short code blocks on this page.\nSome examples call for additional packages. Where that is the case, the script itself says so.\nThe older npglpreg route is deprecated. For a functional replacement, use npreg(..., nomad = TRUE) in np or npRmpi.\nThe wage1 multivariate route now has its own page at Multivariate Regression and Prediction.\nFor plotting objects, gradients, and uncertainty summaries, see Plotting and Intervals.",
     "crumbs": [
       "Examples",
       "Worked Examples"
@@ -1302,7 +1302,7 @@
     "href": "interactive.html#notes",
     "title": "Interactive Demos",
     "section": "Notes",
-    "text": "Notes\n\nSome scripts require additional packages such as quadprog, mnormt, or rgl.\nAs of crs version 0.15-41, npglpreg is deprecated. For a functional replacement, use npreg(..., nomad = TRUE) in np or npRmpi.\nThe manipulate package is tied to RStudio, so these are best treated as RStudio-first examples rather than generic batch scripts.",
+    "text": "Notes\n\nSome scripts require additional packages such as quadprog, mnormt, or rgl.\nThe older npglpreg route is deprecated. For a functional replacement, use npreg(..., nomad = TRUE) in np or npRmpi.\nThe manipulate package is tied to RStudio, so these are best treated as RStudio-first examples rather than generic batch scripts.",
     "crumbs": [
       "Examples",
       "Interactive Demos"
@@ -1808,7 +1808,7 @@
     "href": "np_npRmpi.html#modern-lp-shortcut",
     "title": "Kernel Methods",
     "section": "Modern LP shortcut",
-    "text": "Modern LP shortcut\nFor LP-capable families, the modern convenience route is now nomad = TRUE. This is not a replacement for the basic bandwidth-object workflow above; it is the easiest front door when you want automatic local-polynomial degree and bandwidth search in one call.\nStart with:\n\nnp_regression_nomad_quickstart.R for serial np\nnprmpi_session_nomad_quickstart.R for npRmpi after MPI initialization\n\nThis LP shortcut requires the crs package because NOMAD degree search is provided there.\nAs of crs version 0.15-41, the older npglpreg route is deprecated. For a functional replacement, use npreg(..., nomad = TRUE) in np or npRmpi.",
+    "text": "Modern LP shortcut\nFor LP-capable families, the modern convenience route is now nomad = TRUE. This is not a replacement for the basic bandwidth-object workflow above; it is the easiest front door when you want automatic local-polynomial degree and bandwidth search in one call.\nStart with:\n\nnp_regression_nomad_quickstart.R for serial np\nnprmpi_session_nomad_quickstart.R for npRmpi after MPI initialization\n\nThis LP shortcut requires the crs package because NOMAD degree search is provided there.\nThe older npglpreg route is deprecated. For a functional replacement, use npreg(..., nomad = TRUE) in np or npRmpi.",
     "crumbs": [
       "Methods",
       "Kernel Methods"
@@ -2512,7 +2512,7 @@
     "href": "code_catalog.html#nprmpi-local-polynomial-constrained-examples",
     "title": "Code Catalog",
     "section": "npRmpi: local polynomial / constrained examples",
-    "text": "npRmpi: local polynomial / constrained examples\nAs of crs version 0.15-41, npglpreg is deprecated. These retained local polynomial scripts use the current npregbw() + npreghat() route instead. For the automatic LP replacement path, use npreg(..., nomad = TRUE) in np or npRmpi.\n\n\n\nScript\nMain topic\n\n\n\n\nlp_k1_prodfunc.R\nProduction-function style local polynomial example\n\n\nlp_k1.R\nLocal polynomial example\n\n\nlp_radial_mean.R\nConstrained radial mean example\n\n\nlp_radial_deriv.R\nConstrained radial derivative example",
+    "text": "npRmpi: local polynomial / constrained examples\nThe older npglpreg route is deprecated. These retained local polynomial scripts use the current npregbw() + npreghat() route instead. For the automatic LP replacement path, use npreg(..., nomad = TRUE) in np or npRmpi.\n\n\n\nScript\nMain topic\n\n\n\n\nlp_k1_prodfunc.R\nProduction-function style local polynomial example\n\n\nlp_k1.R\nLocal polynomial example\n\n\nlp_radial_mean.R\nConstrained radial mean example\n\n\nlp_radial_deriv.R\nConstrained radial derivative example",
     "crumbs": [
       "Examples",
       "Code Catalog"
@@ -2831,7 +2831,7 @@
     "href": "function_index.html#crs-function-families",
     "title": "Reference and Function Lookup",
     "section": "crs function families",
-    "text": "crs function families\n\n\n\nTask\nFunctions\n\n\n\n\nRegression splines\ncrs\n\n\nSpline significance testing\ncrssigtest\n\n\nInstrumental regression splines\ncrsiv, crsivderiv\n\n\nSupporting utilities\ngsl.bs, snomadr\n\n\n\nLegacy note: as of crs version 0.15-41, npglpreg is deprecated. For a functional replacement, use npreg(..., nomad = TRUE) in np or npRmpi.",
+    "text": "crs function families\n\n\n\nTask\nFunctions\n\n\n\n\nRegression splines\ncrs\n\n\nSpline significance testing\ncrssigtest\n\n\nInstrumental regression splines\ncrsiv, crsivderiv\n\n\nSupporting utilities\ngsl.bs, snomadr\n\n\n\nLegacy note: the older npglpreg route is deprecated. For a functional replacement, use npreg(..., nomad = TRUE) in np or npRmpi.",
     "crumbs": [
       "Support",
       "Reference"

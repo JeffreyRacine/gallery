@@ -119,10 +119,10 @@ These are older comparison scripts, but still useful if you want to see side-by-
 
 ## `npRmpi`: local polynomial / constrained examples
 
-As of `crs` version `0.15-41`, `npglpreg` is deprecated. These retained local
-polynomial scripts use the current `npregbw()` + `npreghat()` route instead.
-For the automatic LP replacement path, use `npreg(..., nomad = TRUE)` in `np`
-or `npRmpi`.
+The older `npglpreg` route is deprecated. These retained local polynomial
+scripts use the current `npregbw()` + `npreghat()` route instead. For the
+automatic LP replacement path, use `npreg(..., nomad = TRUE)` in `np` or
+`npRmpi`.
 
 | Script | Main topic |
 |---|---|

@@ -69,6 +69,6 @@ For a website-first route to the multivariate example, see [Multivariate Regress
 
 - The script links remain useful because they are more heavily commented than the short code blocks on this page.
 - Some examples call for additional packages. Where that is the case, the script itself says so.
-- As of `crs` version `0.15-41`, `npglpreg` is deprecated. For a functional replacement, use `npreg(..., nomad = TRUE)` in `np` or `npRmpi`.
+- The older `npglpreg` route is deprecated. For a functional replacement, use `npreg(..., nomad = TRUE)` in `np` or `npRmpi`.
 - The `wage1` multivariate route now has its own page at [Multivariate Regression and Prediction](multivariate_regression.qmd).
 - For plotting objects, gradients, and uncertainty summaries, see [Plotting and Intervals](plotting_and_intervals.qmd).
