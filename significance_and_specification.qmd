@@ -33,13 +33,11 @@ Once a nonparametric regression model has been fitted, `npsigtest` provides a no
 library(np)
 data(cps71, package = "np")
 
-fit <- npreg(
-  logwage ~ age,
+fit <- npreg(logwage ~ age,
   regtype = "ll",
   bwmethod = "cv.aic",
   gradients = TRUE,
-  data = cps71
-)
+  data = cps71)
 
 npsigtest(fit)
 ```
@@ -56,27 +54,21 @@ The older `wage1` example remains instructive because it starts with a simple li
 library(np)
 data(wage1, package = "np")
 
-model_ols <- lm(
-  lwage ~ female + married + educ + exper + tenure,
+model_ols <- lm(lwage ~ female + married + educ + exper + tenure,
   x = TRUE,
   y = TRUE,
-  data = wage1
-)
+  data = wage1)
 
-X <- data.frame(
-  female = wage1$female,
+X <- data.frame(female = wage1$female,
   married = wage1$married,
   educ = wage1$educ,
   exper = wage1$exper,
-  tenure = wage1$tenure
-)
+  tenure = wage1$tenure)
 
-test_out <- npcmstest(
-  model = model_ols,
+test_out <- npcmstest(model = model_ols,
   xdat = X,
   ydat = wage1$lwage,
-  nmulti = 1
-)
+  nmulti = 1)
 
 summary(test_out)
 ```

@@ -61,10 +61,7 @@ In the old `wage1` example, the idea was to treat some regressors parametrically
 library(np)
 data(wage1, package = "np")
 
-model_pl <- npplreg(
-  lwage ~ female + married + educ + tenure | exper,
-  data = wage1
-)
+model_pl <- npplreg(lwage ~ female + married + educ + tenure | exper, data = wage1)
 
 summary(model_pl)
 ```
@@ -98,12 +95,10 @@ birthwt$ht <- factor(birthwt$ht)
 birthwt$ui <- factor(birthwt$ui)
 birthwt$ftv <- factor(birthwt$ftv)
 
-model_index_binary <- npindex(
-  low ~ smoke + race + ht + ui + ftv + age + lwt,
+model_index_binary <- npindex(low ~ smoke + race + ht + ui + ftv + age + lwt,
   method = "kleinspady",
   gradients = TRUE,
-  data = birthwt
-)
+  data = birthwt)
 
 summary(model_index_binary)
 ```
@@ -115,11 +110,9 @@ summary(model_index_binary)
 library(np)
 data(wage1, package = "np")
 
-model_index_continuous <- npindex(
-  lwage ~ female + married + educ + exper + tenure,
+model_index_continuous <- npindex(lwage ~ female + married + educ + exper + tenure,
   data = wage1,
-  nmulti = 1
-)
+  nmulti = 1)
 
 summary(model_index_continuous)
 ```
@@ -141,11 +134,9 @@ wage1_augmented <- wage1
 wage1_augmented$dfemale <- as.integer(wage1$female == "Male")
 wage1_augmented$dmarried <- as.integer(wage1$married == "Notmarried")
 
-model_scoef <- npscoef(
-  lwage ~ dfemale + dmarried + educ + exper + tenure | female,
+model_scoef <- npscoef(lwage ~ dfemale + dmarried + educ + exper + tenure | female,
   betas = TRUE,
-  data = wage1_augmented
-)
+  data = wage1_augmented)
 
 summary(model_scoef)
 ```

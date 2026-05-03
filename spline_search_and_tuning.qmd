@@ -82,13 +82,11 @@ That is not identical to every smoothing-spline implementation, but it is the na
 Yes. This is worth remembering because it clarifies the model family.
 
 ```r
-model_crs <- crs(
-  y ~ x1 + x2 + z1 + z2,
+model_crs <- crs(y ~ x1 + x2 + z1 + z2,
   cv = "none",
   kernel = FALSE,
   degree = rep(1, 2),
-  segments = rep(1, 2)
-)
+  segments = rep(1, 2))
 ```
 
 This is the simple linear-regression-style special case already highlighted on [Splines](crs.qmd).

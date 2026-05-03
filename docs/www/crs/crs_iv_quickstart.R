@@ -15,15 +15,13 @@ z <- 0.2 * w + v
 y <- z^2 + u
 
 ## Fit the spline IV model.
-fit_iv <- crsiv(
-  y = y,
+fit_iv <- crsiv(y = y,
   z = z,
   w = w,
   method = "Landweber-Fridman",
   cv = "exhaustive",
   nmulti = 1,
-  cv.threshold = 0
-)
+  cv.threshold = 0)
 
 ## Inspect the fitted IV object.
 summary(fit_iv)

@@ -21,11 +21,9 @@ The `wage1` data are still a useful first example because they combine numeric a
 library(np)
 data(wage1, package = "np")
 
-fit_multi <- npreg(
-  lwage ~ female + educ + exper,
+fit_multi <- npreg(lwage ~ female + educ + exper,
   regtype = "ll",
-  data = wage1
-)
+  data = wage1)
 
 summary(fit_multi)
 ```
@@ -49,10 +47,8 @@ For multivariate fits, `plot()` is often the quickest way to see what the model 
 
 ```r
 ## Start with asymptotic partial-regression plots for a quick read
-plot(fit_multi,
-  plot.errors.method = "asymptotic",
-  plot.errors.style = "band"
-)
+plot(fit_multi, plot.errors.method = "asymptotic",
+  plot.errors.style = "band")
 ```
 
 These are partial-regression plots. One covariate is allowed to vary while the others are held fixed at representative values such as medians or modes. That is why the resulting plots are usually easier to interpret than a raw scatterplot against one regressor at a time.
@@ -61,10 +57,8 @@ If you want bootstrap-based intervals instead, the workflow is the same but the 
 
 ```r
 ## Switch to bootstrap intervals only when you need the heavier route
-plot(fit_multi,
-  plot.errors.method = "bootstrap",
-  plot.errors.style = "band"
-)
+plot(fit_multi, plot.errors.method = "bootstrap",
+  plot.errors.style = "band")
 ```
 
 ## Prediction
@@ -73,10 +67,8 @@ Prediction works by supplying a `newdata` frame with the same predictor structur
 
 ```r
 ## Predict on a small new-data frame that preserves the factor structure
-predict(
-  fit_multi,
-  newdata = wage1[1:5, c("female", "educ", "exper")]
-)
+predict(fit_multi,
+  newdata = wage1[1:5, c("female", "educ", "exper")])
 ```
 
 This is often the safest pattern because it preserves the factor structure from the original data.

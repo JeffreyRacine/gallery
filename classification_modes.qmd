@@ -35,16 +35,12 @@ birthwt$ht <- factor(birthwt$ht)
 birthwt$ui <- factor(birthwt$ui)
 birthwt$ftv <- factor(birthwt$ftv)
 
-model_logit <- glm(
-  low ~ smoke + race + ht + ui + ftv + age + lwt,
+model_logit <- glm(low ~ smoke + race + ht + ui + ftv + age + lwt,
   family = binomial(link = logit),
-  data = birthwt
-)
+  data = birthwt)
 
-model_np <- npconmode(
-  low ~ smoke + race + ht + ui + ftv + age + lwt,
-  data = birthwt
-)
+model_np <- npconmode(low ~ smoke + race + ht + ui + ftv + age + lwt,
+  data = birthwt)
 
 summary(model_np)
 ```
@@ -55,10 +51,8 @@ One natural comparison is a confusion matrix against a parametric logit model.
 
 ```r
 ## Compare the parametric confusion matrix with the np conditional-mode result
-cm_logit <- table(
-  birthwt$low,
-  ifelse(fitted(model_logit) > 0.5, 1, 0)
-)
+cm_logit <- table(birthwt$low,
+  ifelse(fitted(model_logit) > 0.5, 1, 0))
 
 cm_logit
 model_np$confusion.matrix

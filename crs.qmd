@@ -91,13 +91,11 @@ y <- x1 + x2^2 + z1 + z2 + rnorm(n)
 z1 <- factor(z1)
 z2 <- factor(z2)
 
-model_crs <- crs(
-  y ~ x1 + x2 + z1 + z2,
+model_crs <- crs(y ~ x1 + x2 + z1 + z2,
   cv = "none",
   kernel = FALSE,
   degree = rep(1, 2),
-  segments = rep(1, 2)
-)
+  segments = rep(1, 2))
 
 summary(model_crs)
 ```
