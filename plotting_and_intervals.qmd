@@ -60,8 +60,7 @@ Bootstrap-based intervals are often appealing because they are less tied to asym
 ```r
 plot(
   model.ll,
-  plot.errors.method = "bootstrap",
-  plot.errors.boot.num = 25
+  plot.errors.method = "bootstrap"
 )
 ```
 
@@ -124,8 +123,7 @@ fit_multi <- npreg(
 
 plot(
   fit_multi,
-  plot.errors.method = "bootstrap",
-  plot.errors.boot.num = 25
+  plot.errors.method = "bootstrap"
 )
 ```
 

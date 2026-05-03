@@ -61,8 +61,7 @@ If you want bootstrap-based intervals instead, the workflow is the same but the 
 plot(
   fit_multi,
   plot.errors.method = "bootstrap",
-  plot.errors.style = "band",
-  plot.errors.boot.num = 25
+  plot.errors.style = "band"
 )
 ```
 

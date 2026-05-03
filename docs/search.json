@@ -136,7 +136,7 @@
     "href": "plotting_and_intervals.html#bootstrap-intervals",
     "title": "Plotting and Intervals",
     "section": "Bootstrap intervals",
-    "text": "Bootstrap intervals\nBootstrap-based intervals are often appealing because they are less tied to asymptotic formulas, but they can be slow.\nplot(\n  model.ll,\n  plot.errors.method = \"bootstrap\",\n  plot.errors.boot.num = 25\n)\nFor serious work, this is exactly the sort of route where separating bandwidth selection from later estimation and plotting is especially worthwhile.",
+    "text": "Bootstrap intervals\nBootstrap-based intervals are often appealing because they are less tied to asymptotic formulas, but they can be slow.\nplot(\n  model.ll,\n  plot.errors.method = \"bootstrap\"\n)\nFor serious work, this is exactly the sort of route where separating bandwidth selection from later estimation and plotting is especially worthwhile.",
     "crumbs": [
       "Examples",
       "Plotting and Intervals"
@@ -169,7 +169,7 @@
     "href": "plotting_and_intervals.html#a-multivariate-example",
     "title": "Plotting and Intervals",
     "section": "A multivariate example",
-    "text": "A multivariate example\nlibrary(np)\ndata(wage1, package = \"np\")\n\nfit_multi &lt;- npreg(\n  lwage ~ female + married + educ + exper + tenure,\n  regtype = \"ll\",\n  data = wage1\n)\n\nplot(\n  fit_multi,\n  plot.errors.method = \"bootstrap\",\n  plot.errors.boot.num = 25\n)\nThis is a high-value visualization, but it is not a cheap one.",
+    "text": "A multivariate example\nlibrary(np)\ndata(wage1, package = \"np\")\n\nfit_multi &lt;- npreg(\n  lwage ~ female + married + educ + exper + tenure,\n  regtype = \"ll\",\n  data = wage1\n)\n\nplot(\n  fit_multi,\n  plot.errors.method = \"bootstrap\"\n)\nThis is a high-value visualization, but it is not a cheap one.",
     "crumbs": [
       "Examples",
       "Plotting and Intervals"
@@ -2391,7 +2391,7 @@
     "href": "multivariate_regression.html#partial-regression-plots",
     "title": "Multivariate Regression and Prediction",
     "section": "Partial regression plots",
-    "text": "Partial regression plots\nFor multivariate fits, plot() is often the quickest way to see what the model is doing.\nplot(\n  fit_multi,\n  plot.errors.method = \"asymptotic\",\n  plot.errors.style = \"band\"\n)\nThese are partial-regression plots. One covariate is allowed to vary while the others are held fixed at representative values such as medians or modes. That is why the resulting plots are usually easier to interpret than a raw scatterplot against one regressor at a time.\nIf you want bootstrap-based intervals instead, the workflow is the same but the computation can be much heavier.\nplot(\n  fit_multi,\n  plot.errors.method = \"bootstrap\",\n  plot.errors.style = \"band\",\n  plot.errors.boot.num = 25\n)",
+    "text": "Partial regression plots\nFor multivariate fits, plot() is often the quickest way to see what the model is doing.\nplot(\n  fit_multi,\n  plot.errors.method = \"asymptotic\",\n  plot.errors.style = \"band\"\n)\nThese are partial-regression plots. One covariate is allowed to vary while the others are held fixed at representative values such as medians or modes. That is why the resulting plots are usually easier to interpret than a raw scatterplot against one regressor at a time.\nIf you want bootstrap-based intervals instead, the workflow is the same but the computation can be much heavier.\nplot(\n  fit_multi,\n  plot.errors.method = \"bootstrap\",\n  plot.errors.style = \"band\"\n)",
     "crumbs": [
       "Examples",
       "Multivariate Regression"
