@@ -2935,5 +2935,16 @@
       "Support",
       "Runtime and Scaling"
     ]
+  },
+  {
+    "objectID": "runtime_and_scaling.html#np-quantile-runtime-is-driven-more-by-the-fit-than-by-tau",
+    "href": "runtime_and_scaling.html#np-quantile-runtime-is-driven-more-by-the-fit-than-by-tau",
+    "title": "Runtime, Memory, and Scaling",
+    "section": "np: quantile runtime is driven more by the fit than by tau",
+    "text": "np: quantile runtime is driven more by the fit than by tau\nOn the current np and npRmpi packages, the older rule of thumb that extreme values of tau are materially slower is no longer the right mental model.\nThe quantile route now uses a one-dimensional numerical refinement step controlled by tol, small, and itmax, so the main runtime driver is usually the underlying conditional-distribution fit and evaluation problem, not whether tau is central or extreme.\nPractical takeaway:\n\nchoose tau for the scientific question rather than for expected speed,\nexpect runtime to depend more on sample size, covariate dimension, and the conditional-distribution fit than on the specific quantile being requested.",
+    "crumbs": [
+      "Support",
+      "Runtime and Scaling"
+    ]
   }
 ]

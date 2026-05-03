@@ -57,9 +57,22 @@ That makes it easier to:
 - reuse them across later fits,
 - avoid recomputing the same object repeatedly.
 
-## `np`: extreme quantiles can be slower
+## `np`: quantile runtime is driven more by the fit than by `tau`
 
-Very small or very large values of `tau` can make quantile-regression workflows materially slower. If you are exploring, start with central quantiles first, then move outward once the workflow is established.
+On the current `np` and `npRmpi` packages, the older rule of thumb that
+extreme values of `tau` are materially slower is no longer the right mental
+model.
+
+The quantile route now uses a one-dimensional numerical refinement step
+controlled by `tol`, `small`, and `itmax`, so the main runtime driver is
+usually the underlying conditional-distribution fit and evaluation problem,
+not whether `tau` is central or extreme.
+
+Practical takeaway:
+
+- choose `tau` for the scientific question rather than for expected speed,
+- expect runtime to depend more on sample size, covariate dimension, and the
+  conditional-distribution fit than on the specific quantile being requested.
 
 ## `np`: many variables and long formulas
 

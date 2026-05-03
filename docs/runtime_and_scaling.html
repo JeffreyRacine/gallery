@@ -397,7 +397,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#why-can-these-methods-take-time" id="toc-why-can-these-methods-take-time" class="nav-link active" data-scroll-target="#why-can-these-methods-take-time">Why can these methods take time?</a></li>
   <li><a href="#a-good-default-workflow" id="toc-a-good-default-workflow" class="nav-link" data-scroll-target="#a-good-default-workflow">A good default workflow</a></li>
   <li><a href="#np-bandwidth-selection-and-large-jobs" id="toc-np-bandwidth-selection-and-large-jobs" class="nav-link" data-scroll-target="#np-bandwidth-selection-and-large-jobs"><code>np</code>: bandwidth selection and large jobs</a></li>
-  <li><a href="#np-extreme-quantiles-can-be-slower" id="toc-np-extreme-quantiles-can-be-slower" class="nav-link" data-scroll-target="#np-extreme-quantiles-can-be-slower"><code>np</code>: extreme quantiles can be slower</a></li>
+  <li><a href="#np-quantile-runtime-is-driven-more-by-the-fit-than-by-tau" id="toc-np-quantile-runtime-is-driven-more-by-the-fit-than-by-tau" class="nav-link" data-scroll-target="#np-quantile-runtime-is-driven-more-by-the-fit-than-by-tau"><code>np</code>: quantile runtime is driven more by the fit than by <code>tau</code></a></li>
   <li><a href="#np-many-variables-and-long-formulas" id="toc-np-many-variables-and-long-formulas" class="nav-link" data-scroll-target="#np-many-variables-and-long-formulas"><code>np</code>: many variables and long formulas</a></li>
   <li><a href="#np-repeated-interruptions-and-memory" id="toc-np-repeated-interruptions-and-memory" class="nav-link" data-scroll-target="#np-repeated-interruptions-and-memory"><code>np</code>: repeated interruptions and memory</a></li>
   <li><a href="#np-turn-off-status-messages-in-batch-work" id="toc-np-turn-off-status-messages-in-batch-work" class="nav-link" data-scroll-target="#np-turn-off-status-messages-in-batch-work"><code>np</code>: turn off status messages in batch work</a></li>
@@ -486,9 +486,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>avoid recomputing the same object repeatedly.</li>
 </ul>
 </section>
-<section id="np-extreme-quantiles-can-be-slower" class="level2">
-<h2 class="anchored" data-anchor-id="np-extreme-quantiles-can-be-slower"><code>np</code>: extreme quantiles can be slower</h2>
-<p>Very small or very large values of <code>tau</code> can make quantile-regression workflows materially slower. If you are exploring, start with central quantiles first, then move outward once the workflow is established.</p>
+<section id="np-quantile-runtime-is-driven-more-by-the-fit-than-by-tau" class="level2">
+<h2 class="anchored" data-anchor-id="np-quantile-runtime-is-driven-more-by-the-fit-than-by-tau"><code>np</code>: quantile runtime is driven more by the fit than by <code>tau</code></h2>
+<p>On the current <code>np</code> and <code>npRmpi</code> packages, the older rule of thumb that extreme values of <code>tau</code> are materially slower is no longer the right mental model.</p>
+<p>The quantile route now uses a one-dimensional numerical refinement step controlled by <code>tol</code>, <code>small</code>, and <code>itmax</code>, so the main runtime driver is usually the underlying conditional-distribution fit and evaluation problem, not whether <code>tau</code> is central or extreme.</p>
+<p>Practical takeaway:</p>
+<ul>
+<li>choose <code>tau</code> for the scientific question rather than for expected speed,</li>
+<li>expect runtime to depend more on sample size, covariate dimension, and the conditional-distribution fit than on the specific quantile being requested.</li>
+</ul>
 </section>
 <section id="np-many-variables-and-long-formulas" class="level2">
 <h2 class="anchored" data-anchor-id="np-many-variables-and-long-formulas"><code>np</code>: many variables and long formulas</h2>
