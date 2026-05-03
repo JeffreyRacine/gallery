@@ -402,6 +402,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#np-repeated-interruptions-and-memory" id="toc-np-repeated-interruptions-and-memory" class="nav-link" data-scroll-target="#np-repeated-interruptions-and-memory"><code>np</code>: repeated interruptions and memory</a></li>
   <li><a href="#np-turn-off-status-messages-in-batch-work" id="toc-np-turn-off-status-messages-in-batch-work" class="nav-link" data-scroll-target="#np-turn-off-status-messages-in-batch-work"><code>np</code>: turn off status messages in batch work</a></li>
   <li><a href="#np-sparse-categorical-designs" id="toc-np-sparse-categorical-designs" class="nav-link" data-scroll-target="#np-sparse-categorical-designs"><code>np</code>: sparse categorical designs</a></li>
+  <li><a href="#macos-blaslapack-choice-can-matter" id="toc-macos-blaslapack-choice-can-matter" class="nav-link" data-scroll-target="#macos-blaslapack-choice-can-matter">macOS: BLAS/LAPACK choice can matter</a></li>
   <li><a href="#when-to-move-to-nprmpi" id="toc-when-to-move-to-nprmpi" class="nav-link" data-scroll-target="#when-to-move-to-nprmpi">When to move to <code>npRmpi</code></a></li>
   <li><a href="#crs-search-can-be-expensive-too" id="toc-crs-search-can-be-expensive-too" class="nav-link" data-scroll-target="#crs-search-can-be-expensive-too"><code>crs</code>: search can be expensive too</a></li>
   <li><a href="#crs-watch-memory-during-search" id="toc-crs-watch-memory-during-search" class="nav-link" data-scroll-target="#crs-watch-memory-during-search"><code>crs</code>: watch memory during search</a></li>
@@ -511,6 +512,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>first get the model working with the standard high-level interface,</li>
 <li>then only consider specialized sparse-design logic if the structure is genuinely repetitive and the runtime justifies the extra coding.</li>
+</ul>
+</section>
+<section id="macos-blaslapack-choice-can-matter" class="level2">
+<h2 class="anchored" data-anchor-id="macos-blaslapack-choice-can-matter">macOS: BLAS/LAPACK choice can matter</h2>
+<p>For some macOS users, a practical speed lever is the BLAS/LAPACK library that R is using. The choice is up to the user: current CRAN macOS R binaries ship with both the reference BLAS and Apple’s accelerated vecLib BLAS available.</p>
+<p>The official CRAN macOS FAQ notes that current CRAN R binaries can provide both:</p>
+<ul>
+<li>the reference BLAS shipped with R,</li>
+<li>and Apple Accelerate’s vecLib BLAS.</li>
+</ul>
+<p>It also notes that the active choice is controlled by the <code>libRblas.dylib</code> symlink and that <code>sessionInfo()</code> reports the BLAS in use.</p>
+<p>Practical takeaway:</p>
+<ul>
+<li>vecLib can speed up some linear-algebra-heavy workloads on Apple hardware,</li>
+<li>on Apple Silicon, the gain can be dramatic because Accelerate may use Apple’s AMX matrix hardware for BLAS operations,</li>
+<li>but gains are workflow-dependent rather than universal,</li>
+<li>and for <code>np</code>, <code>npRmpi</code>, and <code>crs</code>, many expensive routes are driven as much by search, resampling, kernels, or MPI orchestration as by BLAS alone.</li>
+</ul>
+<p>There is also a real caution. Accelerate/vecLib is not fork-safe. A January 2026 <code>R-SIG-Mac</code> report describes parallel failures in some <code>mclapply()</code> workloads that call BLAS operations such as <code>crossprod()</code>. That is why the CRAN macOS default reverted to the reference BLAS in R 4.5.3, even though Accelerate can be much faster on some Apple Silicon jobs.</p>
+<p>So the best advice is:</p>
+<ol type="1">
+<li>check the current BLAS with <code>sessionInfo()</code>,</li>
+<li>benchmark a representative script before and after changing it,</li>
+<li>be especially cautious if your workflow relies on fork-based parallelism.</li>
+</ol>
+<p>Official references:</p>
+<ul>
+<li>CRAN macOS FAQ: <a href="https://cran.r-project.org/bin/macosx/RMacOSX-FAQ.html#Which-BLAS-is-used-and-how-can-it-be-changed_003f">Which BLAS is used and how can it be changed?</a></li>
+<li><code>R-SIG-Mac</code> discussion: <a href="https://stat.ethz.ch/pipermail/r-sig-mac/2026-January/015322.html">Parallel errors with default BLAS (vecLib) in R 4.5.2 for arm64</a></li>
 </ul>
 </section>
 <section id="when-to-move-to-nprmpi" class="level2">

@@ -2924,5 +2924,16 @@
       "Support",
       "Reference"
     ]
+  },
+  {
+    "objectID": "runtime_and_scaling.html#macos-blaslapack-choice-can-matter",
+    "href": "runtime_and_scaling.html#macos-blaslapack-choice-can-matter",
+    "title": "Runtime, Memory, and Scaling",
+    "section": "macOS: BLAS/LAPACK choice can matter",
+    "text": "macOS: BLAS/LAPACK choice can matter\nFor some macOS users, a practical speed lever is the BLAS/LAPACK library that R is using. The choice is up to the user: current CRAN macOS R binaries ship with both the reference BLAS and Apple’s accelerated vecLib BLAS available.\nThe official CRAN macOS FAQ notes that current CRAN R binaries can provide both:\n\nthe reference BLAS shipped with R,\nand Apple Accelerate’s vecLib BLAS.\n\nIt also notes that the active choice is controlled by the libRblas.dylib symlink and that sessionInfo() reports the BLAS in use.\nPractical takeaway:\n\nvecLib can speed up some linear-algebra-heavy workloads on Apple hardware,\non Apple Silicon, the gain can be dramatic because Accelerate may use Apple’s AMX matrix hardware for BLAS operations,\nbut gains are workflow-dependent rather than universal,\nand for np, npRmpi, and crs, many expensive routes are driven as much by search, resampling, kernels, or MPI orchestration as by BLAS alone.\n\nThere is also a real caution. Accelerate/vecLib is not fork-safe. A January 2026 R-SIG-Mac report describes parallel failures in some mclapply() workloads that call BLAS operations such as crossprod(). That is why the CRAN macOS default reverted to the reference BLAS in R 4.5.3, even though Accelerate can be much faster on some Apple Silicon jobs.\nSo the best advice is:\n\ncheck the current BLAS with sessionInfo(),\nbenchmark a representative script before and after changing it,\nbe especially cautious if your workflow relies on fork-based parallelism.\n\nOfficial references:\n\nCRAN macOS FAQ: Which BLAS is used and how can it be changed?\nR-SIG-Mac discussion: Parallel errors with default BLAS (vecLib) in R 4.5.2 for arm64",
+    "crumbs": [
+      "Support",
+      "Runtime and Scaling"
+    ]
   }
 ]

@@ -89,6 +89,47 @@ The practical recommendation is:
 - first get the model working with the standard high-level interface,
 - then only consider specialized sparse-design logic if the structure is genuinely repetitive and the runtime justifies the extra coding.
 
+## macOS: BLAS/LAPACK choice can matter
+
+For some macOS users, a practical speed lever is the BLAS/LAPACK library that
+R is using. The choice is up to the user: current CRAN macOS R binaries ship
+with both the reference BLAS and Apple's accelerated vecLib BLAS available.
+
+The official CRAN macOS FAQ notes that current CRAN R binaries can provide
+both:
+
+- the reference BLAS shipped with R,
+- and Apple Accelerate's vecLib BLAS.
+
+It also notes that the active choice is controlled by the
+`libRblas.dylib` symlink and that `sessionInfo()` reports the BLAS in use.
+
+Practical takeaway:
+
+- vecLib can speed up some linear-algebra-heavy workloads on Apple hardware,
+- on Apple Silicon, the gain can be dramatic because Accelerate may use
+  Apple's AMX matrix hardware for BLAS operations,
+- but gains are workflow-dependent rather than universal,
+- and for `np`, `npRmpi`, and `crs`, many expensive routes are driven as much
+  by search, resampling, kernels, or MPI orchestration as by BLAS alone.
+
+There is also a real caution. Accelerate/vecLib is not fork-safe. A January
+2026 `R-SIG-Mac` report describes parallel failures in some `mclapply()`
+workloads that call BLAS operations such as `crossprod()`. That is why the
+CRAN macOS default reverted to the reference BLAS in R 4.5.3, even though
+Accelerate can be much faster on some Apple Silicon jobs.
+
+So the best advice is:
+
+1. check the current BLAS with `sessionInfo()`,
+2. benchmark a representative script before and after changing it,
+3. be especially cautious if your workflow relies on fork-based parallelism.
+
+Official references:
+
+- CRAN macOS FAQ: [Which BLAS is used and how can it be changed?](https://cran.r-project.org/bin/macosx/RMacOSX-FAQ.html#Which-BLAS-is-used-and-how-can-it-be-changed_003f)
+- `R-SIG-Mac` discussion: [Parallel errors with default BLAS (vecLib) in R 4.5.2 for arm64](https://stat.ethz.ch/pipermail/r-sig-mac/2026-January/015322.html)
+
 ## When to move to `npRmpi`
 
 Move to `npRmpi` when:
