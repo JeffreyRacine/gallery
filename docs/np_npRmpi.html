@@ -398,6 +398,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#modern-lp-shortcut" id="toc-modern-lp-shortcut" class="nav-link" data-scroll-target="#modern-lp-shortcut">Modern LP shortcut</a></li>
   <li><a href="#a-very-small-np-workflow" id="toc-a-very-small-np-workflow" class="nav-link" data-scroll-target="#a-very-small-np-workflow">A very small <code>np</code> workflow</a></li>
   <li><a href="#a-multivariate-route" id="toc-a-multivariate-route" class="nav-link" data-scroll-target="#a-multivariate-route">A multivariate route</a></li>
+  <li><a href="#instrumental-regression-npregiv" id="toc-instrumental-regression-npregiv" class="nav-link" data-scroll-target="#instrumental-regression-npregiv">Instrumental regression: <code>npregiv</code></a></li>
   <li><a href="#when-to-move-to-nprmpi" id="toc-when-to-move-to-nprmpi" class="nav-link" data-scroll-target="#when-to-move-to-nprmpi">When to move to <code>npRmpi</code></a></li>
   <li><a href="#longer-examples" id="toc-longer-examples" class="nav-link" data-scroll-target="#longer-examples">Longer examples</a></li>
   <li><a href="#existing-serial-versus-mpi-script-pairs" id="toc-existing-serial-versus-mpi-script-pairs" class="nav-link" data-scroll-target="#existing-serial-versus-mpi-script-pairs">Existing serial versus MPI script pairs</a></li>
@@ -536,6 +537,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="a-multivariate-route" class="level2">
 <h2 class="anchored" data-anchor-id="a-multivariate-route">A multivariate route</h2>
 <p>When you move beyond the single-regressor case, the next useful stop is usually <a href="./multivariate_regression.html">Multivariate Regression and Prediction</a>.</p>
+</section>
+<section id="instrumental-regression-npregiv" class="level2">
+<h2 class="anchored" data-anchor-id="instrumental-regression-npregiv">Instrumental regression: <code>npregiv</code></h2>
+<p>When endogeneity is the main issue, <code>np</code> also provides a nonparametric instrumental-regression route via <code>npregiv</code>.</p>
+<p>Source file: <a href="www/np_npRmpi/np_instrumental_regression_quickstart.R">np_instrumental_regression_quickstart.R</a></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Minimal np instrumental-regression example.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="do">## This mirrors the basic one-endogenous-regressor setup used in the</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="do">## package demos while keeping the first run compact.</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">80</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">sd =</span> <span class="fl">0.27</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>eps <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">sd =</span> <span class="fl">0.05</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> v <span class="sc">+</span> eps</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fl">0.2</span> <span class="sc">*</span> w <span class="sc">+</span> v</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> z<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> u</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>fit_iv <span class="ot">&lt;-</span> <span class="fu">npregiv</span>(<span class="at">y =</span> y, <span class="at">z =</span> z, <span class="at">w =</span> w, <span class="at">method =</span> <span class="st">"Tikhonov"</span>, <span class="at">nmulti =</span> <span class="dv">1</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_iv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If you want the spline-based IV route instead, go to <a href="./crs.html">Splines</a>.</p>
 </section>
 <section id="when-to-move-to-nprmpi" class="level2">
 <h2 class="anchored" data-anchor-id="when-to-move-to-nprmpi">When to move to <code>npRmpi</code></h2>

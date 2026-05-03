@@ -81,6 +81,21 @@ If you want density, distribution, conditional-density, conditional-distribution
 
 When you move beyond the single-regressor case, the next useful stop is usually [Multivariate Regression and Prediction](multivariate_regression.qmd).
 
+## Instrumental regression: `npregiv`
+
+When endogeneity is the main issue, `np` also provides a nonparametric
+instrumental-regression route via `npregiv`.
+
+Source file: [np_instrumental_regression_quickstart.R](www/np_npRmpi/np_instrumental_regression_quickstart.R)
+
+```{r instrumental-regression-source}
+#| echo: false
+#| results: asis
+emit_source("www/np_npRmpi/np_instrumental_regression_quickstart.R")
+```
+
+If you want the spline-based IV route instead, go to [Splines](crs.qmd).
+
 ## When to move to `npRmpi`
 
 Move to `npRmpi` when the model you want is essentially the same, but bandwidth selection, bootstrap work, or repeated estimation becomes expensive enough that MPI is worthwhile. On platforms where spawning is supported, the current package offers a `session` mode in which the estimator calls retain the ordinary `np` style once MPI has been initialized.

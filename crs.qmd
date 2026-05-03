@@ -10,6 +10,11 @@ keywords:
   - spline examples
 ---
 
+```{r crs-page-setup}
+#| include: false
+source("site_helpers.R", local = knitr::knit_global())
+```
+
 Use `crs` when regression splines, shape restrictions, or spline-specific workflows are the natural tool rather than kernel estimators.
 
 ## First stop
@@ -52,6 +57,21 @@ If you want practical advice on search size, memory, smoothness, and knot select
 ## A representative constrained example
 
 The longer constrained scripts construct the unrestricted spline fit, formulate restrictions, solve the quadratic programming problem, and then refit the restricted surface. If you want that style of example, start with [radial_constrained_mean.R](www/crs/radial_constrained_mean.R).
+
+## Instrumental spline regression: `crsiv`
+
+For spline-based instrumental regression, `crs` provides `crsiv`.
+
+Source file: [crs_iv_quickstart.R](www/crs/crs_iv_quickstart.R)
+
+```{r crs-iv-quickstart-source}
+#| echo: false
+#| results: asis
+emit_source("www/crs/crs_iv_quickstart.R")
+```
+
+If you want a longer package demo, the package sources also ship `crsiv.R` and
+`crsiv_exog.R`.
 
 ## Can `crs` mimic linear regression?
 

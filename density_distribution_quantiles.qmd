@@ -11,6 +11,11 @@ keywords:
   - quantile regression
 ---
 
+```{r density-distribution-setup}
+#| include: false
+source("site_helpers.R", local = knitr::knit_global())
+```
+
 The `np` package is useful not only for regression but also for unconditional and conditional density estimation, distribution estimation, and nonparametric quantile regression. This page collects those workflows in one place.
 
 If you want a minimal downloadable script for the simplest density workflow, start with [np_density_quickstart.R](www/np_npRmpi/np_density_quickstart.R).
@@ -73,6 +78,19 @@ plot(Fhat, view = "fixed", main = "")
 ```
 
 This route is especially useful when the question is not simply whether the mean changes, but whether the entire distribution changes.
+
+## Copulas: `npcopula`
+
+If the main object of interest is the dependence structure itself rather than a
+regression function, `npcopula` is the natural route.
+
+Source file: [np_copula_quickstart.R](www/np_npRmpi/np_copula_quickstart.R)
+
+```{r copula-quickstart-source}
+#| echo: false
+#| results: asis
+emit_source("www/np_npRmpi/np_copula_quickstart.R")
+```
 
 For LP-capable conditional families, the same modern shortcut is now available:
 
