@@ -41,18 +41,15 @@ Practical advice:
 Use `npdeneqtest` when you want to compare two multivariate samples, including settings with a mixture of continuous and categorical variables.
 
 ```r
+## Compare two multivariate samples with matching mixed-data structure
 library(np)
 set.seed(1234)
 
 n <- 250
-sample_A <- data.frame(
-  a = rnorm(n),
-  b = factor(rbinom(n, 2, 0.5))
-)
-sample_B <- data.frame(
-  a = rnorm(n),
-  b = factor(rbinom(n, 2, 0.5))
-)
+sample_A <- data.frame(a = rnorm(n),
+  b = factor(rbinom(n, 2, 0.5)))
+sample_B <- data.frame(a = rnorm(n),
+  b = factor(rbinom(n, 2, 0.5)))
 
 npdeneqtest(sample_A, sample_B, boot.num = 99)
 ```
@@ -64,6 +61,7 @@ The two data frames should have matching variable names and compatible structure
 Use `npunitest` when the problem is one-dimensional and you want to compare two univariate densities or probability functions.
 
 ```r
+## Compare two one-dimensional samples directly
 library(np)
 set.seed(1234)
 
@@ -81,6 +79,7 @@ It also works with discrete data, not just continuous data.
 `npsymtest` is aimed at the null of symmetry about a center such as the mean. This is useful for univariate data and can also be used for time series.
 
 ```r
+## Test a simple univariate sample for symmetry
 library(np)
 set.seed(1234)
 
@@ -97,6 +96,7 @@ For bootstrap choice, `iid` is the simple resampling route, while block-based ch
 Use `npdeptest` when you want a nonparametric measure or test of dependence between two variables. One natural use is to compare observed values with fitted or predicted values.
 
 ```r
+## Compare observed values with fitted values using a dependence test
 library(np)
 set.seed(123)
 
@@ -115,6 +115,7 @@ For actual applications, the integration-based route remains the stronger defaul
 Use `npsdeptest` when the question is serial independence in a univariate series.
 
 ```r
+## Test a short series for nonlinear serial dependence
 library(np)
 set.seed(123)
 
@@ -141,6 +142,7 @@ One of the more interesting features of the old vignette was the reminder that t
 Here is a short example comparing a kernel density estimate to a Gaussian benchmark:
 
 ```r
+## Build a custom entropy-style comparison against a Gaussian benchmark
 library(np)
 
 Srho <- function(x, y, ...) {

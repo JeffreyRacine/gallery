@@ -26,7 +26,5 @@ fit_boot <- npudens(bws = bw, data = boot_dat)
 summary(fit)
 summary(fit_boot)
 
-rbind(
-  original = quantile(dat$waiting, probs = c(0.1, 0.5, 0.9)),
-  resample = quantile(waiting_boot, probs = c(0.1, 0.5, 0.9))
-)
+rbind(original = quantile(dat$waiting, probs = c(0.1, 0.5, 0.9)),
+  resample = quantile(waiting_boot, probs = c(0.1, 0.5, 0.9)))

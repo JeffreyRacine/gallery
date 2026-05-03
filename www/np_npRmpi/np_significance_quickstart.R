@@ -16,12 +16,10 @@ y <- x1 + x2 + rnorm(n)
 dat <- data.frame(z, x1, x2, y)
 
 ## Fit the model before asking the significance question.
-fit <- npreg(
-  y ~ z + x1 + x2,
+fit <- npreg(y ~ z + x1 + x2,
   regtype = "ll",
   bwmethod = "cv.aic",
-  data = dat
-)
+  data = dat)
 
 ## Test the fitted object and inspect both summaries.
 test_out <- npsigtest(fit)

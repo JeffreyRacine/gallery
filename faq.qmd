@@ -57,6 +57,7 @@ Good general resources are:
 This remains a sensible command:
 
 ```r
+## Refresh installed packages when you want a conservative update sweep
 update.packages(checkBuilt = TRUE, ask = FALSE)
 ```
 
@@ -65,6 +66,7 @@ update.packages(checkBuilt = TRUE, ask = FALSE)
 Use the package vignettes and then the gallery pages.
 
 ```r
+## Start with the installed package vignettes
 vignette("np_getting_started", package = "np")
 vignette("np_entropy_tests", package = "np")
 vignette("crs_getting_started", package = "crs")
@@ -84,6 +86,7 @@ For a shorter web route, start with:
 For package help:
 
 ```r
+## Use help lookups and runnable examples directly from the installed packages
 library(help = "np")
 library(help = "crs")
 ?npreg
@@ -93,6 +96,7 @@ library(help = "crs")
 For runnable examples:
 
 ```r
+## Run the built-in examples and demos from the installed packages
 example(npreg)
 example(crs)
 demo(package = "crs")
@@ -118,12 +122,11 @@ For website-first routing:
 The class of each variable matters. Continuous variables can remain numeric, but unordered categorical variables should be `factor`s and ordered categorical variables should be `ordered` factors when that distinction is meaningful.
 
 ```r
-mydat <- data.frame(
-  y = rnorm(200),
+## Build a mixed-data frame with explicit variable classes
+mydat <- data.frame(y = rnorm(200),
   x_cont = runif(200),
   x_unordered = factor(sample(c("a", "b", "c"), 200, replace = TRUE)),
-  x_ordered = ordered(sample(1:4, 200, replace = TRUE))
-)
+  x_ordered = ordered(sample(1:4, 200, replace = TRUE)))
 ```
 
 This is not just bookkeeping. In `np`, the variable class affects the weighting rule used by the estimator.
@@ -135,6 +138,7 @@ For a more deliberate checklist, see [Data Preparation and Variable Types](data_
 No. In `np`, a formula such as
 
 ```r
+## Formula syntax still just names the response and covariates
 y ~ x1 + x2 + x3
 ```
 
@@ -145,6 +149,7 @@ simply tells the function which variable is the response and which are the covar
 Because in `np` the bandwidth object is often the key object in the workflow.
 
 ```r
+## Create the bandwidth object explicitly before fitting
 bw <- npregbw(y ~ x1 + x2, data = mydat)
 summary(bw)
 fit <- npreg(bws = bw)
@@ -191,6 +196,7 @@ Yes. The important point is not the original file format but the data frame you 
 Use `citation()` from inside R and see [Books, Papers, and Citation](books_papers.qmd) for the package papers and books.
 
 ```r
+## Ask the installed packages for their current citation records
 citation("np")
 citation("npRmpi")
 citation("crs")

@@ -36,7 +36,5 @@ fit_boot <- npcdens(bws = bw, data = boot_dat)
 summary(fit)
 summary(fit_boot)
 
-c(
-  original_cor = cor(dat$waiting, dat$eruptions),
-  resample_cor = cor(boot_dat$waiting, boot_dat$eruptions)
-)
+c(original_cor = cor(dat$waiting, dat$eruptions),
+  resample_cor = cor(boot_dat$waiting, boot_dat$eruptions))

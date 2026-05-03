@@ -27,8 +27,7 @@ model.ll <- npreg(logwage ~ age, regtype = "ll", data = cps71)
 plot(model.ll,
   plot.errors.method = "bootstrap",
   plot.errors.boot.method = "inid",
-  plot.errors.type = "all"
-)
+  plot.errors.type = "all")
 ```
 
 ## Asymptotic intervals
@@ -62,9 +61,7 @@ Bootstrap-based intervals are often appealing because they are less tied to asym
 
 ```r
 ## Use the bootstrap route when you want simulation-based intervals
-plot(model.ll,
-  plot.errors.method = "bootstrap"
-)
+plot(model.ll, plot.errors.method = "bootstrap")
 ```
 
 For serious work, this is exactly the sort of route where separating bandwidth selection from later estimation and plotting is especially worthwhile.
@@ -87,19 +84,16 @@ If you want a minimal runnable script for this route, use
 library(np)
 data(wage1, package = "np")
 
-fit_rgl <- npreg(
-  lwage ~ educ + exper,
+fit_rgl <- npreg(lwage ~ educ + exper,
   regtype = "ll",
-  data = wage1
-)
+  data = wage1)
 
 plot(fit_rgl,
   view = "fixed",
   renderer = "rgl",
   plot.data.overlay = FALSE,
   plot.errors.method = "asymptotic",
-  plot.rug = TRUE
-)
+  plot.rug = TRUE)
 ```
 
 The same renderer is also useful for conditional density/distribution surfaces
@@ -119,15 +113,11 @@ That is why these plots are often smoother and easier to read than simply plotti
 library(np)
 data(wage1, package = "np")
 
-fit_multi <- npreg(
-  lwage ~ female + married + educ + exper + tenure,
+fit_multi <- npreg(lwage ~ female + married + educ + exper + tenure,
   regtype = "ll",
-  data = wage1
-)
+  data = wage1)
 
-plot(fit_multi,
-  plot.errors.method = "bootstrap"
-)
+plot(fit_multi, plot.errors.method = "bootstrap")
 ```
 
 This is a high-value visualization, but it is not a cheap one.

@@ -30,6 +30,7 @@ If you want minimal downloadable scripts for the two main routes on this page, s
 Once a nonparametric regression model has been fitted, `npsigtest` provides a nonparametric counterpart to the familiar significance-testing mindset from parametric regression.
 
 ```r
+## Fit a local-linear regression before calling the nonparametric significance test
 library(np)
 data(cps71, package = "np")
 
@@ -51,6 +52,7 @@ This is useful when you want to know whether a regressor matters without collaps
 The older `wage1` example remains instructive because it starts with a simple linear specification and then asks whether that specification is too restrictive.
 
 ```r
+## Compare a simple linear model to a nonparametric alternative
 library(np)
 data(wage1, package = "np")
 

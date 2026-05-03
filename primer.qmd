@@ -53,6 +53,7 @@ Go first to [Quickstarts](quickstarts.qmd) if you want the shortest path to runn
 ## First commands to remember
 
 ```r
+## Install the two serial packages directly from CRAN
 install.packages("np")
 install.packages("crs")
 ```

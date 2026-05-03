@@ -51,33 +51,25 @@ if(any(c(gradient.vec.1,gradient.vec.2) > p)) stop(" the order of the gradient b
 ## Generate the cross-validated bandwidths optimal for the fixed order
 ## of the local polynomial, then build the required hat operators.
 
-lp.bw <- npregbw(
-  formula.glp,
+lp.bw <- npregbw(formula.glp,
   data = lp.data,
   regtype = "lp",
   degree = rep.int(as.integer(p), NCOL(X)),
   degree.select = "manual",
   bernstein.basis = TRUE,
-  ckertype = ckertype
-)
+  ckertype = ckertype)
 
-H.mean <- npreghat(
-  bws = lp.bw,
+H.mean <- npreghat(bws = lp.bw,
   txdat = X,
-  output = "matrix"
-)
-H.deriv.1 <- npreghat(
-  bws = lp.bw,
+  output = "matrix")
+H.deriv.1 <- npreghat(bws = lp.bw,
   txdat = X,
   output = "matrix",
-  s = as.integer(gradient.vec.1)
-)
-H.deriv.2 <- npreghat(
-  bws = lp.bw,
+  s = as.integer(gradient.vec.1))
+H.deriv.2 <- npreghat(bws = lp.bw,
   txdat = X,
   output = "matrix",
-  s = as.integer(gradient.vec.2)
-)
+  s = as.integer(gradient.vec.2))
 
 ## Create the uniform weights p.u and matrices for which H %*% (y * p)
 ## delivers the constrained local polynomial estimator and its

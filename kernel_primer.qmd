@@ -63,6 +63,7 @@ Bandwidth selection is automatic, but not infallible. Outliers, rounding, and di
 A good habit is therefore:
 
 ```r
+## Inspect the chosen bandwidths directly before moving on
 summary(bw)
 ```
 

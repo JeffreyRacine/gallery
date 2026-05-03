@@ -26,17 +26,14 @@ In practice, it can be used to:
 The older vignette gave a nice minimal illustration: recover a local-constant estimator directly from kernel sums.
 
 ```r
+## Recover a local-constant fit directly from the underlying kernel sums
 library(np)
 data(cps71, package = "np")
 
-fit_lc <- npksum(
-  txdat = cps71$age,
+fit_lc <- npksum(txdat = cps71$age,
   tydat = cps71$logwage,
-  bws = 2
-)$ksum / npksum(
-  txdat = cps71$age,
-  bws = 2
-)$ksum
+  bws = 2)$ksum / npksum(txdat = cps71$age,
+  bws = 2)$ksum
 
 plot(cps71$age, cps71$logwage, xlab = "Age", ylab = "log(wage)", cex = 0.1)
 lines(cps71$age, fit_lc, col = "blue")

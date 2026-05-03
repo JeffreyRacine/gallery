@@ -17,8 +17,7 @@ png(plot_path, width = 700, height = 500)
 plot(model.ll,
   plot.errors.method = "bootstrap",
   plot.errors.boot.method = "inid",
-  plot.errors.type = "all"
-)
+  plot.errors.type = "all")
 dev.off()
 
 ## Report where the rendered image landed.

@@ -36,6 +36,7 @@ This page is about regression splines, which is the relevant framework for `crs`
 It helps to think of the regression function as a linear combination of basis functions.
 
 ```r
+## A spline regression function is a linear combination of basis functions
 g(x) = beta_1 B_1(x) + beta_2 B_2(x) + ... + beta_K B_K(x)
 ```
 
@@ -68,6 +69,7 @@ Quantile knots are often attractive in applied work because they avoid wasting t
 The older primer included recursive code showing how a B-spline basis can be built. For practical work in `crs`, the simpler way to see the basis functions is to use the package helper directly.
 
 ```r
+## Build and plot a small cubic B-spline basis directly
 library(crs)
 
 x <- seq(0, 1, length = 1000)
@@ -82,6 +84,7 @@ This produces the basis functions for a cubic spline with interior knots implied
 Once the basis is built, spline regression is just least squares on that basis expansion.
 
 ```r
+## Regress on the spline basis, then overlay the fitted curve
 set.seed(42)
 x <- seq(0, 1, length = 500)
 y <- sin(2 * pi * x) + rnorm(length(x), sd = 0.1)

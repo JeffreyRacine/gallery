@@ -17,15 +17,11 @@ dat <- data.frame(y, x)
 invisible(mpi.bcast.Robj2slave(dat))
 
 ## Fit the bandwidth and regression objects on the workers.
-invisible(mpi.bcast.cmd(
-  bw <- npregbw(y ~ x, regtype = "ll", bwmethod = "cv.ls", data = dat),
-  caller.execute = TRUE
-))
+invisible(mpi.bcast.cmd(bw <- npregbw(y ~ x, regtype = "ll", bwmethod = "cv.ls", data = dat),
+  caller.execute = TRUE))
 
-invisible(mpi.bcast.cmd(
-  fit <- npreg(bws = bw, data = dat),
-  caller.execute = TRUE
-))
+invisible(mpi.bcast.cmd(fit <- npreg(bws = bw, data = dat),
+  caller.execute = TRUE))
 
 ## Inspect the results, then stop the MPI workers.
 summary(bw)

@@ -13,16 +13,13 @@ if (!requireNamespace("rgl", quietly = TRUE)) {
 
 data(wage1, package = "np")
 
-fit_rgl <- npreg(
-  lwage ~ educ + exper,
+fit_rgl <- npreg(lwage ~ educ + exper,
   regtype = "ll",
-  data = wage1
-)
+  data = wage1)
 
 plot(fit_rgl,
   view = "fixed",
   renderer = "rgl",
   plot.data.overlay = FALSE,
   plot.errors.method = "asymptotic",
-  plot.rug = TRUE
-)
+  plot.rug = TRUE)

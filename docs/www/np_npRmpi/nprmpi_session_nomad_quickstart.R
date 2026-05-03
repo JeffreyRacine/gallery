@@ -7,10 +7,8 @@
 ## 4. quit cleanly at the end.
 
 if (!requireNamespace("crs", quietly = TRUE)) {
-  stop(
-    "This quickstart uses nomad = TRUE, which requires the 'crs' package ",
-    "for NOMAD degree search. Install it with install.packages('crs')."
-  )
+  stop("This quickstart uses nomad = TRUE, which requires the 'crs' package ",
+    "for NOMAD degree search. Install it with install.packages('crs').")
 }
 
 library(npRmpi)

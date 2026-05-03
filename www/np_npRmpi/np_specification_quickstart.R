@@ -16,12 +16,10 @@ model_ols <- lm(y ~ x, x = TRUE, y = TRUE)
 X <- data.frame(x = x)
 
 ## Compare the parametric model to the nonparametric alternative.
-test_out <- npcmstest(
-  model = model_ols,
+test_out <- npcmstest(model = model_ols,
   xdat = X,
   ydat = y,
-  nmulti = 1
-)
+  nmulti = 1)
 
 ## Inspect both the linear fit and the specification test.
 summary(model_ols)

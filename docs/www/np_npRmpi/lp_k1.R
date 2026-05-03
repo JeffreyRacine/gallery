@@ -14,34 +14,28 @@ library(quadprog)
 options(np.tree=TRUE,np.messages=FALSE)
 
 build_manual_lp_bw <- function(formula, data, degree, ckertype) {
-  npregbw(
-    formula,
+  npregbw(formula,
     data = data,
     regtype = "lp",
     degree = as.integer(degree),
     degree.select = "manual",
     bernstein.basis = TRUE,
-    ckertype = ckertype
-  )
+    ckertype = ckertype)
 }
 
 build_nomad_lp_bw <- function(formula, data, degree.max, ckertype, nmulti) {
   if (!requireNamespace("crs", quietly = TRUE)) {
-    stop(
-      "Automatic LP degree search uses npregbw(..., nomad = TRUE), ",
-      "which currently requires the 'crs' package."
-    )
+    stop("Automatic LP degree search uses npregbw(..., nomad = TRUE), ",
+      "which currently requires the 'crs' package.")
   }
 
-  npregbw(
-    formula,
+  npregbw(formula,
     data = data,
     regtype = "lp",
     ckertype = ckertype,
     nomad = TRUE,
     degree.max = as.integer(degree.max),
-    nmulti = as.integer(nmulti)
-  )
+    nmulti = as.integer(nmulti))
 }
 
 ## Set the kernel function.
@@ -103,20 +97,16 @@ formula.glp <- formula(y~x)
 lp.data <- data.frame(y = y, X)
 
 lp.bw <- if (p >= 0) {
-  build_manual_lp_bw(
-    formula = formula.glp,
+  build_manual_lp_bw(formula = formula.glp,
     data = lp.data,
     degree = rep.int(as.integer(p), NCOL(X)),
-    ckertype = ckertype
-  )
+    ckertype = ckertype)
 } else {
-  build_nomad_lp_bw(
-    formula = formula.glp,
+  build_nomad_lp_bw(formula = formula.glp,
     data = lp.data,
     degree.max = 10L,
     ckertype = ckertype,
-    nmulti = min(NCOL(X), 5L)
-  )
+    nmulti = min(NCOL(X), 5L))
 }
 
 bws <- lp.bw$bw
@@ -124,18 +114,14 @@ p <- as.integer(lp.bw$degree)
 
 if(any(gradient.vec > p)) stop(" the order of the gradient being restricted exceeds the order of the local polynomial")
 
-H.mean <- npreghat(
-  bws = lp.bw,
+H.mean <- npreghat(bws = lp.bw,
   txdat = X,
-  output = "matrix"
-)
+  output = "matrix")
 H.object <- if(any(gradient.vec > 0)) {
-  npreghat(
-    bws = lp.bw,
+  npreghat(bws = lp.bw,
     txdat = X,
     output = "matrix",
-    s = as.integer(gradient.vec)
-  )
+    s = as.integer(gradient.vec))
 } else {
   H.mean
 }
@@ -153,13 +139,11 @@ p.u <- rep(1,n)
 if(n.eval>0) {
   x.eval <- seq(min(x),max(x),length=n.eval)
   X.eval <- data.frame(x=x.eval)
-  H.eval <- npreghat(
-    bws = lp.bw,
+  H.eval <- npreghat(bws = lp.bw,
     txdat = X,
     exdat = X.eval,
     output = "matrix",
-    s = if(any(gradient.vec > 0)) as.integer(gradient.vec) else NULL
-  )
+    s = if(any(gradient.vec > 0)) as.integer(gradient.vec) else NULL)
   A.eval <- t(H.eval) * y
 }
 

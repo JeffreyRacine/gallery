@@ -16,10 +16,8 @@ dat <- as.data.frame(mvrnorm(n = n, mu = c(0, 0), Sigma = Sigma))
 names(dat) <- c("x", "y")
 
 ## Evaluate the copula on a small probability grid.
-u_grid <- data.frame(
-  x = seq(0, 1, length.out = 10),
-  y = seq(0, 1, length.out = 10)
-)
+u_grid <- data.frame(x = seq(0, 1, length.out = 10),
+  y = seq(0, 1, length.out = 10))
 
 ## Build the marginal distribution object, then compute the copula.
 bw <- npudistbw(~ x + y, data = dat)

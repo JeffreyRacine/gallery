@@ -20,6 +20,7 @@ For mixed-data kernel methods, `numeric`, `factor`, and `ordered` do not mean th
 A quick habit worth keeping is:
 
 ```r
+## Check the current class before fitting a mixed-data model
 class(mydat$x)
 str(mydat)
 ```
@@ -27,6 +28,7 @@ str(mydat)
 If a variable is meant to be unordered categorical, cast it as a `factor`. If it is categorical with a meaningful ordering, cast it as `ordered`.
 
 ```r
+## Cast unordered and ordered variables to their intended classes
 mydat$sector <- factor(mydat$sector)
 mydat$year_group <- ordered(mydat$year_group)
 ```
@@ -40,6 +42,7 @@ If the underlying variable is really one categorical variable such as year, regi
 The preferred route is to keep the underlying variable intact and classify it correctly:
 
 ```r
+## Keep an ordered variable intact rather than expanding it into dummies
 mydat$year <- ordered(mydat$year)
 bw <- npregbw(y ~ year + x1 + x2, data = mydat)
 ```
@@ -47,6 +50,7 @@ bw <- npregbw(y ~ year + x1 + x2, data = mydat)
 The only common exception is a genuinely binary attribute represented by one 0/1 variable. Even there, it is usually better to make the meaning explicit:
 
 ```r
+## Make a binary attribute explicit as a factor when that is its intended role
 mydat$female <- factor(mydat$female)
 ```
 
@@ -55,6 +59,7 @@ mydat$female <- factor(mydat$female)
 In these packages,
 
 ```r
+## Formula syntax still just names the response and covariates
 y ~ x1 + x2 + x3
 ```
 
@@ -77,6 +82,7 @@ That keeps scope clear and avoids accidental name collisions.
 If you create factor or ordered variables inside a data-frame call and then plot a fitted object later, you can sometimes get an error about an object not being found. The safe habit is simple: pass the original data frame to `plot()` when needed.
 
 ```r
+## Pass the original data frame back to plot() when needed
 bw <- npregbw(y ~ x + z, data = mydat)
 fit <- npreg(bws = bw, data = mydat)
 plot(fit, data = mydat)
@@ -87,6 +93,7 @@ plot(fit, data = mydat)
 If you construct a data frame with unnamed expressions such as `ordered(year)`, plotting labels can become awkward. It is cleaner to name the variable first or name it inside the data frame:
 
 ```r
+## Name transformed variables cleanly when building the modeling frame
 mydat <- data.frame(year = ordered(year), gdp = gdp)
 ```
 

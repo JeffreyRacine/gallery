@@ -48,6 +48,7 @@ These are still useful because they explain package intent, not just function sy
 For package citation, the simplest route is still:
 
 ```r
+## Retrieve the installed package citation records from inside R
 citation("np")
 citation("npRmpi")
 citation("crs")

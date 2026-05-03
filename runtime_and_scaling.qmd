@@ -46,6 +46,7 @@ That sequence avoids introducing MPI complexity before the basic model is settle
 Bandwidth selection is often the expensive part. A practical habit is to make the bandwidth object explicit:
 
 ```r
+## Separate bandwidth selection from fitting when the run may be expensive
 bw <- npregbw(y ~ x1 + x2, data = mydat)
 fit <- npreg(bws = bw, data = mydat)
 ```
@@ -73,6 +74,7 @@ If you repeatedly interrupt large jobs, R may hold on to memory that would other
 For quiet runs:
 
 ```r
+## Silence routine np status messages in a controlled batch run
 options(np.messages = FALSE)
 ```
 
@@ -125,6 +127,7 @@ A common practical control is `cv.df.min`, which lets you stop the search from c
 Sometimes the right move is not to abort, but to ask the optimizer to tell you what it is doing.
 
 ```r
+## Ask the spline optimizer to display more of the search process
 opts <- list("DISPLAY_DEGREE" = 3)
 model <- crs(y ~ x1 + x2, opts = opts)
 ```
@@ -141,6 +144,7 @@ If that reveals that the search space is too large, then reduce the problem:
 For quiet runs:
 
 ```r
+## Silence routine crs status messages in a controlled batch run
 options(crs.messages = FALSE)
 ```
 

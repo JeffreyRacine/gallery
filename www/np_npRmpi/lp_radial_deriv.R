@@ -50,35 +50,27 @@ upper <- rep(0.1,n)
 ## Generate the cross-validated bandwidths optimal for the order of
 ## the local polynomial at hand.
 
-lp.bw <- npregbw(
-  formula.glp,
+lp.bw <- npregbw(formula.glp,
   data = lp.data,
   regtype = "lp",
   degree = rep.int(as.integer(p), NCOL(X)),
   degree.select = "manual",
   bernstein.basis = TRUE,
-  ckertype = ckertype
-)
+  ckertype = ckertype)
 
 ## Build the mean and derivative hat operators.
 
-H.mean <- npreghat(
-  bws = lp.bw,
+H.mean <- npreghat(bws = lp.bw,
   txdat = X,
-  output = "matrix"
-)
-H.deriv.1 <- npreghat(
-  bws = lp.bw,
+  output = "matrix")
+H.deriv.1 <- npreghat(bws = lp.bw,
   txdat = X,
   output = "matrix",
-  s = c(1L, 0L)
-)
-H.deriv.2 <- npreghat(
-  bws = lp.bw,
+  s = c(1L, 0L))
+H.deriv.2 <- npreghat(bws = lp.bw,
   txdat = X,
   output = "matrix",
-  s = c(0L, 1L)
-)
+  s = c(0L, 1L))
 
 ## Create the uniform weights p.u and matrices for which H %*% (y * p)
 ## delivers the constrained local polynomial estimator and its
@@ -113,12 +105,10 @@ x2.seq <- seq(min(x2),max(x2),length=n.eval)
 
 X.eval <- expand.grid(x1=x2.seq,x2=x2.seq)
 
-H.eval <- npreghat(
-  bws = lp.bw,
+H.eval <- npreghat(bws = lp.bw,
   txdat = X,
   exdat = X.eval,
-  output = "matrix"
-)
+  output = "matrix")
 
 fit.unres <- drop(H.eval %*% y)
 fit.res <- drop(H.eval %*% (y * p.hat))

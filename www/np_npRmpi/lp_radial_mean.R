@@ -48,23 +48,19 @@ upper <- rep(0.5,n)
 ## Generate the cross-validated bandwidths optimal for the order of
 ## the local polynomial at hand.
 
-lp.bw <- npregbw(
-  formula.glp,
+lp.bw <- npregbw(formula.glp,
   data = lp.data,
   regtype = "lp",
   degree = rep.int(as.integer(p), NCOL(X)),
   degree.select = "manual",
   bernstein.basis = TRUE,
-  ckertype = ckertype
-)
+  ckertype = ckertype)
 
 ## Build the mean hat operator and the constraint matrix for H %*% (y * p).
 
-H.train <- npreghat(
-  bws = lp.bw,
+H.train <- npreghat(bws = lp.bw,
   txdat = X,
-  output = "matrix"
-)
+  output = "matrix")
 
 A <- t(H.train) * y
 p.u <- rep(1,n)
@@ -94,12 +90,10 @@ x2.seq <- seq(min(x2),max(x2),length=n.eval)
 
 X.eval <- expand.grid(x1=x2.seq,x2=x2.seq)
 
-H.eval <- npreghat(
-  bws = lp.bw,
+H.eval <- npreghat(bws = lp.bw,
   txdat = X,
   exdat = X.eval,
-  output = "matrix"
-)
+  output = "matrix")
 
 fit.unres <- drop(H.eval %*% y)
 fit.res <- drop(H.eval %*% (y * p.hat))
