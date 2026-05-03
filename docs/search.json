@@ -1925,6 +1925,17 @@
     ]
   },
   {
+    "objectID": "density_distribution_quantiles.html#practitioner-oriented-extras",
+    "href": "density_distribution_quantiles.html#practitioner-oriented-extras",
+    "title": "Density, Distribution, Quantiles",
+    "section": "Practitioner-oriented extras",
+    "text": "Practitioner-oriented extras\nSome applied tasks are a little different from the standard “fit and inspect” workflow. The Cambridge practitioner material suggests three especially useful ones:\n\nestimate a smooth probability function on discrete support,\ndraw a smooth resample from a fitted unconditional density,\ndraw a smooth resample from a fitted conditional density.\n\nThe first of these is compact enough to show inline.\nSource file: np_probability_quickstart.R\n## Minimal np smooth-probability example.\n##\n## This is a compact route for estimating a smooth probability function\n## on unordered discrete support.\n\nlibrary(np)\noptions(np.messages = FALSE)\n\nset.seed(42)\nX &lt;- factor(sample(0:2, 100, replace = TRUE, prob = c(0.25, 0.45, 0.30)))\n\nfit &lt;- npudens(~ X, ukertype = \"aitchisonaitken\", bwmethod = \"cv.ml\")\n\nsummary(fit)\ntapply(fitted(fit), X, mean)\nAdditional practitioner scripts:\n\nnp_density_resample_quickstart.R\nnp_conditional_density_resample_quickstart.R",
+    "crumbs": [
+      "Methods",
+      "Density, Distribution, Quantiles"
+    ]
+  },
+  {
     "objectID": "density_distribution_quantiles.html#copulas-npcopula",
     "href": "density_distribution_quantiles.html#copulas-npcopula",
     "title": "Density, Distribution, Quantiles",
@@ -2491,6 +2502,17 @@
     "title": "Code Catalog",
     "section": "np: kernel methods in serial",
     "text": "np: kernel methods in serial\n\n\n\nScript\nMain topic\nFunctions/features\nStart reading here\n\n\n\n\nnp_regression_quickstart.R\nMinimal kernel-regression workflow\nnpregbw, npreg\nKernel Primer\n\n\nnp_regression_nomad_quickstart.R\nMinimal LP NOMAD workflow\nnpreg, nomad = TRUE\nKernel Primer\n\n\nnp_density_quickstart.R\nMinimal density-estimation workflow\nnpudensbw, npudens\nDensity, Distribution, Quantiles\n\n\nnp_distribution_quickstart.R\nMinimal distribution-estimation workflow\nnpudistbw, npudist\nDensity, Distribution, Quantiles\n\n\nnp_conditional_density_quickstart.R\nMinimal conditional-density workflow\nnpcdensbw, npcdens\nDensity, Distribution, Quantiles\n\n\nnp_conditional_distribution_quickstart.R\nMinimal conditional-distribution workflow\nnpcdistbw, npcdist\nDensity, Distribution, Quantiles\n\n\nnp_quantile_quickstart.R\nMinimal quantile-regression workflow\nnpcdistbw, npqreg\nDensity, Distribution, Quantiles\n\n\nnp_copula_quickstart.R\nMinimal copula-estimation workflow\nnpudistbw, npcopula\nDensity, Distribution, Quantiles\n\n\nnp_classification_quickstart.R\nMinimal classification / conditional-mode workflow\nnpconmode\nClassification and Modes\n\n\nnp_plotting_quickstart.R\nMinimal plotting and interval workflow\nnpreg, plot, predict\nPlotting and Intervals\n\n\nnp_entropy_quickstart.R\nMinimal entropy/testing workflow\nnpunitest\nEntropy and Testing\n\n\nnp_semiparametric_quickstart.R\nMinimal semiparametric workflow\nnpplreg\nSemiparametric Models\n\n\nnp_instrumental_regression_quickstart.R\nMinimal instrumental-regression workflow\nnpregiv\nKernel Methods\n\n\nnp_significance_quickstart.R\nMinimal significance-testing workflow\nnpreg, npsigtest\nSignificance and Specification\n\n\nnp_specification_quickstart.R\nMinimal model-specification workflow\nlm, npcmstest\nSignificance and Specification\n\n\n\n\nAdditional serial scripts\n\n\n\nScript\nMain topic\nFunctions/features\nStart reading here\n\n\n\n\nregression_intro_a.R\nUnivariate regression and plotting\nnpreg, local constant, local linear\nKernel Primer\n\n\nregression_intro_b.R\nDerivative estimation\nnpreg, derivative output\nPlotting and Intervals\n\n\nregression_intro_c.R\nPlotting fitted objects and intervals\nplot(), asymptotic and bootstrap error handling\nPlotting and Intervals\n\n\nregression_multivar_a.R\nMultivariate regression\nmixed predictors, multivariate fit\nMultivariate Regression and Prediction",
+    "crumbs": [
+      "Examples",
+      "Code Catalog"
+    ]
+  },
+  {
+    "objectID": "code_catalog.html#np-practitioner-oriented-extras",
+    "href": "code_catalog.html#np-practitioner-oriented-extras",
+    "title": "Code Catalog",
+    "section": "np: practitioner-oriented extras",
+    "text": "np: practitioner-oriented extras\nThese are compact workflows drawn from the practitioner-oriented material in the Cambridge manuscript. They are useful when the applied task is not just regression fitting.\n\n\n\nScript\nMain topic\nFunctions/features\nStart reading here\n\n\n\n\nnp_probability_quickstart.R\nSmooth probability estimation on discrete support\nnpudens, Aitchison-Aitken kernel\nDensity, Distribution, Quantiles\n\n\nnp_density_resample_quickstart.R\nSmooth resampling from a fitted density\nnpudensbw, npudens, Gaussian-kernel resampling\nDensity, Distribution, Quantiles\n\n\nnp_conditional_density_resample_quickstart.R\nSmooth resampling from a fitted conditional density\nnpcdensbw, npcdens, weighted conditional resampling\nDensity, Distribution, Quantiles",
     "crumbs": [
       "Examples",
       "Code Catalog"

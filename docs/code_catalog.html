@@ -406,6 +406,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#additional-serial-scripts" id="toc-additional-serial-scripts" class="nav-link" data-scroll-target="#additional-serial-scripts">Additional serial scripts</a></li>
   </ul></li>
+  <li><a href="#np-practitioner-oriented-extras" id="toc-np-practitioner-oriented-extras" class="nav-link" data-scroll-target="#np-practitioner-oriented-extras"><code>np</code>: practitioner-oriented extras</a></li>
   <li><a href="#nprmpi-modern-session-mode-quick-start" id="toc-nprmpi-modern-session-mode-quick-start" class="nav-link" data-scroll-target="#nprmpi-modern-session-mode-quick-start"><code>npRmpi</code>: modern session-mode quick start</a></li>
   <li><a href="#inline-source-for-common-scripts" id="toc-inline-source-for-common-scripts" class="nav-link" data-scroll-target="#inline-source-for-common-scripts">Inline source for common scripts</a></li>
   <li><a href="#nprmpi-serial-and-mpi-comparison-scripts" id="toc-nprmpi-serial-and-mpi-comparison-scripts" class="nav-link" data-scroll-target="#nprmpi-serial-and-mpi-comparison-scripts"><code>npRmpi</code>: serial and MPI comparison scripts</a></li>
@@ -708,6 +709,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
+</section>
+<section id="np-practitioner-oriented-extras" class="level2">
+<h2 class="anchored" data-anchor-id="np-practitioner-oriented-extras"><code>np</code>: practitioner-oriented extras</h2>
+<p>These are compact workflows drawn from the practitioner-oriented material in the Cambridge manuscript. They are useful when the applied task is not just regression fitting.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Script</th>
+<th>Main topic</th>
+<th>Functions/features</th>
+<th>Start reading here</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="www/np_npRmpi/np_probability_quickstart.R">np_probability_quickstart.R</a></td>
+<td>Smooth probability estimation on discrete support</td>
+<td><code>npudens</code>, Aitchison-Aitken kernel</td>
+<td><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a></td>
+</tr>
+<tr class="even">
+<td><a href="www/np_npRmpi/np_density_resample_quickstart.R">np_density_resample_quickstart.R</a></td>
+<td>Smooth resampling from a fitted density</td>
+<td><code>npudensbw</code>, <code>npudens</code>, Gaussian-kernel resampling</td>
+<td><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a></td>
+</tr>
+<tr class="odd">
+<td><a href="www/np_npRmpi/np_conditional_density_resample_quickstart.R">np_conditional_density_resample_quickstart.R</a></td>
+<td>Smooth resampling from a fitted conditional density</td>
+<td><code>npcdensbw</code>, <code>npcdens</code>, weighted conditional resampling</td>
+<td><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="nprmpi-modern-session-mode-quick-start" class="level2">
 <h2 class="anchored" data-anchor-id="nprmpi-modern-session-mode-quick-start"><code>npRmpi</code>: modern session-mode quick start</h2>

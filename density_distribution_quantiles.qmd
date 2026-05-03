@@ -79,6 +79,31 @@ plot(Fhat, view = "fixed", main = "")
 
 This route is especially useful when the question is not simply whether the mean changes, but whether the entire distribution changes.
 
+## Practitioner-oriented extras
+
+Some applied tasks are a little different from the standard "fit and inspect"
+workflow. The Cambridge practitioner material suggests three especially useful
+ones:
+
+- estimate a smooth probability function on discrete support,
+- draw a smooth resample from a fitted unconditional density,
+- draw a smooth resample from a fitted conditional density.
+
+The first of these is compact enough to show inline.
+
+Source file: [np_probability_quickstart.R](www/np_npRmpi/np_probability_quickstart.R)
+
+```{r probability-quickstart-source}
+#| echo: false
+#| results: asis
+emit_source("www/np_npRmpi/np_probability_quickstart.R")
+```
+
+Additional practitioner scripts:
+
+- [np_density_resample_quickstart.R](www/np_npRmpi/np_density_resample_quickstart.R)
+- [np_conditional_density_resample_quickstart.R](www/np_npRmpi/np_conditional_density_resample_quickstart.R)
+
 ## Copulas: `npcopula`
 
 If the main object of interest is the dependence structure itself rather than a

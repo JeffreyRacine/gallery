@@ -50,6 +50,18 @@ render_quickstart_catalog_table(subset(quickstarts, section == "np"))
 | [regression_intro_c.R](www/Regression/regression_intro_c.R) | Plotting fitted objects and intervals | `plot()`, asymptotic and bootstrap error handling | [Plotting and Intervals](plotting_and_intervals.qmd) |
 | [regression_multivar_a.R](www/Regression/regression_multivar_a.R) | Multivariate regression | mixed predictors, multivariate fit | [Multivariate Regression and Prediction](multivariate_regression.qmd) |
 
+## `np`: practitioner-oriented extras
+
+These are compact workflows drawn from the practitioner-oriented material in the
+Cambridge manuscript. They are useful when the applied task is not just
+regression fitting.
+
+| Script | Main topic | Functions/features | Start reading here |
+|---|---|---|---|
+| [np_probability_quickstart.R](www/np_npRmpi/np_probability_quickstart.R) | Smooth probability estimation on discrete support | `npudens`, Aitchison-Aitken kernel | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
+| [np_density_resample_quickstart.R](www/np_npRmpi/np_density_resample_quickstart.R) | Smooth resampling from a fitted density | `npudensbw`, `npudens`, Gaussian-kernel resampling | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
+| [np_conditional_density_resample_quickstart.R](www/np_npRmpi/np_conditional_density_resample_quickstart.R) | Smooth resampling from a fitted conditional density | `npcdensbw`, `npcdens`, weighted conditional resampling | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
+
 ## `npRmpi`: modern session-mode quick start
 
 If you want one current downloadable script before anything else, start here.
