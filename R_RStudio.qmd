@@ -21,6 +21,7 @@ You will need a working installation of [R](https://www.r-project.org/) and, if 
 For `np` and `crs`, installation from CRAN is straightforward.
 
 ```r
+## Install the two serial packages directly from CRAN
 install.packages("np")
 install.packages("crs")
 ```
@@ -42,10 +43,12 @@ The quickest way to see working code is now [Quickstarts](quickstarts.qmd). That
 These are simple first checks.
 
 ```r
+## Load the serial kernel package
 library(np)
 ```
 
 ```r
+## Load the spline package
 library(crs)
 ```
 
@@ -54,6 +57,7 @@ library(crs)
 If you want a very small end-to-end example, this is a good place to begin.
 
 ```r
+## Fit and plot the smallest local-constant regression example
 library(np)
 data(cps71, package = "np")
 
@@ -64,6 +68,7 @@ plot(model.lc)
 ## A small first run in `npRmpi`
 
 ```r
+## Start a one-worker session, then fit the same first model in npRmpi
 library(npRmpi)
 npRmpi.init(nslaves = 1)
 data(cps71, package = "npRmpi")
@@ -77,6 +82,7 @@ npRmpi.quit()
 ## A small first run in `crs`
 
 ```r
+## Fit and plot the analogous spline model in crs
 library(crs)
 data(cps71, package = "crs")
 

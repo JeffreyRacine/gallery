@@ -24,6 +24,7 @@ For LP-capable semiparametric families, there is now also a modern convenience
 route via `nomad = TRUE`. The simplest example is partially linear regression:
 
 ```r
+## Simulate a small partially linear example, then use the NOMAD shortcut
 library(np)
 
 set.seed(42)
@@ -56,6 +57,7 @@ The partially linear model is useful when some regressors can reasonably enter l
 In the old `wage1` example, the idea was to treat some regressors parametrically while allowing experience to enter nonparametrically.
 
 ```r
+## Keep some regressors linear while letting experience vary nonparametrically
 library(np)
 data(wage1, package = "np")
 
@@ -85,6 +87,7 @@ Two important routes are available in `np`:
 ### Binary outcomes
 
 ```r
+## Fit a binary single-index model on the mixed-data birthwt example
 library(np)
 data(birthwt, package = "MASS")
 
@@ -108,6 +111,7 @@ summary(model_index_binary)
 ### Continuous outcomes
 
 ```r
+## Use the continuous-outcome single-index route on wage data
 library(np)
 data(wage1, package = "np")
 
@@ -129,6 +133,7 @@ A varying coefficient model lets the effective coefficients change with another 
 In the old `wage1` illustration, coefficients were allowed to vary with sex.
 
 ```r
+## Create numeric coefficient variables, then let them vary with sex
 library(np)
 data(wage1, package = "np")
 

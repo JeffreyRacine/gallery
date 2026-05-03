@@ -18,15 +18,16 @@ If you want a minimal downloadable script for this route, start with [np_plottin
 Start with the smallest possible case.
 
 ```r
+## Load the package and a simple example dataset
 library(np)
 data(cps71, package = "np")
 
+## Fit a local-linear model, then ask plot() for bootstrap error bounds
 model.ll <- npreg(logwage ~ age, regtype = "ll", data = cps71)
 plot(
   model.ll,
   plot.errors.method = "bootstrap",
   plot.errors.boot.method = "inid",
-  plot.errors.boot.num = 9999,
   plot.errors.type = "all"
 )
 ```
@@ -36,6 +37,7 @@ plot(
 For many users, asymptotic intervals are the first reasonable uncertainty summary because they are much lighter than full bootstrap procedures.
 
 ```r
+## Add asymptotic error bounds to the same fitted object
 plot(model.ll, plot.errors.method = "asymptotic")
 ```
 
@@ -44,12 +46,14 @@ plot(model.ll, plot.errors.method = "asymptotic")
 For derivative views, request gradients in the plot call.
 
 ```r
+## Request derivative plots from the same fitted object
 plot(model.ll, gradients = TRUE)
 ```
 
 And again with asymptotic intervals:
 
 ```r
+## Combine derivative plots with asymptotic error bounds
 plot(model.ll, gradients = TRUE, plot.errors.method = "asymptotic")
 ```
 
@@ -58,6 +62,7 @@ plot(model.ll, gradients = TRUE, plot.errors.method = "asymptotic")
 Bootstrap-based intervals are often appealing because they are less tied to asymptotic formulas, but they can be slow.
 
 ```r
+## Use the bootstrap route when you want simulation-based intervals
 plot(
   model.ll,
   plot.errors.method = "bootstrap"
@@ -80,6 +85,7 @@ If you want a minimal runnable script for this route, use
 [np_rgl_quickstart.R](www/np_npRmpi/np_rgl_quickstart.R).
 
 ```r
+## Fit a small bivariate model, then draw it with the interactive renderer
 library(np)
 data(wage1, package = "np")
 
@@ -112,6 +118,7 @@ That is why these plots are often smoother and easier to read than simply plotti
 ## A multivariate example
 
 ```r
+## Build a multivariate fit, then let plot() create the partial views
 library(np)
 data(wage1, package = "np")
 
@@ -134,6 +141,7 @@ This is a high-value visualization, but it is not a cheap one.
 Once a model is fitted, prediction is straightforward. Supply new explanatory data via `newdata`.
 
 ```r
+## Predict on a small evaluation grid
 cps_eval <- data.frame(age = seq(10, 70, by = 10))
 predict(model.ll, newdata = cps_eval)
 ```

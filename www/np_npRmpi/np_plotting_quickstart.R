@@ -18,7 +18,6 @@ plot(
   model.ll,
   plot.errors.method = "bootstrap",
   plot.errors.boot.method = "inid",
-  plot.errors.boot.num = 9999,
   plot.errors.type = "all"
 )
 dev.off()

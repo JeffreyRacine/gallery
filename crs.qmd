@@ -22,6 +22,7 @@ Use `crs` when regression splines, shape restrictions, or spline-specific workfl
 If you simply want to verify that the package is installed and working, this is the quickest check.
 
 ```r
+## Load the package and run the built-in example harness
 library(crs)
 example(crs)
 ```
@@ -78,6 +79,7 @@ If you want a longer package demo, the package sources also ship `crsiv.R` and
 Yes. A simple way to think about this is that spline methods include simpler linear structures as special cases when the basis is restricted appropriately.
 
 ```r
+## Build a simple spline fit that mimics a linear regression structure
 library(crs)
 
 n <- 1000

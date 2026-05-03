@@ -16,12 +16,14 @@ This page is meant to give you working code that you can copy directly. The long
 This mirrors the spirit of `regression_intro_a.R` in a shorter form.
 
 ```r
+## Load the package data, then fit local-constant and local-linear models
 library(np)
 data(cps71, package = "np")
 
 fit_lc <- npreg(logwage ~ age, data = cps71)
 fit_ll <- npreg(logwage ~ age, data = cps71, regtype = "ll")
 
+## Plot the first fit, then add the second fit and a legend
 plot(fit_lc)
 lines(cps71$age, fitted(fit_ll), col = 2, lty = 2)
 
@@ -37,6 +39,7 @@ legend(
 ## A small bandwidth-selection example
 
 ```r
+## Simulate a small mixed-data example and choose the bandwidth explicitly
 library(np)
 
 set.seed(42)
@@ -49,6 +52,7 @@ z1 <- factor(z1)
 z2 <- factor(z2)
 mydat <- data.frame(y, x, z1, z2)
 
+## Fit from the saved bandwidth object, then inspect both summaries
 bw <- npregbw(y ~ x + z1 + z2, regtype = "ll", bwmethod = "cv.aic", data = mydat)
 fit <- npreg(bws = bw, data = mydat)
 

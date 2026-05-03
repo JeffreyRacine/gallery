@@ -17,6 +17,7 @@ This page is for the common case where the model has more than one regressor and
 The `wage1` data are still a useful first example because they combine numeric and categorical predictors in a way that mirrors applied work.
 
 ```r
+## Fit a small mixed-data regression with one factor and two numeric regressors
 library(np)
 data(wage1, package = "np")
 
@@ -36,6 +37,7 @@ The important point is that `female` is a factor while `educ` and `exper` are nu
 The formula looks familiar:
 
 ```r
+## The familiar formula syntax still identifies response and regressors
 lwage ~ female + educ + exper
 ```
 
@@ -46,6 +48,7 @@ But the estimator is not fitting an ordinary linear-additive model. The formula 
 For multivariate fits, `plot()` is often the quickest way to see what the model is doing.
 
 ```r
+## Start with asymptotic partial-regression plots for a quick read
 plot(
   fit_multi,
   plot.errors.method = "asymptotic",
@@ -58,6 +61,7 @@ These are partial-regression plots. One covariate is allowed to vary while the o
 If you want bootstrap-based intervals instead, the workflow is the same but the computation can be much heavier.
 
 ```r
+## Switch to bootstrap intervals only when you need the heavier route
 plot(
   fit_multi,
   plot.errors.method = "bootstrap",
@@ -70,6 +74,7 @@ plot(
 Prediction works by supplying a `newdata` frame with the same predictor structure.
 
 ```r
+## Predict on a small new-data frame that preserves the factor structure
 predict(
   fit_multi,
   newdata = wage1[1:5, c("female", "educ", "exper")]

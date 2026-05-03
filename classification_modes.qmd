@@ -24,6 +24,7 @@ This is especially useful when the covariates include a mixture of continuous an
 The older `birthwt` example remains a good illustration because it contains several categorical covariates that must be classed correctly.
 
 ```r
+## Class the categorical variables correctly, then fit parametric and np models
 library(np)
 data(birthwt, package = "MASS")
 
@@ -53,6 +54,7 @@ summary(model_np)
 One natural comparison is a confusion matrix against a parametric logit model.
 
 ```r
+## Compare the parametric confusion matrix with the np conditional-mode result
 cm_logit <- table(
   birthwt$low,
   ifelse(fitted(model_logit) > 0.5, 1, 0)

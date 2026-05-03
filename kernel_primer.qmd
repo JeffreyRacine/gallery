@@ -43,6 +43,7 @@ The usual workflow is:
 A simple example:
 
 ```r
+## Choose the bandwidth first, then fit from the resulting object
 library(np)
 data(cps71, package = "np")
 
@@ -74,6 +75,7 @@ The package relies on the class of each variable to determine which weighting ru
 For example:
 
 ```r
+## Class the variables correctly before fitting the mixed-data model
 mydat <- data.frame(
   y = rnorm(200),
   x_cont = runif(200),
@@ -81,6 +83,7 @@ mydat <- data.frame(
   x_ordered = ordered(sample(1:4, 200, replace = TRUE))
 )
 
+## Build and fit the mixed-data regression using those classes
 bw <- npregbw(y ~ x_cont + x_unordered + x_ordered, data = mydat)
 fit <- npreg(bws = bw)
 ```
@@ -92,12 +95,14 @@ The same formula syntax is used, but the estimator is not fitting a linear-addit
 `np` supports both. The formula interface is often the easiest to read:
 
 ```r
+## The same modeling interface works directly through a formula and data frame
 bw <- npregbw(y ~ x1 + x2 + x3, data = mydat)
 ```
 
 The data-frame interface is also available and can feel more natural in some workflows:
 
 ```r
+## The unconditional density route also accepts a whole data frame
 bw <- npudensbw(dat = mydat)
 ```
 
@@ -127,6 +132,7 @@ For LP-capable families, there is now a second modern entry path alongside the
 basic bandwidth-object workflow:
 
 ```r
+## Let np choose the local-polynomial degree and bandwidths in one call
 library(np)
 data(cps71, package = "np")
 
@@ -151,12 +157,14 @@ Practical note:
 ## A small regression example
 
 ```r
+## Compare local-constant and local-linear fits on the same data
 library(np)
 data(cps71, package = "np")
 
 fit_lc <- npreg(logwage ~ age, data = cps71)
 fit_ll <- npreg(logwage ~ age, data = cps71, regtype = "ll")
 
+## Plot the first fit, then add the second fit and a legend
 plot(fit_lc)
 lines(cps71$age, fitted(fit_ll), col = 2, lty = 2)
 
