@@ -15,6 +15,7 @@ if (!requireNamespace("crs", quietly = TRUE)) {
 
 library(npRmpi)
 
+## Initialize once, then write ordinary np-style code.
 npRmpi.init(nslaves = 1)
 
 set.seed(7)
@@ -23,11 +24,13 @@ x <- runif(n, -1, 1)
 y <- x + 0.4 * x^2 + rnorm(n, sd = 0.18)
 dat <- data.frame(y, x)
 
+## Fit the LP shortcut and inspect the normalized metadata.
 fit <- npreg(y ~ x, data = dat, nomad = TRUE, degree.max = 2L, nmulti = 1L)
 
 fit$bws$nomad.shortcut
 summary(fit)
 
+## Plot the fitted object before quitting cleanly.
 plot(fit)
 
 npRmpi.quit()

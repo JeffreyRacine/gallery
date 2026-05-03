@@ -11,10 +11,13 @@ options(np.messages = FALSE)
 data(cps71, package = "np")
 dat <- cps71[, c("logwage", "age")]
 
+## Select the bandwidth object, then fit the regression.
 bw <- npregbw(logwage ~ age, data = dat, regtype = "ll", bwmethod = "cv.aic")
 fit <- npreg(bws = bw, data = dat)
 
+## Review the bandwidth choice and the fitted regression.
 summary(bw)
 summary(fit)
 
+## Let the plot method handle the basic fitted-curve display.
 plot(fit)

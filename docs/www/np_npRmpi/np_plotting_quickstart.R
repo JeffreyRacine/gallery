@@ -8,8 +8,10 @@ options(np.messages = FALSE)
 
 data(cps71, package = "np")
 
+## Fit a simple local-linear regression object.
 model.ll <- npreg(logwage ~ age, regtype = "ll", data = cps71)
 
+## Save one example plot so the script works in non-interactive sessions too.
 plot_path <- file.path(tempdir(), "np_plotting_quickstart.png")
 png(plot_path, width = 700, height = 500)
 plot(
@@ -21,4 +23,5 @@ plot(
 )
 dev.off()
 
+## Report where the rendered image landed.
 cat("Saved plot to:", plot_path, "\n")

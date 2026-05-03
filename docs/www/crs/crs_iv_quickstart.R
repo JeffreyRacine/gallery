@@ -4,6 +4,7 @@
 
 library(crs)
 
+## Build a small IV example with one endogenous regressor and one instrument.
 set.seed(42)
 n <- 100
 v <- rnorm(n, sd = 0.27)
@@ -13,6 +14,7 @@ w <- rnorm(n)
 z <- 0.2 * w + v
 y <- z^2 + u
 
+## Fit the spline IV model.
 fit_iv <- crsiv(
   y = y,
   z = z,
@@ -23,4 +25,5 @@ fit_iv <- crsiv(
   cv.threshold = 0
 )
 
+## Inspect the fitted IV object.
 summary(fit_iv)
