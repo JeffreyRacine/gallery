@@ -14,8 +14,7 @@ model.ll <- npreg(logwage ~ age, regtype = "ll", data = cps71)
 ## Save one example plot so the script works in non-interactive sessions too.
 plot_path <- file.path(tempdir(), "np_plotting_quickstart.png")
 png(plot_path, width = 700, height = 500)
-plot(
-  model.ll,
+plot(model.ll,
   plot.errors.method = "bootstrap",
   plot.errors.boot.method = "inid",
   plot.errors.type = "all"

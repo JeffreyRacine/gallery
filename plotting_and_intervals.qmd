@@ -24,8 +24,7 @@ data(cps71, package = "np")
 
 ## Fit a local-linear model, then ask plot() for bootstrap error bounds
 model.ll <- npreg(logwage ~ age, regtype = "ll", data = cps71)
-plot(
-  model.ll,
+plot(model.ll,
   plot.errors.method = "bootstrap",
   plot.errors.boot.method = "inid",
   plot.errors.type = "all"
@@ -63,8 +62,7 @@ Bootstrap-based intervals are often appealing because they are less tied to asym
 
 ```r
 ## Use the bootstrap route when you want simulation-based intervals
-plot(
-  model.ll,
+plot(model.ll,
   plot.errors.method = "bootstrap"
 )
 ```
@@ -95,8 +93,7 @@ fit_rgl <- npreg(
   data = wage1
 )
 
-plot(
-  fit_rgl,
+plot(fit_rgl,
   view = "fixed",
   renderer = "rgl",
   plot.data.overlay = FALSE,
@@ -128,8 +125,7 @@ fit_multi <- npreg(
   data = wage1
 )
 
-plot(
-  fit_multi,
+plot(fit_multi,
   plot.errors.method = "bootstrap"
 )
 ```

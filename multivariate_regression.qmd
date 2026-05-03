@@ -49,8 +49,7 @@ For multivariate fits, `plot()` is often the quickest way to see what the model 
 
 ```r
 ## Start with asymptotic partial-regression plots for a quick read
-plot(
-  fit_multi,
+plot(fit_multi,
   plot.errors.method = "asymptotic",
   plot.errors.style = "band"
 )
@@ -62,8 +61,7 @@ If you want bootstrap-based intervals instead, the workflow is the same but the 
 
 ```r
 ## Switch to bootstrap intervals only when you need the heavier route
-plot(
-  fit_multi,
+plot(fit_multi,
   plot.errors.method = "bootstrap",
   plot.errors.style = "band"
 )

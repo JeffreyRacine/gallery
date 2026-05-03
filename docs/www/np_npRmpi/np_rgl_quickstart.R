@@ -19,8 +19,7 @@ fit_rgl <- npreg(
   data = wage1
 )
 
-plot(
-  fit_rgl,
+plot(fit_rgl,
   view = "fixed",
   renderer = "rgl",
   plot.data.overlay = FALSE,
