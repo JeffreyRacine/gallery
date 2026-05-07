@@ -34,19 +34,19 @@ model.ll <- npreg(logwage~age,regtype="ll")
 ## us. Below we use the asymptotic standard error estimates and then
 ## take +- 1.96 standard error)
 
-plot(model.ll,plot.errors.method="asymptotic",plot.errors.style="band")
+plot(model.ll, errors = "asymptotic")
 
 ## We might also wish to use bootstrapping instead (here we bootstrap
 ## the standard errors and then take +- 1.96 standard error)
 
-plot(model.ll,plot.errors.method="bootstrap",plot.errors.style="band")
+plot(model.ll, errors = "bootstrap")
 
 ## Alternately, we might compare the modern pointwise, Bonferroni, and
 ## simultaneous bootstrap error bounds on the same plot.
 
-plot(model.ll,plot.errors.method="bootstrap",plot.errors.type="all",plot.errors.style="band")
+plot(model.ll, errors = "bootstrap", band = "all")
 
 ## Note that adding the argument `gradients=TRUE' to the plot call
 ## will automatically plot the derivatives instead
 
-plot(model.ll,plot.errors.method="bootstrap",plot.errors.type="all",plot.errors.style="band",gradients=TRUE)
+plot(model.ll, errors = "bootstrap", band = "all", gradients = TRUE)

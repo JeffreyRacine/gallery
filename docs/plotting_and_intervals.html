@@ -453,15 +453,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit a local-linear model, then ask plot() for bootstrap error bounds</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>model.ll <span class="ot">&lt;-</span> <span class="fu">npreg</span>(logwage <span class="sc">~</span> age, <span class="at">regtype =</span> <span class="st">"ll"</span>, <span class="at">data =</span> cps71)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.ll,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot.errors.method =</span> <span class="st">"bootstrap"</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot.errors.boot.method =</span> <span class="st">"inid"</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot.errors.type =</span> <span class="st">"all"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">errors =</span> <span class="st">"bootstrap"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">bootstrap =</span> <span class="st">"inid"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">band =</span> <span class="st">"all"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="asymptotic-intervals" class="level2">
 <h2 class="anchored" data-anchor-id="asymptotic-intervals">Asymptotic intervals</h2>
 <p>For many users, asymptotic intervals are the first reasonable uncertainty summary because they are much lighter than full bootstrap procedures.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Add asymptotic error bounds to the same fitted object</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.ll, <span class="at">plot.errors.method =</span> <span class="st">"asymptotic"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.ll, <span class="at">errors =</span> <span class="st">"asymptotic"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="gradients" class="level2">
 <h2 class="anchored" data-anchor-id="gradients">Gradients</h2>
@@ -470,18 +470,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.ll, <span class="at">gradients =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>And again with asymptotic intervals:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Combine derivative plots with asymptotic error bounds</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.ll, <span class="at">gradients =</span> <span class="cn">TRUE</span>, <span class="at">plot.errors.method =</span> <span class="st">"asymptotic"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.ll, <span class="at">gradients =</span> <span class="cn">TRUE</span>, <span class="at">errors =</span> <span class="st">"asymptotic"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="bootstrap-intervals" class="level2">
 <h2 class="anchored" data-anchor-id="bootstrap-intervals">Bootstrap intervals</h2>
 <p>Bootstrap-based intervals are often appealing because they are less tied to asymptotic formulas, but they can be slow.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Use the bootstrap route when you want simulation-based intervals</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.ll, <span class="at">plot.errors.method =</span> <span class="st">"bootstrap"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.ll, <span class="at">errors =</span> <span class="st">"bootstrap"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For serious work, this is exactly the sort of route where separating bandwidth selection from later estimation and plotting is especially worthwhile.</p>
 </section>
 <section id="interactive-rgl-rendering-and-rugs" class="level2">
 <h2 class="anchored" data-anchor-id="interactive-rgl-rendering-and-rugs">Interactive <code>rgl</code> rendering and rugs</h2>
-<p>When <code>rgl</code> is installed, plot methods can also render interactive 3D surfaces via <code>renderer = "rgl"</code>. That gives you a manipulable display: drag with the mouse to rotate and use the scroll wheel to zoom. The same plotting surface now also supports 1D/2D rugs via <code>plot.rug = TRUE</code>.</p>
+<p>When <code>rgl</code> is installed, plot methods can also render interactive 3D surfaces via <code>renderer = "rgl"</code>. That gives you a manipulable display: drag with the mouse to rotate and use the scroll wheel to zoom. The same plotting surface now also supports 1D/2D rugs and data-overlay controls via <code>render_control = np_render_control(...)</code>.</p>
 <p>These are best viewed in RStudio, where the interactive surface appears in the Viewer pane rather than the Plot pane.</p>
 <p>If you want a minimal runnable script for this route, use <a href="www/np_npRmpi/np_rgl_quickstart.R">np_rgl_quickstart.R</a>.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit a small bivariate model, then draw it with the interactive renderer</span></span>
@@ -495,9 +495,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_rgl,</span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">view =</span> <span class="st">"fixed"</span>,</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">renderer =</span> <span class="st">"rgl"</span>,</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot.data.overlay =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot.errors.method =</span> <span class="st">"asymptotic"</span>,</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot.rug =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">errors =</span> <span class="st">"asymptotic"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">render_control =</span> <span class="fu">np_render_control</span>(<span class="at">overlay =</span> <span class="cn">FALSE</span>, <span class="at">rug =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The same renderer is also useful for conditional density/distribution surfaces when you want to inspect shape changes interactively rather than through a fixed static viewpoint.</p>
 </section>
 <section id="partial-regression-plots" class="level2">
@@ -515,7 +514,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">regtype =</span> <span class="st">"ll"</span>,</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> wage1)</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_multi, <span class="at">plot.errors.method =</span> <span class="st">"bootstrap"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_multi, <span class="at">errors =</span> <span class="st">"bootstrap"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This is a high-value visualization, but it is not a cheap one.</p>
 </section>
 <section id="prediction" class="level2">

@@ -20,6 +20,5 @@ fit_rgl <- npreg(lwage ~ educ + exper,
 plot(fit_rgl,
   view = "fixed",
   renderer = "rgl",
-  plot.data.overlay = FALSE,
-  plot.errors.method = "asymptotic",
-  plot.rug = TRUE)
+  errors = "asymptotic",
+  render_control = np_render_control(overlay = FALSE, rug = TRUE))

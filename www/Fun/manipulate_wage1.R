@@ -17,8 +17,7 @@ data(wage1)
 
 manipulate(plot(bw.all,
                 common.scale=common.scale,
-                plot.errors.method="asymptotic",
-                plot.errors.style="band",
+                errors="asymptotic",
                 xq=c(0.5,0.5,educ,exper,tenure)),
            common.scale=picker(TRUE,FALSE,label="Common Scale for Y Axes"),
            educ=slider(0,1,0.5,label="Education Quantile",step=0.1,ticks=TRUE),

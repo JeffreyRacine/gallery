@@ -47,8 +47,7 @@ For multivariate fits, `plot()` is often the quickest way to see what the model 
 
 ```r
 ## Start with asymptotic partial-regression plots for a quick read
-plot(fit_multi, plot.errors.method = "asymptotic",
-  plot.errors.style = "band")
+plot(fit_multi, errors = "asymptotic")
 ```
 
 These are partial-regression plots. One covariate is allowed to vary while the others are held fixed at representative values such as medians or modes. That is why the resulting plots are usually easier to interpret than a raw scatterplot against one regressor at a time.
@@ -57,8 +56,7 @@ If you want bootstrap-based intervals instead, the workflow is the same but the 
 
 ```r
 ## Switch to bootstrap intervals only when you need the heavier route
-plot(fit_multi, plot.errors.method = "bootstrap",
-  plot.errors.style = "band")
+plot(fit_multi, errors = "bootstrap")
 ```
 
 ## Prediction

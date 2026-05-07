@@ -25,9 +25,9 @@ data(cps71, package = "np")
 ## Fit a local-linear model, then ask plot() for bootstrap error bounds
 model.ll <- npreg(logwage ~ age, regtype = "ll", data = cps71)
 plot(model.ll,
-  plot.errors.method = "bootstrap",
-  plot.errors.boot.method = "inid",
-  plot.errors.type = "all")
+  errors = "bootstrap",
+  bootstrap = "inid",
+  band = "all")
 ```
 
 ## Asymptotic intervals
@@ -36,7 +36,7 @@ For many users, asymptotic intervals are the first reasonable uncertainty summar
 
 ```r
 ## Add asymptotic error bounds to the same fitted object
-plot(model.ll, plot.errors.method = "asymptotic")
+plot(model.ll, errors = "asymptotic")
 ```
 
 ## Gradients
@@ -52,7 +52,7 @@ And again with asymptotic intervals:
 
 ```r
 ## Combine derivative plots with asymptotic error bounds
-plot(model.ll, gradients = TRUE, plot.errors.method = "asymptotic")
+plot(model.ll, gradients = TRUE, errors = "asymptotic")
 ```
 
 ## Bootstrap intervals
@@ -61,7 +61,7 @@ Bootstrap-based intervals are often appealing because they are less tied to asym
 
 ```r
 ## Use the bootstrap route when you want simulation-based intervals
-plot(model.ll, plot.errors.method = "bootstrap")
+plot(model.ll, errors = "bootstrap")
 ```
 
 For serious work, this is exactly the sort of route where separating bandwidth selection from later estimation and plotting is especially worthwhile.
@@ -71,7 +71,8 @@ For serious work, this is exactly the sort of route where separating bandwidth s
 When `rgl` is installed, plot methods can also render interactive 3D surfaces
 via `renderer = "rgl"`. That gives you a manipulable display: drag with the
 mouse to rotate and use the scroll wheel to zoom. The same plotting surface now
-also supports 1D/2D rugs via `plot.rug = TRUE`.
+also supports 1D/2D rugs and data-overlay controls via
+`render_control = np_render_control(...)`.
 
 These are best viewed in RStudio, where the interactive surface appears in the
 Viewer pane rather than the Plot pane.
@@ -91,9 +92,8 @@ fit_rgl <- npreg(lwage ~ educ + exper,
 plot(fit_rgl,
   view = "fixed",
   renderer = "rgl",
-  plot.data.overlay = FALSE,
-  plot.errors.method = "asymptotic",
-  plot.rug = TRUE)
+  errors = "asymptotic",
+  render_control = np_render_control(overlay = FALSE, rug = TRUE))
 ```
 
 The same renderer is also useful for conditional density/distribution surfaces
@@ -117,7 +117,7 @@ fit_multi <- npreg(lwage ~ female + married + educ + exper + tenure,
   regtype = "ll",
   data = wage1)
 
-plot(fit_multi, plot.errors.method = "bootstrap")
+plot(fit_multi, errors = "bootstrap")
 ```
 
 This is a high-value visualization, but it is not a cheap one.
