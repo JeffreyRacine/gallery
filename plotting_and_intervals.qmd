@@ -71,8 +71,8 @@ For serious work, this is exactly the sort of route where separating bandwidth s
 When `rgl` is installed, plot methods can also render interactive 3D surfaces
 via `renderer = "rgl"`. That gives you a manipulable display: drag with the
 mouse to rotate and use the scroll wheel to zoom. The same plotting surface now
-also supports 1D/2D rugs and data-overlay controls via
-`render_control = np_render_control(...)`.
+also supports 1D/2D rugs and data-overlay controls via the direct
+`data_rug` and `data_overlay` arguments.
 
 These are best viewed in RStudio, where the interactive surface appears in the
 Viewer pane rather than the Plot pane.
@@ -93,7 +93,8 @@ plot(fit_rgl,
   view = "fixed",
   renderer = "rgl",
   errors = "asymptotic",
-  render_control = np_render_control(overlay = FALSE, rug = TRUE))
+  data_overlay = FALSE,
+  data_rug = TRUE)
 ```
 
 The same renderer is also useful for conditional density/distribution surfaces

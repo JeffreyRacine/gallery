@@ -481,7 +481,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="interactive-rgl-rendering-and-rugs" class="level2">
 <h2 class="anchored" data-anchor-id="interactive-rgl-rendering-and-rugs">Interactive <code>rgl</code> rendering and rugs</h2>
-<p>When <code>rgl</code> is installed, plot methods can also render interactive 3D surfaces via <code>renderer = "rgl"</code>. That gives you a manipulable display: drag with the mouse to rotate and use the scroll wheel to zoom. The same plotting surface now also supports 1D/2D rugs and data-overlay controls via <code>render_control = np_render_control(...)</code>.</p>
+<p>When <code>rgl</code> is installed, plot methods can also render interactive 3D surfaces via <code>renderer = "rgl"</code>. That gives you a manipulable display: drag with the mouse to rotate and use the scroll wheel to zoom. The same plotting surface now also supports 1D/2D rugs and data-overlay controls via the direct <code>data_rug</code> and <code>data_overlay</code> arguments.</p>
 <p>These are best viewed in RStudio, where the interactive surface appears in the Viewer pane rather than the Plot pane.</p>
 <p>If you want a minimal runnable script for this route, use <a href="www/np_npRmpi/np_rgl_quickstart.R">np_rgl_quickstart.R</a>.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit a small bivariate model, then draw it with the interactive renderer</span></span>
@@ -496,7 +496,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">view =</span> <span class="st">"fixed"</span>,</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">renderer =</span> <span class="st">"rgl"</span>,</span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">errors =</span> <span class="st">"asymptotic"</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">render_control =</span> <span class="fu">np_render_control</span>(<span class="at">overlay =</span> <span class="cn">FALSE</span>, <span class="at">rug =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_overlay =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_rug =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The same renderer is also useful for conditional density/distribution surfaces when you want to inspect shape changes interactively rather than through a fixed static viewpoint.</p>
 </section>
 <section id="partial-regression-plots" class="level2">
