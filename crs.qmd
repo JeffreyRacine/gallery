@@ -102,5 +102,5 @@ summary(model_crs)
 
 ## References
 
-- Package vignette: [crs vignette on CRAN](https://cran.r-project.org/web/packages/crs/vignettes/crs.pdf)
+- Package vignette: [`crs` getting started vignette on CRAN](https://cran.r-project.org/web/packages/crs/vignettes/crs_getting_started.html)
 - Nie, Z. and J.S. Racine (2012), "The crs Package: Nonparametric Regression Splines for Continuous and Categorical Predictors," *The R Journal*, 4(2), 48-56.

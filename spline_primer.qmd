@@ -129,7 +129,7 @@ See:
 
 - [Splines](crs.qmd) for the main `crs` landing page
 - [Code Catalog](code_catalog.qmd) for the full script list
-- [crs vignette on CRAN](https://cran.r-project.org/web/packages/crs/vignettes/crs.pdf)
+- [`crs` getting started vignette on CRAN](https://cran.r-project.org/web/packages/crs/vignettes/crs_getting_started.html)
 
 ## Historical note
 

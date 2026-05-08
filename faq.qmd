@@ -273,5 +273,5 @@ See [Spline Search and Tuning](spline_search_and_tuning.qmd) for:
 
 The old FAQs still contain useful material, but they also contain obsolete changelog duplication and older presentation choices.
 
-- Legacy `np` FAQ on CRAN: [np_faq.pdf](https://cran.r-project.org/web/packages/np/vignettes/np_faq.pdf)
-- Legacy `crs` FAQ on CRAN: [crs_faq.pdf](https://cran.r-project.org/web/packages/crs/vignettes/crs_faq.pdf)
+- Legacy `np` FAQ PDF: no longer hosted in the current CRAN vignette set; use the current [`np` vignettes on CRAN](https://cran.r-project.org/web/packages/np/vignettes/).
+- Legacy `crs` FAQ PDF: no longer hosted in the current CRAN vignette set; use the current [`crs` vignettes on CRAN](https://cran.r-project.org/web/packages/crs/vignettes/).

@@ -774,7 +774,7 @@
     "href": "spline_primer.html#what-to-read-next",
     "title": "Spline Primer",
     "section": "What to read next",
-    "text": "What to read next\n\nSplines for the main crs landing page\nCode Catalog for the full script list\ncrs vignette on CRAN",
+    "text": "What to read next\n\nSplines for the main crs landing page\nCode Catalog for the full script list\ncrs getting started vignette on CRAN",
     "crumbs": [
       "Methods",
       "Spline Primer"
@@ -935,11 +935,11 @@
     ]
   },
   {
-    "objectID": "legacy_materials.html#legacy-package-pdfs",
-    "href": "legacy_materials.html#legacy-package-pdfs",
+    "objectID": "legacy_materials.html#legacy-package-material",
+    "href": "legacy_materials.html#legacy-package-material",
     "title": "Legacy Materials",
-    "section": "Legacy package PDFs",
-    "text": "Legacy package PDFs\n\nnp\n\nLegacy np vignette PDF on CRAN\nLegacy entropy_np vignette PDF on CRAN\nLegacy np FAQ PDF on CRAN\n\n\n\ncrs\n\nLegacy crs vignette PDF on CRAN\nLegacy spline_primer vignette PDF on CRAN\nLegacy crs FAQ PDF on CRAN",
+    "section": "Legacy package material",
+    "text": "Legacy package material\n\nnp\n\nCurrent CRAN vignettes: np vignette index\nCurrent getting-started vignette: np_getting_started\nCurrent entropy vignette: np_entropy_tests\nHistorical names such as np.pdf, entropy_np.pdf, and np_faq.pdf refer to older PDF-era materials and are no longer hosted in the current CRAN vignette set.\n\n\n\ncrs\n\nCurrent CRAN vignettes: crs vignette index\nCurrent getting-started vignette: crs_getting_started\nHistorical names such as crs.pdf, spline_primer.pdf, and crs_faq.pdf refer to older PDF-era materials and are no longer hosted in the current CRAN vignette set.",
     "crumbs": [
       "Support",
       "Legacy Materials"
@@ -2391,7 +2391,7 @@
     "href": "faq.html#legacy-faq-pdfs",
     "title": "FAQ and Troubleshooting",
     "section": "Legacy FAQ PDFs",
-    "text": "Legacy FAQ PDFs\nThe old FAQs still contain useful material, but they also contain obsolete changelog duplication and older presentation choices.\n\nLegacy np FAQ on CRAN: np_faq.pdf\nLegacy crs FAQ on CRAN: crs_faq.pdf",
+    "text": "Legacy FAQ PDFs\nThe old FAQs still contain useful material, but they also contain obsolete changelog duplication and older presentation choices.\n\nLegacy np FAQ PDF: no longer hosted in the current CRAN vignette set; use the current np vignettes on CRAN.\nLegacy crs FAQ PDF: no longer hosted in the current CRAN vignette set; use the current crs vignettes on CRAN.",
     "crumbs": [
       "Support",
       "FAQ and Troubleshooting"
@@ -2842,7 +2842,7 @@
     "href": "crs.html#references",
     "title": "Splines",
     "section": "References",
-    "text": "References\n\nPackage vignette: crs vignette on CRAN\nNie, Z. and J.S. Racine (2012), “The crs Package: Nonparametric Regression Splines for Continuous and Categorical Predictors,” The R Journal, 4(2), 48-56.",
+    "text": "References\n\nPackage vignette: crs getting started vignette on CRAN\nNie, Z. and J.S. Racine (2012), “The crs Package: Nonparametric Regression Splines for Continuous and Categorical Predictors,” The R Journal, 4(2), 48-56.",
     "crumbs": [
       "Methods",
       "Splines"

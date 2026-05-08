@@ -10,19 +10,20 @@ The basic rule is:
 - the older PDFs remain valuable as archival references,
 - changelog material should live in one canonical place, not be duplicated in FAQ documents.
 
-## Legacy package PDFs
+## Legacy package material
 
 ### `np`
 
-- [Legacy `np` vignette PDF on CRAN](https://cran.r-project.org/web/packages/np/vignettes/np.pdf)
-- [Legacy `entropy_np` vignette PDF on CRAN](https://cran.r-project.org/web/packages/np/vignettes/entropy_np.pdf)
-- [Legacy `np` FAQ PDF on CRAN](https://cran.r-project.org/web/packages/np/vignettes/np_faq.pdf)
+- Current CRAN vignettes: [`np` vignette index](https://cran.r-project.org/web/packages/np/vignettes/)
+- Current getting-started vignette: [`np_getting_started`](https://cran.r-project.org/web/packages/np/vignettes/np_getting_started.html)
+- Current entropy vignette: [`np_entropy_tests`](https://cran.r-project.org/web/packages/np/vignettes/np_entropy_tests.html)
+- Historical names such as `np.pdf`, `entropy_np.pdf`, and `np_faq.pdf` refer to older PDF-era materials and are no longer hosted in the current CRAN vignette set.
 
 ### `crs`
 
-- [Legacy `crs` vignette PDF on CRAN](https://cran.r-project.org/web/packages/crs/vignettes/crs.pdf)
-- [Legacy `spline_primer` vignette PDF on CRAN](https://cran.r-project.org/web/packages/crs/vignettes/spline_primer.pdf)
-- [Legacy `crs` FAQ PDF on CRAN](https://cran.r-project.org/web/packages/crs/vignettes/crs_faq.pdf)
+- Current CRAN vignettes: [`crs` vignette index](https://cran.r-project.org/web/packages/crs/vignettes/)
+- Current getting-started vignette: [`crs_getting_started`](https://cran.r-project.org/web/packages/crs/vignettes/crs_getting_started.html)
+- Historical names such as `crs.pdf`, `spline_primer.pdf`, and `crs_faq.pdf` refer to older PDF-era materials and are no longer hosted in the current CRAN vignette set.
 
 ## Current website-first replacements
 
