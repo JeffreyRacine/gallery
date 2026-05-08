@@ -13,6 +13,18 @@ Plotting is one of the places where `np` becomes especially useful, because the 
 
 If you want a minimal downloadable script for this route, start with [np_plotting_quickstart.R](www/np_npRmpi/np_plotting_quickstart.R).
 
+::: {.callout-note}
+## Plot interface update in `0.70-2`
+
+The public plotting interface was redesigned in `np` / `npRmpi` `0.70-2`.
+
+- use `errors`, `bootstrap`, `band`, `alpha`, and `B` for the main interval controls
+- use `snake_case` names such as `data_rug`, `data_overlay`, `common_scale`, and `coef_index`
+- use `np_boot_control()`, `np_grid_control()`, and `np_render_control()` only for the remaining detailed control groups
+
+If you are adapting older code, the most common translation is from `plot.errors.*` names to these newer public arguments.
+:::
+
 ## A simple fitted-curve plot
 
 Start with the smallest possible case.

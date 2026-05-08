@@ -22,6 +22,12 @@ If you are new to these packages, start with [Choose a Package](primer.qmd). If 
 This website is linked from my academic site and is intended as a practical working companion, not as a substitute for the package manuals or the underlying papers.
 :::
 
+::: {.callout-note}
+## Plot interface update in `np` / `npRmpi` `0.70-2`
+
+The plot interface was redesigned in `0.70-2`. Current gallery examples now use the new public controls such as `errors`, `bootstrap`, `band`, `data_rug`, `data_overlay`, and other `snake_case` option names. Older plotting code may need small argument-name updates.
+:::
+
 ## Recent Extensions
 
 - [Local polynomial workflows](np_npRmpi.qmd): `np` and `npRmpi` now support local polynomial capability across the conditional family, with joint selection of polynomial degrees and bandwidths for mixed data.
