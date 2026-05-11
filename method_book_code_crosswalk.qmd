@@ -92,7 +92,7 @@ plot/bootstrap machinery, are labeled as package implementation extensions.
 | Unconditional distribution | `npudist`, `npudistbw` | Distribution $F(x)$ | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
 | Conditional density | `npcdens`, `npcdensbw` | Conditional density $f(y \mid x)$ | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
 | Conditional distribution | `npcdist`, `npcdistbw` | Conditional distribution $F(y \mid x)$ | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
-| Conditional quantile | `npqreg` | Conditional quantile $q_\tau(x)$ | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
+| Conditional quantile | `npqreg` | Conditional quantile $q_\tau(x)=\inf\{y:F(y \mid x)\ge \tau\}$ | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
 | Conditional mode / classification | `npconmode` | Modal outcome $\arg\max_y \Pr(Y=y \mid X=x)$ | [Classification and Modes](classification_modes.qmd) |
 | Partially linear regression | `npplreg`, `npplregbw` | Partially linear model $Y=X'\beta+\theta(Z)+\epsilon$ | [Semiparametric Models](semiparametric_models.qmd) |
 | Single-index model | `npindex`, `npindexbw` | Index regression $E[Y \mid X]=g(X'\beta)$ | [Semiparametric Models](semiparametric_models.qmd) |
