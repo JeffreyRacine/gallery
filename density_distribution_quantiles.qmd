@@ -184,6 +184,30 @@ plot(qfit)
 plot(qmed, tau = c(0.25, 0.50, 0.75))
 ```
 
+If you want derivative information, request it in the fit:
+
+```r
+qgrad <- npqreg(gdp ~ ordered(year),
+                data = Italy,
+                tau = 0.50,
+                gradients = TRUE)
+
+plot(qgrad, gradients = TRUE)
+```
+
+The same formula interface can also use the automatic local-polynomial
+degree-and-bandwidth search when the conditioning data include at least one
+continuous variable:
+
+```r
+Italy$year_numeric <- as.numeric(as.character(Italy$year))
+
+qfit_lp <- npqreg(gdp ~ year_numeric,
+                  data = Italy,
+                  tau = c(0.25, 0.50, 0.75),
+                  nomad = TRUE)
+```
+
 This is a good example of when it pays to separate bandwidth selection from later estimation rather than recomputing the same object repeatedly.
 
 ## When should I use these instead of regression?

@@ -480,23 +480,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_np_nomad)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For non-local-constant routes, <code>npconmode</code> works with the full set of fitted probabilities over the discrete response support before choosing the modal outcome. The reported modal class is therefore based on probabilities that are non-negative and sum to one across the observed support.</p>
+<p>The returned object also retains the conditional-density bandwidth object and mirrors the selected regression type, degree, NOMAD shortcut metadata, and search-engine information used to build the classifier. If you want to inspect the fitted class-probability matrix directly, set <code>probabilities = TRUE</code>.</p>
+<p>You can also ask how one fitted class probability changes with the covariates. The target is a probability such as <code>Pr(low = 0 | x)</code> or <code>Pr(low = 1 | x)</code>, not the derivative of the discrete modal class label. If <code>level</code> is omitted, the default is the base/reference response level <code>levels(y)[1]</code>; pass <code>level</code> explicitly when another class is the substantive event.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model_effect <span class="ot">&lt;-</span> <span class="fu">npconmode</span>(low <span class="sc">~</span> smoke <span class="sc">+</span> race <span class="sc">+</span> ht <span class="sc">+</span> ui <span class="sc">+</span> ftv <span class="sc">+</span> age <span class="sc">+</span> lwt,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> birthwt,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">regtype =</span> <span class="st">"ll"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">probabilities =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">gradients =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">level =</span> <span class="st">"1"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">predict</span>(model_effect, <span class="at">type =</span> <span class="st">"prob"</span>))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">gradients</span>(model_effect))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_effect, <span class="at">level =</span> <span class="st">"1"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_effect, <span class="at">gradients =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="comparing-with-a-parametric-classifier" class="level2">
 <h2 class="anchored" data-anchor-id="comparing-with-a-parametric-classifier">Comparing with a parametric classifier</h2>
 <p>One natural comparison is a confusion matrix against a parametric logit model.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Compare the parametric confusion matrix with the np conditional-mode result</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>pred_logit <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">ifelse</span>(<span class="fu">fitted</span>(model_logit) <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"1"</span>, <span class="st">"0"</span>),</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">levels</span>(birthwt<span class="sc">$</span>low))</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>cm_logit <span class="ot">&lt;-</span> <span class="fu">table</span>(birthwt<span class="sc">$</span>low, pred_logit)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>cm_logit</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>model_np<span class="sc">$</span>confusion.matrix</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>model_np_nomad<span class="sc">$</span>confusion.matrix</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(pred_logit <span class="sc">==</span> birthwt<span class="sc">$</span>low)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>model_np<span class="sc">$</span>CCR.overall</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>model_np_nomad<span class="sc">$</span>CCR.overall</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Compare the parametric confusion matrix with the np conditional-mode result</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pred_logit <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">ifelse</span>(<span class="fu">fitted</span>(model_logit) <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"1"</span>, <span class="st">"0"</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">levels</span>(birthwt<span class="sc">$</span>low))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>cm_logit <span class="ot">&lt;-</span> <span class="fu">table</span>(birthwt<span class="sc">$</span>low, pred_logit)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>cm_logit</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>model_np<span class="sc">$</span>confusion.matrix</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>model_np_nomad<span class="sc">$</span>confusion.matrix</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(pred_logit <span class="sc">==</span> birthwt<span class="sc">$</span>low)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>model_np<span class="sc">$</span>CCR.overall</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>model_np_nomad<span class="sc">$</span>CCR.overall</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The exact comparison will of course depend on the data and the tuning, but this is the right general workflow when you want to compare a flexible nonparametric classifier to a familiar parametric benchmark.</p>
 </section>
 <section id="why-this-route-is-useful" class="level2">
