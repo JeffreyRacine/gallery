@@ -145,27 +145,43 @@ Use `npqreg` when your interest lies in conditional quantiles rather than means.
 One natural workflow is:
 
 1. compute a conditional-distribution bandwidth object,
-2. reuse it for multiple quantiles.
+2. extract one or more conditional quantiles from that object.
+
+The formula interface below is the streamlined version of that workflow:
+when `bws` is not supplied, `npqreg()` automatically calls `npcdistbw()` to
+select the conditional-distribution bandwidth object first. Bandwidth-selection
+options supplied to `npqreg()` are passed through to that internal `npcdistbw()`
+call, so you can still control the underlying conditional-distribution fit.
 
 ```r
-## Reuse one conditional-distribution bandwidth object across quantiles
+## Extract several quantiles from one selected conditional-distribution fit
 library(np)
 data(Italy, package = "np")
 
-bw <- npcdistbw(gdp ~ year, data = Italy)
-q25 <- npqreg(bws = bw, tau = 0.25)
-q50 <- npqreg(bws = bw, tau = 0.50)
-q75 <- npqreg(bws = bw, tau = 0.75)
+qfit <- npqreg(gdp ~ ordered(year),
+               data = Italy,
+               tau = c(0.25, 0.50, 0.75))
 ```
 
 Then compare the fitted quantiles:
 
 ```r
-## Overlay the fitted conditional quantiles on the observed series
-plot(Italy$year, Italy$gdp, main = "", xlab = "Year", ylab = "GDP Quantiles")
-lines(Italy$year, q25$quantile, col = "red", lty = 1, lwd = 2)
-lines(Italy$year, q50$quantile, col = "blue", lty = 2, lwd = 2)
-lines(Italy$year, q75$quantile, col = "red", lty = 3, lwd = 2)
+## Overlay the fitted conditional quantiles
+plot(qfit)
+```
+
+If you first computed only one quantile, reuse the selected bandwidths for
+additional quantiles without recomputing cross-validation. Call `npqreg()` when
+you need the fitted values as an object, or pass `tau` directly to `plot()` when
+graphical inspection is all you need:
+
+```r
+qmed <- npqreg(gdp ~ ordered(year), data = Italy, tau = 0.50)
+qfit <- npqreg(bws = qmed$bws, tau = c(0.25, 0.50, 0.75))
+plot(qfit)
+
+## Or, if plotting is the only goal:
+plot(qmed, tau = c(0.25, 0.50, 0.75))
 ```
 
 This is a good example of when it pays to separate bandwidth selection from later estimation rather than recomputing the same object repeatedly.
