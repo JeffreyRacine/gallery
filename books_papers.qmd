@@ -23,6 +23,7 @@ For theory, methodology, and reproducible examples, the following books and pape
 | The parallel/MPI package paper | Ho, Huynh, and Jacho-Chavez (2011) [@ho_2011] |
 | The spline-package paper | Nie and Racine (2012) [@nie_2012] |
 | A shorter website-first route before reading papers | [Kernel Primer](kernel_primer.qmd), [Splines](crs.qmd), and [MPI and Large Data](mpi_large_data.qmd) |
+| A map from functions to methods, examples, and theory references | [Method Crosswalk](method_book_code_crosswalk.qmd) |
 
 ## Books
 

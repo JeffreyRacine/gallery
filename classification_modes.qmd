@@ -19,6 +19,12 @@ For binary, multinomial, or ordered outcomes, one practical route is to estimate
 
 This is especially useful when the covariates include a mixture of continuous and categorical variables.
 
+In statistical terms, the fitted class is the outcome value with the largest
+estimated conditional probability at the conditioning point. For a discrete
+response support, this is the conditional mode. The bandwidths and any
+local-polynomial degree search are inherited from the conditional-density
+bandwidth route used by `npcdensbw`.
+
 ## A simple binary-outcome example
 
 The older `birthwt` example remains a good illustration because it contains several categorical covariates that must be classed correctly.
@@ -45,17 +51,41 @@ model_np <- npconmode(low ~ smoke + race + ht + ui + ftv + age + lwt,
 summary(model_np)
 ```
 
+The default route uses the usual local-constant conditional-density fit. You
+can also allow the bandwidth search to choose a local-polynomial degree when
+there is at least one continuous conditioning variable:
+
+```r
+model_np_nomad <- npconmode(low ~ smoke + race + ht + ui + ftv + age + lwt,
+  data = birthwt,
+  nomad = TRUE)
+
+summary(model_np_nomad)
+```
+
+For non-local-constant routes, `npconmode` works with the full set of fitted
+probabilities over the discrete response support before choosing the modal
+outcome. The reported modal class is therefore based on probabilities that are
+non-negative and sum to one across the observed support.
+
 ## Comparing with a parametric classifier
 
 One natural comparison is a confusion matrix against a parametric logit model.
 
 ```r
 ## Compare the parametric confusion matrix with the np conditional-mode result
-cm_logit <- table(birthwt$low,
-  ifelse(fitted(model_logit) > 0.5, 1, 0))
+pred_logit <- factor(ifelse(fitted(model_logit) > 0.5, "1", "0"),
+  levels = levels(birthwt$low))
+
+cm_logit <- table(birthwt$low, pred_logit)
 
 cm_logit
 model_np$confusion.matrix
+model_np_nomad$confusion.matrix
+
+mean(pred_logit == birthwt$low)
+model_np$CCR.overall
+model_np_nomad$CCR.overall
 ```
 
 The exact comparison will of course depend on the data and the tuning, but this is the right general workflow when you want to compare a flexible nonparametric classifier to a familiar parametric benchmark.
@@ -77,11 +107,18 @@ The exact comparison will of course depend on the data and the tuning, but this 
 
 Conceptually, the model is building a nonparametric representation of the conditional distribution and then using the most likely outcome category at each conditioning point. That is why the function is useful for classification and modal regression problems.
 
+The underlying conditional-density machinery is the same mixed-data kernel
+framework used elsewhere in `np`. The package help pages carry the argument
+details; this Gallery page is meant to show the classification workflow and
+where the fitted summaries come from.
+
 ## Related material
 
 - [Kernel Primer](kernel_primer.qmd)
+- [Density, Distribution, and Quantiles](density_distribution_quantiles.qmd)
 - [Semiparametric Models](semiparametric_models.qmd)
 - [Code Catalog](code_catalog.qmd)
+- [Books and Papers](books_papers.qmd)
 
 For older serial/MPI comparison scripts involving conditional mode estimation, see:
 

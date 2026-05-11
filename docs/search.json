@@ -15,7 +15,7 @@
     "href": "classification_modes.html#the-basic-idea",
     "title": "Classification and Modes",
     "section": "The basic idea",
-    "text": "The basic idea\nFor binary, multinomial, or ordered outcomes, one practical route is to estimate a nonparametric conditional density and then classify using the conditional mode. In np, the function most directly associated with this workflow is npconmode.\nThis is especially useful when the covariates include a mixture of continuous and categorical variables.",
+    "text": "The basic idea\nFor binary, multinomial, or ordered outcomes, one practical route is to estimate a nonparametric conditional density and then classify using the conditional mode. In np, the function most directly associated with this workflow is npconmode.\nThis is especially useful when the covariates include a mixture of continuous and categorical variables.\nIn statistical terms, the fitted class is the outcome value with the largest estimated conditional probability at the conditioning point. For a discrete response support, this is the conditional mode. The bandwidths and any local-polynomial degree search are inherited from the conditional-density bandwidth route used by npcdensbw.",
     "crumbs": [
       "Methods",
       "Classification and Modes"
@@ -26,7 +26,7 @@
     "href": "classification_modes.html#a-simple-binary-outcome-example",
     "title": "Classification and Modes",
     "section": "A simple binary-outcome example",
-    "text": "A simple binary-outcome example\nThe older birthwt example remains a good illustration because it contains several categorical covariates that must be classed correctly.\n## Class the categorical variables correctly, then fit parametric and np models\nlibrary(np)\ndata(birthwt, package = \"MASS\")\n\nbirthwt$low &lt;- factor(birthwt$low)\nbirthwt$smoke &lt;- factor(birthwt$smoke)\nbirthwt$race &lt;- factor(birthwt$race)\nbirthwt$ht &lt;- factor(birthwt$ht)\nbirthwt$ui &lt;- factor(birthwt$ui)\nbirthwt$ftv &lt;- factor(birthwt$ftv)\n\nmodel_logit &lt;- glm(low ~ smoke + race + ht + ui + ftv + age + lwt,\n  family = binomial(link = logit),\n  data = birthwt)\n\nmodel_np &lt;- npconmode(low ~ smoke + race + ht + ui + ftv + age + lwt,\n  data = birthwt)\n\nsummary(model_np)",
+    "text": "A simple binary-outcome example\nThe older birthwt example remains a good illustration because it contains several categorical covariates that must be classed correctly.\n## Class the categorical variables correctly, then fit parametric and np models\nlibrary(np)\ndata(birthwt, package = \"MASS\")\n\nbirthwt$low &lt;- factor(birthwt$low)\nbirthwt$smoke &lt;- factor(birthwt$smoke)\nbirthwt$race &lt;- factor(birthwt$race)\nbirthwt$ht &lt;- factor(birthwt$ht)\nbirthwt$ui &lt;- factor(birthwt$ui)\nbirthwt$ftv &lt;- factor(birthwt$ftv)\n\nmodel_logit &lt;- glm(low ~ smoke + race + ht + ui + ftv + age + lwt,\n  family = binomial(link = logit),\n  data = birthwt)\n\nmodel_np &lt;- npconmode(low ~ smoke + race + ht + ui + ftv + age + lwt,\n  data = birthwt)\n\nsummary(model_np)\nThe default route uses the usual local-constant conditional-density fit. You can also allow the bandwidth search to choose a local-polynomial degree when there is at least one continuous conditioning variable:\nmodel_np_nomad &lt;- npconmode(low ~ smoke + race + ht + ui + ftv + age + lwt,\n  data = birthwt,\n  nomad = TRUE)\n\nsummary(model_np_nomad)\nFor non-local-constant routes, npconmode works with the full set of fitted probabilities over the discrete response support before choosing the modal outcome. The reported modal class is therefore based on probabilities that are non-negative and sum to one across the observed support.",
     "crumbs": [
       "Methods",
       "Classification and Modes"
@@ -37,7 +37,7 @@
     "href": "classification_modes.html#comparing-with-a-parametric-classifier",
     "title": "Classification and Modes",
     "section": "Comparing with a parametric classifier",
-    "text": "Comparing with a parametric classifier\nOne natural comparison is a confusion matrix against a parametric logit model.\n## Compare the parametric confusion matrix with the np conditional-mode result\ncm_logit &lt;- table(birthwt$low,\n  ifelse(fitted(model_logit) &gt; 0.5, 1, 0))\n\ncm_logit\nmodel_np$confusion.matrix\nThe exact comparison will of course depend on the data and the tuning, but this is the right general workflow when you want to compare a flexible nonparametric classifier to a familiar parametric benchmark.",
+    "text": "Comparing with a parametric classifier\nOne natural comparison is a confusion matrix against a parametric logit model.\n## Compare the parametric confusion matrix with the np conditional-mode result\npred_logit &lt;- factor(ifelse(fitted(model_logit) &gt; 0.5, \"1\", \"0\"),\n  levels = levels(birthwt$low))\n\ncm_logit &lt;- table(birthwt$low, pred_logit)\n\ncm_logit\nmodel_np$confusion.matrix\nmodel_np_nomad$confusion.matrix\n\nmean(pred_logit == birthwt$low)\nmodel_np$CCR.overall\nmodel_np_nomad$CCR.overall\nThe exact comparison will of course depend on the data and the tuning, but this is the right general workflow when you want to compare a flexible nonparametric classifier to a familiar parametric benchmark.",
     "crumbs": [
       "Methods",
       "Classification and Modes"
@@ -70,7 +70,7 @@
     "href": "classification_modes.html#what-npconmode-is-really-doing",
     "title": "Classification and Modes",
     "section": "What npconmode is really doing",
-    "text": "What npconmode is really doing\nConceptually, the model is building a nonparametric representation of the conditional distribution and then using the most likely outcome category at each conditioning point. That is why the function is useful for classification and modal regression problems.",
+    "text": "What npconmode is really doing\nConceptually, the model is building a nonparametric representation of the conditional distribution and then using the most likely outcome category at each conditioning point. That is why the function is useful for classification and modal regression problems.\nThe underlying conditional-density machinery is the same mixed-data kernel framework used elsewhere in np. The package help pages carry the argument details; this Gallery page is meant to show the classification workflow and where the fitted summaries come from.",
     "crumbs": [
       "Methods",
       "Classification and Modes"
@@ -81,7 +81,7 @@
     "href": "classification_modes.html#related-material",
     "title": "Classification and Modes",
     "section": "Related material",
-    "text": "Related material\n\nKernel Primer\nSemiparametric Models\nCode Catalog\n\nFor older serial/MPI comparison scripts involving conditional mode estimation, see:\n\nnpconmode_serial.R\nnpconmode_npRmpi.R",
+    "text": "Related material\n\nKernel Primer\nDensity, Distribution, and Quantiles\nSemiparametric Models\nCode Catalog\nBooks and Papers\n\nFor older serial/MPI comparison scripts involving conditional mode estimation, see:\n\nnpconmode_serial.R\nnpconmode_npRmpi.R",
     "crumbs": [
       "Methods",
       "Classification and Modes"
@@ -411,7 +411,7 @@
     "href": "books_papers.html#where-should-i-begin",
     "title": "Books, Papers, and Citation",
     "section": "Where should I begin?",
-    "text": "Where should I begin?\n\n\n\nIf you want…\nStart here\n\n\n\n\nThe main nonparametric econometrics theory reference\nLi and Racine, Nonparametric Econometrics: Theory and Practice (Li and Racine 2007)\n\n\nA reproducible R-oriented route through econometrics\nRacine, Reproducible Econometrics Using R (Racine 2019)\n\n\nA package-focused introduction to np\nHayfield and Racine (2008) (Hayfield and Racine 2008)\n\n\nThe parallel/MPI package paper\nHo, Huynh, and Jacho-Chavez (2011) (Ho et al. 2011)\n\n\nThe spline-package paper\nNie and Racine (2012) (Nie and Racine 2012)\n\n\nA shorter website-first route before reading papers\nKernel Primer, Splines, and MPI and Large Data",
+    "text": "Where should I begin?\n\n\n\nIf you want…\nStart here\n\n\n\n\nThe main nonparametric econometrics theory reference\nLi and Racine, Nonparametric Econometrics: Theory and Practice (Li and Racine 2007)\n\n\nA reproducible R-oriented route through econometrics\nRacine, Reproducible Econometrics Using R (Racine 2019)\n\n\nA package-focused introduction to np\nHayfield and Racine (2008) (Hayfield and Racine 2008)\n\n\nThe parallel/MPI package paper\nHo, Huynh, and Jacho-Chavez (2011) (Ho et al. 2011)\n\n\nThe spline-package paper\nNie and Racine (2012) (Nie and Racine 2012)\n\n\nA shorter website-first route before reading papers\nKernel Primer, Splines, and MPI and Large Data\n\n\nA map from functions to methods, examples, and theory references\nMethod Crosswalk",
     "crumbs": [
       "Support",
       "Books, Papers, and Citation"
@@ -2853,7 +2853,7 @@
     "href": "function_index.html",
     "title": "Reference and Function Lookup",
     "section": "",
-    "text": "This page is not meant to replace the package help system. It is here to help you find the right family of functions quickly, after which the package help pages and examples should do the rest.",
+    "text": "This page is not meant to replace the package help system. It is here to help you find the right family of functions quickly, after which the package help pages and examples should do the rest.\nFor a method-oriented map from functions to statistical targets, Gallery examples, implementation notes, and theory references, see the Method Crosswalk.",
     "crumbs": [
       "Support",
       "Reference"
@@ -2934,6 +2934,127 @@
     "crumbs": [
       "Support",
       "Reference"
+    ]
+  },
+  {
+    "objectID": "method_book_code_crosswalk.html",
+    "href": "method_book_code_crosswalk.html",
+    "title": "Method Crosswalk",
+    "section": "",
+    "text": "This page maps the main np and npRmpi function families to the statistical object being estimated, the Gallery examples that are most useful to start with, and the book chapters where the method is developed or discussed.\nIt is not a replacement for the package help pages. Use ?npreg, ?npcdens, ?npconmode, and related help pages for argument-level details. This page is meant to answer a different question: “What method am I using, where is it explained, and how does it connect to the package implementation?”\nThe Princeton book (Li and Racine 2007) is the foundational theory reference for many of the core mixed-data kernel estimators. The Cambridge book (Racine 2019a) is later and more package/workflow oriented, and it covers additional examples, entropy-based material, semiparametric workflows, and computational considerations. This crosswalk therefore points to the most useful source for each method rather than treating one book as the only route.\nImplementation details added after the printed treatments, such as recent local-polynomial degree search, conditional-quantile gradients, or MPI-aware plot/bootstrap machinery, are labeled as package implementation extensions.",
+    "crumbs": [
+      "Support",
+      "Method Crosswalk"
+    ]
+  },
+  {
+    "objectID": "method_book_code_crosswalk.html#how-to-use-this-page",
+    "href": "method_book_code_crosswalk.html#how-to-use-this-page",
+    "title": "Method Crosswalk",
+    "section": "How To Use This Page",
+    "text": "How To Use This Page\n\n\n\nIf you want…\nUse this route\n\n\n\n\nRunnable examples\nStart with the Gallery page linked in the method row.\n\n\nArgument details\nOpen the package help page in R.\n\n\nTheory and derivations\nUse the chapter and section pointers listed here.\n\n\nMPI behavior\nRead the method row, then see MPI and Large Data.\n\n\nFunction lookup\nUse Reference and Function Lookup.",
+    "crumbs": [
+      "Support",
+      "Method Crosswalk"
+    ]
+  },
+  {
+    "objectID": "method_book_code_crosswalk.html#core-methods",
+    "href": "method_book_code_crosswalk.html#core-methods",
+    "title": "Method Crosswalk",
+    "section": "Core Methods",
+    "text": "Core Methods\n\n\n\n\nTask\nMain functions\nStatistical target\nBest first Gallery page\n\n\n\n\nRegression\nnpreg, npregbw\nConditional mean or regression function \\(E[Y \\mid X=x]\\)\nKernel Primer, Worked Examples\n\n\nUnconditional density\nnpudens, npudensbw\nDensity \\(f(x)\\)\nDensity, Distribution, Quantiles\n\n\nUnconditional distribution\nnpudist, npudistbw\nDistribution \\(F(x)\\)\nDensity, Distribution, Quantiles\n\n\nConditional density\nnpcdens, npcdensbw\nConditional density \\(f(y \\mid x)\\)\nDensity, Distribution, Quantiles\n\n\nConditional distribution\nnpcdist, npcdistbw\nConditional distribution \\(F(y \\mid x)\\)\nDensity, Distribution, Quantiles\n\n\nConditional quantile\nnpqreg\nConditional quantile \\(q_\\tau(x)\\)\nDensity, Distribution, Quantiles\n\n\nConditional mode / classification\nnpconmode\nModal outcome \\(\\arg\\max_y \\Pr(Y=y \\mid X=x)\\)\nClassification and Modes\n\n\nPartially linear regression\nnpplreg, npplregbw\nLinear coefficients plus nonparametric component\nSemiparametric Models\n\n\nSingle-index model\nnpindex, npindexbw\nIndex direction and index regression\nSemiparametric Models\n\n\nSmooth-coefficient model\nnpscoef, npscoefbw\nCoefficients varying with conditioning variables\nSemiparametric Models\n\n\n\n\n\nCore Method Source Pointers\n\n\n\n\n\n\n\nTask\nTheory and implementation orientation\n\n\n\n\nRegression\nPrinceton, Regression, Chapter 2, especially Sections 2.1, 2.2, 2.4, and 2.5; Princeton, Kernel Estimation with Mixed Data, Chapter 4, especially Sections 4.2 and 4.4; Cambridge, Conditional Mean Function Estimation, Chapter 6. Local-polynomial and automatic degree-search options can materially change the fitted estimator. The current ll route is implemented as local polynomial degree 1 where applicable.\n\n\nUnconditional density\nPrinceton, Density Estimation, Chapter 1, especially Sections 1.1, 1.3, 1.6, 1.8, and 1.9; Princeton, Kernel Estimation with Mixed Data, Chapter 4; Cambridge, Continuous Density and Cumulative Distribution Functions, Chapter 2; Cambridge, Mixed-Data Probability Density and Cumulative Distribution Functions, Chapter 3.\n\n\nUnconditional distribution\nPrinceton, Density Estimation, Chapter 1, especially Sections 1.4 and 1.5; Cambridge, Continuous Density and Cumulative Distribution Functions, Chapter 2, especially smooth kernel CDF material; Cambridge, Mixed-Data Probability Density and Cumulative Distribution Functions, Chapter 3.\n\n\nConditional density\nPrinceton, Conditional Density Estimation, Chapter 5, especially Sections 5.1-5.4; Princeton, Kernel Estimation with Mixed Data, Chapter 4; Cambridge, Conditional Probability Density and Cumulative Distribution Functions, Chapter 4.\n\n\nConditional distribution\nPrinceton, Conditional CDF and Quantile Estimation, Chapter 6, especially Sections 6.1, 6.2, and 6.5; Princeton, Conditional Density Estimation, Chapter 5; Cambridge, Conditional Probability Density and Cumulative Distribution Functions, Chapter 4.\n\n\nConditional quantile\nPrinceton, Conditional CDF and Quantile Estimation, Chapter 6, especially Sections 6.3-6.5; Cambridge, Conditional Probability Density and Cumulative Distribution Functions, Chapter 4, especially conditional CDF and quantile material; Nelsen (2006) for quasi-inverse language. Gradients and standard errors are recent implementation extensions.\n\n\nConditional mode / classification\nCambridge, Conditional Probability Density and Cumulative Distribution Functions, Chapter 4, especially Binary Choice and Multinomial Choice Models; Princeton, Conditional Density Estimation, Chapter 5; Princeton, Kernel Estimation with Mixed Data, Chapter 4. Non-local-constant routes use proper fitted probabilities before modal selection.\n\n\nPartially linear regression\nPrinceton, Semiparametric Partially Linear Models, Chapter 7, especially Sections 7.1, 7.2, and 7.4; Cambridge, Semiparametric Conditional Mean Function Estimation, Chapter 8, especially Robinson’s Partially Linear Model. Current local-polynomial/NOMAD behavior treats the nuisance regressions as child-specific local-polynomial fits, followed by the final partially linear solve.\n\n\nSingle-index model\nPrinceton, Semiparametric Single Index Models, Chapter 8, especially Sections 8.1, 8.2.1, 8.4, 8.5, and 8.10; Cambridge, Semiparametric Conditional Mean Function Estimation, Chapter 8, especially single-index material.\n\n\nSmooth-coefficient model\nPrinceton, Additive and Smooth (Varying) Coefficient Semiparametric Models, Chapter 9, especially Sections 9.3-9.3.4; Cambridge, Semiparametric Conditional Mean Function Estimation, Chapter 8, especially Varying Coefficient Models.",
+    "crumbs": [
+      "Support",
+      "Method Crosswalk"
+    ]
+  },
+  {
+    "objectID": "method_book_code_crosswalk.html#tests-and-diagnostics",
+    "href": "method_book_code_crosswalk.html#tests-and-diagnostics",
+    "title": "Method Crosswalk",
+    "section": "Tests And Diagnostics",
+    "text": "Tests And Diagnostics\n\n\n\nTask\nMain functions\nWhat the test asks\nBest first Gallery page\nTheory and implementation orientation\n\n\n\n\nMean model specification\nnpcmstest\nDoes a parametric conditional-mean model appear misspecified against a nonparametric alternative?\nSignificance and Specification\nPrinceton, Model Specification Tests, Chapter 12, especially Section 12.1 and Section 12.1.2; Cambridge, Conditional Mean Function Estimation, Chapter 6, for package-facing model assessment context.\n\n\nQuantile model specification\nnpqcmstest\nDoes a parametric conditional-quantile model appear misspecified?\nSignificance and Specification\nPrinceton, Model Specification Tests, Chapter 12; Princeton, Conditional CDF and Quantile Estimation, Chapter 6; Cambridge, Conditional Probability Density and Cumulative Distribution Functions, Chapter 4.\n\n\nSignificance testing\nnpsigtest\nWhich regressors are statistically relevant in a nonparametric regression?\nSignificance and Specification\nPrinceton, Model Specification Tests, Chapter 12, especially Sections 12.3 and 12.3.5; Princeton, Nonsmoothing Tests, Chapter 13, especially Section 13.3 where applicable; Cambridge, Conditional Mean Function Estimation, Chapter 6.\n\n\nDensity equality\nnpdeneqtest\nAre distributions or densities equal across groups?\nEntropy and Testing\nPrinceton, Model Specification Tests, Chapter 12, especially Section 12.2; Princeton, Nonsmoothing Tests, Chapter 13, especially Section 13.2; Cambridge, Continuous Density and Cumulative Distribution Functions, Chapter 2, and Mixed-Data Probability Density and Cumulative Distribution Functions, Chapter 3.\n\n\nUnivariate density features\nnpunitest\nDoes a univariate density have the specified feature?\nEntropy and Testing\nCambridge, Continuous Density and Cumulative Distribution Functions, Chapter 2, especially entropy and density-test material; Princeton testing chapters where applicable.\n\n\nSymmetry\nnpsymtest\nIs a distribution symmetric?\nEntropy and Testing\nCambridge, Continuous Density and Cumulative Distribution Functions, Chapter 2; Princeton, Nonsmoothing Tests, Chapter 13, and Model Specification Tests, Chapter 12, where density-feature tests are treated.\n\n\nDependence\nnpdeptest, npsdeptest\nAre variables dependent or serially dependent?\nEntropy and Testing\nCambridge, Continuous Density and Cumulative Distribution Functions, Chapter 2; Princeton, Nonsmoothing Tests, Chapter 13, especially Sections 13.4 and 13.5; Princeton, Model Specification Tests, Chapter 12, especially Sections 12.4.1 and 12.4.3.",
+    "crumbs": [
+      "Support",
+      "Method Crosswalk"
+    ]
+  },
+  {
+    "objectID": "method_book_code_crosswalk.html#advanced-and-workflow-apis",
+    "href": "method_book_code_crosswalk.html#advanced-and-workflow-apis",
+    "title": "Method Crosswalk",
+    "section": "Advanced And Workflow APIs",
+    "text": "Advanced And Workflow APIs\nThese functions are useful, but they are not the main starting point for most users.\n\nnpksum: lower-level mixed-kernel sums for custom workflows. Start with Build With npksum. The relevant source is the estimator family being reconstructed; Cambridge, Practicum, Chapter 14, and Computational Considerations, Chapter 12, provide package-facing examples and computational context.\nnpreghat, npcdenshat, npcdisthat, npudenshat, npudisthat, npsemihat: fast post-estimation and helper workflows. Start with Reference and Function Lookup. These are advanced APIs; their source usually follows the estimator family rather than a separate book derivation.\nplot, se, gradients, compute.bootstrap.errors: plot surfaces, intervals, standard errors, and derivative accessors. Start with Plotting and Intervals. Current plot/bootstrap and some gradient behavior are implementation extensions.\nnp.options, np.kernels, npseed: reproducibility, global options, and kernel choices. Start with Kernel Primer. Princeton, Density Estimation, Chapter 1, is the natural kernel/CDF background; package documentation is the source for exact option behavior.\nnpuniden.boundary, npuniden.reflect, npuniden.sc, uocquantile: support and boundary workflows. Start with Reference and Function Lookup. Cambridge, Continuous Density and Cumulative Distribution Functions, Chapter 2, provides bounded-domain and boundary-correction context.\nnpcopula: mixed-data copula and copula-density workflows. Start with Density, Distribution, Quantiles. Cambridge, Mixed-Data Probability Density and Cumulative Distribution Functions, Chapter 3, especially Smooth Kernel Copula Function Estimation with Mixed-Data, and Princeton, Topics in Applied Nonparametric Estimation, Chapter 20, Section 20.4, are the main source pointers.\nnpregiv, npregivderiv: instrumental-variable regression routes. Start with Reference and Function Lookup. Princeton, Instrumental Variables and Efficient Estimation of Semiparametric Models, Chapter 16, Princeton, Endogeneity in Nonparametric Regression Models, Chapter 17, and Cambridge, Conditional Mean Function Estimation with Endogenous Predictors, Chapter 7, are the main source pointers.\nnpRmpi.init, npRmpi.quit, npRmpi.session.info: MPI setup, cleanup, and runtime diagnostics. Start with MPI and Large Data. Cambridge, Computational Considerations, Chapter 12, especially parallelism, provides general context; package runtime documentation is the source for exact behavior.",
+    "crumbs": [
+      "Support",
+      "Method Crosswalk"
+    ]
+  },
+  {
+    "objectID": "method_book_code_crosswalk.html#reading-map",
+    "href": "method_book_code_crosswalk.html#reading-map",
+    "title": "Method Crosswalk",
+    "section": "Reading map",
+    "text": "Reading map\nFor formal references and package citation commands, see Books, Papers, and Citation. Exact chapter, section, and equation pointers will be added here only after they have been verified against the source PDFs or TeX files.\nSource status labels used as the page is filled out:\n\nPrinceton foundational: the Princeton book is the natural derivation or theory source.\nCambridge later/package-facing: the Cambridge book is the clearer or more current user-facing route.\nBoth: both books contain useful complementary treatment.\nNewer paper: a paper outside the books is the better source.\nImplementation extension: the package implements behavior beyond the printed treatments.\nTBD: source location still needs verification.",
+    "crumbs": [
+      "Support",
+      "Method Crosswalk"
+    ]
+  },
+  {
+    "objectID": "method_book_code_crosswalk.html#source-inventory-to-verify",
+    "href": "method_book_code_crosswalk.html#source-inventory-to-verify",
+    "title": "Method Crosswalk",
+    "section": "Source inventory to verify",
+    "text": "Source inventory to verify\nThese source locations are the first places to verify before adding exact chapter, section, page, or equation pointers.\n\n\n\n\n\n\n\n\nMethod area\nPrinceton source candidates\nCambridge source candidates\n\n\n\n\nDensity and distribution\ndensity_estimation.tex, mixed_smooth.tex, mixed_frequency.tex\ndensity.Rmd, mixed_density.Rmd, probability.Rmd\n\n\nConditional density, distribution, quantiles, classification\nconditional_density.tex, cdf_quantile.tex\nconditional_density.Rmd, practicum.Rmd\n\n\nRegression and significance/specification testing\nregression.tex, consistent_testing.tex\nregression.Rmd, practicum.Rmd\n\n\nSemiparametric models\npartially_linear_regression.tex, single_index_model.tex, semiparametric.tex\nregression_semi.Rmd\n\n\nEntropy, equality, symmetry, dependence tests\nconsistent_testing.tex, non_smooth_testing.tex where applicable\ndensity.Rmd, mixed_density.Rmd\n\n\nCopulas\ntopics.tex\nmixed_density.Rmd\n\n\nInstrumental methods\niv.tex, related semiparametric chapters\nregression_iv.Rmd",
+    "crumbs": [
+      "Support",
+      "Method Crosswalk"
+    ]
+  },
+  {
+    "objectID": "method_book_code_crosswalk.html#book-source-key",
+    "href": "method_book_code_crosswalk.html#book-source-key",
+    "title": "Method Crosswalk",
+    "section": "Book Source Key",
+    "text": "Book Source Key\nThis section records the chapter-level map used above. It is intentionally chapter-first: if you own or can access the books, these are the places to start.\n\nPrinceton\n\nChapter 1, Density Estimation: Sections 1.1, Univariate Density Estimation; 1.3, Univariate Bandwidth Selection: Cross-Validation Methods; 1.4, Univariate CDF Estimation; 1.5, Univariate CDF Bandwidth Selection; 1.6, Multivariate Density Estimation; 1.8, Multivariate Bandwidth Selection; 1.9, Asymptotic Normality of Density Estimators.\nChapter 2, Regression: Sections 2.1, Local Constant Kernel Estimation; 2.2, Local Constant Bandwidth Selection; 2.4, Local Linear Kernel Estimation; 2.5, Local Polynomial Regression.\nChapter 4, Kernel Estimation with Mixed Data: Sections 4.1, Smooth Estimation of Joint Distributions with Discrete Data; 4.2, Smooth Regression with Discrete Data; 4.4, Regression with Mixed Data: Relevant Regressors.\nChapter 5, Conditional Density Estimation: Sections 5.1, Conditional Density Estimation: Relevant Variables; 5.2, Conditional Density Bandwidth Selection; 5.3, Conditional Density Estimation: Irrelevant Variables; 5.4, The Multivariate Dependent Variables Case.\nChapter 6, Conditional CDF and Quantile Estimation: Sections 6.1-6.2, conditional CDF estimation; 6.3, Nonparametric Estimation of Conditional Quantile Functions; 6.5, mixed-data conditional CDF and quantile estimation.\nChapter 7, Semiparametric Partially Linear Models: Sections 7.1, Partially Linear Models; 7.2, Robinson’s Estimator; 7.4, Semiparametric Efficiency Bounds.\nChapter 8, Semiparametric Single Index Models: Sections 8.1, identification; 8.2.1, Ichimura’s Method; 8.4, bandwidth selection; 8.5, Klein and Spady’s Estimator; 8.10, multinomial discrete choice.\nChapter 9, Additive and Smooth (Varying) Coefficient Semiparametric Models: Sections 9.3-9.3.4, varying/smooth coefficient models and related tests.\nChapter 12, Model Specification Tests: Sections 12.1, parametric regression functional form; 12.2, equality of PDFs; 12.3, regression-function tests; 12.4, PDF-related tests.\nChapter 13, Nonsmoothing Tests: Sections 13.1, functional-form tests; 13.2, equality of densities; 13.3, significance testing; 13.4-13.5, conditional CDF and serial-dependence tests.\nChapter 16, Instrumental Variables and Efficient Estimation of Semiparametric Models: Sections 16.1-16.3, semiparametric IV models and conditional moment restrictions.\nChapter 17, Endogeneity in Nonparametric Regression Models: Sections 17.1-17.5, nonparametric IV/endogeneity models and estimators.\nChapter 20, Topics in Applied Nonparametric Estimation: Section 20.4, copula-based semiparametric estimation.\n\n\n\nCambridge\n\nChapter 2, Continuous Density and Cumulative Distribution Functions: smooth kernel density, CDF, and quantile estimation; multivariate extensions; entropy and information measures; bounded-domain examples.\nChapter 3, Mixed-Data Probability Density and Cumulative Distribution Functions: mixed-data density/CDF estimation; multivariate extension; smooth kernel copula estimation with mixed data.\nChapter 4, Conditional Probability Density and Cumulative Distribution Functions: smooth conditional density; smooth conditional CDF; conditional quantile estimation; binary choice and multinomial choice models.\nChapter 6, Conditional Mean Function Estimation: local constant and local polynomial regression; multivariate local-polynomial extension; mixed-data marginal effects; predictor relevance; shape-constrained regression.\nChapter 7, Conditional Mean Function Estimation with Endogenous Predictors: ill-posed inverse problems and identification; parametric and nonparametric instrumental regression.\nChapter 8, Semiparametric Conditional Mean Function Estimation: Robinson’s partially linear model; varying coefficient models; semiparametric single-index models.\nChapter 12, Computational Considerations: binning, transforms, parallelism, tree/multipole methods, and computationally efficient kernel estimation in R.\nChapter 14, Practicum: applied np examples, npksum(), nonparametric density/regression, consistent inference, semiparametric models, and nonparametric discrete choice.",
+    "crumbs": [
+      "Support",
+      "Method Crosswalk"
+    ]
+  },
+  {
+    "objectID": "method_book_code_crosswalk.html#reading-and-citation-links",
+    "href": "method_book_code_crosswalk.html#reading-and-citation-links",
+    "title": "Method Crosswalk",
+    "section": "Reading And Citation Links",
+    "text": "Reading And Citation Links\nFor formal citation commands, package references, and broader reading, see Books, Papers, and Citation.\nPublic companion links:\n\nResearch site book hub\nResearch site downloads/resources\nPrinceton book page\nPrinceton table of contents\nPrinceton errata\nPrinceton Chapter 1 sample\nCambridge book page\nOxford book page\nNonparametric Econometrics: A Primer\n\nThe Research site surfaces public PDFs, errata, and code archives. Local manuscript sources, teaching files, solution material, and administrative files are not public resources unless they are explicitly published on the Research site or by a publisher.",
+    "crumbs": [
+      "Support",
+      "Method Crosswalk"
+    ]
+  },
+  {
+    "objectID": "method_book_code_crosswalk.html#bibtex",
+    "href": "method_book_code_crosswalk.html#bibtex",
+    "title": "Method Crosswalk",
+    "section": "BibTeX",
+    "text": "BibTeX\n@book{li_racine_2007,\n  author    = {Li, Q. and Racine, J.S.},\n  title     = {Nonparametric Econometrics: Theory and Practice},\n  publisher = {Princeton University Press},\n  year      = {2007},\n  isbn      = {9780691121611},\n  url       = {https://press.princeton.edu/books/hardcover/9780691121611/nonparametric-econometrics}\n}\n\n@book{racine_cambridge_2019,\n  author    = {Racine, Jeffrey S.},\n  title     = {An Introduction to the Advanced Theory and Practice of Nonparametric Econometrics: A Replicable Approach Using {R}},\n  publisher = {Cambridge University Press},\n  address   = {Cambridge},\n  year      = {2019},\n  doi       = {10.1017/9781108649841},\n  url       = {https://www.cambridge.org/br/academic/subjects/economics/econometrics-statistics-and-mathematical-economics/introduction-advanced-theory-and-practice-nonparametric-econometrics-replicable-approach-using-r?format=HB}\n}\n\n@book{racine_oxford_2019,\n  author    = {Racine, Jeffrey S.},\n  title     = {Reproducible Econometrics Using {R}},\n  publisher = {Oxford University Press},\n  address   = {Oxford},\n  year      = {2019},\n  isbn      = {9780190900663},\n  doi       = {10.1093/oso/9780190900663.001.0001},\n  url       = {https://global.oup.com/academic/product/reproducible-econometrics-using-r-9780190900663}\n}\n\n@article{hayfield_racine_2008_np,\n  author  = {Hayfield, Tristen and Racine, Jeffrey S.},\n  title   = {Nonparametric Econometrics: The {np} Package},\n  journal = {Journal of Statistical Software},\n  year    = {2008},\n  volume  = {27},\n  number  = {5},\n  pages   = {1--32},\n  doi     = {10.18637/jss.v027.i05},\n  url     = {https://www.jstatsoft.org/index.php/jss/article/view/v027i05}\n}\n\n@article{ho_huynh_jacho_chavez_2011_nprmpi,\n  author  = {Ho, A.T. and Huynh, K.P. and Jacho-Chavez, D.T.},\n  title   = {{npRmpi}: A Package for Parallel Distributed Kernel Estimation in {R}},\n  journal = {Journal of Applied Econometrics},\n  year    = {2011},\n  volume  = {26},\n  pages   = {344--349}\n}\n\n@article{nie_racine_2012_crs,\n  author  = {Nie, Zhenghua and Racine, Jeffrey S.},\n  title   = {The {crs} Package: Nonparametric Regression Splines for Continuous and Categorical Predictors},\n  journal = {The {R} Journal},\n  year    = {2012},\n  volume  = {4},\n  number  = {2},\n  pages   = {48--56},\n  doi     = {10.32614/RJ-2012-012}\n}",
+    "crumbs": [
+      "Support",
+      "Method Crosswalk"
+    ]
+  },
+  {
+    "objectID": "method_book_code_crosswalk.html#references",
+    "href": "method_book_code_crosswalk.html#references",
+    "title": "Method Crosswalk",
+    "section": "References",
+    "text": "References\n\n\nHayfield, T., and J. S. Racine. 2008. “Nonparametric Econometrics: The np Package.” Journal of Statistical Software 27 (5): 1–32. https://doi.org/10.18637/jss.v027.i05.\n\n\nHo, A. T., K. P. Huynh, and D. T. Jacho-Chavez. 2011. “npRmpi: A Package for Parallel Distributed Kernel Estimation in R.” Journal of Applied Econometrics 26: 344–49.\n\n\nLi, Q., and J. S. Racine. 2007. Nonparametric Econometrics: Theory and Practice. Princeton University Press. https://press.princeton.edu/books/hardcover/9780691121611/nonparametric-econometrics.\n\n\nNie, Z., and J. S. Racine. 2012. “The Crs Package: Nonparametric Regression Splines for Continuous and Categorical Predictors.” The R Journal 4 (2): 48–56. https://doi.org/10.32614/rj-2012-012.\n\n\nRacine, J. S. 2019a. An Introduction to the Advanced Theory and Practice of Nonparametric Econometrics: A Replicable Approach Using R. Cambridge University Press. https://doi.org/10.1017/9781108649841.\n\n\nRacine, J. S. 2019b. Reproducible Econometrics Using R. Oxford University Press. https://doi.org/10.1093/oso/9780190900663.001.0001.",
+    "crumbs": [
+      "Support",
+      "Method Crosswalk"
     ]
   }
 ]

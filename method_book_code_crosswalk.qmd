@@ -1,0 +1,273 @@
+---
+title: "Method Crosswalk"
+description: "A practical map from np and npRmpi functions to statistical targets, examples, implementation notes, and theory references."
+bibliography: references/gallery-books-papers.bib
+nocite: '@*'
+keywords:
+  - np
+  - npRmpi
+  - methods
+  - theory
+  - crosswalk
+  - documentation
+---
+
+```{=html}
+<style>
+#quarto-document-content table {
+  width: 100%;
+}
+#quarto-document-content th,
+#quarto-document-content td {
+  vertical-align: top;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+#quarto-document-content th code,
+#quarto-document-content td code,
+#quarto-document-content .math.inline {
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+#refs,
+#refs a,
+.csl-entry,
+.csl-entry a {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  #quarto-document-content table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+</style>
+```
+
+This page maps the main `np` and `npRmpi` function families to the statistical
+object being estimated, the Gallery examples that are most useful to start
+with, and the book chapters where the method is developed or discussed.
+
+It is not a replacement for the package help pages. Use `?npreg`,
+`?npcdens`, `?npconmode`, and related help pages for argument-level details.
+This page is meant to answer a different question: "What method am I using,
+where is it explained, and how does it connect to the package implementation?"
+
+The Princeton book [@book-li_2007] is the foundational theory reference for many of the core
+mixed-data kernel estimators. The Cambridge book [@book-racine_cambridge_2019] is later and more
+package/workflow oriented, and it covers additional examples, entropy-based
+material, semiparametric workflows, and computational considerations. This
+crosswalk therefore points to the most useful source for each method rather
+than treating one book as the only route.
+
+Implementation details added after the printed treatments, such as recent
+local-polynomial degree search, conditional-quantile gradients, or MPI-aware
+plot/bootstrap machinery, are labeled as package implementation extensions.
+
+## How To Use This Page
+
+| If you want... | Use this route |
+|---|---|
+| Runnable examples | Start with the Gallery page linked in the method row. |
+| Argument details | Open the package help page in R. |
+| Theory and derivations | Use the chapter and section pointers listed here. |
+| MPI behavior | Read the method row, then see [MPI and Large Data](mpi_large_data.qmd). |
+| Function lookup | Use [Reference and Function Lookup](function_index.qmd). |
+
+## Core Methods
+
+::: {.crosswalk-core-methods}
+| Task | Main functions | Statistical target | Best first Gallery page |
+|---|---|---|---|
+| Regression | `npreg`, `npregbw` | Conditional mean or regression function $E[Y \mid X=x]$ | [Kernel Primer](kernel_primer.qmd), [Worked Examples](regression.qmd) |
+| Unconditional density | `npudens`, `npudensbw` | Density $f(x)$ | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
+| Unconditional distribution | `npudist`, `npudistbw` | Distribution $F(x)$ | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
+| Conditional density | `npcdens`, `npcdensbw` | Conditional density $f(y \mid x)$ | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
+| Conditional distribution | `npcdist`, `npcdistbw` | Conditional distribution $F(y \mid x)$ | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
+| Conditional quantile | `npqreg` | Conditional quantile $q_\tau(x)$ | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
+| Conditional mode / classification | `npconmode` | Modal outcome $\arg\max_y \Pr(Y=y \mid X=x)$ | [Classification and Modes](classification_modes.qmd) |
+| Partially linear regression | `npplreg`, `npplregbw` | Linear coefficients plus nonparametric component | [Semiparametric Models](semiparametric_models.qmd) |
+| Single-index model | `npindex`, `npindexbw` | Index direction and index regression | [Semiparametric Models](semiparametric_models.qmd) |
+| Smooth-coefficient model | `npscoef`, `npscoefbw` | Coefficients varying with conditioning variables | [Semiparametric Models](semiparametric_models.qmd) |
+:::
+
+### Core Method Source Pointers
+
+| Task | Theory and implementation orientation |
+|---|---|
+| Regression | Princeton, *Regression*, Chapter 2, especially Sections 2.1, 2.2, 2.4, and 2.5; Princeton, *Kernel Estimation with Mixed Data*, Chapter 4, especially Sections 4.2 and 4.4; Cambridge, *Conditional Mean Function Estimation*, Chapter 6. Local-polynomial and automatic degree-search options can materially change the fitted estimator. The current `ll` route is implemented as local polynomial degree 1 where applicable. |
+| Unconditional density | Princeton, *Density Estimation*, Chapter 1, especially Sections 1.1, 1.3, 1.6, 1.8, and 1.9; Princeton, *Kernel Estimation with Mixed Data*, Chapter 4; Cambridge, *Continuous Density and Cumulative Distribution Functions*, Chapter 2; Cambridge, *Mixed-Data Probability Density and Cumulative Distribution Functions*, Chapter 3. |
+| Unconditional distribution | Princeton, *Density Estimation*, Chapter 1, especially Sections 1.4 and 1.5; Cambridge, *Continuous Density and Cumulative Distribution Functions*, Chapter 2, especially smooth kernel CDF material; Cambridge, *Mixed-Data Probability Density and Cumulative Distribution Functions*, Chapter 3. |
+| Conditional density | Princeton, *Conditional Density Estimation*, Chapter 5, especially Sections 5.1-5.4; Princeton, *Kernel Estimation with Mixed Data*, Chapter 4; Cambridge, *Conditional Probability Density and Cumulative Distribution Functions*, Chapter 4. |
+| Conditional distribution | Princeton, *Conditional CDF and Quantile Estimation*, Chapter 6, especially Sections 6.1, 6.2, and 6.5; Princeton, *Conditional Density Estimation*, Chapter 5; Cambridge, *Conditional Probability Density and Cumulative Distribution Functions*, Chapter 4. |
+| Conditional quantile | Princeton, *Conditional CDF and Quantile Estimation*, Chapter 6, especially Sections 6.3-6.5; Cambridge, *Conditional Probability Density and Cumulative Distribution Functions*, Chapter 4, especially conditional CDF and quantile material; Nelsen (2006) for quasi-inverse language. Gradients and standard errors are recent implementation extensions. |
+| Conditional mode / classification | Cambridge, *Conditional Probability Density and Cumulative Distribution Functions*, Chapter 4, especially *Binary Choice and Multinomial Choice Models*; Princeton, *Conditional Density Estimation*, Chapter 5; Princeton, *Kernel Estimation with Mixed Data*, Chapter 4. Non-local-constant routes use proper fitted probabilities before modal selection. |
+| Partially linear regression | Princeton, *Semiparametric Partially Linear Models*, Chapter 7, especially Sections 7.1, 7.2, and 7.4; Cambridge, *Semiparametric Conditional Mean Function Estimation*, Chapter 8, especially *Robinson's Partially Linear Model*. Current local-polynomial/NOMAD behavior treats the nuisance regressions as child-specific local-polynomial fits, followed by the final partially linear solve. |
+| Single-index model | Princeton, *Semiparametric Single Index Models*, Chapter 8, especially Sections 8.1, 8.2.1, 8.4, 8.5, and 8.10; Cambridge, *Semiparametric Conditional Mean Function Estimation*, Chapter 8, especially single-index material. |
+| Smooth-coefficient model | Princeton, *Additive and Smooth (Varying) Coefficient Semiparametric Models*, Chapter 9, especially Sections 9.3-9.3.4; Cambridge, *Semiparametric Conditional Mean Function Estimation*, Chapter 8, especially *Varying Coefficient Models*. |
+
+## Tests And Diagnostics
+
+| Task | Main functions | What the test asks | Best first Gallery page | Theory and implementation orientation |
+|---|---|---|---|---|
+| Mean model specification | `npcmstest` | Does a parametric conditional-mean model appear misspecified against a nonparametric alternative? | [Significance and Specification](significance_and_specification.qmd) | Princeton, *Model Specification Tests*, Chapter 12, especially Section 12.1 and Section 12.1.2; Cambridge, *Conditional Mean Function Estimation*, Chapter 6, for package-facing model assessment context. |
+| Quantile model specification | `npqcmstest` | Does a parametric conditional-quantile model appear misspecified? | [Significance and Specification](significance_and_specification.qmd) | Princeton, *Model Specification Tests*, Chapter 12; Princeton, *Conditional CDF and Quantile Estimation*, Chapter 6; Cambridge, *Conditional Probability Density and Cumulative Distribution Functions*, Chapter 4. |
+| Significance testing | `npsigtest` | Which regressors are statistically relevant in a nonparametric regression? | [Significance and Specification](significance_and_specification.qmd) | Princeton, *Model Specification Tests*, Chapter 12, especially Sections 12.3 and 12.3.5; Princeton, *Nonsmoothing Tests*, Chapter 13, especially Section 13.3 where applicable; Cambridge, *Conditional Mean Function Estimation*, Chapter 6. |
+| Density equality | `npdeneqtest` | Are distributions or densities equal across groups? | [Entropy and Testing](entropy_tests.qmd) | Princeton, *Model Specification Tests*, Chapter 12, especially Section 12.2; Princeton, *Nonsmoothing Tests*, Chapter 13, especially Section 13.2; Cambridge, *Continuous Density and Cumulative Distribution Functions*, Chapter 2, and *Mixed-Data Probability Density and Cumulative Distribution Functions*, Chapter 3. |
+| Univariate density features | `npunitest` | Does a univariate density have the specified feature? | [Entropy and Testing](entropy_tests.qmd) | Cambridge, *Continuous Density and Cumulative Distribution Functions*, Chapter 2, especially entropy and density-test material; Princeton testing chapters where applicable. |
+| Symmetry | `npsymtest` | Is a distribution symmetric? | [Entropy and Testing](entropy_tests.qmd) | Cambridge, *Continuous Density and Cumulative Distribution Functions*, Chapter 2; Princeton, *Nonsmoothing Tests*, Chapter 13, and *Model Specification Tests*, Chapter 12, where density-feature tests are treated. |
+| Dependence | `npdeptest`, `npsdeptest` | Are variables dependent or serially dependent? | [Entropy and Testing](entropy_tests.qmd) | Cambridge, *Continuous Density and Cumulative Distribution Functions*, Chapter 2; Princeton, *Nonsmoothing Tests*, Chapter 13, especially Sections 13.4 and 13.5; Princeton, *Model Specification Tests*, Chapter 12, especially Sections 12.4.1 and 12.4.3. |
+
+## Advanced And Workflow APIs
+
+These functions are useful, but they are not the main starting point for most
+users.
+
+- `npksum`: lower-level mixed-kernel sums for custom workflows. Start with
+  [Build With npksum](npksum_custom.qmd). The relevant source is the estimator
+  family being reconstructed; Cambridge, *Practicum*, Chapter 14, and
+  *Computational Considerations*, Chapter 12, provide package-facing examples
+  and computational context.
+- `npreghat`, `npcdenshat`, `npcdisthat`, `npudenshat`, `npudisthat`,
+  `npsemihat`: fast post-estimation and helper workflows. Start with
+  [Reference and Function Lookup](function_index.qmd). These are advanced
+  APIs; their source usually follows the estimator family rather than a
+  separate book derivation.
+- `plot`, `se`, `gradients`, `compute.bootstrap.errors`: plot surfaces,
+  intervals, standard errors, and derivative accessors. Start with
+  [Plotting and Intervals](plotting_and_intervals.qmd). Current
+  plot/bootstrap and some gradient behavior are implementation extensions.
+- `np.options`, `np.kernels`, `npseed`: reproducibility, global options, and
+  kernel choices. Start with [Kernel Primer](kernel_primer.qmd). Princeton,
+  *Density Estimation*, Chapter 1, is the natural kernel/CDF background;
+  package documentation is the source for exact option behavior.
+- `npuniden.boundary`, `npuniden.reflect`, `npuniden.sc`, `uocquantile`:
+  support and boundary workflows. Start with
+  [Reference and Function Lookup](function_index.qmd). Cambridge,
+  *Continuous Density and Cumulative Distribution Functions*, Chapter 2,
+  provides bounded-domain and boundary-correction context.
+- `npcopula`: mixed-data copula and copula-density workflows. Start with
+  [Density, Distribution, Quantiles](density_distribution_quantiles.qmd).
+  Cambridge, *Mixed-Data Probability Density and Cumulative Distribution
+  Functions*, Chapter 3, especially *Smooth Kernel Copula Function Estimation
+  with Mixed-Data*, and Princeton, *Topics in Applied Nonparametric
+  Estimation*, Chapter 20, Section 20.4, are the main source pointers.
+- `npregiv`, `npregivderiv`: instrumental-variable regression routes. Start
+  with [Reference and Function Lookup](function_index.qmd). Princeton,
+  *Instrumental Variables and Efficient Estimation of Semiparametric Models*,
+  Chapter 16, Princeton, *Endogeneity in Nonparametric Regression Models*,
+  Chapter 17, and Cambridge, *Conditional Mean Function Estimation with
+  Endogenous Predictors*, Chapter 7, are the main source pointers.
+- `npRmpi.init`, `npRmpi.quit`, `npRmpi.session.info`: MPI setup, cleanup, and
+  runtime diagnostics. Start with [MPI and Large Data](mpi_large_data.qmd).
+  Cambridge, *Computational Considerations*, Chapter 12, especially
+  parallelism, provides general context; package runtime documentation is the
+  source for exact behavior.
+
+## Book Source Key
+
+This section records the chapter-level map used above. It is intentionally
+chapter-first: if you own or can access the books, these are the places to
+start.
+
+### Princeton
+
+- Chapter 1, *Density Estimation*: Sections 1.1, *Univariate Density
+  Estimation*; 1.3, *Univariate Bandwidth Selection: Cross-Validation
+  Methods*; 1.4, *Univariate CDF Estimation*; 1.5, *Univariate CDF
+  Bandwidth Selection*; 1.6, *Multivariate Density Estimation*; 1.8,
+  *Multivariate Bandwidth Selection*; 1.9, *Asymptotic Normality of Density
+  Estimators*.
+- Chapter 2, *Regression*: Sections 2.1, *Local Constant Kernel Estimation*;
+  2.2, *Local Constant Bandwidth Selection*; 2.4, *Local Linear Kernel
+  Estimation*; 2.5, *Local Polynomial Regression*.
+- Chapter 4, *Kernel Estimation with Mixed Data*: Sections 4.1, *Smooth
+  Estimation of Joint Distributions with Discrete Data*; 4.2, *Smooth
+  Regression with Discrete Data*; 4.4, *Regression with Mixed Data: Relevant
+  Regressors*.
+- Chapter 5, *Conditional Density Estimation*: Sections 5.1, *Conditional
+  Density Estimation: Relevant Variables*; 5.2, *Conditional Density
+  Bandwidth Selection*; 5.3, *Conditional Density Estimation: Irrelevant
+  Variables*; 5.4, *The Multivariate Dependent Variables Case*.
+- Chapter 6, *Conditional CDF and Quantile Estimation*: Sections 6.1-6.2,
+  conditional CDF estimation; 6.3, *Nonparametric Estimation of Conditional
+  Quantile Functions*; 6.5, mixed-data conditional CDF and quantile
+  estimation.
+- Chapter 7, *Semiparametric Partially Linear Models*: Sections 7.1,
+  *Partially Linear Models*; 7.2, *Robinson's Estimator*; 7.4,
+  *Semiparametric Efficiency Bounds*.
+- Chapter 8, *Semiparametric Single Index Models*: Sections 8.1,
+  identification; 8.2.1, *Ichimura's Method*; 8.4, bandwidth selection; 8.5,
+  *Klein and Spady's Estimator*; 8.10, multinomial discrete choice.
+- Chapter 9, *Additive and Smooth (Varying) Coefficient Semiparametric
+  Models*: Sections 9.3-9.3.4, varying/smooth coefficient models and related
+  tests.
+- Chapter 12, *Model Specification Tests*: Sections 12.1, parametric
+  regression functional form; 12.2, equality of PDFs; 12.3,
+  regression-function tests; 12.4, PDF-related tests.
+- Chapter 13, *Nonsmoothing Tests*: Sections 13.1, functional-form tests;
+  13.2, equality of densities; 13.3, significance testing; 13.4-13.5,
+  conditional CDF and serial-dependence tests.
+- Chapter 16, *Instrumental Variables and Efficient Estimation of
+  Semiparametric Models*: Sections 16.1-16.3, semiparametric IV models and
+  conditional moment restrictions.
+- Chapter 17, *Endogeneity in Nonparametric Regression Models*: Sections
+  17.1-17.5, nonparametric IV/endogeneity models and estimators.
+- Chapter 20, *Topics in Applied Nonparametric Estimation*: Section 20.4,
+  copula-based semiparametric estimation.
+
+### Cambridge
+
+- Chapter 2, *Continuous Density and Cumulative Distribution Functions*:
+  smooth kernel density, CDF, and quantile estimation; multivariate
+  extensions; entropy and information measures; bounded-domain examples.
+- Chapter 3, *Mixed-Data Probability Density and Cumulative Distribution
+  Functions*: mixed-data density/CDF estimation; multivariate extension;
+  smooth kernel copula estimation with mixed data.
+- Chapter 4, *Conditional Probability Density and Cumulative Distribution
+  Functions*: smooth conditional density; smooth conditional CDF; conditional
+  quantile estimation; binary choice and multinomial choice models.
+- Chapter 6, *Conditional Mean Function Estimation*: local constant and local
+  polynomial regression; multivariate local-polynomial extension; mixed-data
+  marginal effects; predictor relevance; shape-constrained regression.
+- Chapter 7, *Conditional Mean Function Estimation with Endogenous
+  Predictors*: ill-posed inverse problems and identification; parametric and
+  nonparametric instrumental regression.
+- Chapter 8, *Semiparametric Conditional Mean Function Estimation*:
+  Robinson's partially linear model; varying coefficient models;
+  semiparametric single-index models.
+- Chapter 12, *Computational Considerations*: binning, transforms,
+  parallelism, tree/multipole methods, and computationally efficient kernel
+  estimation in R.
+- Chapter 14, *Practicum*: applied `np` examples, `npksum()`,
+  nonparametric density/regression, consistent inference, semiparametric
+  models, and nonparametric discrete choice.
+
+## Reading And Citation Links
+
+For formal citation commands, package references, and broader reading, see
+[Books, Papers, and Citation](books_papers.qmd).
+
+Public companion links:
+
+- [Research site book hub](https://jeffreyracine.github.io/research/books.html)
+- [Research site downloads/resources](https://jeffreyracine.github.io/research/resources.html)
+- [Princeton book page](https://press.princeton.edu/books/hardcover/9780691121611/nonparametric-econometrics)
+- [Princeton table of contents](https://jeffreyracine.github.io/research/www/pup_toc.pdf)
+- [Princeton errata](https://jeffreyracine.github.io/research/www/pup_errata.pdf)
+- [Princeton Chapter 1 sample](https://press.princeton.edu/chapters/s8355.pdf)
+- [Cambridge book page](https://www.cambridge.org/br/academic/subjects/economics/econometrics-statistics-and-mathematical-economics/introduction-advanced-theory-and-practice-nonparametric-econometrics-replicable-approach-using-r?format=HB)
+- [Oxford book page](https://global.oup.com/academic/product/reproducible-econometrics-using-r-9780190900663)
+- [Nonparametric Econometrics: A Primer](https://jeffreyracine.github.io/research/www/ECO0301.pdf)
+
+The Research site surfaces public PDFs, errata, and code archives. Local
+manuscript sources, teaching files, solution material, and administrative
+files are not public resources unless they are explicitly published on the
+Research site or by a publisher.
+
+## References
+
+::: {#refs}
+:::

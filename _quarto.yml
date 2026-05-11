@@ -82,6 +82,8 @@ website:
             text: "Runtime and Scaling"
           - href: function_index.qmd
             text: "Reference"
+          - href: method_book_code_crosswalk.qmd
+            text: "Method Crosswalk"
           - href: legacy_materials.qmd
             text: "Legacy Materials"
           - href: books_papers.qmd

@@ -366,6 +366,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./method_book_code_crosswalk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Method Crosswalk</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./legacy_materials.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Legacy Materials</span></a>
   </div>
@@ -443,6 +449,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="the-basic-idea">The basic idea</h2>
 <p>For binary, multinomial, or ordered outcomes, one practical route is to estimate a nonparametric conditional density and then classify using the conditional mode. In <code>np</code>, the function most directly associated with this workflow is <code>npconmode</code>.</p>
 <p>This is especially useful when the covariates include a mixture of continuous and categorical variables.</p>
+<p>In statistical terms, the fitted class is the outcome value with the largest estimated conditional probability at the conditioning point. For a discrete response support, this is the conditional mode. The bandwidths and any local-polynomial degree search are inherited from the conditional-density bandwidth route used by <code>npcdensbw</code>.</p>
 </section>
 <section id="a-simple-binary-outcome-example" class="level2">
 <h2 class="anchored" data-anchor-id="a-simple-binary-outcome-example">A simple binary-outcome example</h2>
@@ -466,16 +473,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> birthwt)</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_np)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The default route uses the usual local-constant conditional-density fit. You can also allow the bandwidth search to choose a local-polynomial degree when there is at least one continuous conditioning variable:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model_np_nomad <span class="ot">&lt;-</span> <span class="fu">npconmode</span>(low <span class="sc">~</span> smoke <span class="sc">+</span> race <span class="sc">+</span> ht <span class="sc">+</span> ui <span class="sc">+</span> ftv <span class="sc">+</span> age <span class="sc">+</span> lwt,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> birthwt,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">nomad =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_np_nomad)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For non-local-constant routes, <code>npconmode</code> works with the full set of fitted probabilities over the discrete response support before choosing the modal outcome. The reported modal class is therefore based on probabilities that are non-negative and sum to one across the observed support.</p>
 </section>
 <section id="comparing-with-a-parametric-classifier" class="level2">
 <h2 class="anchored" data-anchor-id="comparing-with-a-parametric-classifier">Comparing with a parametric classifier</h2>
 <p>One natural comparison is a confusion matrix against a parametric logit model.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Compare the parametric confusion matrix with the np conditional-mode result</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>cm_logit <span class="ot">&lt;-</span> <span class="fu">table</span>(birthwt<span class="sc">$</span>low,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(<span class="fu">fitted</span>(model_logit) <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>cm_logit</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>model_np<span class="sc">$</span>confusion.matrix</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Compare the parametric confusion matrix with the np conditional-mode result</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>pred_logit <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">ifelse</span>(<span class="fu">fitted</span>(model_logit) <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"1"</span>, <span class="st">"0"</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">levels</span>(birthwt<span class="sc">$</span>low))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>cm_logit <span class="ot">&lt;-</span> <span class="fu">table</span>(birthwt<span class="sc">$</span>low, pred_logit)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>cm_logit</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>model_np<span class="sc">$</span>confusion.matrix</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>model_np_nomad<span class="sc">$</span>confusion.matrix</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(pred_logit <span class="sc">==</span> birthwt<span class="sc">$</span>low)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>model_np<span class="sc">$</span>CCR.overall</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>model_np_nomad<span class="sc">$</span>CCR.overall</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The exact comparison will of course depend on the data and the tuning, but this is the right general workflow when you want to compare a flexible nonparametric classifier to a familiar parametric benchmark.</p>
 </section>
 <section id="why-this-route-is-useful" class="level2">
@@ -498,13 +519,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="what-npconmode-is-really-doing" class="level2">
 <h2 class="anchored" data-anchor-id="what-npconmode-is-really-doing">What <code>npconmode</code> is really doing</h2>
 <p>Conceptually, the model is building a nonparametric representation of the conditional distribution and then using the most likely outcome category at each conditioning point. That is why the function is useful for classification and modal regression problems.</p>
+<p>The underlying conditional-density machinery is the same mixed-data kernel framework used elsewhere in <code>np</code>. The package help pages carry the argument details; this Gallery page is meant to show the classification workflow and where the fitted summaries come from.</p>
 </section>
 <section id="related-material" class="level2">
 <h2 class="anchored" data-anchor-id="related-material">Related material</h2>
 <ul>
 <li><a href="./kernel_primer.html">Kernel Primer</a></li>
+<li><a href="./density_distribution_quantiles.html">Density, Distribution, and Quantiles</a></li>
 <li><a href="./semiparametric_models.html">Semiparametric Models</a></li>
 <li><a href="./code_catalog.html">Code Catalog</a></li>
+<li><a href="./books_papers.html">Books and Papers</a></li>
 </ul>
 <p>For older serial/MPI comparison scripts involving conditional mode estimation, see:</p>
 <ul>

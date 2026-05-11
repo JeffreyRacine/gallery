@@ -13,6 +13,10 @@ keywords:
 
 This page is not meant to replace the package help system. It is here to help you find the right family of functions quickly, after which the package help pages and examples should do the rest.
 
+For a method-oriented map from functions to statistical targets, Gallery
+examples, implementation notes, and theory references, see the
+[Method Crosswalk](method_book_code_crosswalk.qmd).
+
 ## The fastest route to authoritative help
 
 - In R, type `?npreg`, `?npudens`, `?np.options`, `?np.kernels`, `?npRmpi.init`, `?crs`, and so forth.
