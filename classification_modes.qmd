@@ -73,26 +73,6 @@ mirrors the selected regression type, degree, NOMAD shortcut metadata, and
 search-engine information used to build the classifier. If you want to inspect
 the fitted class-probability matrix directly, set `probabilities = TRUE`.
 
-You can also ask how one fitted class probability changes with the covariates.
-The target is a probability such as `Pr(low = 0 | x)` or `Pr(low = 1 | x)`, not
-the derivative of the discrete modal class label. If `level` is omitted, the
-default is the base/reference response level `levels(y)[1]`; pass `level`
-explicitly when another class is the substantive event.
-
-```r
-model_effect <- npconmode(low ~ smoke + race + ht + ui + ftv + age + lwt,
-  data = birthwt,
-  regtype = "ll",
-  probabilities = TRUE,
-  gradients = TRUE,
-  level = "1")
-
-head(predict(model_effect, type = "prob"))
-head(gradients(model_effect))
-plot(model_effect, level = "1")
-plot(model_effect, gradients = TRUE)
-```
-
 ## Comparing with a parametric classifier
 
 One natural comparison is a confusion matrix against a parametric logit model.
