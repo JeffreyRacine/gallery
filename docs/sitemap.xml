@@ -29,11 +29,51 @@
     <lastmod>2026-05-03T02:21:24.456Z</lastmod>
   </url>
   <url>
-    <loc>https://jeffreyracine.github.io/gallery/spline_primer.html</loc>
-    <lastmod>2026-05-08T21:00:16.270Z</lastmod>
+    <loc>https://jeffreyracine.github.io/gallery/about.html</loc>
+    <lastmod>2026-03-16T15:25:07.198Z</lastmod>
   </url>
   <url>
-    <loc>https://jeffreyracine.github.io/gallery/spline_search_and_tuning.html</loc>
+    <loc>https://jeffreyracine.github.io/gallery/index.html</loc>
+    <lastmod>2026-05-08T13:37:33.688Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/significance_and_specification.html</loc>
+    <lastmod>2026-05-03T02:21:58.056Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/density_distribution_quantiles.html</loc>
+    <lastmod>2026-05-03T02:06:10.319Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/np_npRmpi.html</loc>
+    <lastmod>2026-05-03T01:16:52.737Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/mpi_large_data.html</loc>
+    <lastmod>2026-05-03T02:21:24.455Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/semiparametric_models.html</loc>
+    <lastmod>2026-05-03T02:11:34.858Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/runtime_and_scaling.html</loc>
+    <lastmod>2026-05-03T20:46:19.238Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/interactive.html</loc>
+    <lastmod>2026-05-02T20:36:40.675Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/primer.html</loc>
+    <lastmod>2026-05-08T13:32:25.144Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/data_preparation.html</loc>
+    <lastmod>2026-05-03T02:21:24.455Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/npksum_custom.html</loc>
     <lastmod>2026-05-03T02:21:58.056Z</lastmod>
   </url>
   <url>
@@ -41,52 +81,16 @@
     <lastmod>2026-05-08T21:00:16.270Z</lastmod>
   </url>
   <url>
-    <loc>https://jeffreyracine.github.io/gallery/npksum_custom.html</loc>
+    <loc>https://jeffreyracine.github.io/gallery/spline_search_and_tuning.html</loc>
     <lastmod>2026-05-03T02:21:58.056Z</lastmod>
   </url>
   <url>
-    <loc>https://jeffreyracine.github.io/gallery/data_preparation.html</loc>
-    <lastmod>2026-05-03T02:21:24.455Z</lastmod>
+    <loc>https://jeffreyracine.github.io/gallery/spline_primer.html</loc>
+    <lastmod>2026-05-08T21:00:16.270Z</lastmod>
   </url>
   <url>
-    <loc>https://jeffreyracine.github.io/gallery/primer.html</loc>
-    <lastmod>2026-05-08T13:32:25.144Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/interactive.html</loc>
-    <lastmod>2026-05-02T20:36:40.675Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/runtime_and_scaling.html</loc>
-    <lastmod>2026-05-03T20:46:19.238Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/semiparametric_models.html</loc>
-    <lastmod>2026-05-03T02:11:34.858Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/mpi_large_data.html</loc>
-    <lastmod>2026-05-03T02:21:24.455Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/np_npRmpi.html</loc>
-    <lastmod>2026-05-03T01:16:52.737Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/density_distribution_quantiles.html</loc>
-    <lastmod>2026-05-03T02:06:10.319Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/significance_and_specification.html</loc>
-    <lastmod>2026-05-03T02:21:58.056Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/index.html</loc>
-    <lastmod>2026-05-08T13:37:33.688Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/about.html</loc>
-    <lastmod>2026-03-16T15:25:07.198Z</lastmod>
+    <loc>https://jeffreyracine.github.io/gallery/method_book_code_crosswalk.html</loc>
+    <lastmod>2026-05-11T01:54:36.886Z</lastmod>
   </url>
   <url>
     <loc>https://jeffreyracine.github.io/gallery/faq.html</loc>
@@ -111,9 +115,5 @@
   <url>
     <loc>https://jeffreyracine.github.io/gallery/function_index.html</loc>
     <lastmod>2026-05-11T00:10:05.326Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/method_book_code_crosswalk.html</loc>
-    <lastmod>2026-05-11T01:54:36.886Z</lastmod>
   </url>
 </urlset>

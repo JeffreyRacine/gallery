@@ -40,16 +40,16 @@ website:
             text: "Kernel Methods"
           - href: kernel_primer.qmd
             text: "Kernel Primer"
-          - href: entropy_tests.qmd
-            text: "Entropy and Testing"
-          - href: semiparametric_models.qmd
-            text: "Semiparametric Models"
           - href: density_distribution_quantiles.qmd
             text: "Density, Distribution, Quantiles"
           - href: classification_modes.qmd
             text: "Classification and Modes"
+          - href: semiparametric_models.qmd
+            text: "Semiparametric Models"
           - href: significance_and_specification.qmd
             text: "Significance and Specification"
+          - href: entropy_tests.qmd
+            text: "Entropy and Testing"
           - href: npksum_custom.qmd
             text: "Build With npksum"
           - href: mpi_large_data.qmd
@@ -84,10 +84,10 @@ website:
             text: "Reference"
           - href: method_book_code_crosswalk.qmd
             text: "Method Crosswalk"
-          - href: legacy_materials.qmd
-            text: "Legacy Materials"
           - href: books_papers.qmd
             text: "Books, Papers, and Citation"
+          - href: legacy_materials.qmd
+            text: "Legacy Materials"
           - href: about.qmd
             text: "About"
   page-footer:
