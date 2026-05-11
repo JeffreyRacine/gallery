@@ -30,6 +30,12 @@ keywords:
   overflow-wrap: normal;
   word-break: normal;
 }
+.crosswalk-core-methods th:nth-child(4),
+.crosswalk-core-methods td:nth-child(4),
+.crosswalk-test-methods th:nth-child(4),
+.crosswalk-test-methods td:nth-child(4) {
+  min-width: 12rem;
+}
 #refs,
 #refs a,
 .csl-entry,
@@ -88,9 +94,9 @@ plot/bootstrap machinery, are labeled as package implementation extensions.
 | Conditional distribution | `npcdist`, `npcdistbw` | Conditional distribution $F(y \mid x)$ | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
 | Conditional quantile | `npqreg` | Conditional quantile $q_\tau(x)$ | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
 | Conditional mode / classification | `npconmode` | Modal outcome $\arg\max_y \Pr(Y=y \mid X=x)$ | [Classification and Modes](classification_modes.qmd) |
-| Partially linear regression | `npplreg`, `npplregbw` | Linear coefficients plus nonparametric component | [Semiparametric Models](semiparametric_models.qmd) |
-| Single-index model | `npindex`, `npindexbw` | Index direction and index regression | [Semiparametric Models](semiparametric_models.qmd) |
-| Smooth-coefficient model | `npscoef`, `npscoefbw` | Coefficients varying with conditioning variables | [Semiparametric Models](semiparametric_models.qmd) |
+| Partially linear regression | `npplreg`, `npplregbw` | Partially linear model $Y=X'\beta+\theta(Z)+\epsilon$ | [Semiparametric Models](semiparametric_models.qmd) |
+| Single-index model | `npindex`, `npindexbw` | Index regression $E[Y \mid X]=g(X'\beta)$ | [Semiparametric Models](semiparametric_models.qmd) |
+| Smooth-coefficient model | `npscoef`, `npscoefbw` | Varying coefficients $Y=X'\beta(Z)+\epsilon$ | [Semiparametric Models](semiparametric_models.qmd) |
 :::
 
 ### Core Method Source Pointers
@@ -110,15 +116,29 @@ plot/bootstrap machinery, are labeled as package implementation extensions.
 
 ## Tests And Diagnostics
 
-| Task | Main functions | What the test asks | Best first Gallery page | Theory and implementation orientation |
-|---|---|---|---|---|
-| Mean model specification | `npcmstest` | Does a parametric conditional-mean model appear misspecified against a nonparametric alternative? | [Significance and Specification](significance_and_specification.qmd) | Princeton, *Model Specification Tests*, Chapter 12, especially Section 12.1 and Section 12.1.2; Cambridge, *Conditional Mean Function Estimation*, Chapter 6, for package-facing model assessment context. |
-| Quantile model specification | `npqcmstest` | Does a parametric conditional-quantile model appear misspecified? | [Significance and Specification](significance_and_specification.qmd) | Princeton, *Model Specification Tests*, Chapter 12; Princeton, *Conditional CDF and Quantile Estimation*, Chapter 6; Cambridge, *Conditional Probability Density and Cumulative Distribution Functions*, Chapter 4. |
-| Significance testing | `npsigtest` | Which regressors are statistically relevant in a nonparametric regression? | [Significance and Specification](significance_and_specification.qmd) | Princeton, *Model Specification Tests*, Chapter 12, especially Sections 12.3 and 12.3.5; Princeton, *Nonsmoothing Tests*, Chapter 13, especially Section 13.3 where applicable; Cambridge, *Conditional Mean Function Estimation*, Chapter 6. |
-| Density equality | `npdeneqtest` | Are distributions or densities equal across groups? | [Entropy and Testing](entropy_tests.qmd) | Princeton, *Model Specification Tests*, Chapter 12, especially Section 12.2; Princeton, *Nonsmoothing Tests*, Chapter 13, especially Section 13.2; Cambridge, *Continuous Density and Cumulative Distribution Functions*, Chapter 2, and *Mixed-Data Probability Density and Cumulative Distribution Functions*, Chapter 3. |
-| Univariate density features | `npunitest` | Does a univariate density have the specified feature? | [Entropy and Testing](entropy_tests.qmd) | Cambridge, *Continuous Density and Cumulative Distribution Functions*, Chapter 2, especially entropy and density-test material; Princeton testing chapters where applicable. |
-| Symmetry | `npsymtest` | Is a distribution symmetric? | [Entropy and Testing](entropy_tests.qmd) | Cambridge, *Continuous Density and Cumulative Distribution Functions*, Chapter 2; Princeton, *Nonsmoothing Tests*, Chapter 13, and *Model Specification Tests*, Chapter 12, where density-feature tests are treated. |
-| Dependence | `npdeptest`, `npsdeptest` | Are variables dependent or serially dependent? | [Entropy and Testing](entropy_tests.qmd) | Cambridge, *Continuous Density and Cumulative Distribution Functions*, Chapter 2; Princeton, *Nonsmoothing Tests*, Chapter 13, especially Sections 13.4 and 13.5; Princeton, *Model Specification Tests*, Chapter 12, especially Sections 12.4.1 and 12.4.3. |
+::: {.crosswalk-test-methods}
+| Task | Main functions | What the test asks | Best first Gallery page |
+|---|---|---|---|
+| Mean model specification | `npcmstest` | Does a parametric conditional-mean model appear misspecified against a nonparametric alternative? | [Significance and Specification](significance_and_specification.qmd) |
+| Quantile model specification | `npqcmstest` | Does a parametric conditional-quantile model appear misspecified? | [Significance and Specification](significance_and_specification.qmd) |
+| Significance testing | `npsigtest` | Which regressors are statistically relevant in a nonparametric regression? | [Significance and Specification](significance_and_specification.qmd) |
+| Density equality | `npdeneqtest` | Are distributions or densities equal across groups? | [Entropy and Testing](entropy_tests.qmd) |
+| Univariate density features | `npunitest` | Does a univariate density have the specified feature? | [Entropy and Testing](entropy_tests.qmd) |
+| Symmetry | `npsymtest` | Is a distribution symmetric? | [Entropy and Testing](entropy_tests.qmd) |
+| Dependence | `npdeptest`, `npsdeptest` | Are variables dependent or serially dependent? | [Entropy and Testing](entropy_tests.qmd) |
+:::
+
+### Test Source Pointers
+
+| Task | Theory and implementation orientation |
+|---|---|
+| Mean model specification | Princeton, *Model Specification Tests*, Chapter 12, especially Section 12.1 and Section 12.1.2; Cambridge, *Conditional Mean Function Estimation*, Chapter 6, for package-facing model assessment context. |
+| Quantile model specification | Princeton, *Model Specification Tests*, Chapter 12; Princeton, *Conditional CDF and Quantile Estimation*, Chapter 6; Cambridge, *Conditional Probability Density and Cumulative Distribution Functions*, Chapter 4. |
+| Significance testing | Princeton, *Model Specification Tests*, Chapter 12, especially Sections 12.3 and 12.3.5; Princeton, *Nonsmoothing Tests*, Chapter 13, especially Section 13.3 where applicable; Cambridge, *Conditional Mean Function Estimation*, Chapter 6. |
+| Density equality | Princeton, *Model Specification Tests*, Chapter 12, especially Section 12.2; Princeton, *Nonsmoothing Tests*, Chapter 13, especially Section 13.2; Cambridge, *Continuous Density and Cumulative Distribution Functions*, Chapter 2, and *Mixed-Data Probability Density and Cumulative Distribution Functions*, Chapter 3. |
+| Univariate density features | Cambridge, *Continuous Density and Cumulative Distribution Functions*, Chapter 2, especially entropy and density-test material; Princeton testing chapters where applicable. |
+| Symmetry | Cambridge, *Continuous Density and Cumulative Distribution Functions*, Chapter 2; Princeton, *Nonsmoothing Tests*, Chapter 13, and *Model Specification Tests*, Chapter 12, where density-feature tests are treated. |
+| Dependence | Cambridge, *Continuous Density and Cumulative Distribution Functions*, Chapter 2; Princeton, *Nonsmoothing Tests*, Chapter 13, especially Sections 13.4 and 13.5; Princeton, *Model Specification Tests*, Chapter 12, especially Sections 12.4.1 and 12.4.3. |
 
 ## Advanced And Workflow APIs
 

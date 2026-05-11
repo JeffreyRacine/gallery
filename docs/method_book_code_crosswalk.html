@@ -418,7 +418,10 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#core-method-source-pointers" id="toc-core-method-source-pointers" class="nav-link" data-scroll-target="#core-method-source-pointers">Core Method Source Pointers</a></li>
   </ul></li>
-  <li><a href="#tests-and-diagnostics" id="toc-tests-and-diagnostics" class="nav-link" data-scroll-target="#tests-and-diagnostics">Tests And Diagnostics</a></li>
+  <li><a href="#tests-and-diagnostics" id="toc-tests-and-diagnostics" class="nav-link" data-scroll-target="#tests-and-diagnostics">Tests And Diagnostics</a>
+  <ul class="collapse">
+  <li><a href="#test-source-pointers" id="toc-test-source-pointers" class="nav-link" data-scroll-target="#test-source-pointers">Test Source Pointers</a></li>
+  </ul></li>
   <li><a href="#advanced-and-workflow-apis" id="toc-advanced-and-workflow-apis" class="nav-link" data-scroll-target="#advanced-and-workflow-apis">Advanced And Workflow APIs</a></li>
   <li><a href="#book-source-key" id="toc-book-source-key" class="nav-link" data-scroll-target="#book-source-key">Book Source Key</a>
   <ul class="collapse">
@@ -479,6 +482,12 @@ window.Quarto = {
   white-space: nowrap;
   overflow-wrap: normal;
   word-break: normal;
+}
+.crosswalk-core-methods th:nth-child(4),
+.crosswalk-core-methods td:nth-child(4),
+.crosswalk-test-methods th:nth-child(4),
+.crosswalk-test-methods td:nth-child(4) {
+  min-width: 12rem;
 }
 #refs,
 #refs a,
@@ -589,19 +598,19 @@ window.Quarto = {
 <tr class="even">
 <td>Partially linear regression</td>
 <td><code>npplreg</code>, <code>npplregbw</code></td>
-<td>Linear coefficients plus nonparametric component</td>
+<td>Partially linear model <span class="math inline">\(Y=X'\beta+\theta(Z)+\epsilon\)</span></td>
 <td><a href="./semiparametric_models.html">Semiparametric Models</a></td>
 </tr>
 <tr class="odd">
 <td>Single-index model</td>
 <td><code>npindex</code>, <code>npindexbw</code></td>
-<td>Index direction and index regression</td>
+<td>Index regression <span class="math inline">\(E[Y \mid X]=g(X'\beta)\)</span></td>
 <td><a href="./semiparametric_models.html">Semiparametric Models</a></td>
 </tr>
 <tr class="even">
 <td>Smooth-coefficient model</td>
 <td><code>npscoef</code>, <code>npscoefbw</code></td>
-<td>Coefficients varying with conditioning variables</td>
+<td>Varying coefficients <span class="math inline">\(Y=X'\beta(Z)+\epsilon\)</span></td>
 <td><a href="./semiparametric_models.html">Semiparametric Models</a></td>
 </tr>
 </tbody>
@@ -667,6 +676,7 @@ window.Quarto = {
 </section>
 <section id="tests-and-diagnostics" class="level2">
 <h2 class="anchored" data-anchor-id="tests-and-diagnostics">Tests And Diagnostics</h2>
+<div class="crosswalk-test-methods">
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -674,7 +684,6 @@ window.Quarto = {
 <th>Main functions</th>
 <th>What the test asks</th>
 <th>Best first Gallery page</th>
-<th>Theory and implementation orientation</th>
 </tr>
 </thead>
 <tbody>
@@ -683,52 +692,91 @@ window.Quarto = {
 <td><code>npcmstest</code></td>
 <td>Does a parametric conditional-mean model appear misspecified against a nonparametric alternative?</td>
 <td><a href="./significance_and_specification.html">Significance and Specification</a></td>
-<td>Princeton, <em>Model Specification Tests</em>, Chapter 12, especially Section 12.1 and Section 12.1.2; Cambridge, <em>Conditional Mean Function Estimation</em>, Chapter 6, for package-facing model assessment context.</td>
 </tr>
 <tr class="even">
 <td>Quantile model specification</td>
 <td><code>npqcmstest</code></td>
 <td>Does a parametric conditional-quantile model appear misspecified?</td>
 <td><a href="./significance_and_specification.html">Significance and Specification</a></td>
-<td>Princeton, <em>Model Specification Tests</em>, Chapter 12; Princeton, <em>Conditional CDF and Quantile Estimation</em>, Chapter 6; Cambridge, <em>Conditional Probability Density and Cumulative Distribution Functions</em>, Chapter 4.</td>
 </tr>
 <tr class="odd">
 <td>Significance testing</td>
 <td><code>npsigtest</code></td>
 <td>Which regressors are statistically relevant in a nonparametric regression?</td>
 <td><a href="./significance_and_specification.html">Significance and Specification</a></td>
-<td>Princeton, <em>Model Specification Tests</em>, Chapter 12, especially Sections 12.3 and 12.3.5; Princeton, <em>Nonsmoothing Tests</em>, Chapter 13, especially Section 13.3 where applicable; Cambridge, <em>Conditional Mean Function Estimation</em>, Chapter 6.</td>
 </tr>
 <tr class="even">
 <td>Density equality</td>
 <td><code>npdeneqtest</code></td>
 <td>Are distributions or densities equal across groups?</td>
 <td><a href="./entropy_tests.html">Entropy and Testing</a></td>
-<td>Princeton, <em>Model Specification Tests</em>, Chapter 12, especially Section 12.2; Princeton, <em>Nonsmoothing Tests</em>, Chapter 13, especially Section 13.2; Cambridge, <em>Continuous Density and Cumulative Distribution Functions</em>, Chapter 2, and <em>Mixed-Data Probability Density and Cumulative Distribution Functions</em>, Chapter 3.</td>
 </tr>
 <tr class="odd">
 <td>Univariate density features</td>
 <td><code>npunitest</code></td>
 <td>Does a univariate density have the specified feature?</td>
 <td><a href="./entropy_tests.html">Entropy and Testing</a></td>
-<td>Cambridge, <em>Continuous Density and Cumulative Distribution Functions</em>, Chapter 2, especially entropy and density-test material; Princeton testing chapters where applicable.</td>
 </tr>
 <tr class="even">
 <td>Symmetry</td>
 <td><code>npsymtest</code></td>
 <td>Is a distribution symmetric?</td>
 <td><a href="./entropy_tests.html">Entropy and Testing</a></td>
-<td>Cambridge, <em>Continuous Density and Cumulative Distribution Functions</em>, Chapter 2; Princeton, <em>Nonsmoothing Tests</em>, Chapter 13, and <em>Model Specification Tests</em>, Chapter 12, where density-feature tests are treated.</td>
 </tr>
 <tr class="odd">
 <td>Dependence</td>
 <td><code>npdeptest</code>, <code>npsdeptest</code></td>
 <td>Are variables dependent or serially dependent?</td>
 <td><a href="./entropy_tests.html">Entropy and Testing</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="test-source-pointers" class="level3">
+<h3 class="anchored" data-anchor-id="test-source-pointers">Test Source Pointers</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Theory and implementation orientation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean model specification</td>
+<td>Princeton, <em>Model Specification Tests</em>, Chapter 12, especially Section 12.1 and Section 12.1.2; Cambridge, <em>Conditional Mean Function Estimation</em>, Chapter 6, for package-facing model assessment context.</td>
+</tr>
+<tr class="even">
+<td>Quantile model specification</td>
+<td>Princeton, <em>Model Specification Tests</em>, Chapter 12; Princeton, <em>Conditional CDF and Quantile Estimation</em>, Chapter 6; Cambridge, <em>Conditional Probability Density and Cumulative Distribution Functions</em>, Chapter 4.</td>
+</tr>
+<tr class="odd">
+<td>Significance testing</td>
+<td>Princeton, <em>Model Specification Tests</em>, Chapter 12, especially Sections 12.3 and 12.3.5; Princeton, <em>Nonsmoothing Tests</em>, Chapter 13, especially Section 13.3 where applicable; Cambridge, <em>Conditional Mean Function Estimation</em>, Chapter 6.</td>
+</tr>
+<tr class="even">
+<td>Density equality</td>
+<td>Princeton, <em>Model Specification Tests</em>, Chapter 12, especially Section 12.2; Princeton, <em>Nonsmoothing Tests</em>, Chapter 13, especially Section 13.2; Cambridge, <em>Continuous Density and Cumulative Distribution Functions</em>, Chapter 2, and <em>Mixed-Data Probability Density and Cumulative Distribution Functions</em>, Chapter 3.</td>
+</tr>
+<tr class="odd">
+<td>Univariate density features</td>
+<td>Cambridge, <em>Continuous Density and Cumulative Distribution Functions</em>, Chapter 2, especially entropy and density-test material; Princeton testing chapters where applicable.</td>
+</tr>
+<tr class="even">
+<td>Symmetry</td>
+<td>Cambridge, <em>Continuous Density and Cumulative Distribution Functions</em>, Chapter 2; Princeton, <em>Nonsmoothing Tests</em>, Chapter 13, and <em>Model Specification Tests</em>, Chapter 12, where density-feature tests are treated.</td>
+</tr>
+<tr class="odd">
+<td>Dependence</td>
 <td>Cambridge, <em>Continuous Density and Cumulative Distribution Functions</em>, Chapter 2; Princeton, <em>Nonsmoothing Tests</em>, Chapter 13, especially Sections 13.4 and 13.5; Princeton, <em>Model Specification Tests</em>, Chapter 12, especially Sections 12.4.1 and 12.4.3.</td>
 </tr>
 </tbody>
 </table>
+</section>
 </section>
 <section id="advanced-and-workflow-apis" class="level2">
 <h2 class="anchored" data-anchor-id="advanced-and-workflow-apis">Advanced And Workflow APIs</h2>
