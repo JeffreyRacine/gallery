@@ -1,6 +1,5 @@
 ## This is the serial version of npconmode_npRmpi.R for comparison
-## purposes (bandwidth ought to be identical, timing may
-## differ). Study the differences between this file and its MPI
+## purposes. Study the differences between this file and its MPI
 ## counterpart for insight about your own problems.
 
 library(np)
@@ -16,21 +15,16 @@ birthwt$ht <- factor(birthwt$ht)
 birthwt$ui <- factor(birthwt$ui)
 birthwt$ftv <- ordered(birthwt$ftv)
 
-## A conditional mode example
-
-t <- system.time(bw <- npcdensbw(low~
-                                 smoke+ 
-                                 race+ 
-                                 ht+ 
-                                 ui+    
-                                 ftv+  
-                                 age+           
-                                 lwt,
-                                 data=birthwt))
-
-summary(bw)
-
-t <- t + system.time(model <- npconmode(bws=bw))
+## Fit the conditional-mode model directly and let npconmode()
+## handle the internal bandwidth-selection step.
+t <- system.time(model <- npconmode(low ~ smoke +
+  race +
+  ht +
+  ui +
+  ftv +
+  age +
+  lwt,
+  data = birthwt))
 
 summary(model)
 

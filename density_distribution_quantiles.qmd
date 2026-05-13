@@ -148,16 +148,12 @@ non-negative and integrating to one conditional on `x`.
 
 Use `npqreg` when your interest lies in conditional quantiles rather than means.
 
-One natural workflow is:
-
-1. compute a conditional-distribution bandwidth object,
-2. extract one or more conditional quantiles from that object.
-
-The formula interface below is the streamlined version of that workflow:
-when `bws` is not supplied, `npqreg()` automatically calls `npcdistbw()` to
-select the conditional-distribution bandwidth object first. Bandwidth-selection
-options supplied to `npqreg()` are passed through to that internal `npcdistbw()`
-call, so you can still control the underlying conditional-distribution fit.
+The direct formula interface is now the natural first stop. When `bws` is not
+supplied, `npqreg()` automatically calls `npcdistbw()` internally to select the
+underlying conditional-distribution bandwidth object. Bandwidth-selection
+options supplied to `npqreg()` are passed through to that internal
+`npcdistbw()` call, so you can still control the underlying
+conditional-distribution fit without breaking the high-level workflow.
 
 ```r
 ## Extract several quantiles from one selected conditional-distribution fit
@@ -176,9 +172,9 @@ Then compare the fitted quantiles:
 plot(qfit)
 ```
 
-If you first computed only one quantile, reuse the selected bandwidths for
-additional quantiles without recomputing cross-validation. Call `npqreg()` when
-you need the fitted values as an object, or pass `tau` directly to `plot()` when
+If you later want to reuse the selected bandwidths for additional quantiles
+without recomputing cross-validation, you still can. Call `npqreg()` when you
+need the fitted values as an object, or pass `tau` directly to `plot()` when
 graphical inspection is all you need:
 
 ```r
@@ -214,7 +210,9 @@ qfit_lp <- npqreg(gdp ~ year_numeric,
                   nomad = TRUE)
 ```
 
-This is a good example of when it pays to separate bandwidth selection from later estimation rather than recomputing the same object repeatedly.
+This is a good example of the intended progression: start with the direct
+high-level route, then reuse the retained bandwidth object only when you
+specifically want to avoid recomputing it.
 
 ## When should I use these instead of regression?
 

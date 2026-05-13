@@ -563,12 +563,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="nonparametric-quantile-regression-npqreg" class="level2">
 <h2 class="anchored" data-anchor-id="nonparametric-quantile-regression-npqreg">Nonparametric quantile regression: <code>npqreg</code></h2>
 <p>Use <code>npqreg</code> when your interest lies in conditional quantiles rather than means.</p>
-<p>One natural workflow is:</p>
-<ol type="1">
-<li>compute a conditional-distribution bandwidth object,</li>
-<li>extract one or more conditional quantiles from that object.</li>
-</ol>
-<p>The formula interface below is the streamlined version of that workflow: when <code>bws</code> is not supplied, <code>npqreg()</code> automatically calls <code>npcdistbw()</code> to select the conditional-distribution bandwidth object first. Bandwidth-selection options supplied to <code>npqreg()</code> are passed through to that internal <code>npcdistbw()</code> call, so you can still control the underlying conditional-distribution fit.</p>
+<p>The direct formula interface is now the natural first stop. When <code>bws</code> is not supplied, <code>npqreg()</code> automatically calls <code>npcdistbw()</code> internally to select the underlying conditional-distribution bandwidth object. Bandwidth-selection options supplied to <code>npqreg()</code> are passed through to that internal <code>npcdistbw()</code> call, so you can still control the underlying conditional-distribution fit without breaking the high-level workflow.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Extract several quantiles from one selected conditional-distribution fit</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Italy, <span class="at">package =</span> <span class="st">"np"</span>)</span>
@@ -579,7 +574,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Then compare the fitted quantiles:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Overlay the fitted conditional quantiles</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>If you first computed only one quantile, reuse the selected bandwidths for additional quantiles without recomputing cross-validation. Call <code>npqreg()</code> when you need the fitted values as an object, or pass <code>tau</code> directly to <code>plot()</code> when graphical inspection is all you need:</p>
+<p>If you later want to reuse the selected bandwidths for additional quantiles without recomputing cross-validation, you still can. Call <code>npqreg()</code> when you need the fitted values as an object, or pass <code>tau</code> directly to <code>plot()</code> when graphical inspection is all you need:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>qmed <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year), <span class="at">data =</span> Italy, <span class="at">tau =</span> <span class="fl">0.50</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>qfit <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(<span class="at">bws =</span> qmed<span class="sc">$</span>bws, <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span>
@@ -600,7 +595,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> Italy,</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">nomad =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This is a good example of when it pays to separate bandwidth selection from later estimation rather than recomputing the same object repeatedly.</p>
+<p>This is a good example of the intended progression: start with the direct high-level route, then reuse the retained bandwidth object only when you specifically want to avoid recomputing it.</p>
 </section>
 <section id="when-should-i-use-these-instead-of-regression" class="level2">
 <h2 class="anchored" data-anchor-id="when-should-i-use-these-instead-of-regression">When should I use these instead of regression?</h2>

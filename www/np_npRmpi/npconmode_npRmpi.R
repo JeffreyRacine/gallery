@@ -29,23 +29,17 @@ birthwt$ftv <- ordered(birthwt$ftv)
 
 mpi.bcast.Robj2slave(birthwt)
 
-## A conditional mode example
-
-t <- system.time(mpi.bcast.cmd(bw <- npcdensbw(low~
-                                               smoke+ 
-                                               race+ 
-                                               ht+ 
-                                               ui+    
-                                               ftv+  
-                                               age+           
-                                               lwt,
-                                               data=birthwt),
-                               caller.execute=TRUE))
-
-summary(bw)
-
-t <- t + system.time(mpi.bcast.cmd(model <- npconmode(bws=bw),
-                                   caller.execute=TRUE))
+## Fit the conditional-mode model directly on the workers and let
+## npconmode() handle the internal bandwidth-selection step.
+t <- system.time(mpi.bcast.cmd(model <- npconmode(low ~ smoke +
+                                                   race +
+                                                   ht +
+                                                   ui +
+                                                   ftv +
+                                                   age +
+                                                   lwt,
+                                                   data = birthwt),
+                               caller.execute = TRUE))
 
 summary(model)
 
