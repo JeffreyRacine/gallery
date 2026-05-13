@@ -455,17 +455,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Plot interface update in <code>0.70-2</code>
+<span class="screen-reader-only">Note</span>Release-candidate plotting interface
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The public plotting interface was redesigned in <code>np</code> / <code>npRmpi</code> <code>0.70-2</code>.</p>
+<p>This local page tracks the release-candidate plotting interface for the forthcoming <code>np</code> / <code>npRmpi</code> <code>0.70-2</code> submissions. It should not be pushed to the public Gallery until those APIs appear on CRAN.</p>
 <ul>
 <li>use <code>errors</code>, <code>bootstrap</code>, <code>band</code>, <code>alpha</code>, and <code>B</code> for the main interval controls</li>
 <li>use <code>snake_case</code> names such as <code>data_rug</code>, <code>data_overlay</code>, <code>common_scale</code>, and <code>coef_index</code></li>
 <li>use <code>np_boot_control()</code>, <code>np_grid_control()</code>, and <code>np_render_control()</code> only for the remaining detailed control groups</li>
 </ul>
-<p>If you are adapting older code, the most common translation is from <code>plot.errors.*</code> names to these newer public arguments.</p>
+<p>If you are adapting older code after installing the new release, the most common translation is from <code>plot.errors.*</code> names to these newer public arguments.</p>
 </div>
 </div>
 <section id="a-simple-fitted-curve-plot" class="level2">
