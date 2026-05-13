@@ -1,7 +1,7 @@
 ## Minimal np copula example.
 ##
-## This estimates a copula on a small probability grid after building
-## the corresponding marginal distribution bandwidth object.
+## This uses the direct formula interface and lets npcopula() build
+## the corresponding marginal distribution bandwidth object internally.
 
 library(np)
 library(MASS)
@@ -15,14 +15,9 @@ Sigma <- matrix(c(1, rho, rho, 1), 2, 2)
 dat <- as.data.frame(mvrnorm(n = n, mu = c(0, 0), Sigma = Sigma))
 names(dat) <- c("x", "y")
 
-## Evaluate the copula on a small probability grid.
-u_grid <- data.frame(x = seq(0, 1, length.out = 10),
-  y = seq(0, 1, length.out = 10))
+## Let npcopula() create a small default probability grid.
+copula_fit <- npcopula(~ x + y, data = dat, neval = 20)
 
-## Build the marginal distribution object, then compute the copula.
-bw <- npudistbw(~ x + y, data = dat)
-copula_fit <- npcopula(bws = bw, data = dat, u = u_grid)
-
-## Inspect both the marginal bandwidths and the fitted copula object.
-summary(bw)
+## Inspect the fitted copula object and the retained bandwidth object.
 summary(copula_fit)
+summary(attr(copula_fit, "bws"))
