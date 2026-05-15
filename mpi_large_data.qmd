@@ -130,7 +130,7 @@ export CXX=mpicxx
 ```bash
 cd /Users/jracine/Development
 R CMD build np-npRmpi
-R CMD INSTALL npRmpi_0.70-1.tar.gz
+R CMD INSTALL npRmpi_0.70-2.tar.gz
 ```
 
 ### 4) First runtime test

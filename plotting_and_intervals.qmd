@@ -16,7 +16,7 @@ If you want a minimal downloadable script for this route, start with [np_plottin
 ::: {.callout-note}
 ## Release-candidate plotting interface
 
-This local page tracks the release-candidate plotting interface for the forthcoming `np` / `npRmpi` `0.70-2` submissions. It should not be pushed to the public Gallery until those APIs appear on CRAN.
+This local page tracks the submitted `np` / `npRmpi` `0.70-2` plotting interface. It should not be pushed to the public Gallery until those APIs are visible on CRAN.
 
 - use `errors`, `bootstrap`, `band`, `alpha`, and `B` for the main interval controls
 - use `snake_case` names such as `data_rug`, `data_overlay`, `common_scale`, and `coef_index`
