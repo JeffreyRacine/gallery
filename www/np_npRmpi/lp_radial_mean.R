@@ -56,13 +56,12 @@ lp.bw <- npregbw(formula.glp,
   bernstein.basis = TRUE,
   ckertype = ckertype)
 
-## Build the mean hat operator and the constraint matrix for H %*% (y * p).
+## Use the helper to obtain the QP matrix t(H) * y directly.
 
-H.train <- npreghat(bws = lp.bw,
+A <- npreghat(bws = lp.bw,
   txdat = X,
-  output = "matrix")
-
-A <- t(H.train) * y
+  y = y,
+  output = "constraint")
 p.u <- rep(1,n)
 
 ## Solve the quadratic program. The function solve.QP in the quadprog

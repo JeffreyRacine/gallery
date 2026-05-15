@@ -130,9 +130,24 @@ manipulate.plot <- function(n,dgp.frequency,p,gradient,bw,ckertype,lower,upper,w
     H.mean
   }
 
+  ## Use the helper to obtain the QP matrix t(H) * y directly.
   p.u <- rep(1,n)
-  A.mean <- t(H.mean) * y
-  A <- t(H.object) * y
+  A <- if(any(gradient > 0)) {
+    npreghat(
+      bws = lp.bw,
+      txdat = data.frame(x = x),
+      y = y,
+      output = "constraint",
+      s = as.integer(gradient)
+    )
+  } else {
+    npreghat(
+      bws = lp.bw,
+      txdat = data.frame(x = x),
+      y = y,
+      output = "constraint"
+    )
+  }
 
   ## Compute the unrestricted model/object being constrained
 

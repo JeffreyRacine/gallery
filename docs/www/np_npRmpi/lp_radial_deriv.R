@@ -58,26 +58,19 @@ lp.bw <- npregbw(formula.glp,
   bernstein.basis = TRUE,
   ckertype = ckertype)
 
-## Build the mean and derivative hat operators.
+## Use the helper to obtain the derivative QP matrices t(H) * y
+## directly.
 
-H.mean <- npreghat(bws = lp.bw,
+A.deriv.1 <- npreghat(bws = lp.bw,
   txdat = X,
-  output = "matrix")
-H.deriv.1 <- npreghat(bws = lp.bw,
-  txdat = X,
-  output = "matrix",
+  y = y,
+  output = "constraint",
   s = c(1L, 0L))
-H.deriv.2 <- npreghat(bws = lp.bw,
+A.deriv.2 <- npreghat(bws = lp.bw,
   txdat = X,
-  output = "matrix",
+  y = y,
+  output = "constraint",
   s = c(0L, 1L))
-
-## Create the uniform weights p.u and matrices for which H %*% (y * p)
-## delivers the constrained local polynomial estimator and its
-## derivatives.
-
-A.deriv.1 <- t(H.deriv.1) * y
-A.deriv.2 <- t(H.deriv.2) * y
 p.u <- rep(1,n)
 
 ## Solve the quadratic program. The function solve.QP in the quadprog

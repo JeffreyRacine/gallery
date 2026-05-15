@@ -125,22 +125,29 @@ manipulate.plot <- function(n,p,bw,ckertype,constraints,weighted,unweighted,cv,c
     txdat = data.frame(x = x),
     output = "matrix"
   )
-  H.deriv.1 <- npreghat(
+
+  ## Keep H.mean for fitted curves, and use the helper to obtain the
+  ## QP matrices t(H) * y directly.
+  A <- npreghat(
     bws = lp.bw,
     txdat = data.frame(x = x),
-    output = "matrix",
+    y = y,
+    output = "constraint"
+  )
+  A.deriv.1 <- npreghat(
+    bws = lp.bw,
+    txdat = data.frame(x = x),
+    y = y,
+    output = "constraint",
     s = 1L
   )
-  H.deriv.2 <- npreghat(
+  A.deriv.2 <- npreghat(
     bws = lp.bw,
     txdat = data.frame(x = x),
-    output = "matrix",
+    y = y,
+    output = "constraint",
     s = 2L
   )
-
-  A <- t(H.mean) * y
-  A.deriv.1 <- t(H.deriv.1) * y
-  A.deriv.2 <- t(H.deriv.2) * y
   
   p.u <- rep(1,n)
 

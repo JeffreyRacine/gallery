@@ -117,16 +117,14 @@ if(any(gradient.vec > p)) stop(" the order of the gradient being restricted exce
 H.mean <- npreghat(bws = lp.bw,
   txdat = X,
   output = "matrix")
-H.object <- if(any(gradient.vec > 0)) {
-  npreghat(bws = lp.bw,
-    txdat = X,
-    output = "matrix",
-    s = as.integer(gradient.vec))
-} else {
-  H.mean
-}
 
-A <- t(H.object) * y
+## Keep H.mean for fitted values, and use the helper to obtain the
+## QP matrices t(H) * y directly.
+A <- npreghat(bws = lp.bw,
+  txdat = X,
+  y = y,
+  output = "constraint",
+  s = if(any(gradient.vec > 0)) as.integer(gradient.vec) else NULL)
 
 ## Create the uniform weights p.u and matrix A for which t(A)%*%p is
 ## the constrained local polynomial estimator \hat g(x|p).
@@ -139,12 +137,12 @@ p.u <- rep(1,n)
 if(n.eval>0) {
   x.eval <- seq(min(x),max(x),length=n.eval)
   X.eval <- data.frame(x=x.eval)
-  H.eval <- npreghat(bws = lp.bw,
+  A.eval <- npreghat(bws = lp.bw,
     txdat = X,
     exdat = X.eval,
-    output = "matrix",
+    y = y,
+    output = "constraint",
     s = if(any(gradient.vec > 0)) as.integer(gradient.vec) else NULL)
-  A.eval <- t(H.eval) * y
 }
 
 

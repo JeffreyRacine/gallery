@@ -62,24 +62,26 @@ lp.bw <- npregbw(formula.glp,
 H.mean <- npreghat(bws = lp.bw,
   txdat = X,
   output = "matrix")
-H.deriv.1 <- npreghat(bws = lp.bw,
-  txdat = X,
-  output = "matrix",
-  s = as.integer(gradient.vec.1))
-H.deriv.2 <- npreghat(bws = lp.bw,
-  txdat = X,
-  output = "matrix",
-  s = as.integer(gradient.vec.2))
 
-## Create the uniform weights p.u and matrices for which H %*% (y * p)
-## delivers the constrained local polynomial estimator and its
-## derivatives.
+## Keep H.mean for fitted curves, and use the helper to obtain the
+## QP matrices t(H) * y directly.
 
 p.u <- rep(1,n)
 
-A <- t(H.mean) * y
-A.deriv.1 <- t(H.deriv.1) * y
-A.deriv.2 <- t(H.deriv.2) * y
+A <- npreghat(bws = lp.bw,
+  txdat = X,
+  y = y,
+  output = "constraint")
+A.deriv.1 <- npreghat(bws = lp.bw,
+  txdat = X,
+  y = y,
+  output = "constraint",
+  s = as.integer(gradient.vec.1))
+A.deriv.2 <- npreghat(bws = lp.bw,
+  txdat = X,
+  y = y,
+  output = "constraint",
+  s = as.integer(gradient.vec.2))
 
 ## Solve the quadratic program. The function solve.QP in the quadprog
 ## package solves the problem min (p-p.u)'(p-p.u) subject to the
