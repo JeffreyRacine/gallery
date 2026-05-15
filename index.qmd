@@ -23,9 +23,9 @@ This website is linked from my academic site and is intended as a practical work
 :::
 
 ::: {.callout-note}
-## Release-candidate plotting interface
+## Current plotting interface
 
-This local Gallery currently tracks the submitted `np` / `npRmpi` `0.70-2` plotting interface. It should not be pushed to the public Gallery until those APIs are visible on CRAN.
+This Gallery now tracks the current `np` / `npRmpi` `0.70-2` plotting interface on CRAN as of Friday, May 15, 2026.
 
 The redesigned examples use public controls such as `errors`, `bootstrap`, `band`, `data_rug`, `data_overlay`, and other `snake_case` option names. Older plotting code may need small argument-name updates once the new release is installed.
 :::

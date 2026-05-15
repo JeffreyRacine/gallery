@@ -14,9 +14,9 @@ Plotting is one of the places where `np` becomes especially useful, because the 
 If you want a minimal downloadable script for this route, start with [np_plotting_quickstart.R](www/np_npRmpi/np_plotting_quickstart.R).
 
 ::: {.callout-note}
-## Release-candidate plotting interface
+## Current plotting interface
 
-This local page tracks the submitted `np` / `npRmpi` `0.70-2` plotting interface. It should not be pushed to the public Gallery until those APIs are visible on CRAN.
+This page tracks the current `np` / `npRmpi` `0.70-2` plotting interface on CRAN as of Friday, May 15, 2026.
 
 - use `errors`, `bootstrap`, `band`, `alpha`, and `B` for the main interval controls
 - use `snake_case` names such as `data_rug`, `data_overlay`, `common_scale`, and `coef_index`
