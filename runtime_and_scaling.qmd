@@ -24,7 +24,6 @@ Common reasons a run is slow:
 - multistart optimization,
 - bootstrap intervals,
 - multivariate fits,
-- extreme quantiles,
 - large categorical search spaces,
 - spline search over degree and knot structure.
 
@@ -57,6 +56,35 @@ That makes it easier to:
 - reuse them across later fits,
 - avoid recomputing the same object repeatedly.
 
+## `np`: the default tree policy is now automatic rather than all-or-nothing
+
+The current default tree setting is `options(np.tree = "auto")`.
+
+Practical meaning:
+
+- the package now turns on the continuous kd-tree route only when the kernel
+  choice makes that shortcut a natural fit,
+- bounded-support continuous kernels such as `"epanechnikov"` and `"uniform"`
+  are the main beneficiaries,
+- `options(np.tree = TRUE)` still force-enables the route when you want it,
+- `options(np.tree = FALSE)` remains the clean diagnostic off switch.
+
+So the new default is more selective than the older blanket on/off mindset.
+
+## `np`: repetitive categorical designs may now compress automatically
+
+In some large-sample categorical or mostly categorical jobs, the package can
+now compress repeated support points internally. The current default is
+`options(np.categorical.compress = TRUE)`.
+
+Practical takeaway:
+
+- if your design has many repeated categorical patterns, the current defaults
+  may already be helping,
+- this is a runtime optimization, not a modeling change,
+- if you are diagnosing an odd performance difference, you can still turn it
+  off explicitly to compare behavior.
+
 ## `np`: quantile runtime is driven more by the fit than by `tau`
 
 On the current `np` and `npRmpi` packages, the older rule of thumb that
@@ -73,6 +101,19 @@ Practical takeaway:
 - choose `tau` for the scientific question rather than for expected speed,
 - expect runtime to depend more on sample size, covariate dimension, and the
   conditional-distribution fit than on the specific quantile being requested.
+
+## `np`: advanced search diagnostics exist, but treat them as diagnostics
+
+There are now a few more expert-facing runtime toggles, including:
+
+- `options(np.objective.cache = TRUE)` for Powell objective caching,
+- `options(np.largeh = FALSE)` to disable continuous large-bandwidth shortcut evaluations,
+- `options(np.largelambda = FALSE)` to disable discrete near-upper-bandwidth shortcut evaluations.
+
+These are useful when you are localizing performance or numerical-behavior
+questions. They are not the normal first controls for day-to-day work, so most
+users should leave the defaults alone unless they are actively diagnosing a
+route.
 
 ## `np`: many variables and long formulas
 
@@ -162,6 +203,11 @@ See [MPI and Large Data](mpi_large_data.qmd) for the current mode map and quicks
 ## `crs`: search can be expensive too
 
 With `crs`, the expensive part is often the search over degree, knots, basis structure, and categorical handling rather than the final fitted model alone.
+
+The current `crs` release line also supplies the native NOMAD runtime used by
+the modern `nomad = TRUE` routes in `np` and `npRmpi`, so the spline package is
+now part of the runtime story even when the modeling goal itself is kernel
+based.
 
 If search feels too large:
 

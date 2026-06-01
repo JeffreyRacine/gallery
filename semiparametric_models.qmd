@@ -41,6 +41,10 @@ The same shortcut is available for `npindex` and `npscoef` on their supported
 LP-capable routes. As with the regression and conditional-density families, it
 requires the `crs` package because NOMAD degree search is provided there.
 
+The current release line also uses the native `crs` NOMAD runtime directly, so
+the semiparametric `nomad = TRUE` route now sits on the same modern search
+engine as the rest of the LP-capable conditional family.
+
 ## Why use a semiparametric model?
 
 A semiparametric model is often attractive when:
@@ -118,6 +122,11 @@ summary(model_index_continuous)
 ```
 
 The single-index route can be appealing when you want more flexibility than a parametric model but less curse-of-dimensionality pressure than a fully nonparametric multivariate fit.
+
+For current LP-capable Ichimura routes, the underlying objective evaluation has
+also been tightened substantially. In practice, that means the continuous
+single-index route is now a much more plausible first stop when you want
+dimension reduction together with the newer local-polynomial search machinery.
 
 ## Varying coefficient models: `npscoef`
 

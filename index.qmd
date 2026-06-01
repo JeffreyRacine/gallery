@@ -25,7 +25,8 @@ This website is linked from my academic site and is intended as a practical work
 ::: {.callout-note}
 ## Current plotting interface
 
-This Gallery now tracks the current `np` / `npRmpi` `0.70-2` plotting interface on CRAN as of Friday, May 15, 2026.
+This local Gallery checkpoint is prepared for the submitted `np` / `npRmpi`
+`0.70-3` and `crs` `0.15-44` release surface dated Monday, June 1, 2026.
 
 The redesigned examples use public controls such as `errors`, `bootstrap`, `band`, `data_rug`, `data_overlay`, and other `snake_case` option names. Older plotting code may need small argument-name updates once the new release is installed.
 :::
@@ -34,6 +35,7 @@ The redesigned examples use public controls such as `errors`, `bootstrap`, `band
 
 - [Local polynomial workflows](np_npRmpi.qmd): `np` and `npRmpi` now support local polynomial capability across the conditional family, with joint selection of polynomial degrees and bandwidths for mixed data, gradient support throughout the conditional estimators, and derivative estimation of arbitrarily high order, limited only by the selected polynomial degree whether set manually or chosen automatically for the underlying smoothness class.
 - [Bounded-support and proper conditional density/distribution methods](density_distribution_quantiles.qmd): conditional density and distribution workflows now include bounded-kernel routes for known bounds and practical unknown-bound settings, plus `proper = TRUE` for proper local-polynomial conditional density/distribution estimates when degree exceeds zero.
+- [Location-scale quantile regression](density_distribution_quantiles.qmd): `nplsqreg` and `nplsqregbw` now expose a first-class location-scale quantile workflow with formula and bandwidth-object routes, scalar or vector `tau`, prediction, residuals, summaries, plots, and the same NOMAD-enabled local-polynomial degree-and-bandwidth search style where supported.
 - [Conditional quantile regression](density_distribution_quantiles.qmd): `npqreg` now has a direct formula interface, automatic `npcdistbw()` bandwidth selection when `bws` is omitted, vector `tau` support, `plot(..., tau = ...)` reuse of existing bandwidths, conditional-quantile gradients and standard errors, and `nomad = TRUE` pass-through for local-polynomial degree-and-bandwidth search.
 - [Conditional mode classification](classification_modes.qmd): `npconmode` is now a first-class high-level estimator, with direct formula/data/newdata workflows, automatic `npcdensbw()` bandwidth selection when `bws` is omitted, conditional-density search controls including `nomad = TRUE`, mirrored degree/search metadata in returned objects and summaries, properized fitted class probabilities for non-local-constant routes before selecting the modal outcome, and level-specific class-probability effects.
 - [Copula estimation](density_distribution_quantiles.qmd): `npcopula` is now a first-class high-level estimator too, with a direct formula interface, automatic `npudistbw()` or `npudensbw()` selection when `bws` is omitted, automatic two-dimensional probability-grid construction for the default grid route, and easy reuse of the selected bandwidth object when you want a custom `u` grid or copula-density target.

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -491,6 +491,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><a href="./np_npRmpi.html">Kernel Methods</a>: <code>np</code> and <code>npRmpi</code> now expose local polynomial capability across the conditional family, together with joint degree and bandwidth selection for mixed data, gradient support throughout the conditional estimators, and derivative estimation of arbitrarily high order, limited only by the selected polynomial degree whether set manually or chosen automatically for the underlying smoothness class.</li>
 <li><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>: bounded-kernel conditional density and distribution routes are now available when support bounds are known or when practical unknown-bound proxies are appropriate, and <code>proper = TRUE</code> now supports proper LP conditional density/distribution estimates when degree exceeds zero.</li>
+<li><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>: <code>nplsqreg</code> and <code>nplsqregbw</code> now add a first-class location-scale quantile workflow, with formula and bandwidth-object routes, scalar or vector <code>tau</code>, prediction, residuals, summaries, plot routes, and the same NOMAD-enabled LP search style where supported.</li>
 <li><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>: <code>npqreg</code> now behaves like a first-class estimator, with direct formula support, automatic <code>npcdistbw()</code> selection when <code>bws</code> is omitted, vector <code>tau</code>, gradients, standard errors, and <code>nomad = TRUE</code> pass-through for local-polynomial degree-and-bandwidth search.</li>
 <li><a href="./classification_modes.html">Classification and Modes</a>: <code>npconmode</code> is now a first-class estimator too, with direct formula/data/newdata routes, automatic <code>npcdensbw()</code> selection when <code>bws</code> is omitted, probability and gradient support, mirrored degree/search metadata, and <code>nomad = TRUE</code> pass-through for local-polynomial degree-and-bandwidth search.</li>
 <li><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>: <code>npcopula</code> is now a first-class estimator too, with a direct formula interface, automatic <code>npudistbw()</code> or <code>npudensbw()</code> selection when <code>bws</code> is omitted, and automatic two-dimensional probability-grid construction for the default copula grid route.</li>

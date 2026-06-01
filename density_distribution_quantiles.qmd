@@ -7,6 +7,7 @@ keywords:
   - npcdens
   - npcdist
   - npqreg
+  - nplsqreg
   - density
   - quantile regression
 ---
@@ -26,6 +27,7 @@ If you want the shortest route to conditional density or quantile workflows, sta
 - [np_conditional_density_quickstart.R](www/np_npRmpi/np_conditional_density_quickstart.R)
 - [np_conditional_distribution_quickstart.R](www/np_npRmpi/np_conditional_distribution_quickstart.R)
 - [np_quantile_quickstart.R](www/np_npRmpi/np_quantile_quickstart.R)
+- [np_lsqreg_quickstart.R](www/np_npRmpi/np_lsqreg_quickstart.R)
 
 ## Unconditional density and distribution: `npudens` and `npudist`
 
@@ -144,6 +146,12 @@ available in the `npc*` calls and related plot routes. This enforces proper
 conditional density/distribution output in the practical sense used here:
 non-negative and integrating to one conditional on `x`.
 
+The same local-polynomial extensions now also broaden derivative support across
+the conditional family. In practice, that means conditional density,
+conditional distribution, conditional quantile, and related fitted objects can
+now expose richer gradient and higher-order derivative routes whenever the
+selected polynomial degree is high enough to support them.
+
 ## Nonparametric quantile regression: `npqreg`
 
 Use `npqreg` when your interest lies in conditional quantiles rather than means.
@@ -214,6 +222,39 @@ This is a good example of the intended progression: start with the direct
 high-level route, then reuse the retained bandwidth object only when you
 specifically want to avoid recomputing it.
 
+## Location-scale quantile regression: `nplsqreg`
+
+Use `nplsqreg` when you want a location-scale conditional quantile route rather
+than direct inversion of a fitted conditional distribution.
+
+The user-facing workflow is meant to feel just as natural as `npqreg`. When
+`bws` is omitted, `nplsqreg()` calls `nplsqregbw()` internally to select the
+underlying bandwidths and location-scale shift state. You still retain the
+selected bandwidth object for exact reuse, but the normal first stop is the
+high-level formula interface.
+
+Source file: [np_lsqreg_quickstart.R](www/np_npRmpi/np_lsqreg_quickstart.R)
+
+```{r lsqreg-quickstart-source}
+#| echo: false
+#| results: asis
+emit_source("www/np_npRmpi/np_lsqreg_quickstart.R")
+```
+
+If you later want to reuse the selected state for a specific quantile without
+rerunning the full search, the retained `bws` object supports that directly:
+
+```r
+## Reuse an exact location-scale bandwidth object for one fitted tau
+qmed <- nplsqreg(gdp ~ ordered(year), data = Italy, tau = 0.50)
+qfit <- nplsqreg(bws = qmed$bws, tau = 0.50)
+plot(qfit)
+```
+
+As with the other LP-capable conditional families, `nomad = TRUE` can also be
+used on supported continuous-data routes when you want automatic
+degree-and-bandwidth search in the same high-level call.
+
 ## When should I use these instead of regression?
 
 | If you want... | Start with |
@@ -222,6 +263,7 @@ specifically want to avoid recomputing it.
 | An unconditional density or distribution | `npudens`, `npudist` |
 | A conditional density or conditional distribution | `npcdens`, `npcdist` |
 | Conditional quantiles | `npqreg` |
+| Location-scale conditional quantiles | `nplsqreg` |
 
 ## Practical advice
 

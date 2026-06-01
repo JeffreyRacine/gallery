@@ -38,6 +38,9 @@ If you want the smallest runnable example of that pattern, start with
 As in serial `np`, this shortcut requires the `crs` package because NOMAD
 degree search is provided there.
 
+In the current release line, that route now uses the native `crs` NOMAD
+runtime directly rather than the older transitional fallback path.
+
 ## Mode chooser
 
 | If you want to... | Use this mode | Launch pattern | Key rule | Script |
@@ -130,7 +133,7 @@ export CXX=mpicxx
 ```bash
 cd /Users/jracine/Development
 R CMD build np-npRmpi
-R CMD INSTALL npRmpi_0.70-2.tar.gz
+R CMD INSTALL npRmpi_0.70-3.tar.gz
 ```
 
 ### 4) First runtime test
