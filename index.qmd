@@ -25,8 +25,9 @@ This website is linked from my academic site and is intended as a practical work
 ::: {.callout-note}
 ## Current plotting interface
 
-This local Gallery checkpoint is prepared for the submitted `np` / `npRmpi`
-`0.70-3` and `crs` `0.15-44` release surface dated Monday, June 1, 2026.
+As of Wednesday, June 3, 2026, `crs` `0.15-44` and `npRmpi` `0.70-3` are live
+on CRAN. The `np` package page is still showing `0.70-2`, with `np` `0.70-3`
+expected shortly.
 
 The redesigned examples use public controls such as `errors`, `bootstrap`, `band`, `data_rug`, `data_overlay`, and other `snake_case` option names. Older plotting code may need small argument-name updates once the new release is installed.
 :::
