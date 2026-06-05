@@ -496,12 +496,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="np-the-default-tree-policy-is-now-automatic-rather-than-all-or-nothing" class="level2">
 <h2 class="anchored" data-anchor-id="np-the-default-tree-policy-is-now-automatic-rather-than-all-or-nothing"><code>np</code>: the default tree policy is now automatic rather than all-or-nothing</h2>
-<p>The current default tree setting is <code>options(np.tree = "auto")</code>.</p>
+<p>As of <code>np</code> / <code>npRmpi</code> <code>0.70-3</code>, the default tree setting is <code>options(np.tree = "auto")</code>.</p>
 <p>Practical meaning:</p>
 <ul>
 <li>the package now turns on the continuous kd-tree route only when the kernel choice makes that shortcut a natural fit,</li>
 <li>bounded-support continuous kernels such as <code>"epanechnikov"</code> and <code>"uniform"</code> are the main beneficiaries,</li>
-<li><code>options(np.tree = TRUE)</code> still force-enables the route when you want it,</li>
+<li><code>options(np.tree = TRUE)</code> still force-enables the route when you want to assess its impact,</li>
 <li><code>options(np.tree = FALSE)</code> remains the clean diagnostic off switch.</li>
 </ul>
 <p>So the new default is more selective than the older blanket on/off mindset.</p>

@@ -13,7 +13,9 @@
 
 require(manipulate)
 require(np)
-options(np.tree=TRUE)
+options(np.tree="auto")
+## Since np 0.70-3, "auto" enables trees for Epanechnikov/uniform kernels.
+## Use TRUE/FALSE only when assessing the impact for this problem.
 
 ## Write a function to do plotting and accept arguments... doing so
 ## allows multiple plot calls (e.g. overlay histogram etc.) which

@@ -58,7 +58,8 @@ That makes it easier to:
 
 ## `np`: the default tree policy is now automatic rather than all-or-nothing
 
-The current default tree setting is `options(np.tree = "auto")`.
+As of `np` / `npRmpi` `0.70-3`, the default tree setting is
+`options(np.tree = "auto")`.
 
 Practical meaning:
 
@@ -66,7 +67,8 @@ Practical meaning:
   choice makes that shortcut a natural fit,
 - bounded-support continuous kernels such as `"epanechnikov"` and `"uniform"`
   are the main beneficiaries,
-- `options(np.tree = TRUE)` still force-enables the route when you want it,
+- `options(np.tree = TRUE)` still force-enables the route when you want to
+  assess its impact,
 - `options(np.tree = FALSE)` remains the clean diagnostic off switch.
 
 So the new default is more selective than the older blanket on/off mindset.
