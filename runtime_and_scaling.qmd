@@ -181,6 +181,22 @@ So the best advice is:
 2. benchmark a representative script before and after changing it,
 3. be especially cautious if your workflow relies on fork-based parallelism.
 
+Beginning with the `0.70-4` release line, `np` and `npRmpi` also provide a
+package-level Apple Silicon acceleration control that is separate from the R
+BLAS/LAPACK symlink above:
+
+```r
+options(np.macMseries.accelerate = "auto")
+```
+
+The default `"auto"` uses Accelerate/vDSP/vForce fast paths for eligible
+Gaussian-kernel and weighted-reduction computations only when the package was
+built for macOS arm64 with Accelerate support. On other platforms, or when those
+symbols are not available, the packages use the ordinary portable code path.
+Users can set the option to `TRUE` to request these routes when available, or
+to `FALSE` to disable them for timing or diagnostic comparisons. In `npRmpi`,
+the active value is synchronized to MPI workers in autodispatch sessions.
+
 Official references:
 
 - CRAN macOS FAQ: [Which BLAS is used and how can it be changed?](https://cran.r-project.org/bin/macosx/RMacOSX-FAQ.html#Which-BLAS-is-used-and-how-can-it-be-changed_003f)

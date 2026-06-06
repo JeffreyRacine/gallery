@@ -583,6 +583,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>benchmark a representative script before and after changing it,</li>
 <li>be especially cautious if your workflow relies on fork-based parallelism.</li>
 </ol>
+<p>Beginning with the <code>0.70-4</code> release line, <code>np</code> and <code>npRmpi</code> also provide a package-level Apple Silicon acceleration control that is separate from the R BLAS/LAPACK symlink above:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">np.macMseries.accelerate =</span> <span class="st">"auto"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The default <code>"auto"</code> uses Accelerate/vDSP/vForce fast paths for eligible Gaussian-kernel and weighted-reduction computations only when the package was built for macOS arm64 with Accelerate support. On other platforms, or when those symbols are not available, the packages use the ordinary portable code path. Users can set the option to <code>TRUE</code> to request these routes when available, or to <code>FALSE</code> to disable them for timing or diagnostic comparisons. In <code>npRmpi</code>, the active value is synchronized to MPI workers in autodispatch sessions.</p>
 <p>Official references:</p>
 <ul>
 <li>CRAN macOS FAQ: <a href="https://cran.r-project.org/bin/macosx/RMacOSX-FAQ.html#Which-BLAS-is-used-and-how-can-it-be-changed_003f">Which BLAS is used and how can it be changed?</a></li>
@@ -625,9 +628,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="crs-if-it-seems-to-just-sit-there" class="level2">
 <h2 class="anchored" data-anchor-id="crs-if-it-seems-to-just-sit-there"><code>crs</code>: if it seems to just sit there</h2>
 <p>Sometimes the right move is not to abort, but to ask the optimizer to tell you what it is doing.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Ask the spline optimizer to display more of the search process</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>opts <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"DISPLAY_DEGREE"</span> <span class="ot">=</span> <span class="dv">3</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">crs</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">opts =</span> opts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Ask the spline optimizer to display more of the search process</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>opts <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"DISPLAY_DEGREE"</span> <span class="ot">=</span> <span class="dv">3</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">crs</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">opts =</span> opts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If that reveals that the search space is too large, then reduce the problem:</p>
 <ul>
 <li>lower <code>degree.max</code>,</li>
@@ -639,8 +642,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="crs-quiet-runs" class="level2">
 <h2 class="anchored" data-anchor-id="crs-quiet-runs"><code>crs</code>: quiet runs</h2>
 <p>For quiet runs:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Silence routine crs status messages in a controlled batch run</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">crs.messages =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Silence routine crs status messages in a controlled batch run</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">crs.messages =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If you are working directly with <code>snomadr</code>, use an options list with <code>DISPLAY_DEGREE = 0</code>.</p>
 <p>For the more package-specific version of this advice, see <a href="./spline_search_and_tuning.html">Spline Search and Tuning</a>.</p>
 </section>
