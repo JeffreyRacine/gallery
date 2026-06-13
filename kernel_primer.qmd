@@ -125,17 +125,18 @@ Practical advice:
 - expect some plots or bootstrap-based intervals to take time,
 - move to `npRmpi` when the workflow is right but the runtime becomes the bottleneck.
 
-## Modern LP shortcut: `nomad = TRUE`
+## Modern LP shortcut: `nomad = "auto"`
 
 For LP-capable families, there is now a second modern entry path alongside the
 basic bandwidth-object workflow:
 
 ```r
-## Let np choose the local-polynomial degree and bandwidths in one call
+## Let np choose the local-polynomial degree and bandwidths in one call.
+## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.
 library(np)
 data(cps71, package = "np")
 
-fit_lp <- npreg(logwage ~ age, data = cps71, nomad = TRUE)
+fit_lp <- npreg(logwage ~ age, data = cps71, nomad = "auto")
 plot(fit_lp)
 summary(fit_lp)
 ```
@@ -149,7 +150,7 @@ If you want a small runnable script for this route, start with
 
 Practical note:
 
-- `nomad = TRUE` requires the `crs` package because NOMAD degree search is
+- `nomad = "auto"` requires the `crs` package because NOMAD degree search is
   provided there.
 - after fitting, inspect `fit$bws$nomad.shortcut` to see the normalized preset.
 

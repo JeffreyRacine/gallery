@@ -132,9 +132,9 @@ emit_source("www/np_npRmpi/np_copula_quickstart.R")
 For LP-capable conditional families, the same modern shortcut is now available:
 
 ```r
-## Use the same NOMAD shortcut for LP conditional density and distribution fits
-fhat_lp <- npcdens(eruptions ~ waiting, data = dat, nomad = TRUE, nmulti = 1)
-Fhat_lp <- npcdist(eruptions ~ waiting, data = dat, nomad = TRUE, nmulti = 1)
+## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.
+fhat_lp <- npcdens(eruptions ~ waiting, data = dat, nomad = "auto", nmulti = 1)
+Fhat_lp <- npcdist(eruptions ~ waiting, data = dat, nomad = "auto", nmulti = 1)
 ```
 
 That is the convenience route for automatic local-polynomial degree and
@@ -215,7 +215,8 @@ Italy$year_numeric <- as.numeric(as.character(Italy$year))
 qfit_lp <- npqreg(gdp ~ year_numeric,
                   data = Italy,
                   tau = c(0.25, 0.50, 0.75),
-                  nomad = TRUE)
+                  ## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.
+                  nomad = "auto")
 ```
 
 This is a good example of the intended progression: start with the direct
@@ -251,7 +252,7 @@ qfit <- nplsqreg(bws = qmed$bws, tau = 0.50)
 plot(qfit)
 ```
 
-As with the other LP-capable conditional families, `nomad = TRUE` can also be
+As with the other LP-capable conditional families, `nomad = "auto"` can also be
 used on supported continuous-data routes when you want automatic
 degree-and-bandwidth search in the same high-level call.
 

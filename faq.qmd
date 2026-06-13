@@ -254,7 +254,6 @@ The first levers to inspect are:
 - `segments.max`
 - `basis`
 - `complexity`
-- optimizer display options such as `opts = list("DISPLAY_DEGREE" = 3)`
 
 The practical route now lives on [Spline Search and Tuning](spline_search_and_tuning.qmd), with the broader ecosystem version on [Runtime, Memory, and Scaling](runtime_and_scaling.qmd).
 

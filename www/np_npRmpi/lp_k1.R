@@ -27,7 +27,7 @@ build_manual_lp_bw <- function(formula, data, degree, ckertype) {
 
 build_nomad_lp_bw <- function(formula, data, degree.max, ckertype, nmulti) {
   if (!requireNamespace("crs", quietly = TRUE)) {
-    stop("Automatic LP degree search uses npregbw(..., nomad = TRUE), ",
+    stop("Automatic LP degree search uses npregbw(..., nomad = \"auto\"), ",
       "which currently requires the 'crs' package.")
   }
 
@@ -35,7 +35,8 @@ build_nomad_lp_bw <- function(formula, data, degree.max, ckertype, nmulti) {
     data = data,
     regtype = "lp",
     ckertype = ckertype,
-    nomad = TRUE,
+    ## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.
+    nomad = "auto",
     degree.max = as.integer(degree.max),
     nmulti = as.integer(nmulti))
 }
@@ -93,7 +94,7 @@ X <- data.frame(x)
 
 ## Generate the local-polynomial bandwidth object using the current
 ## npregbw()/npreghat() route. Setting p < 0 triggers automatic
-## degree-and-bandwidth search via nomad = TRUE.
+## degree-and-bandwidth search via nomad = "auto".
 
 formula.glp <- formula(y~x)
 lp.data <- data.frame(y = y, X)

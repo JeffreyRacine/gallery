@@ -58,7 +58,8 @@ there is at least one continuous conditioning variable:
 ```r
 model_np_nomad <- npconmode(low ~ smoke + race + ht + ui + ftv + age + lwt,
   data = birthwt,
-  nomad = TRUE)
+  ## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.
+  nomad = "auto")
 
 summary(model_np_nomad)
 ```

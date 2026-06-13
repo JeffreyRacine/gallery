@@ -82,22 +82,10 @@ manipulate.plot <- function(n,spline.degree,spline.segments,dgp.frequency,lower,
 
   model.gradient.unres <- model.unres$deriv.mat
 
-  ## For partial derivatives we need to do a bit more work...
-
-  B <- crs:::prod.spline(x=data.train[,-1],
-                         K=cbind(model.unres$degree,model.unres$segments),
-                         basis=model.unres$basis)
+  ## Get the response-scaled derivative constraint operator directly.
   
-  B.x <- crs:::prod.spline(x=data.train[,-1],
-                           K=cbind(model.unres$degree,model.unres$segments),
-                           basis=model.unres$basis,
-                           deriv.index=1,
-                           deriv=deriv.order)  
-
-  ## Get the model weights. Note - each column must be multiplied by
-  ## y.
-  
-  Aymat <- t(B.x%*%chol2inv(chol(t(B)%*%B))%*%t(B))*data.train$y
+  Aymat <- crshat(model.unres, y=data.train$y, output="constraint",
+                  deriv=deriv.order, deriv.index=1)
   
   ## Solve the quadratic programming problem
 

@@ -77,10 +77,9 @@ manipulate.plot <- function(n,spline.degree,spline.segments,dgp.frequency,lower,
   
   with(data.train,lines(x,fitted(model.unres),lty=2,col=2,lwd=2))
 
-  ## Get the model weights. Note each column must be multiplied by y.
+  ## Get the response-scaled constraint operator directly.
   
-  B <- model.matrix(model.unres$model.lm)
-  Aymat <- t(B%*%chol2inv(chol(t(B)%*%B))%*%t(B))*data.train$y
+  Aymat <- crshat(model.unres, y=data.train$y, output="constraint")
   
   ## Solve the quadratic programming problem,
 

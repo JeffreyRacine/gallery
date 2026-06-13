@@ -114,6 +114,11 @@ For multiple continuous predictors, the basis becomes a tensor-product basis. In
 
 This is one of the more distinctive strengths of `crs`. If you need monotonicity, curvature restrictions, or related shape constraints, the package provides examples showing how to impose them.
 
+In current `crs`, the helper `crshat()` builds the fitted-function or derivative
+hat operator directly. That keeps constrained spline scripts close in spirit to
+the `npreghat()` examples in `np` and avoids older manual basis-matrix
+construction in most workflows.
+
 See:
 
 - [radial_constrained_mean.R](www/crs/radial_constrained_mean.R)

@@ -17,6 +17,12 @@ source("site_helpers.R", local = knitr::knit_global())
 
 Use `crs` when regression splines, shape restrictions, or spline-specific workflows are the natural tool rather than kernel estimators.
 
+Recent `crs` releases use the same named plotting style as `np` and `npRmpi`.
+For ordinary fitted curves and two-continuous-predictor surfaces, use
+`plot(model, ...)` directly rather than manually building evaluation grids.
+The companion `crshat()` helper gives constrained spline examples the same
+one-call hat-operator style used by the kernel packages.
+
 ## First stop
 
 If you simply want to verify that the package is installed and working, this is the quickest check.
@@ -57,7 +63,11 @@ If you want practical advice on search size, memory, smoothness, and knot select
 
 ## A representative constrained example
 
-The longer constrained scripts construct the unrestricted spline fit, formulate restrictions, solve the quadratic programming problem, and then refit the restricted surface. If you want that style of example, start with [radial_constrained_mean.R](www/crs/radial_constrained_mean.R).
+The longer constrained scripts construct the unrestricted spline fit, use
+`crshat(..., output = "constraint")` to form the restriction operator, solve the
+quadratic programming problem, and then refit the restricted surface. If you
+want that style of example, start with
+[radial_constrained_mean.R](www/crs/radial_constrained_mean.R).
 
 ## Instrumental spline regression: `crsiv`
 

@@ -24,17 +24,14 @@ This page collects the practical tuning advice for `crs`: what to do when search
 
 So if a run feels slow, the first question is not “is something broken?” but rather “how large is the search space I asked for?”
 
-## If the search seems to just sit there
+## If the search still feels long
 
-Ask the optimizer to tell you more.
+Current `crs` releases use compact single-line status I/O during NOMAD search,
+so the usual next step is not to change optimizer display settings. If progress
+is slow, first assume the requested search space is large and reduce the problem
+before concluding anything more dramatic.
 
-```r
-## Ask the optimizer to display more of the search process
-opts <- list("DISPLAY_DEGREE" = 3)
-model <- crs(y ~ x1 + x2, opts = opts)
-```
-
-If that reveals that the search is wandering in a very large space, reduce the problem before concluding anything more dramatic.
+The controls below are the practical levers to reach for first.
 
 ## Memory control during search
 

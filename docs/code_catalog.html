@@ -576,10 +576,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> x1) <span class="sc">+</span> x2 <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">sd =</span> <span class="fl">0.2</span>)</span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, x1, x2)</span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit the spline model and inspect the summary.</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit the spline model, inspect it, then let plot.crs() build the surface.</span></span>
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">crs</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> dat)</span>
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">perspective =</span> <span class="cn">TRUE</span>, <span class="at">view =</span> <span class="st">"fixed"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Use this when regression splines are the natural first tool. For the conceptual route, see <a href="./spline_primer.html">Spline Primer</a>.</p>
 </section>
 </section>
@@ -603,8 +604,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td><a href="www/np_npRmpi/np_regression_nomad_quickstart.R">np_regression_nomad_quickstart.R</a></td>
-<td>Minimal LP NOMAD workflow</td>
-<td><code>npreg</code>, <code>nomad = TRUE</code></td>
+<td>Minimal LP automatic-search workflow</td>
+<td><code>npreg</code>, <code>nomad = "auto"</code></td>
 <td><a href="./kernel_primer.html">Kernel Primer</a></td>
 </tr>
 <tr class="odd">
@@ -788,8 +789,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td><a href="www/np_npRmpi/nprmpi_session_nomad_quickstart.R">nprmpi_session_nomad_quickstart.R</a></td>
-<td>Modern <code>session</code> LP NOMAD workflow</td>
-<td><code>npRmpi.init</code>, <code>npreg</code>, <code>nomad = TRUE</code></td>
+<td>Modern <code>session</code> LP automatic-search workflow</td>
+<td><code>npRmpi.init</code>, <code>npreg</code>, <code>nomad = "auto"</code></td>
 <td><a href="./mpi_large_data.html">MPI and Large Data</a></td>
 </tr>
 <tr class="odd">
@@ -865,12 +866,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(cps71, <span class="at">package =</span> <span class="st">"np"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Use the shortest modern LP route: fit directly with nomad = TRUE.</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>fit_lp <span class="ot">&lt;-</span> <span class="fu">npreg</span>(logwage <span class="sc">~</span> age, <span class="at">data =</span> cps71, <span class="at">nomad =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot first, then inspect the fitted object in text form.</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_lp)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_lp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Use the shortest modern LP route.</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="do">## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>fit_lp <span class="ot">&lt;-</span> <span class="fu">npreg</span>(logwage <span class="sc">~</span> age, <span class="at">data =</span> cps71, <span class="at">nomad =</span> <span class="st">"auto"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot first, then inspect the fitted object in text form.</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_lp)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_lp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -1593,7 +1595,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span><code>npRmpi</code>: Session mode with <code>nomad = TRUE</code>
+<span class="screen-reader-only">Note</span><code>npRmpi</code>: Session mode with <code>nomad = "auto"</code>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1604,12 +1606,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="do">## The intended workflow is:</span></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="do">## 1. initialize MPI once,</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="do">## 2. use the same nomad = TRUE shortcut available in np,</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="do">## 2. use the same nomad = "auto" shortcut available in np,</span></span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="do">## 3. inspect the normalized shortcut metadata,</span></span>
 <span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 4. quit cleanly at the end.</span></span>
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"crs"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"This quickstart uses nomad = TRUE, which requires the 'crs' package "</span>,</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"This quickstart uses nomad = </span><span class="sc">\"</span><span class="st">auto</span><span class="sc">\"</span><span class="st">, which requires the 'crs' package "</span>,</span>
 <span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"for NOMAD degree search. Install it with install.packages('crs')."</span>)</span>
 <span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a></span>
@@ -1625,15 +1627,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, x)</span>
 <span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit the LP shortcut and inspect the normalized metadata.</span></span>
-<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">npreg</span>(y <span class="sc">~</span> x, <span class="at">data =</span> dat, <span class="at">nomad =</span> <span class="cn">TRUE</span>, <span class="at">degree.max =</span> <span class="dv">2</span>L, <span class="at">nmulti =</span> <span class="dv">1</span>L)</span>
-<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>bws<span class="sc">$</span>nomad.shortcut</span>
-<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
-<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot the fitted object before quitting cleanly.</span></span>
-<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit)</span>
-<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a><span class="fu">npRmpi.quit</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a><span class="do">## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.</span></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">npreg</span>(y <span class="sc">~</span> x, <span class="at">data =</span> dat, <span class="at">nomad =</span> <span class="st">"auto"</span>, <span class="at">degree.max =</span> <span class="dv">2</span>L, <span class="at">nmulti =</span> <span class="dv">1</span>L)</span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>bws<span class="sc">$</span>nomad.shortcut</span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot the fitted object before quitting cleanly.</span></span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit)</span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a><span class="fu">npRmpi.quit</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -1805,7 +1808,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="nprmpi-local-polynomial-constrained-examples" class="level2">
 <h2 class="anchored" data-anchor-id="nprmpi-local-polynomial-constrained-examples"><code>npRmpi</code>: local polynomial / constrained examples</h2>
-<p>The older <code>npglpreg</code> route is deprecated. These retained local polynomial scripts use the current <code>npregbw()</code> + <code>npreghat()</code> route instead. For the automatic LP replacement path, use <code>npreg(..., nomad = TRUE)</code> in <code>np</code> or <code>npRmpi</code>.</p>
+<p>The older <code>npglpreg</code> route is deprecated. These retained local polynomial scripts use the current <code>npregbw()</code> + <code>npreghat()</code> route instead. For the automatic LP replacement path, use <code>npreg(..., nomad = "auto")</code> in <code>np</code> or <code>npRmpi</code>.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1835,6 +1838,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="crs-spline-examples" class="level2">
 <h2 class="anchored" data-anchor-id="crs-spline-examples"><code>crs</code>: spline examples</h2>
+<p>Current <code>crs</code> plotting follows the same named-control style as <code>np</code> and <code>npRmpi</code>, and the constrained examples use <code>crshat()</code> rather than manual hat-matrix construction.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -1847,32 +1851,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td><a href="www/crs/crs_quickstart.R">crs_quickstart.R</a></td>
 <td>Minimal spline-regression workflow</td>
-<td>modern quickstart</td>
+<td><code>plot.crs()</code> surface</td>
 </tr>
 <tr class="even">
 <td><a href="www/crs/radial_rgl.R">radial_rgl.R</a></td>
 <td>Bivariate radial spline surface</td>
-<td>requires <code>rgl</code></td>
+<td><code>plot(..., renderer = "rgl")</code>; requires <code>rgl</code></td>
 </tr>
 <tr class="odd">
 <td><a href="www/crs/sine_rgl.R">sine_rgl.R</a></td>
 <td>Bivariate sine spline surface</td>
-<td>requires <code>rgl</code></td>
+<td><code>plot(..., renderer = "rgl")</code>; requires <code>rgl</code></td>
 </tr>
 <tr class="even">
 <td><a href="www/crs/radial_constrained_mean.R">radial_constrained_mean.R</a></td>
 <td>Constrained spline mean estimation</td>
-<td>uses <code>quadprog</code></td>
+<td><code>crshat()</code> + <code>quadprog</code></td>
 </tr>
 <tr class="odd">
 <td><a href="www/crs/radial_constrained_first_partial.R">radial_constrained_first_partial.R</a></td>
 <td>Constrained first derivative</td>
-<td>uses <code>quadprog</code></td>
+<td><code>crshat()</code> + <code>quadprog</code></td>
 </tr>
 <tr class="even">
 <td><a href="www/crs/radial_constrained_second_partial.R">radial_constrained_second_partial.R</a></td>
 <td>Constrained second derivative</td>
-<td>uses <code>quadprog</code></td>
+<td><code>crshat()</code> + <code>quadprog</code></td>
 </tr>
 </tbody>
 </table>
@@ -1907,10 +1911,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sin</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> x1) <span class="sc">+</span> x2 <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">sd =</span> <span class="fl">0.2</span>)</span>
 <span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, x1, x2)</span>
 <span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit the spline model and inspect the summary.</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit the spline model, inspect it, then let plot.crs() build the surface.</span></span>
 <span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">crs</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> dat)</span>
 <span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">perspective =</span> <span class="cn">TRUE</span>, <span class="at">view =</span> <span class="st">"fixed"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>

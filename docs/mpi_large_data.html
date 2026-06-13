@@ -488,7 +488,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="the-same-lp-shortcut-after-mpi-initialization" class="level2">
 <h2 class="anchored" data-anchor-id="the-same-lp-shortcut-after-mpi-initialization">The same LP shortcut after MPI initialization</h2>
-<p>Once <code>npRmpi.init(...)</code> has been called, the same <code>nomad = TRUE</code> convenience route available in serial <code>np</code> is available here for LP-capable families.</p>
+<p>Once <code>npRmpi.init(...)</code> has been called, the same <code>nomad = "auto"</code> convenience route available in serial <code>np</code> is available here for LP-capable families.</p>
 <p>If you want the smallest runnable example of that pattern, start with <a href="www/np_npRmpi/nprmpi_session_nomad_quickstart.R">nprmpi_session_nomad_quickstart.R</a>.</p>
 <p>As in serial <code>np</code>, this shortcut requires the <code>crs</code> package because NOMAD degree search is provided there.</p>
 <p>In the current release line, that route now uses the native <code>crs</code> NOMAD runtime directly rather than the older transitional fallback path.</p>

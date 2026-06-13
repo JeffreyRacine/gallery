@@ -445,6 +445,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Use <code>crs</code> when regression splines, shape restrictions, or spline-specific workflows are the natural tool rather than kernel estimators.</p>
+<p>Recent <code>crs</code> releases use the same named plotting style as <code>np</code> and <code>npRmpi</code>. For ordinary fitted curves and two-continuous-predictor surfaces, use <code>plot(model, ...)</code> directly rather than manually building evaluation grids. The companion <code>crshat()</code> helper gives constrained spline examples the same one-call hat-operator style used by the kernel packages.</p>
 <section id="first-stop" class="level2">
 <h2 class="anchored" data-anchor-id="first-stop">First stop</h2>
 <p>If you simply want to verify that the package is installed and working, this is the quickest check.</p>
@@ -481,7 +482,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="a-representative-constrained-example" class="level2">
 <h2 class="anchored" data-anchor-id="a-representative-constrained-example">A representative constrained example</h2>
-<p>The longer constrained scripts construct the unrestricted spline fit, formulate restrictions, solve the quadratic programming problem, and then refit the restricted surface. If you want that style of example, start with <a href="www/crs/radial_constrained_mean.R">radial_constrained_mean.R</a>.</p>
+<p>The longer constrained scripts construct the unrestricted spline fit, use <code>crshat(..., output = "constraint")</code> to form the restriction operator, solve the quadratic programming problem, and then refit the restricted surface. If you want that style of example, start with <a href="www/crs/radial_constrained_mean.R">radial_constrained_mean.R</a>.</p>
 </section>
 <section id="instrumental-spline-regression-crsiv" class="level2">
 <h2 class="anchored" data-anchor-id="instrumental-spline-regression-crsiv">Instrumental spline regression: <code>crsiv</code></h2>

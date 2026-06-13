@@ -43,7 +43,7 @@ build_manual_lp_bw <- function(formula, data, degree, bw = NULL, ckertype, bandw
 build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.max, ckertype, nmulti) {
   if (!requireNamespace("crs", quietly = TRUE)) {
     stop(
-      "Automatic LP degree search uses npregbw(..., nomad = TRUE), ",
+      "Automatic LP degree search uses npregbw(..., nomad = \"auto\"), ",
       "which currently requires the 'crs' package."
     )
   }
@@ -53,7 +53,8 @@ build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.ma
     data = data,
     regtype = "lp",
     ckertype = ckertype,
-    nomad = TRUE,
+    ## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.
+    nomad = "auto",
     degree.min = as.integer(degree.min),
     degree.max = as.integer(degree.max),
     degree.start = as.integer(degree.start),

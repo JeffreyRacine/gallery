@@ -74,7 +74,7 @@ Use this table when you already know roughly what you want to do, but not which 
 | Supporting utilities | `gsl.bs`, `snomadr` |
 
 Legacy note: the older `npglpreg` route is deprecated. For a functional
-replacement, use `npreg(..., nomad = TRUE)` in `np` or `npRmpi`.
+replacement, use `npreg(..., nomad = "auto")` in `np` or `npRmpi`.
 
 ## Common datasets worth remembering
 

@@ -458,20 +458,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>varying coefficient models via <code>npscoef</code>.</li>
 </ul>
 <p>If you want a minimal downloadable script for the semiparametric route, start with <a href="www/np_npRmpi/np_semiparametric_quickstart.R">np_semiparametric_quickstart.R</a>.</p>
-<p>For LP-capable semiparametric families, there is now also a modern convenience route via <code>nomad = TRUE</code>. The simplest example is partially linear regression:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Simulate a small partially linear example, then use the NOMAD shortcut</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">runif</span>(n)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="fu">sin</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> z) <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">sd =</span> <span class="fl">0.2</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, x1, z)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>fit_pl_lp <span class="ot">&lt;-</span> <span class="fu">npplreg</span>(y <span class="sc">~</span> x1 <span class="sc">|</span> z, <span class="at">data =</span> dat, <span class="at">nomad =</span> <span class="cn">TRUE</span>, <span class="at">degree.max =</span> <span class="dv">2</span>L, <span class="at">nmulti =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For LP-capable semiparametric families, there is now also a modern convenience route via <code>nomad = "auto"</code>. The simplest example is partially linear regression:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Simulate a small partially linear example, then use the automatic LP shortcut.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">runif</span>(n)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="fu">sin</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> z) <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">sd =</span> <span class="fl">0.2</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, x1, z)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>fit_pl_lp <span class="ot">&lt;-</span> <span class="fu">npplreg</span>(y <span class="sc">~</span> x1 <span class="sc">|</span> z, <span class="at">data =</span> dat, <span class="at">nomad =</span> <span class="st">"auto"</span>, <span class="at">degree.max =</span> <span class="dv">2</span>L, <span class="at">nmulti =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The same shortcut is available for <code>npindex</code> and <code>npscoef</code> on their supported LP-capable routes. As with the regression and conditional-density families, it requires the <code>crs</code> package because NOMAD degree search is provided there.</p>
-<p>The current release line also uses the native <code>crs</code> NOMAD runtime directly, so the semiparametric <code>nomad = TRUE</code> route now sits on the same modern search engine as the rest of the LP-capable conditional family.</p>
+<p>The current release line also uses the native <code>crs</code> NOMAD runtime directly, so the semiparametric <code>nomad = "auto"</code> route now sits on the same modern search engine as the rest of the LP-capable conditional family.</p>
 <section id="why-use-a-semiparametric-model" class="level2">
 <h2 class="anchored" data-anchor-id="why-use-a-semiparametric-model">Why use a semiparametric model?</h2>
 <p>A semiparametric model is often attractive when:</p>

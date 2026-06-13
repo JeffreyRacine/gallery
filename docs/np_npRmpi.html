@@ -505,14 +505,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="modern-lp-shortcut" class="level2">
 <h2 class="anchored" data-anchor-id="modern-lp-shortcut">Modern LP shortcut</h2>
-<p>For LP-capable families, the modern convenience route is now <code>nomad = TRUE</code>. This is not a replacement for the basic bandwidth-object workflow above; it is the easiest front door when you want automatic local-polynomial degree and bandwidth search in one call.</p>
+<p>For LP-capable families, the modern convenience route is now <code>nomad = "auto"</code>. This is not a replacement for the basic bandwidth-object workflow above; it is the easiest front door when you want automatic local-polynomial degree and bandwidth search in one call.</p>
 <p>Start with:</p>
 <ul>
 <li><a href="www/np_npRmpi/np_regression_nomad_quickstart.R">np_regression_nomad_quickstart.R</a> for serial <code>np</code></li>
 <li><a href="www/np_npRmpi/nprmpi_session_nomad_quickstart.R">nprmpi_session_nomad_quickstart.R</a> for <code>npRmpi</code> after MPI initialization</li>
 </ul>
 <p>This LP shortcut requires the <code>crs</code> package because NOMAD degree search is provided there.</p>
-<p>The older <code>npglpreg</code> route is deprecated. For a functional replacement, use <code>npreg(..., nomad = TRUE)</code> in <code>np</code> or <code>npRmpi</code>.</p>
+<p>The older <code>npglpreg</code> route is deprecated. For a functional replacement, use <code>npreg(..., nomad = "auto")</code> in <code>np</code> or <code>npRmpi</code>.</p>
 </section>
 <section id="a-very-small-np-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="a-very-small-np-workflow">A very small <code>np</code> workflow</h2>

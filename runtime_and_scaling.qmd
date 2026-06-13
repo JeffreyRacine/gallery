@@ -223,7 +223,7 @@ See [MPI and Large Data](mpi_large_data.qmd) for the current mode map and quicks
 With `crs`, the expensive part is often the search over degree, knots, basis structure, and categorical handling rather than the final fitted model alone.
 
 The current `crs` release line also supplies the native NOMAD runtime used by
-the modern `nomad = TRUE` routes in `np` and `npRmpi`, so the spline package is
+the modern `nomad = "auto"` routes in `np` and `npRmpi`, so the spline package is
 now part of the runtime story even when the modeling goal itself is kernel
 based.
 
@@ -240,17 +240,11 @@ If the basis can become very large, restricting the minimum degrees of freedom c
 
 A common practical control is `cv.df.min`, which lets you stop the search from considering bases that are simply too large to be sensible for the problem.
 
-## `crs`: if it seems to just sit there
+## `crs`: progress and long searches
 
-Sometimes the right move is not to abort, but to ask the optimizer to tell you what it is doing.
-
-```r
-## Ask the spline optimizer to display more of the search process
-opts <- list("DISPLAY_DEGREE" = 3)
-model <- crs(y ~ x1 + x2, opts = opts)
-```
-
-If that reveals that the search space is too large, then reduce the problem:
+Current `crs` releases report NOMAD progress with compact single-line dynamic
+I/O. If those updates show that the search is moving slowly through a large
+space, reduce the problem:
 
 - lower `degree.max`,
 - lower `segments.max`,
@@ -265,8 +259,6 @@ For quiet runs:
 ## Silence routine crs status messages in a controlled batch run
 options(crs.messages = FALSE)
 ```
-
-If you are working directly with `snomadr`, use an options list with `DISPLAY_DEGREE = 0`.
 
 For the more package-specific version of this advice, see [Spline Search and Tuning](spline_search_and_tuning.qmd).
 

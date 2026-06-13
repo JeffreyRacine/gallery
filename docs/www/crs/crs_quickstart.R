@@ -16,7 +16,8 @@ x2 <- runif(n)
 y <- sin(2 * pi * x1) + x2 + rnorm(n, sd = 0.2)
 dat <- data.frame(y, x1, x2)
 
-## Fit the spline model and inspect the summary.
+## Fit the spline model, inspect it, then let plot.crs() build the surface.
 fit <- crs(y ~ x1 + x2, data = dat)
 
 summary(fit)
+plot(fit, perspective = TRUE, view = "fixed")

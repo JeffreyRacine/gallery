@@ -133,7 +133,7 @@ These are older comparison scripts, but still useful if you want to see side-by-
 
 The older `npglpreg` route is deprecated. These retained local polynomial
 scripts use the current `npregbw()` + `npreghat()` route instead. For the
-automatic LP replacement path, use `npreg(..., nomad = TRUE)` in `np` or
+automatic LP replacement path, use `npreg(..., nomad = "auto")` in `np` or
 `npRmpi`.
 
 | Script | Main topic |
@@ -145,14 +145,18 @@ automatic LP replacement path, use `npreg(..., nomad = TRUE)` in `np` or
 
 ## `crs`: spline examples
 
+Current `crs` plotting follows the same named-control style as `np` and
+`npRmpi`, and the constrained examples use `crshat()` rather than manual
+hat-matrix construction.
+
 | Script | Main topic | Notes |
 |---|---|---|
-| [crs_quickstart.R](www/crs/crs_quickstart.R) | Minimal spline-regression workflow | modern quickstart |
-| [radial_rgl.R](www/crs/radial_rgl.R) | Bivariate radial spline surface | requires `rgl` |
-| [sine_rgl.R](www/crs/sine_rgl.R) | Bivariate sine spline surface | requires `rgl` |
-| [radial_constrained_mean.R](www/crs/radial_constrained_mean.R) | Constrained spline mean estimation | uses `quadprog` |
-| [radial_constrained_first_partial.R](www/crs/radial_constrained_first_partial.R) | Constrained first derivative | uses `quadprog` |
-| [radial_constrained_second_partial.R](www/crs/radial_constrained_second_partial.R) | Constrained second derivative | uses `quadprog` |
+| [crs_quickstart.R](www/crs/crs_quickstart.R) | Minimal spline-regression workflow | `plot.crs()` surface |
+| [radial_rgl.R](www/crs/radial_rgl.R) | Bivariate radial spline surface | `plot(..., renderer = "rgl")`; requires `rgl` |
+| [sine_rgl.R](www/crs/sine_rgl.R) | Bivariate sine spline surface | `plot(..., renderer = "rgl")`; requires `rgl` |
+| [radial_constrained_mean.R](www/crs/radial_constrained_mean.R) | Constrained spline mean estimation | `crshat()` + `quadprog` |
+| [radial_constrained_first_partial.R](www/crs/radial_constrained_first_partial.R) | Constrained first derivative | `crshat()` + `quadprog` |
+| [radial_constrained_second_partial.R](www/crs/radial_constrained_second_partial.R) | Constrained second derivative | `crshat()` + `quadprog` |
 
 ```{r crs-quickstart-callouts}
 #| echo: false

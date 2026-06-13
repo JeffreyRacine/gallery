@@ -542,6 +542,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="constraints" class="level3">
 <h3 class="anchored" data-anchor-id="constraints">Constraints</h3>
 <p>This is one of the more distinctive strengths of <code>crs</code>. If you need monotonicity, curvature restrictions, or related shape constraints, the package provides examples showing how to impose them.</p>
+<p>In current <code>crs</code>, the helper <code>crshat()</code> builds the fitted-function or derivative hat operator directly. That keeps constrained spline scripts close in spirit to the <code>npreghat()</code> examples in <code>np</code> and avoids older manual basis-matrix construction in most workflows.</p>
 <p>See:</p>
 <ul>
 <li><a href="www/crs/radial_constrained_mean.R">radial_constrained_mean.R</a></li>

@@ -29,7 +29,7 @@ If you want the smallest runnable examples first, go to [Quickstarts](quickstart
 
 ## The same LP shortcut after MPI initialization
 
-Once `npRmpi.init(...)` has been called, the same `nomad = TRUE` convenience
+Once `npRmpi.init(...)` has been called, the same `nomad = "auto"` convenience
 route available in serial `np` is available here for LP-capable families.
 
 If you want the smallest runnable example of that pattern, start with

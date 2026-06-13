@@ -10,12 +10,10 @@ require(rgl)
 
 set.seed(42)
 
-## Set the number of observations, number of multistarts, and for the
-## plotting the number of evaluation observations
+## Set the number of observations and number of multistarts.
 
 n <- 1000
 nmulti <- 1
-num.eval <- 50
 
 x1 <- runif(n,-5,5)
 x2 <- runif(n,-5,5)
@@ -32,48 +30,9 @@ model <- crs(y~x1+x2,
 
 summary(model)
 
-## Create a 3D rgl perspective plot (need to also assign colors)
+## Let plot.crs() construct the interactive rgl surface and support rug.
 
-x1.seq <- seq(min(x1),max(x1),length=num.eval)
-x2.seq <- seq(min(x2),max(x2),length=num.eval)
-x.grid <- expand.grid(x1.seq,x2.seq)
-newdata <- data.frame(x1=x.grid[,1],x2=x.grid[,2])
-z <- matrix(predict(model,newdata=newdata),num.eval,num.eval)
-
-## Number of colors from color palette
-
-num.colors <- 1000
-colorlut <- topo.colors(num.colors) 
-col <- colorlut[ (num.colors-1)*(z-min(z))/(max(z)-min(z)) + 1 ]
-
-## Open an rgl 3d window and use `persp3d()', a high-level function
-## for 3D surfaces (and define the size of the window to be
-## 640x640). The function par3d() passes in a window size (the default
-## is 256x256 which is quite small), the function view3d()
-## allows you to modify the `field of view' to get more of a
-## `perspective' feel to the plot, while the function grid3d() adds a
-## grid to the plot.
-
-open3d()
-
-par3d(windowRect=c(900,100,900+640,100+640))
-view3d(theta = 0, phi = -70, fov = 80)
-
-persp3d(x=x1.seq,y=x2.seq,z=z,
-        xlab="X1",ylab="X2",zlab="Y",
-        ticktype="detailed",      
-        border="red",
-        color=col,
-        alpha=.7,
-        back="lines",
-        main="Conditional Mean")
-
-grid3d(c("x", "y+", "z"))
-
-## You can also add other surfaces to the plot (e.g. error bounds) via
-## surface3d(x, y, z.ub, color="grey", alpha=.7, back="lines")
-## surface3d(x, y, z.lb, color="grey", alpha=.7, back="lines")
-## where z.up and z.lb are the lower and upper bounds
+plot(model,perspective=TRUE,renderer="rgl",data_rug=TRUE)
 
 ## You could animate the results for 15 seconds using the line
 ## play3d(spin3d(axis=c(0,0,1), rpm=5), duration=15)
