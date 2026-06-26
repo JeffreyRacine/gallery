@@ -87,7 +87,7 @@ library(crs)
 data(cps71, package = "crs")
 
 model.crs <- crs(logwage ~ age, data = cps71)
-plot(model.crs, mean = TRUE)
+plot(model.crs)
 ```
 
 ## What next?

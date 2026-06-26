@@ -16,7 +16,7 @@ If you want a minimal downloadable script for this route, start with [np_plottin
 ::: {.callout-note}
 ## Current plotting interface
 
-As of Thursday, June 4, 2026, `npRmpi` `0.70-3` and `np` `0.70-3` are now
+As of Friday, June 26, 2026, `npRmpi` `0.70-4` and `np` `0.70-4` are now
 available on CRAN.
 
 - use `errors`, `bootstrap`, `band`, `alpha`, and `B` for the main interval controls
@@ -77,6 +77,17 @@ Bootstrap-based intervals are often appealing because they are less tied to asym
 ```r
 ## Use the bootstrap route when you want simulation-based intervals
 plot(model.ll, errors = "bootstrap")
+```
+
+Current `np` and `npRmpi` releases also support bias-corrected bootstrap
+centering on the supported fixed-bandwidth plot families. Unsupported routes
+fail explicitly rather than silently drawing a different interval.
+
+```r
+## Ask supported bootstrap plots to use bias-corrected centers
+plot(model.ll,
+  errors = "bootstrap",
+  center = "bias-corrected")
 ```
 
 For serious work, this is exactly the sort of route where separating bandwidth selection from later estimation and plotting is especially worthwhile.

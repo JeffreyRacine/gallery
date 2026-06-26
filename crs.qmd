@@ -17,11 +17,11 @@ source("site_helpers.R", local = knitr::knit_global())
 
 Use `crs` when regression splines, shape restrictions, or spline-specific workflows are the natural tool rather than kernel estimators.
 
-Recent `crs` releases use the same named plotting style as `np` and `npRmpi`.
-For ordinary fitted curves and two-continuous-predictor surfaces, use
-`plot(model, ...)` directly rather than manually building evaluation grids.
-The companion `crshat()` helper gives constrained spline examples the same
-one-call hat-operator style used by the kernel packages.
+As of `crs` `0.15-45`, spline plotting uses the same named-control style as
+`np` and `npRmpi`. For ordinary fitted curves and two-continuous-predictor
+surfaces, use `plot(model, ...)` directly rather than manually building
+evaluation grids. The companion `crshat()` helper gives constrained spline
+examples the same one-call hat-operator style used by the kernel packages.
 
 ## First stop
 

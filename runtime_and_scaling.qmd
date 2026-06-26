@@ -58,7 +58,7 @@ That makes it easier to:
 
 ## `np`: the default tree policy is now automatic rather than all-or-nothing
 
-As of `np` / `npRmpi` `0.70-3`, the default tree setting is
+Current `np` and `npRmpi` releases default to
 `options(np.tree = "auto")`.
 
 Practical meaning:
@@ -116,6 +116,26 @@ These are useful when you are localizing performance or numerical-behavior
 questions. They are not the normal first controls for day-to-day work, so most
 users should leave the defaults alone unless they are actively diagnosing a
 route.
+
+## `np`: `nomad = "auto"` chooses the lightest reliable LP degree search
+
+For local-polynomial degree-and-bandwidth searches, current `np` and `npRmpi`
+releases accept `nomad = "auto"`. The automatic policy uses an exhaustive
+Powell-style degree search for small one-dimensional degree lattices, where
+that route is simpler and more reliable, while preserving NOMAD for larger or
+explicitly requested search surfaces.
+
+```r
+## Let the package choose exhaustive small-search or NOMAD search as appropriate
+bw_lp <- npregbw(y ~ x,
+  regtype = "lp",
+  nomad = "auto",
+  data = mydat)
+```
+
+Search summaries now distinguish true objective evaluations from repeated
+point lookups satisfied by solver or package-side caches. Treat those numbers
+as diagnostics, not as modeling choices.
 
 ## `np`: many variables and long formulas
 

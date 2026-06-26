@@ -424,13 +424,15 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>As of Thursday, June 4, 2026, <code>crs</code> <code>0.15-44</code>, <code>npRmpi</code> <code>0.70-3</code>, and <code>np</code> <code>0.70-3</code> are now available on CRAN.</p>
+<p>As of Friday, June 26, 2026, <code>crs</code> <code>0.15-45</code>, <code>npRmpi</code> <code>0.70-4</code>, and <code>np</code> <code>0.70-4</code> are now available on CRAN.</p>
 <p>The redesigned examples use public controls such as <code>errors</code>, <code>bootstrap</code>, <code>band</code>, <code>data_rug</code>, <code>data_overlay</code>, and other <code>snake_case</code> option names. Older plotting code may need small argument-name updates once the new release is installed.</p>
 </div>
 </div>
 <section id="recent-extensions" class="level2">
 <h2 class="anchored" data-anchor-id="recent-extensions">Recent Extensions</h2>
 <ul>
+<li><a href="./runtime_and_scaling.html">Current CRAN release notes</a>: <code>np</code> and <code>npRmpi</code> <code>0.70-4</code> add <code>nomad = "auto"</code> for local-polynomial degree searches, clearer search/cache diagnostics, hardened multi-panel plotting, bias-corrected bootstrap plot payloads where supported, and optional Apple Silicon vDSP/vForce acceleration through <code>options(np.macMseries.accelerate = "auto")</code>.</li>
+<li><a href="./crs.html">Spline updates</a>: <code>crs</code> <code>0.15-45</code> brings the spline plot interface into the same named-argument style used by <code>np</code> and <code>npRmpi</code>, adds route-aware NOMAD budget controls, reports elapsed time and cache diagnostics more clearly, and improves mixed-data cross-validation performance while preserving fallback contracts.</li>
 <li><a href="./np_npRmpi.html">Local polynomial workflows</a>: <code>np</code> and <code>npRmpi</code> now support local polynomial capability across the conditional family, with joint selection of polynomial degrees and bandwidths for mixed data, gradient support throughout the conditional estimators, and derivative estimation of arbitrarily high order, limited only by the selected polynomial degree whether set manually or chosen automatically for the underlying smoothness class.</li>
 <li><a href="./density_distribution_quantiles.html">Bounded-support and proper conditional density/distribution methods</a>: conditional density and distribution workflows now include bounded-kernel routes for known bounds and practical unknown-bound settings, plus <code>proper = TRUE</code> for proper local-polynomial conditional density/distribution estimates when degree exceeds zero.</li>
 <li><a href="./density_distribution_quantiles.html">Location-scale quantile regression</a>: <code>nplsqreg</code> and <code>nplsqregbw</code> now expose a first-class location-scale quantile workflow with formula and bandwidth-object routes, scalar or vector <code>tau</code>, prediction, residuals, summaries, plots, and the same NOMAD-enabled local-polynomial degree-and-bandwidth search style where supported.</li>

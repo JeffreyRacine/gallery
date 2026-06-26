@@ -407,6 +407,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#np-repetitive-categorical-designs-may-now-compress-automatically" id="toc-np-repetitive-categorical-designs-may-now-compress-automatically" class="nav-link" data-scroll-target="#np-repetitive-categorical-designs-may-now-compress-automatically"><code>np</code>: repetitive categorical designs may now compress automatically</a></li>
   <li><a href="#np-quantile-runtime-is-driven-more-by-the-fit-than-by-tau" id="toc-np-quantile-runtime-is-driven-more-by-the-fit-than-by-tau" class="nav-link" data-scroll-target="#np-quantile-runtime-is-driven-more-by-the-fit-than-by-tau"><code>np</code>: quantile runtime is driven more by the fit than by <code>tau</code></a></li>
   <li><a href="#np-advanced-search-diagnostics-exist-but-treat-them-as-diagnostics" id="toc-np-advanced-search-diagnostics-exist-but-treat-them-as-diagnostics" class="nav-link" data-scroll-target="#np-advanced-search-diagnostics-exist-but-treat-them-as-diagnostics"><code>np</code>: advanced search diagnostics exist, but treat them as diagnostics</a></li>
+  <li><a href="#np-nomad-auto-chooses-the-lightest-reliable-lp-degree-search" id="toc-np-nomad-auto-chooses-the-lightest-reliable-lp-degree-search" class="nav-link" data-scroll-target="#np-nomad-auto-chooses-the-lightest-reliable-lp-degree-search"><code>np</code>: <code>nomad = "auto"</code> chooses the lightest reliable LP degree search</a></li>
   <li><a href="#np-many-variables-and-long-formulas" id="toc-np-many-variables-and-long-formulas" class="nav-link" data-scroll-target="#np-many-variables-and-long-formulas"><code>np</code>: many variables and long formulas</a></li>
   <li><a href="#np-repeated-interruptions-and-memory" id="toc-np-repeated-interruptions-and-memory" class="nav-link" data-scroll-target="#np-repeated-interruptions-and-memory"><code>np</code>: repeated interruptions and memory</a></li>
   <li><a href="#np-turn-off-status-messages-in-batch-work" id="toc-np-turn-off-status-messages-in-batch-work" class="nav-link" data-scroll-target="#np-turn-off-status-messages-in-batch-work"><code>np</code>: turn off status messages in batch work</a></li>
@@ -496,7 +497,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="np-the-default-tree-policy-is-now-automatic-rather-than-all-or-nothing" class="level2">
 <h2 class="anchored" data-anchor-id="np-the-default-tree-policy-is-now-automatic-rather-than-all-or-nothing"><code>np</code>: the default tree policy is now automatic rather than all-or-nothing</h2>
-<p>As of <code>np</code> / <code>npRmpi</code> <code>0.70-3</code>, the default tree setting is <code>options(np.tree = "auto")</code>.</p>
+<p>Current <code>np</code> and <code>npRmpi</code> releases default to <code>options(np.tree = "auto")</code>.</p>
 <p>Practical meaning:</p>
 <ul>
 <li>the package now turns on the continuous kd-tree route only when the kernel choice makes that shortcut a natural fit,</li>
@@ -536,6 +537,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>These are useful when you are localizing performance or numerical-behavior questions. They are not the normal first controls for day-to-day work, so most users should leave the defaults alone unless they are actively diagnosing a route.</p>
 </section>
+<section id="np-nomad-auto-chooses-the-lightest-reliable-lp-degree-search" class="level2">
+<h2 class="anchored" data-anchor-id="np-nomad-auto-chooses-the-lightest-reliable-lp-degree-search"><code>np</code>: <code>nomad = "auto"</code> chooses the lightest reliable LP degree search</h2>
+<p>For local-polynomial degree-and-bandwidth searches, current <code>np</code> and <code>npRmpi</code> releases accept <code>nomad = "auto"</code>. The automatic policy uses an exhaustive Powell-style degree search for small one-dimensional degree lattices, where that route is simpler and more reliable, while preserving NOMAD for larger or explicitly requested search surfaces.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Let the package choose exhaustive small-search or NOMAD search as appropriate</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>bw_lp <span class="ot">&lt;-</span> <span class="fu">npregbw</span>(y <span class="sc">~</span> x,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">regtype =</span> <span class="st">"lp"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">nomad =</span> <span class="st">"auto"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> mydat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Search summaries now distinguish true objective evaluations from repeated point lookups satisfied by solver or package-side caches. Treat those numbers as diagnostics, not as modeling choices.</p>
+</section>
 <section id="np-many-variables-and-long-formulas" class="level2">
 <h2 class="anchored" data-anchor-id="np-many-variables-and-long-formulas"><code>np</code>: many variables and long formulas</h2>
 <p>If you have a large number of variables and the formula interface starts failing with an “improper formula” style message, the practical workaround is simple: use the data-frame interface instead of pushing a very long formula string.</p>
@@ -547,8 +558,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="np-turn-off-status-messages-in-batch-work" class="level2">
 <h2 class="anchored" data-anchor-id="np-turn-off-status-messages-in-batch-work"><code>np</code>: turn off status messages in batch work</h2>
 <p>For quiet runs:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Silence routine np status messages in a controlled batch run</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">np.messages =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Silence routine np status messages in a controlled batch run</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">np.messages =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If you also want to silence warnings for a controlled batch run, wrap the call in <code>suppressWarnings(...)</code>.</p>
 </section>
 <section id="np-sparse-categorical-designs" class="level2">
@@ -584,7 +595,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>be especially cautious if your workflow relies on fork-based parallelism.</li>
 </ol>
 <p>Beginning with the <code>0.70-4</code> release line, <code>np</code> and <code>npRmpi</code> also provide a package-level Apple Silicon acceleration control that is separate from the R BLAS/LAPACK symlink above:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">np.macMseries.accelerate =</span> <span class="st">"auto"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">np.macMseries.accelerate =</span> <span class="st">"auto"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The default <code>"auto"</code> uses Accelerate/vDSP/vForce fast paths for eligible Gaussian-kernel and weighted-reduction computations only when the package was built for macOS arm64 with Accelerate support. On other platforms, or when those symbols are not available, the packages use the ordinary portable code path. Users can set the option to <code>TRUE</code> to request these routes when available, or to <code>FALSE</code> to disable them for timing or diagnostic comparisons. In <code>npRmpi</code>, the active value is synchronized to MPI workers in autodispatch sessions.</p>
 <p>Official references:</p>
 <ul>
@@ -638,8 +649,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="crs-quiet-runs" class="level2">
 <h2 class="anchored" data-anchor-id="crs-quiet-runs"><code>crs</code>: quiet runs</h2>
 <p>For quiet runs:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Silence routine crs status messages in a controlled batch run</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">crs.messages =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Silence routine crs status messages in a controlled batch run</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">crs.messages =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For the more package-specific version of this advice, see <a href="./spline_search_and_tuning.html">Spline Search and Tuning</a>.</p>
 </section>
 <section id="practical-triage" class="level2">

@@ -33,6 +33,27 @@ before concluding anything more dramatic.
 
 The controls below are the practical levers to reach for first.
 
+## CRS NOMAD budget controls
+
+Current `crs` releases choose route-specific defaults for NOMAD black-box
+evaluation budgets after the search route is known. Continuous-only searches
+and kernel/categorical searches therefore no longer have to share one blunt
+default.
+
+If you need to override the defaults, use the public budget controls directly:
+
+```r
+## Override CRS NOMAD budgets only when the default search is not appropriate
+model <- crs(y ~ x1 + x2,
+  max.bb.eval = 10000,
+  max.eval = 1000)
+```
+
+`max.bb.eval` controls the black-box evaluation budget, while `max.eval`
+controls repeated NOMAD point-lookup budgets. Summaries now report elapsed time
+and cache diagnostics more clearly, so inspect the fitted object before
+loosening a search globally.
+
 ## Memory control during search
 
 If the spline basis can become very large, one practical control is to restrict the minimum degrees of freedom the search is allowed to approach.

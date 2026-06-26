@@ -11,7 +11,7 @@
 require(manipulate)
 require(np)
 options(np.tree="auto")
-## Since np 0.70-3, "auto" enables trees for Epanechnikov/uniform kernels.
+## Current releases use "auto" to enable trees for Epanechnikov/uniform kernels.
 ## Use TRUE/FALSE only when assessing the impact for this problem.
 data(faithful)
 
