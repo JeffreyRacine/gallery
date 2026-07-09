@@ -103,6 +103,34 @@ expect_fixed \
   'npRmpi.quit()' \
   "npRmpi session quickstart uses explicit quit at end"
 
+expect_fixed \
+  "$ROOT/index.qmd" \
+  '`npRmpi` `0.70-5`' \
+  "gallery overview names the current npRmpi release"
+
+expect_fixed \
+  "$ROOT/index.qmd" \
+  '`0.70-5` are available on CRAN.' \
+  "gallery overview names the current np release"
+
+expect_fixed \
+  "$ROOT/mpi_large_data.qmd" \
+  'R CMD INSTALL npRmpi_0.70-5.tar.gz' \
+  "npRmpi source-install example uses the current release tarball"
+
+expect_fixed \
+  "$ROOT/www/np_npRmpi/np_copula_quickstart.R" \
+  'summary(copula_fit$bws)' \
+  "copula quickstart uses the public bandwidth component"
+
+forbid_regex_in_tree \
+  "attr\\([^)]*,[[:space:]]*['\"]bws['\"]\\)" \
+  "gallery sources avoid retired attribute-based bandwidth storage" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g '*.R' \
+  -g '!docs/**'
+
 if [ "$failures" -eq 0 ]; then
   printf 'PASS: gallery hygiene lint completed without findings\n'
 else

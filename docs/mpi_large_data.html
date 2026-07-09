@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -402,6 +402,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#short-version" id="toc-short-version" class="nav-link active" data-scroll-target="#short-version">Short version</a></li>
   <li><a href="#the-same-lp-shortcut-after-mpi-initialization" id="toc-the-same-lp-shortcut-after-mpi-initialization" class="nav-link" data-scroll-target="#the-same-lp-shortcut-after-mpi-initialization">The same LP shortcut after MPI initialization</a></li>
+  <li><a href="#what-0.70-5-changes-for-mpi-work" id="toc-what-0.70-5-changes-for-mpi-work" class="nav-link" data-scroll-target="#what-0.70-5-changes-for-mpi-work">What 0.70-5 changes for MPI work</a></li>
   <li><a href="#mode-chooser" id="toc-mode-chooser" class="nav-link" data-scroll-target="#mode-chooser">Mode chooser</a></li>
   <li><a href="#a-safe-validation-ladder" id="toc-a-safe-validation-ladder" class="nav-link" data-scroll-target="#a-safe-validation-ladder">A safe validation ladder</a></li>
   <li><a href="#platform-map" id="toc-platform-map" class="nav-link" data-scroll-target="#platform-map">Platform map</a></li>
@@ -492,6 +493,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>If you want the smallest runnable example of that pattern, start with <a href="www/np_npRmpi/nprmpi_session_nomad_quickstart.R">nprmpi_session_nomad_quickstart.R</a>.</p>
 <p>As in serial <code>np</code>, this shortcut requires the <code>crs</code> package because NOMAD degree search is provided there.</p>
 <p>In the current release line, that route now uses the native <code>crs</code> NOMAD runtime directly rather than the older transitional fallback path.</p>
+</section>
+<section id="what-0.70-5-changes-for-mpi-work" class="level2">
+<h2 class="anchored" data-anchor-id="what-0.70-5-changes-for-mpi-work">What 0.70-5 changes for MPI work</h2>
+<p>The 0.70-5 release distributes post-cross-validation <code>npindex()</code> fitting, evaluation, and gradients across owned evaluation rows in an active MPI session. It also restores serial-equivalent exact-bootstrap behavior for adaptive and generalized nearest-neighbor conditional density/distribution plots, and strengthens autodispatch argument transport and bandwidth-object reuse checks.</p>
+<p>These are implementation improvements rather than new calling conventions: the ordinary <code>np</code>-style session workflow remains the same. When comparing worker counts, use a numerical tolerance because MPI reductions can change summation order at roundoff scale.</p>
 </section>
 <section id="mode-chooser" class="level2">
 <h2 class="anchored" data-anchor-id="mode-chooser">Mode chooser</h2>
@@ -631,7 +637,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="build-and-install">3) Build and install</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Users/jracine/Development</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span> CMD build np-npRmpi</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span> CMD INSTALL npRmpi_0.70-4.tar.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span> CMD INSTALL npRmpi_0.70-5.tar.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="first-runtime-test" class="level3">
 <h3 class="anchored" data-anchor-id="first-runtime-test">4) First runtime test</h3>

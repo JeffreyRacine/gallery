@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -409,8 +409,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#binary-outcomes" id="toc-binary-outcomes" class="nav-link" data-scroll-target="#binary-outcomes">Binary outcomes</a></li>
   <li><a href="#continuous-outcomes" id="toc-continuous-outcomes" class="nav-link" data-scroll-target="#continuous-outcomes">Continuous outcomes</a></li>
+  <li><a href="#interpreting-and-tuning-the-single-index" id="toc-interpreting-and-tuning-the-single-index" class="nav-link" data-scroll-target="#interpreting-and-tuning-the-single-index">Interpreting and tuning the single index</a></li>
   </ul></li>
   <li><a href="#varying-coefficient-models-npscoef" id="toc-varying-coefficient-models-npscoef" class="nav-link" data-scroll-target="#varying-coefficient-models-npscoef">Varying coefficient models: <code>npscoef</code></a></li>
+  <li><a href="#hat-and-operator-helpers" id="toc-hat-and-operator-helpers" class="nav-link" data-scroll-target="#hat-and-operator-helpers">Hat and operator helpers</a></li>
   <li><a href="#how-should-i-choose-among-these" id="toc-how-should-i-choose-among-these" class="nav-link" data-scroll-target="#how-should-i-choose-among-these">How should I choose among these?</a></li>
   <li><a href="#practical-advice" id="toc-practical-advice" class="nav-link" data-scroll-target="#practical-advice">Practical advice</a></li>
   <li><a href="#what-to-read-next" id="toc-what-to-read-next" class="nav-link" data-scroll-target="#what-to-read-next">What to read next</a></li>
@@ -540,7 +542,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_index_continuous)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The single-index route can be appealing when you want more flexibility than a parametric model but less curse-of-dimensionality pressure than a fully nonparametric multivariate fit.</p>
-<p>For current LP-capable Ichimura routes, the underlying objective evaluation has also been tightened substantially. In practice, that means the continuous single-index route is now a much more plausible first stop when you want dimension reduction together with the newer local-polynomial search machinery.</p>
+</section>
+<section id="interpreting-and-tuning-the-single-index" class="level3">
+<h3 class="anchored" data-anchor-id="interpreting-and-tuning-the-single-index">Interpreting and tuning the single index</h3>
+<p>The 0.70-5 release substantially reworks the Ichimura and Klein-Spady objectives so they reuse the established <code>npreg</code> leave-one-out backend where appropriate. Bounded continuous-kernel choices are also carried consistently through fitting, evaluation, variance, and bootstrap routes. In <code>npRmpi</code>, the post-CV fit, evaluation, and gradient work is distributed across evaluation rows in an active session.</p>
+<p>The coefficient vector is identified only up to scale, so <code>npindexbw()</code> normalizes its first coefficient to one. Read the remaining coefficients as relative movements in the index, not as standalone linear-model slopes, and choose the first continuous regressor deliberately when coefficient interpretation matters.</p>
+<p>The default <code>optim.method = "Nelder-Mead"</code> remains a robust derivative-free starting point for a low-dimensional search. For a higher-dimensional index, <code>optim.method = "BFGS"</code> can be a useful performance and sensitivity comparison. Because the objective can be nonconvex, compare objective values, convergence behavior, and fitted objects rather than selecting an optimizer by runtime alone.</p>
 </section>
 </section>
 <section id="varying-coefficient-models-npscoef" class="level2">
@@ -561,6 +568,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_scoef)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>One practical detail from the older vignette still matters: the <code>X</code> variables in the varying-coefficient part need to be numeric, so creating explicit <code>0/1</code> versions of factors can be appropriate there.</p>
+</section>
+<section id="hat-and-operator-helpers" class="level2">
+<h2 class="anchored" data-anchor-id="hat-and-operator-helpers">Hat and operator helpers</h2>
+<p>The public helper family now follows the estimator family directly: <code>npreghat</code>, <code>npindexhat</code>, <code>npplreghat</code>, and <code>npscoefhat</code> cover regression and semiparametric fits, while <code>npudenshat</code>, <code>npudisthat</code>, <code>npcdenshat</code>, and <code>npcdisthat</code> cover density and distribution objects. These helpers can return an explicit matrix, apply the operator without asking users to reconstruct it, or produce the transposed response-weighted <code>output = "constraint"</code> form used in constrained estimation.</p>
+<p>In 0.70-5, <code>npreghat()</code> also tightens generalized-nearest-neighbor and local-constant derivative ownership. For mixed polynomial degrees, available derivative components are routed through the correct operator and unavailable components are reported explicitly rather than silently applying a different derivative.</p>
+<p>The constrained local-polynomial scripts in the <a href="./code_catalog.html">Code Catalog</a> show the practical <code>npreghat()</code> workflow.</p>
 </section>
 <section id="how-should-i-choose-among-these" class="level2">
 <h2 class="anchored" data-anchor-id="how-should-i-choose-among-these">How should I choose among these?</h2>

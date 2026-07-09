@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -459,13 +459,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>As of Friday, June 26, 2026, <code>npRmpi</code> <code>0.70-4</code> and <code>np</code> <code>0.70-4</code> are now available on CRAN.</p>
+<p>As of Friday, July 10, 2026, <code>npRmpi</code> <code>0.70-5</code> and <code>np</code> <code>0.70-5</code> are available on CRAN.</p>
 <ul>
 <li>use <code>errors</code>, <code>bootstrap</code>, <code>band</code>, <code>alpha</code>, and <code>B</code> for the main interval controls</li>
 <li>use <code>snake_case</code> names such as <code>data_rug</code>, <code>data_overlay</code>, <code>common_scale</code>, and <code>coef_index</code></li>
 <li>use <code>np_boot_control()</code>, <code>np_grid_control()</code>, and <code>np_render_control()</code> only for the remaining detailed control groups</li>
 </ul>
-<p>If you are adapting older code after installing the new release, the most common translation is from <code>plot.errors.*</code> names to these newer public arguments.</p>
+<p>If you are adapting code written for releases before the 0.70-2 plot-interface redesign, the most common translation is from <code>plot.errors.*</code> names to these newer public arguments.</p>
 </div>
 </div>
 <section id="a-simple-fitted-curve-plot" class="level2">
@@ -503,6 +503,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Use the bootstrap route when you want simulation-based intervals</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.ll, <span class="at">errors =</span> <span class="st">"bootstrap"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Current <code>np</code> and <code>npRmpi</code> releases also support bias-corrected bootstrap centering on the supported fixed-bandwidth plot families. Unsupported routes fail explicitly rather than silently drawing a different interval.</p>
+<p>The 0.70-5 release also reduces public-facing bootstrap memory use for single-index, conditional-mode, and partially-linear plots. Their ordinary default evaluation grids grow linearly with the training sample size; an explicit request such as <code>neval = ntrain</code> remains under user control and can still be substantially heavier.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Ask supported bootstrap plots to use bias-corrected centers</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.ll,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">errors =</span> <span class="st">"bootstrap"</span>,</span>

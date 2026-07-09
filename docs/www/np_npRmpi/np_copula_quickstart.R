@@ -20,4 +20,9 @@ copula_fit <- npcopula(~ x + y, data = dat, neval = 20)
 
 ## Inspect the fitted copula object and the retained bandwidth object.
 summary(copula_fit)
-summary(attr(copula_fit, "bws"))
+summary(copula_fit$bws)
+
+## Evaluate on a small Cartesian grid of marginal probability coordinates.
+u_eval <- list(u1 = c(0.25, 0.50, 0.75),
+  u2 = c(0.25, 0.50, 0.75))
+predict(copula_fit, u = u_eval)

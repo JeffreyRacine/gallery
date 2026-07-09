@@ -30,16 +30,17 @@ Use this table when you already know roughly what you want to do, but not which 
 | Task | Functions | Best first page | Working code route |
 |---|---|---|---|
 | Kernel regression | `npreg`, `npregbw`, `plot`, `predict` | [Kernel Primer](kernel_primer.qmd) | [Quickstarts](quickstarts.qmd) |
-| Unconditional density and distribution | `npudens`, `npudensbw`, `npudist` | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) | [Quickstarts](quickstarts.qmd) |
-| Conditional density and distribution | `npcdens`, `npcdensbw`, `npcdist` | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) | [Quickstarts](quickstarts.qmd) |
-| Quantile regression | `npqreg`, `npcdistbw` | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) | [Quickstarts](quickstarts.qmd) |
+| Unconditional density and distribution | `npudens`, `npudensbw`, `npudist`, `npudistbw` | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) | [Quickstarts](quickstarts.qmd) |
+| Conditional density and distribution | `npcdens`, `npcdensbw`, `npcdist`, `npcdistbw` | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) | [Quickstarts](quickstarts.qmd) |
+| Conditional and location-scale quantiles | `npqreg`, `npcdistbw`, `nplsqreg`, `nplsqregbw` | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) | [Quickstarts](quickstarts.qmd) |
+| Copula estimation | `npcopula`, `predict`, `plot` | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) | [Quickstarts](quickstarts.qmd) |
 | Semiparametric models | `npplreg`, `npplregbw`, `npindex`, `npindexbw`, `npscoef`, `npscoefbw` | [Semiparametric Models](semiparametric_models.qmd) | [Quickstarts](quickstarts.qmd) |
 | Mode estimation and classification | `npconmode` | [Classification and Modes](classification_modes.qmd) | [Quickstarts](quickstarts.qmd) |
 | Plotting, gradients, and intervals | `plot`, `predict`, `gradients` | [Plotting and Intervals](plotting_and_intervals.qmd) | [Quickstarts](quickstarts.qmd) |
 | Options, kernels, and plotting controls | `np.options`, `np.kernels`, `plot` | [Kernel Primer](kernel_primer.qmd) | [Plotting and Intervals](plotting_and_intervals.qmd) |
 | Model specification and significance tests | `npcmstest`, `npsigtest` | [Significance and Specification](significance_and_specification.qmd) | [Quickstarts](quickstarts.qmd) |
 | Entropy, equality, symmetry, and dependence tests | `npdeneqtest`, `npunitest`, `npsymtest`, `npdeptest`, `npsdeptest` | [Entropy and Testing](entropy_tests.qmd) | [Quickstarts](quickstarts.qmd) |
-| Hat operators and fast post-estimation maps | `npreghat` | [Kernel Methods](np_npRmpi.qmd) | [Code Catalog](code_catalog.qmd) |
+| Hat operators and fast post-estimation maps | `npreghat`, `npindexhat`, `npplreghat`, `npscoefhat`, `npudenshat`, `npudisthat`, `npcdenshat`, `npcdisthat` | [Semiparametric Models](semiparametric_models.qmd) | [Code Catalog](code_catalog.qmd) |
 | Kernel sums and lower-level customization | `npksum` | [Build With npksum](npksum_custom.qmd) | [Code Catalog](code_catalog.qmd) |
 | MPI versions of familiar `np` workflows | `npRmpi.init`, `npRmpi.quit`, `npRmpi.session.info`, other `np*` calls after session startup | [MPI and Large Data](mpi_large_data.qmd) | [Quickstarts](quickstarts.qmd) |
 | Regression splines | `crs` | [Splines](crs.qmd) | [Quickstarts](quickstarts.qmd) |
@@ -51,14 +52,14 @@ Use this table when you already know roughly what you want to do, but not which 
 | Task | Functions |
 |---|---|
 | Kernel regression | `npreg`, `npregbw`, `plot`, `predict` |
-| Unconditional density and distribution | `npudens`, `npudensbw`, `npudist` |
-| Conditional density and distribution | `npcdens`, `npcdensbw`, `npcdist` |
-| Quantile regression | `npqreg`, `npqcmstest` |
+| Unconditional density and distribution | `npudens`, `npudensbw`, `npudist`, `npudistbw` |
+| Conditional density and distribution | `npcdens`, `npcdensbw`, `npcdist`, `npcdistbw` |
+| Quantile regression | `npqreg`, `nplsqreg`, `nplsqregbw`, `npqcmstest` |
 | Semiparametric models | `npplreg`, `npplregbw`, `npindex`, `npindexbw`, `npscoef`, `npscoefbw` |
 | Mode estimation | `npconmode` |
 | Copulas | `npcopula` |
 | Options, kernels, and plotting controls | `np.options`, `np.kernels`, `plot` |
-| Hat operators and fast post-estimation maps | `npreghat` |
+| Hat operators and fast post-estimation maps | `npreghat`, `npindexhat`, `npplreghat`, `npscoefhat`, `npudenshat`, `npudisthat`, `npcdenshat`, `npcdisthat` |
 | Model specification and significance tests | `npcmstest`, `npsigtest`, `npdeneqtest`, `npunitest`, `npsymtest`, `npsdeptest`, `npdeptest` |
 | Instrumental methods | `npregiv`, `npregivderiv` |
 | Kernel sums and lower-level support | `npksum` |

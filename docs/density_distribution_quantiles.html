@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -400,7 +400,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#unconditional-density-and-distribution-npudens-and-npudist" id="toc-unconditional-density-and-distribution-npudens-and-npudist" class="nav-link active" data-scroll-target="#unconditional-density-and-distribution-npudens-and-npudist">Unconditional density and distribution: <code>npudens</code> and <code>npudist</code></a></li>
+  <li><a href="#unconditional-density-and-distribution-npudens-and-npudist" id="toc-unconditional-density-and-distribution-npudens-and-npudist" class="nav-link active" data-scroll-target="#unconditional-density-and-distribution-npudens-and-npudist">Unconditional density and distribution: <code>npudens</code> and <code>npudist</code></a>
+  <ul class="collapse">
+  <li><a href="#distribution-bandwidth-selection-support" id="toc-distribution-bandwidth-selection-support" class="nav-link" data-scroll-target="#distribution-bandwidth-selection-support">Distribution bandwidth-selection support</a></li>
+  </ul></li>
   <li><a href="#conditional-density-and-distribution-npcdens-and-npcdist" id="toc-conditional-density-and-distribution-npcdens-and-npcdist" class="nav-link" data-scroll-target="#conditional-density-and-distribution-npcdens-and-npcdist">Conditional density and distribution: <code>npcdens</code> and <code>npcdist</code></a></li>
   <li><a href="#practitioner-oriented-extras" id="toc-practitioner-oriented-extras" class="nav-link" data-scroll-target="#practitioner-oriented-extras">Practitioner-oriented extras</a></li>
   <li><a href="#copulas-npcopula" id="toc-copulas-npcopula" class="nav-link" data-scroll-target="#copulas-npcopula">Copulas: <code>npcopula</code></a></li>
@@ -473,6 +476,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(f_faithful, <span class="at">view =</span> <span class="st">"fixed"</span>, <span class="at">main =</span> <span class="st">""</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(F_faithful, <span class="at">view =</span> <span class="st">"fixed"</span>, <span class="at">main =</span> <span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This is a good example of why nonparametric methods can matter: a bimodal or otherwise irregular structure is much easier to reveal when you do not force a simple parametric family on the data.</p>
+<section id="distribution-bandwidth-selection-support" class="level3">
+<h3 class="anchored" data-anchor-id="distribution-bandwidth-selection-support">Distribution bandwidth-selection support</h3>
+<p>For <code>npudistbw()</code>, the default <code>do.full.integral = FALSE</code> evaluates the CDF criterion on a fast row-aligned marginal-quantile path controlled by <code>ngrid</code>. In a multivariate problem this is not a Cartesian product grid. Set <code>do.full.integral = TRUE</code> when you specifically want the empirical joint support and can accept the additional cost, or supply <code>gdat</code> for a chosen evaluation cloud or grid.</p>
+<p>The <code>bwmethod = "normal-reference"</code> route is a fast Silverman-style rule-of-thumb for exploratory work. It is not a production substitute for cross-validation or likelihood-based bandwidth selection, and categorical coordinates receive zero smoothing under that rule.</p>
+</section>
 </section>
 <section id="conditional-density-and-distribution-npcdens-and-npcdist" class="level2">
 <h2 class="anchored" data-anchor-id="conditional-density-and-distribution-npcdens-and-npcdist">Conditional density and distribution: <code>npcdens</code> and <code>npcdist</code></h2>
@@ -554,11 +562,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="do">## Inspect the fitted copula object and the retained bandwidth object.</span></span>
 <span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(copula_fit)</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">attr</span>(copula_fit, <span class="st">"bws"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(copula_fit<span class="sc">$</span>bws)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="do">## Evaluate on a small Cartesian grid of marginal probability coordinates.</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>u_eval <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">u1 =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">u2 =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(copula_fit, <span class="at">u =</span> u_eval)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The fitted object retains its public bandwidth state in <code>copula_fit$bws</code>. Copula prediction is expressed in marginal probability coordinates, not in raw data on the original variable scale:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Evaluate the fitted copula on a small Cartesian probability grid</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>u_eval <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">u1 =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">u2 =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(copula_fit, <span class="at">u =</span> u_eval)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The compatibility <code>newdata</code> route also expects columns named <code>u1</code>, <code>u2</code>, and so on; it does not transform raw <code>x</code> and <code>y</code> values into probability coordinates. For higher-dimensional copulas, provide <code>u</code> explicitly or use <code>evaluation = "sample"</code> rather than asking for an exponentially growing automatic grid.</p>
 <p>For LP-capable conditional families, the same modern shortcut is now available:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>fhat_lp <span class="ot">&lt;-</span> <span class="fu">npcdens</span>(eruptions <span class="sc">~</span> waiting, <span class="at">data =</span> dat, <span class="at">nomad =</span> <span class="st">"auto"</span>, <span class="at">nmulti =</span> <span class="dv">1</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>Fhat_lp <span class="ot">&lt;-</span> <span class="fu">npcdist</span>(eruptions <span class="sc">~</span> waiting, <span class="at">data =</span> dat, <span class="at">nomad =</span> <span class="st">"auto"</span>, <span class="at">nmulti =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>fhat_lp <span class="ot">&lt;-</span> <span class="fu">npcdens</span>(eruptions <span class="sc">~</span> waiting, <span class="at">data =</span> dat, <span class="at">nomad =</span> <span class="st">"auto"</span>, <span class="at">nmulti =</span> <span class="dv">1</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>Fhat_lp <span class="ot">&lt;-</span> <span class="fu">npcdist</span>(eruptions <span class="sc">~</span> waiting, <span class="at">data =</span> dat, <span class="at">nomad =</span> <span class="st">"auto"</span>, <span class="at">nmulti =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>That is the convenience route for automatic local-polynomial degree and bandwidth search in a single call. As with regression, it requires the <code>crs</code> package because NOMAD degree search is provided there.</p>
 <p>When the local-polynomial degree is above zero, <code>proper = TRUE</code> is also available in the <code>npc*</code> calls and related plot routes. This enforces proper conditional density/distribution output in the practical sense used here: non-negative and integrating to one conditional on <code>x</code>.</p>
 <p>The same local-polynomial extensions now also broaden derivative support across the conditional family. In practice, that means conditional density, conditional distribution, conditional quantile, and related fitted objects can now expose richer gradient and higher-order derivative routes whenever the selected polynomial degree is high enough to support them.</p>
@@ -567,78 +586,80 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="nonparametric-quantile-regression-npqreg">Nonparametric quantile regression: <code>npqreg</code></h2>
 <p>Use <code>npqreg</code> when your interest lies in conditional quantiles rather than means.</p>
 <p>The direct formula interface is now the natural first stop. When <code>bws</code> is not supplied, <code>npqreg()</code> automatically calls <code>npcdistbw()</code> internally to select the underlying conditional-distribution bandwidth object. Bandwidth-selection options supplied to <code>npqreg()</code> are passed through to that internal <code>npcdistbw()</code> call, so you can still control the underlying conditional-distribution fit without breaking the high-level workflow.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Extract several quantiles from one selected conditional-distribution fit</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Italy, <span class="at">package =</span> <span class="st">"np"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>qfit <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year),</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> Italy,</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Extract several quantiles from one selected conditional-distribution fit</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Italy, <span class="at">package =</span> <span class="st">"np"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>qfit <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> Italy,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Then compare the fitted quantiles:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Overlay the fitted conditional quantiles</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Overlay the fitted conditional quantiles</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If you later want to reuse the selected bandwidths for additional quantiles without recomputing cross-validation, you still can. Call <code>npqreg()</code> when you need the fitted values as an object, or pass <code>tau</code> directly to <code>plot()</code> when graphical inspection is all you need:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>qmed <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year), <span class="at">data =</span> Italy, <span class="at">tau =</span> <span class="fl">0.50</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>qfit <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(<span class="at">bws =</span> qmed<span class="sc">$</span>bws, <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Or, if plotting is the only goal:</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qmed, <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>qmed <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year), <span class="at">data =</span> Italy, <span class="at">tau =</span> <span class="fl">0.50</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>qfit <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(<span class="at">bws =</span> qmed<span class="sc">$</span>bws, <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Or, if plotting is the only goal:</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qmed, <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If you want derivative information, request it in the fit:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>qgrad <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year),</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> Italy,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">tau =</span> <span class="fl">0.50</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">gradients =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qgrad, <span class="at">gradients =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>qgrad <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year),</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> Italy,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">tau =</span> <span class="fl">0.50</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">gradients =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qgrad, <span class="at">gradients =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The same formula interface can also use the automatic local-polynomial degree-and-bandwidth search when the conditioning data include at least one continuous variable:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Italy<span class="sc">$</span>year_numeric <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(Italy<span class="sc">$</span>year))</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>qfit_lp <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> year_numeric,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> Italy,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                  <span class="do">## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">nomad =</span> <span class="st">"auto"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Italy<span class="sc">$</span>year_numeric <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(Italy<span class="sc">$</span>year))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>qfit_lp <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> year_numeric,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> Italy,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                  <span class="do">## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">nomad =</span> <span class="st">"auto"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This is a good example of the intended progression: start with the direct high-level route, then reuse the retained bandwidth object only when you specifically want to avoid recomputing it.</p>
+<p>Conditional quantile inversion requires a monotone dependent-variable CDF. Accordingly, <code>npqreg</code> supports <code>cykerorder = 2</code> for this route and rejects higher-order dependent-variable CDF kernels, which can be nonmonotone.</p>
 </section>
 <section id="location-scale-quantile-regression-nplsqreg" class="level2">
 <h2 class="anchored" data-anchor-id="location-scale-quantile-regression-nplsqreg">Location-scale quantile regression: <code>nplsqreg</code></h2>
 <p>Use <code>nplsqreg</code> when you want a location-scale conditional quantile route rather than direct inversion of a fitted conditional distribution.</p>
 <p>The user-facing workflow is meant to feel just as natural as <code>npqreg</code>. When <code>bws</code> is omitted, <code>nplsqreg()</code> calls <code>nplsqregbw()</code> internally to select the underlying bandwidths and location-scale shift state. You still retain the selected bandwidth object for exact reuse, but the normal first stop is the high-level formula interface.</p>
 <p>Source file: <a href="www/np_npRmpi/np_lsqreg_quickstart.R">np_lsqreg_quickstart.R</a></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Minimal np location-scale quantile example.</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit several location-scale quantiles in one call, then inspect the</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="do">## selected bandwidth state and compare the fitted curves.</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">np.messages =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Keep the first location-scale run compact and reproducible.</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Italy, <span class="at">package =</span> <span class="st">"np"</span>)</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit several conditional quantiles using the location-scale route.</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>qfit <span class="ot">&lt;-</span> <span class="fu">nplsqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year),</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> Italy,</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">nmulti =</span> <span class="dv">1</span>)</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="do">## Review the selected search state and fitted object.</span></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(qfit<span class="sc">$</span>bws)</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(qfit)</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="do">## Predict the median at the observed design points.</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>qmed <span class="ot">&lt;-</span> <span class="fu">predict</span>(qfit, <span class="at">tau =</span> <span class="fl">0.50</span>)</span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(qmed)</span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot the fitted location-scale quantile curves.</span></span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Minimal np location-scale quantile example.</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit several location-scale quantiles in one call, then inspect the</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="do">## selected bandwidth state and compare the fitted curves.</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">np.messages =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Keep the first location-scale run compact and reproducible.</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Italy, <span class="at">package =</span> <span class="st">"np"</span>)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit several conditional quantiles using the location-scale route.</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>qfit <span class="ot">&lt;-</span> <span class="fu">nplsqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year),</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> Italy,</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">nmulti =</span> <span class="dv">1</span>)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="do">## Review the selected search state and fitted object.</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(qfit<span class="sc">$</span>bws)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(qfit)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="do">## Predict the median at the observed design points.</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>qmed <span class="ot">&lt;-</span> <span class="fu">predict</span>(qfit, <span class="at">tau =</span> <span class="fl">0.50</span>)</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(qmed)</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot the fitted location-scale quantile curves.</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If you later want to reuse the selected state for a specific quantile without rerunning the full search, the retained <code>bws</code> object supports that directly:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Reuse an exact location-scale bandwidth object for one fitted tau</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>qmed <span class="ot">&lt;-</span> <span class="fu">nplsqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year), <span class="at">data =</span> Italy, <span class="at">tau =</span> <span class="fl">0.50</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>qfit <span class="ot">&lt;-</span> <span class="fu">nplsqreg</span>(<span class="at">bws =</span> qmed<span class="sc">$</span>bws, <span class="at">tau =</span> <span class="fl">0.50</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Reuse an exact location-scale bandwidth object for one fitted tau</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>qmed <span class="ot">&lt;-</span> <span class="fu">nplsqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year), <span class="at">data =</span> Italy, <span class="at">tau =</span> <span class="fl">0.50</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>qfit <span class="ot">&lt;-</span> <span class="fu">nplsqreg</span>(<span class="at">bws =</span> qmed<span class="sc">$</span>bws, <span class="at">tau =</span> <span class="fl">0.50</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>As with the other LP-capable conditional families, <code>nomad = "auto"</code> can also be used on supported continuous-data routes when you want automatic degree-and-bandwidth search in the same high-level call.</p>
+<p>For vector <code>tau</code>, the location-scale fits are estimated independently. Their asymptotic standard errors are conditional on the selected bandwidths, pilot scale, and shift state, and the fitted quantile curves are not monotonized, so finite-sample crossing is possible.</p>
 </section>
 <section id="when-should-i-use-these-instead-of-regression" class="level2">
 <h2 class="anchored" data-anchor-id="when-should-i-use-these-instead-of-regression">When should I use these instead of regression?</h2>

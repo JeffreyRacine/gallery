@@ -57,6 +57,20 @@ plot(F_faithful, view = "fixed", main = "")
 
 This is a good example of why nonparametric methods can matter: a bimodal or otherwise irregular structure is much easier to reveal when you do not force a simple parametric family on the data.
 
+### Distribution bandwidth-selection support
+
+For `npudistbw()`, the default `do.full.integral = FALSE` evaluates the CDF
+criterion on a fast row-aligned marginal-quantile path controlled by `ngrid`.
+In a multivariate problem this is not a Cartesian product grid. Set
+`do.full.integral = TRUE` when you specifically want the empirical joint
+support and can accept the additional cost, or supply `gdat` for a chosen
+evaluation cloud or grid.
+
+The `bwmethod = "normal-reference"` route is a fast Silverman-style
+rule-of-thumb for exploratory work. It is not a production substitute for
+cross-validation or likelihood-based bandwidth selection, and categorical
+coordinates receive zero smoothing under that rule.
+
 ## Conditional density and distribution: `npcdens` and `npcdist`
 
 Use these when the full conditional distribution matters, not just the conditional mean.
@@ -128,6 +142,23 @@ Source file: [np_copula_quickstart.R](www/np_npRmpi/np_copula_quickstart.R)
 #| results: asis
 emit_source("www/np_npRmpi/np_copula_quickstart.R")
 ```
+
+The fitted object retains its public bandwidth state in `copula_fit$bws`.
+Copula prediction is expressed in marginal probability coordinates, not in raw
+data on the original variable scale:
+
+```r
+## Evaluate the fitted copula on a small Cartesian probability grid
+u_eval <- list(u1 = c(0.25, 0.50, 0.75),
+  u2 = c(0.25, 0.50, 0.75))
+predict(copula_fit, u = u_eval)
+```
+
+The compatibility `newdata` route also expects columns named `u1`, `u2`, and so
+on; it does not transform raw `x` and `y` values into probability coordinates.
+For higher-dimensional copulas, provide `u` explicitly or use
+`evaluation = "sample"` rather than asking for an exponentially growing
+automatic grid.
 
 For LP-capable conditional families, the same modern shortcut is now available:
 
@@ -223,6 +254,10 @@ This is a good example of the intended progression: start with the direct
 high-level route, then reuse the retained bandwidth object only when you
 specifically want to avoid recomputing it.
 
+Conditional quantile inversion requires a monotone dependent-variable CDF.
+Accordingly, `npqreg` supports `cykerorder = 2` for this route and rejects
+higher-order dependent-variable CDF kernels, which can be nonmonotone.
+
 ## Location-scale quantile regression: `nplsqreg`
 
 Use `nplsqreg` when you want a location-scale conditional quantile route rather
@@ -255,6 +290,11 @@ plot(qfit)
 As with the other LP-capable conditional families, `nomad = "auto"` can also be
 used on supported continuous-data routes when you want automatic
 degree-and-bandwidth search in the same high-level call.
+
+For vector `tau`, the location-scale fits are estimated independently. Their
+asymptotic standard errors are conditional on the selected bandwidths, pilot
+scale, and shift state, and the fitted quantile curves are not monotonized, so
+finite-sample crossing is possible.
 
 ## When should I use these instead of regression?
 

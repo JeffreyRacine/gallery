@@ -124,10 +124,27 @@ summary(model_index_continuous)
 
 The single-index route can be appealing when you want more flexibility than a parametric model but less curse-of-dimensionality pressure than a fully nonparametric multivariate fit.
 
-For current LP-capable Ichimura routes, the underlying objective evaluation has
-also been tightened substantially. In practice, that means the continuous
-single-index route is now a much more plausible first stop when you want
-dimension reduction together with the newer local-polynomial search machinery.
+### Interpreting and tuning the single index
+
+The 0.70-5 release substantially reworks the Ichimura and Klein-Spady
+objectives so they reuse the established `npreg` leave-one-out backend where
+appropriate. Bounded continuous-kernel choices are also carried consistently
+through fitting, evaluation, variance, and bootstrap routes. In `npRmpi`, the
+post-CV fit, evaluation, and gradient work is distributed across evaluation
+rows in an active session.
+
+The coefficient vector is identified only up to scale, so `npindexbw()`
+normalizes its first coefficient to one. Read the remaining coefficients as
+relative movements in the index, not as standalone linear-model slopes, and
+choose the first continuous regressor deliberately when coefficient
+interpretation matters.
+
+The default `optim.method = "Nelder-Mead"` remains a robust derivative-free
+starting point for a low-dimensional search. For a higher-dimensional index,
+`optim.method = "BFGS"` can be a useful performance and sensitivity
+comparison. Because the objective can be nonconvex, compare objective values,
+convergence behavior, and fitted objects rather than selecting an optimizer by
+runtime alone.
 
 ## Varying coefficient models: `npscoef`
 
@@ -152,6 +169,25 @@ summary(model_scoef)
 ```
 
 One practical detail from the older vignette still matters: the `X` variables in the varying-coefficient part need to be numeric, so creating explicit `0/1` versions of factors can be appropriate there.
+
+## Hat and operator helpers
+
+The public helper family now follows the estimator family directly:
+`npreghat`, `npindexhat`, `npplreghat`, and `npscoefhat` cover regression and
+semiparametric fits, while `npudenshat`, `npudisthat`, `npcdenshat`, and
+`npcdisthat` cover density and distribution objects. These helpers can return
+an explicit matrix, apply the operator without asking users to reconstruct it,
+or produce the transposed response-weighted `output = "constraint"` form used
+in constrained estimation.
+
+In 0.70-5, `npreghat()` also tightens generalized-nearest-neighbor and
+local-constant derivative ownership. For mixed polynomial degrees, available
+derivative components are routed through the correct operator and unavailable
+components are reported explicitly rather than silently applying a different
+derivative.
+
+The constrained local-polynomial scripts in the [Code Catalog](code_catalog.qmd)
+show the practical `npreghat()` workflow.
 
 ## How should I choose among these?
 

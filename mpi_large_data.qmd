@@ -41,6 +41,20 @@ degree search is provided there.
 In the current release line, that route now uses the native `crs` NOMAD
 runtime directly rather than the older transitional fallback path.
 
+## What 0.70-5 changes for MPI work
+
+The 0.70-5 release distributes post-cross-validation `npindex()` fitting,
+evaluation, and gradients across owned evaluation rows in an active MPI
+session. It also restores serial-equivalent exact-bootstrap behavior for
+adaptive and generalized nearest-neighbor conditional density/distribution
+plots, and strengthens autodispatch argument transport and bandwidth-object
+reuse checks.
+
+These are implementation improvements rather than new calling conventions:
+the ordinary `np`-style session workflow remains the same. When comparing
+worker counts, use a numerical tolerance because MPI reductions can change
+summation order at roundoff scale.
+
 ## Mode chooser
 
 | If you want to... | Use this mode | Launch pattern | Key rule | Script |
@@ -133,7 +147,7 @@ export CXX=mpicxx
 ```bash
 cd /Users/jracine/Development
 R CMD build np-npRmpi
-R CMD INSTALL npRmpi_0.70-4.tar.gz
+R CMD INSTALL npRmpi_0.70-5.tar.gz
 ```
 
 ### 4) First runtime test

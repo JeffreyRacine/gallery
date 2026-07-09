@@ -14,6 +14,27 @@ keywords:
 
 This page collects the practical advice that matters once the method is right but the run becomes slow, memory-hungry, or otherwise awkward. The goal is not to promise that every job will be cheap. The goal is to help you decide what to simplify, what to tune, and when to change execution mode.
 
+## What changed in 0.70-5
+
+The `np` and `npRmpi` 0.70-5 release concentrates on correctness, reuse, and
+scaling rather than requiring a new user workflow.
+
+- `npindex()` and `npindexbw()` now reuse the established `npreg`
+  leave-one-out backend where appropriate, materially improving important
+  high-dimensional and local-polynomial objective routes.
+- Single-index, conditional-mode, and partially-linear plot bootstraps avoid
+  unnecessary quadratic-size public self-maps on ordinary default grids.
+- Formula/data reentry, mixed-degree derivatives, categorical gradients,
+  conditional quantile/mode/copula contracts, and native cache lifecycles are
+  more tightly validated.
+- In `npRmpi`, post-CV single-index fitting and evaluation are distributed,
+  exact nearest-neighbor conditional plot bootstraps match the serial route,
+  and autodispatch state reuse is more strongly guarded.
+
+The practical advice remains familiar: use the high-level calls normally,
+retain expensive bandwidth objects when you will reuse them, and move to
+`npRmpi` when the validated serial workflow is large enough to benefit.
+
 ## Why can these methods take time?
 
 Because many of the key routines are doing real search, repeated fitting, or resampling rather than evaluating a closed-form expression once.
@@ -216,6 +237,10 @@ symbols are not available, the packages use the ordinary portable code path.
 Users can set the option to `TRUE` to request these routes when available, or
 to `FALSE` to disable them for timing or diagnostic comparisons. In `npRmpi`,
 the active value is synchronized to MPI workers in autodispatch sessions.
+
+Accelerated and portable paths can use different math-library kernels or
+summation orders. Compare them with a numerical tolerance; reserve exact
+equality for controlled runs using the same acceleration setting.
 
 Official references:
 

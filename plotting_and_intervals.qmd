@@ -16,16 +16,16 @@ If you want a minimal downloadable script for this route, start with [np_plottin
 ::: {.callout-note}
 ## Current plotting interface
 
-As of Friday, June 26, 2026, `npRmpi` `0.70-4` and `np` `0.70-4` are now
+As of Friday, July 10, 2026, `npRmpi` `0.70-5` and `np` `0.70-5` are
 available on CRAN.
 
 - use `errors`, `bootstrap`, `band`, `alpha`, and `B` for the main interval controls
 - use `snake_case` names such as `data_rug`, `data_overlay`, `common_scale`, and `coef_index`
 - use `np_boot_control()`, `np_grid_control()`, and `np_render_control()` only for the remaining detailed control groups
 
-If you are adapting older code after installing the new release, the most
-common translation is from `plot.errors.*` names to these newer public
-arguments.
+If you are adapting code written for releases before the 0.70-2 plot-interface
+redesign, the most common translation is from `plot.errors.*` names to these
+newer public arguments.
 :::
 
 ## A simple fitted-curve plot
@@ -82,6 +82,12 @@ plot(model.ll, errors = "bootstrap")
 Current `np` and `npRmpi` releases also support bias-corrected bootstrap
 centering on the supported fixed-bandwidth plot families. Unsupported routes
 fail explicitly rather than silently drawing a different interval.
+
+The 0.70-5 release also reduces public-facing bootstrap memory use for
+single-index, conditional-mode, and partially-linear plots. Their ordinary
+default evaluation grids grow linearly with the training sample size; an
+explicit request such as `neval = ntrain` remains under user control and can
+still be substantially heavier.
 
 ```r
 ## Ask supported bootstrap plots to use bias-corrected centers

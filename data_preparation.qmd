@@ -77,6 +77,13 @@ Older examples sometimes use `attach()` because that was a common style at the t
 
 That keeps scope clear and avoids accidental name collisions.
 
+Current `np` and `npRmpi` formula routes also make this precedence explicit:
+where an estimator supports both a retained bandwidth object and `data =`, the
+explicit estimator data override the data stored in that object. Formula-based
+`newdata` is validated against the fitted right-hand-side variables before
+evaluation, so use the original predictor names and classes rather than relying
+on similarly named objects in the calling environment.
+
 ## A common plotting trap
 
 If you create factor or ordered variables inside a data-frame call and then plot a fitted object later, you can sometimes get an error about an object not being found. The safe habit is simple: pass the original data frame to `plot()` when needed.

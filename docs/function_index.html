@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -42,7 +42,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -439,89 +439,95 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td>Unconditional density and distribution</td>
-<td><code>npudens</code>, <code>npudensbw</code>, <code>npudist</code></td>
+<td><code>npudens</code>, <code>npudensbw</code>, <code>npudist</code>, <code>npudistbw</code></td>
 <td><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a></td>
 <td><a href="./quickstarts.html">Quickstarts</a></td>
 </tr>
 <tr class="odd">
 <td>Conditional density and distribution</td>
-<td><code>npcdens</code>, <code>npcdensbw</code>, <code>npcdist</code></td>
+<td><code>npcdens</code>, <code>npcdensbw</code>, <code>npcdist</code>, <code>npcdistbw</code></td>
 <td><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a></td>
 <td><a href="./quickstarts.html">Quickstarts</a></td>
 </tr>
 <tr class="even">
-<td>Quantile regression</td>
-<td><code>npqreg</code>, <code>npcdistbw</code></td>
+<td>Conditional and location-scale quantiles</td>
+<td><code>npqreg</code>, <code>npcdistbw</code>, <code>nplsqreg</code>, <code>nplsqregbw</code></td>
 <td><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a></td>
 <td><a href="./quickstarts.html">Quickstarts</a></td>
 </tr>
 <tr class="odd">
+<td>Copula estimation</td>
+<td><code>npcopula</code>, <code>predict</code>, <code>plot</code></td>
+<td><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a></td>
+<td><a href="./quickstarts.html">Quickstarts</a></td>
+</tr>
+<tr class="even">
 <td>Semiparametric models</td>
 <td><code>npplreg</code>, <code>npplregbw</code>, <code>npindex</code>, <code>npindexbw</code>, <code>npscoef</code>, <code>npscoefbw</code></td>
 <td><a href="./semiparametric_models.html">Semiparametric Models</a></td>
 <td><a href="./quickstarts.html">Quickstarts</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Mode estimation and classification</td>
 <td><code>npconmode</code></td>
 <td><a href="./classification_modes.html">Classification and Modes</a></td>
 <td><a href="./quickstarts.html">Quickstarts</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Plotting, gradients, and intervals</td>
 <td><code>plot</code>, <code>predict</code>, <code>gradients</code></td>
 <td><a href="./plotting_and_intervals.html">Plotting and Intervals</a></td>
 <td><a href="./quickstarts.html">Quickstarts</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Options, kernels, and plotting controls</td>
 <td><code>np.options</code>, <code>np.kernels</code>, <code>plot</code></td>
 <td><a href="./kernel_primer.html">Kernel Primer</a></td>
 <td><a href="./plotting_and_intervals.html">Plotting and Intervals</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Model specification and significance tests</td>
 <td><code>npcmstest</code>, <code>npsigtest</code></td>
 <td><a href="./significance_and_specification.html">Significance and Specification</a></td>
 <td><a href="./quickstarts.html">Quickstarts</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Entropy, equality, symmetry, and dependence tests</td>
 <td><code>npdeneqtest</code>, <code>npunitest</code>, <code>npsymtest</code>, <code>npdeptest</code>, <code>npsdeptest</code></td>
 <td><a href="./entropy_tests.html">Entropy and Testing</a></td>
 <td><a href="./quickstarts.html">Quickstarts</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Hat operators and fast post-estimation maps</td>
-<td><code>npreghat</code></td>
-<td><a href="./np_npRmpi.html">Kernel Methods</a></td>
+<td><code>npreghat</code>, <code>npindexhat</code>, <code>npplreghat</code>, <code>npscoefhat</code>, <code>npudenshat</code>, <code>npudisthat</code>, <code>npcdenshat</code>, <code>npcdisthat</code></td>
+<td><a href="./semiparametric_models.html">Semiparametric Models</a></td>
 <td><a href="./code_catalog.html">Code Catalog</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Kernel sums and lower-level customization</td>
 <td><code>npksum</code></td>
 <td><a href="./npksum_custom.html">Build With npksum</a></td>
 <td><a href="./code_catalog.html">Code Catalog</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>MPI versions of familiar <code>np</code> workflows</td>
 <td><code>npRmpi.init</code>, <code>npRmpi.quit</code>, <code>npRmpi.session.info</code>, other <code>np*</code> calls after session startup</td>
 <td><a href="./mpi_large_data.html">MPI and Large Data</a></td>
 <td><a href="./quickstarts.html">Quickstarts</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Regression splines</td>
 <td><code>crs</code></td>
 <td><a href="./crs.html">Splines</a></td>
 <td><a href="./quickstarts.html">Quickstarts</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Spline significance testing</td>
 <td><code>crssigtest</code></td>
 <td><a href="./crs.html">Splines</a></td>
 <td><a href="./spline_primer.html">Spline Primer</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Instrumental regression splines</td>
 <td><code>crsiv</code>, <code>crsivderiv</code></td>
 <td><a href="./crs.html">Splines</a></td>
@@ -550,15 +556,15 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td>Unconditional density and distribution</td>
-<td><code>npudens</code>, <code>npudensbw</code>, <code>npudist</code></td>
+<td><code>npudens</code>, <code>npudensbw</code>, <code>npudist</code>, <code>npudistbw</code></td>
 </tr>
 <tr class="odd">
 <td>Conditional density and distribution</td>
-<td><code>npcdens</code>, <code>npcdensbw</code>, <code>npcdist</code></td>
+<td><code>npcdens</code>, <code>npcdensbw</code>, <code>npcdist</code>, <code>npcdistbw</code></td>
 </tr>
 <tr class="even">
 <td>Quantile regression</td>
-<td><code>npqreg</code>, <code>npqcmstest</code></td>
+<td><code>npqreg</code>, <code>nplsqreg</code>, <code>nplsqregbw</code>, <code>npqcmstest</code></td>
 </tr>
 <tr class="odd">
 <td>Semiparametric models</td>
@@ -578,7 +584,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td>Hat operators and fast post-estimation maps</td>
-<td><code>npreghat</code></td>
+<td><code>npreghat</code>, <code>npindexhat</code>, <code>npplreghat</code>, <code>npscoefhat</code>, <code>npudenshat</code>, <code>npudisthat</code>, <code>npcdenshat</code>, <code>npcdisthat</code></td>
 </tr>
 <tr class="even">
 <td>Model specification and significance tests</td>

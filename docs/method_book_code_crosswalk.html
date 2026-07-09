@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -61,7 +61,7 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -590,6 +590,18 @@ window.Quarto = {
 <td><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a></td>
 </tr>
 <tr class="odd">
+<td>Location-scale conditional quantile</td>
+<td><code>nplsqreg</code>, <code>nplsqregbw</code></td>
+<td>Conditional quantiles under a nonparametric location-scale representation</td>
+<td><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a></td>
+</tr>
+<tr class="even">
+<td>Copula estimation</td>
+<td><code>npcopula</code></td>
+<td>Copula distribution or density on marginal probability coordinates</td>
+<td><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a></td>
+</tr>
+<tr class="odd">
 <td>Conditional mode / classification</td>
 <td><code>npconmode</code></td>
 <td>Modal outcome <span class="math inline">\(\arg\max_y \Pr(Y=y \mid X=x)\)</span></td>
@@ -653,6 +665,14 @@ window.Quarto = {
 <tr class="even">
 <td>Conditional quantile</td>
 <td>Princeton, <em>Conditional CDF and Quantile Estimation</em>, Chapter 6, especially Sections 6.3-6.5; Cambridge, <em>Conditional Probability Density and Cumulative Distribution Functions</em>, Chapter 4, especially conditional CDF and quantile material; Nelsen (2006) for quasi-inverse language. Gradients and standard errors are recent implementation extensions.</td>
+</tr>
+<tr class="odd">
+<td>Location-scale conditional quantile</td>
+<td>The location-scale route is a package implementation extension built from the package’s nonparametric regression and quantile machinery; use the current <code>nplsqreg</code> help page for the exact fitted-object, standard-error, and vector-<code>tau</code> contracts.</td>
+</tr>
+<tr class="even">
+<td>Copula estimation</td>
+<td>Cambridge, <em>Mixed-Data Probability Density and Cumulative Distribution Functions</em>, Chapter 3, especially <em>Smooth Kernel Copula Function Estimation with Mixed-Data</em>; Princeton, <em>Topics in Applied Nonparametric Estimation</em>, Chapter 20, Section 20.4; Nelsen (2006) for copula and quasi-inverse foundations.</td>
 </tr>
 <tr class="odd">
 <td>Conditional mode / classification</td>
@@ -783,11 +803,10 @@ window.Quarto = {
 <p>These functions are useful, but they are not the main starting point for most users.</p>
 <ul>
 <li><code>npksum</code>: lower-level mixed-kernel sums for custom workflows. Start with <a href="./npksum_custom.html">Build With npksum</a>. The relevant source is the estimator family being reconstructed; Cambridge, <em>Practicum</em>, Chapter 14, and <em>Computational Considerations</em>, Chapter 12, provide package-facing examples and computational context.</li>
-<li><code>npreghat</code>, <code>npcdenshat</code>, <code>npcdisthat</code>, <code>npudenshat</code>, <code>npudisthat</code>, <code>npsemihat</code>: fast post-estimation and helper workflows. Start with <a href="./function_index.html">Reference and Function Lookup</a>. These are advanced APIs; their source usually follows the estimator family rather than a separate book derivation.</li>
+<li><code>npreghat</code>, <code>npindexhat</code>, <code>npplreghat</code>, <code>npscoefhat</code>, <code>npcdenshat</code>, <code>npcdisthat</code>, <code>npudenshat</code>, and <code>npudisthat</code>: fast post-estimation and helper workflows. Start with <a href="./function_index.html">Reference and Function Lookup</a>. These are advanced APIs; their source usually follows the estimator family rather than a separate book derivation.</li>
 <li><code>plot</code>, <code>se</code>, <code>gradients</code>, <code>compute.bootstrap.errors</code>: plot surfaces, intervals, standard errors, and derivative accessors. Start with <a href="./plotting_and_intervals.html">Plotting and Intervals</a>. Current plot/bootstrap and some gradient behavior are implementation extensions.</li>
 <li><code>np.options</code>, <code>np.kernels</code>, <code>npseed</code>: reproducibility, global options, and kernel choices. Start with <a href="./kernel_primer.html">Kernel Primer</a>. Princeton, <em>Density Estimation</em>, Chapter 1, is the natural kernel/CDF background; package documentation is the source for exact option behavior.</li>
 <li><code>npuniden.boundary</code>, <code>npuniden.reflect</code>, <code>npuniden.sc</code>, <code>uocquantile</code>: support and boundary workflows. Start with <a href="./function_index.html">Reference and Function Lookup</a>. Cambridge, <em>Continuous Density and Cumulative Distribution Functions</em>, Chapter 2, provides bounded-domain and boundary-correction context.</li>
-<li><code>npcopula</code>: mixed-data copula and copula-density workflows. Start with <a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>. Cambridge, <em>Mixed-Data Probability Density and Cumulative Distribution Functions</em>, Chapter 3, especially <em>Smooth Kernel Copula Function Estimation with Mixed-Data</em>, and Princeton, <em>Topics in Applied Nonparametric Estimation</em>, Chapter 20, Section 20.4, are the main source pointers.</li>
 <li><code>npregiv</code>, <code>npregivderiv</code>: instrumental-variable regression routes. Start with <a href="./function_index.html">Reference and Function Lookup</a>. Princeton, <em>Instrumental Variables and Efficient Estimation of Semiparametric Models</em>, Chapter 16, Princeton, <em>Endogeneity in Nonparametric Regression Models</em>, Chapter 17, and Cambridge, <em>Conditional Mean Function Estimation with Endogenous Predictors</em>, Chapter 7, are the main source pointers.</li>
 <li><code>npRmpi.init</code>, <code>npRmpi.quit</code>, <code>npRmpi.session.info</code>: MPI setup, cleanup, and runtime diagnostics. Start with <a href="./mpi_large_data.html">MPI and Large Data</a>. Cambridge, <em>Computational Considerations</em>, Chapter 12, especially parallelism, provides general context; package runtime documentation is the source for exact behavior.</li>
 </ul>

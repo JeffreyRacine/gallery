@@ -93,6 +93,8 @@ plot/bootstrap machinery, are labeled as package implementation extensions.
 | Conditional density | `npcdens`, `npcdensbw` | Conditional density $f(y \mid x)$ | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
 | Conditional distribution | `npcdist`, `npcdistbw` | Conditional distribution $F(y \mid x)$ | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
 | Conditional quantile | `npqreg` | Conditional quantile $q_\tau(x)=\inf\{y:F(y \mid x)\ge \tau\}$ | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
+| Location-scale conditional quantile | `nplsqreg`, `nplsqregbw` | Conditional quantiles under a nonparametric location-scale representation | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
+| Copula estimation | `npcopula` | Copula distribution or density on marginal probability coordinates | [Density, Distribution, Quantiles](density_distribution_quantiles.qmd) |
 | Conditional mode / classification | `npconmode` | Modal outcome $\arg\max_y \Pr(Y=y \mid X=x)$ | [Classification and Modes](classification_modes.qmd) |
 | Partially linear regression | `npplreg`, `npplregbw` | Partially linear model $Y=X'\beta+\theta(Z)+\epsilon$ | [Semiparametric Models](semiparametric_models.qmd) |
 | Single-index model | `npindex`, `npindexbw` | Index regression $E[Y \mid X]=g(X'\beta)$ | [Semiparametric Models](semiparametric_models.qmd) |
@@ -109,6 +111,8 @@ plot/bootstrap machinery, are labeled as package implementation extensions.
 | Conditional density | Princeton, *Conditional Density Estimation*, Chapter 5, especially Sections 5.1-5.4; Princeton, *Kernel Estimation with Mixed Data*, Chapter 4; Cambridge, *Conditional Probability Density and Cumulative Distribution Functions*, Chapter 4. |
 | Conditional distribution | Princeton, *Conditional CDF and Quantile Estimation*, Chapter 6, especially Sections 6.1, 6.2, and 6.5; Princeton, *Conditional Density Estimation*, Chapter 5; Cambridge, *Conditional Probability Density and Cumulative Distribution Functions*, Chapter 4. |
 | Conditional quantile | Princeton, *Conditional CDF and Quantile Estimation*, Chapter 6, especially Sections 6.3-6.5; Cambridge, *Conditional Probability Density and Cumulative Distribution Functions*, Chapter 4, especially conditional CDF and quantile material; Nelsen (2006) for quasi-inverse language. Gradients and standard errors are recent implementation extensions. |
+| Location-scale conditional quantile | The location-scale route is a package implementation extension built from the package's nonparametric regression and quantile machinery; use the current `nplsqreg` help page for the exact fitted-object, standard-error, and vector-`tau` contracts. |
+| Copula estimation | Cambridge, *Mixed-Data Probability Density and Cumulative Distribution Functions*, Chapter 3, especially *Smooth Kernel Copula Function Estimation with Mixed-Data*; Princeton, *Topics in Applied Nonparametric Estimation*, Chapter 20, Section 20.4; Nelsen (2006) for copula and quasi-inverse foundations. |
 | Conditional mode / classification | Cambridge, *Conditional Probability Density and Cumulative Distribution Functions*, Chapter 4, especially *Binary Choice and Multinomial Choice Models*; Princeton, *Conditional Density Estimation*, Chapter 5; Princeton, *Kernel Estimation with Mixed Data*, Chapter 4. Non-local-constant routes use proper fitted probabilities before modal selection. |
 | Partially linear regression | Princeton, *Semiparametric Partially Linear Models*, Chapter 7, especially Sections 7.1, 7.2, and 7.4; Cambridge, *Semiparametric Conditional Mean Function Estimation*, Chapter 8, especially *Robinson's Partially Linear Model*. Current local-polynomial/NOMAD behavior treats the nuisance regressions as child-specific local-polynomial fits, followed by the final partially linear solve. |
 | Single-index model | Princeton, *Semiparametric Single Index Models*, Chapter 8, especially Sections 8.1, 8.2.1, 8.4, 8.5, and 8.10; Cambridge, *Semiparametric Conditional Mean Function Estimation*, Chapter 8, especially single-index material. |
@@ -150,8 +154,8 @@ users.
   family being reconstructed; Cambridge, *Practicum*, Chapter 14, and
   *Computational Considerations*, Chapter 12, provide package-facing examples
   and computational context.
-- `npreghat`, `npcdenshat`, `npcdisthat`, `npudenshat`, `npudisthat`,
-  `npsemihat`: fast post-estimation and helper workflows. Start with
+- `npreghat`, `npindexhat`, `npplreghat`, `npscoefhat`, `npcdenshat`,
+  `npcdisthat`, `npudenshat`, and `npudisthat`: fast post-estimation and helper workflows. Start with
   [Reference and Function Lookup](function_index.qmd). These are advanced
   APIs; their source usually follows the estimator family rather than a
   separate book derivation.
@@ -168,12 +172,6 @@ users.
   [Reference and Function Lookup](function_index.qmd). Cambridge,
   *Continuous Density and Cumulative Distribution Functions*, Chapter 2,
   provides bounded-domain and boundary-correction context.
-- `npcopula`: mixed-data copula and copula-density workflows. Start with
-  [Density, Distribution, Quantiles](density_distribution_quantiles.qmd).
-  Cambridge, *Mixed-Data Probability Density and Cumulative Distribution
-  Functions*, Chapter 3, especially *Smooth Kernel Copula Function Estimation
-  with Mixed-Data*, and Princeton, *Topics in Applied Nonparametric
-  Estimation*, Chapter 20, Section 20.4, are the main source pointers.
 - `npregiv`, `npregivderiv`: instrumental-variable regression routes. Start
   with [Reference and Function Lookup](function_index.qmd). Princeton,
   *Instrumental Variables and Efficient Estimation of Semiparametric Models*,
