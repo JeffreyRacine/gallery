@@ -420,18 +420,18 @@ ul.task-list li input[type="checkbox"] {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Current package releases
+<span class="screen-reader-only">Note</span>Current package status
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>As of Friday, July 10, 2026, <code>crs</code> <code>0.15-45</code>, <code>npRmpi</code> <code>0.70-5</code>, and <code>np</code> <code>0.70-5</code> are available on CRAN.</p>
+<p>As of Tuesday, July 14, 2026, <code>crs</code> <code>0.15-45</code> is available on CRAN. <code>npRmpi</code> <code>0.70-5</code> and <code>np</code> <code>0.70-5</code> are release candidates; until CRAN accepts them, the public CRAN releases remain <code>0.70-4</code>.</p>
 <p>The redesigned examples use public controls such as <code>errors</code>, <code>bootstrap</code>, <code>band</code>, <code>data_rug</code>, <code>data_overlay</code>, and other <code>snake_case</code> option names. Plotting code written for releases before the 0.70-2 interface redesign may need small argument-name updates.</p>
 </div>
 </div>
 <section id="recent-extensions" class="level2">
 <h2 class="anchored" data-anchor-id="recent-extensions">Recent Extensions</h2>
 <ul>
-<li><a href="./runtime_and_scaling.html">Current CRAN release notes</a>: <code>np</code> and <code>npRmpi</code> <code>0.70-5</code> substantially rework single-index objective evaluation, harden mixed-degree derivatives and formula/data reentry, reduce plot-bootstrap memory use, and strengthen serial/MPI parity across conditional, quantile, mode, copula, and semiparametric routes.</li>
+<li><a href="./runtime_and_scaling.html">0.70-5 release-candidate notes</a>: <code>np</code> and <code>npRmpi</code> <code>0.70-5</code> substantially rework single-index objective evaluation, harden mixed-degree derivatives and formula/data reentry, reduce plot-bootstrap memory use, and strengthen serial/MPI parity across conditional, quantile, mode, copula, and semiparametric routes.</li>
 <li><a href="./crs.html">Spline updates</a>: <code>crs</code> <code>0.15-45</code> brings the spline plot interface into the same named-argument style used by <code>np</code> and <code>npRmpi</code>, adds route-aware NOMAD budget controls, reports elapsed time and cache diagnostics more clearly, and improves mixed-data cross-validation performance while preserving fallback contracts.</li>
 <li><a href="./np_npRmpi.html">Local polynomial workflows</a>: <code>np</code> and <code>npRmpi</code> now support local polynomial capability across the conditional family, with joint selection of polynomial degrees and bandwidths for mixed data, gradient support throughout the conditional estimators, and derivative estimation of arbitrarily high order, limited only by the selected polynomial degree whether set manually or chosen automatically for the underlying smoothness class.</li>
 <li><a href="./density_distribution_quantiles.html">Bounded-support and proper conditional density/distribution methods</a>: conditional density and distribution workflows now include bounded-kernel routes for known bounds and practical unknown-bound settings, plus <code>proper = TRUE</code> for proper local-polynomial conditional density/distribution estimates when degree exceeds zero.</li>

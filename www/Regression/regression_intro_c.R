@@ -12,16 +12,11 @@ library(np)
 
 data(cps71)
 
-## Attach the data so that the variables `logwage' and `age' can be
-## called directly
-
-attach(cps71)
-
 ## Fit a local linear model (since we do not explicitly call npregbw()
 ## which conducts least-squares cross-validated bandwidth selection by
 ## default it is automatically invoked when we call npreg())
 
-model.ll <- npreg(logwage~age,regtype="ll")
+model.ll <- npreg(logwage~age,regtype="ll",data=cps71)
 
 ## model.ll will be an object of class `npreg'. The generic R function
 ## `plot' will dispatch to the `plot.np' S3 methods when it is deployed

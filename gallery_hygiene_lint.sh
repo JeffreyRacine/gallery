@@ -28,6 +28,19 @@ forbid_regex_in_tree() {
   fi
 }
 
+forbid_multiline_regex_in_tree() {
+  pattern=$1
+  label=$2
+  shift 2
+
+  if rg -U -n -e "$pattern" "$@" >/dev/null 2>&1; then
+    fail "$label"
+    rg -U -n -e "$pattern" "$@" >&2 || true
+  else
+    pass "$label"
+  fi
+}
+
 expect_fixed() {
   path=$1
   needle=$2
@@ -105,13 +118,33 @@ expect_fixed \
 
 expect_fixed \
   "$ROOT/index.qmd" \
-  '`npRmpi` `0.70-5`' \
-  "gallery overview names the current npRmpi release"
+  '`npRmpi`' \
+  "gallery overview names npRmpi"
 
 expect_fixed \
   "$ROOT/index.qmd" \
-  '`0.70-5` are available on CRAN.' \
-  "gallery overview names the current np release"
+  '`0.70-5` are release candidates' \
+  "gallery overview identifies 0.70-5 as release candidates"
+
+forbid_multiline_regex_in_tree \
+  '(?s)(`npRmpi`|`np`)[[:space:]]+`0\.70-5`.{0,160}available on CRAN' \
+  "gallery sources do not claim pre-release 0.70-5 is available on CRAN" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g '!docs/**'
+
+CURRENT_REGRESSION_SCRIPTS="
+$ROOT/www/Regression/regression_intro_a.R
+$ROOT/www/Regression/regression_intro_b.R
+$ROOT/www/Regression/regression_intro_c.R
+$ROOT/www/Regression/regression_multivar_a.R
+"
+
+# shellcheck disable=SC2086
+forbid_regex_in_tree \
+  'attach[[:space:]]*\(' \
+  "featured regression scripts use explicit data arguments" \
+  $CURRENT_REGRESSION_SCRIPTS
 
 expect_fixed \
   "$ROOT/mpi_large_data.qmd" \

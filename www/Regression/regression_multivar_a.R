@@ -12,18 +12,13 @@ library(np)
 
 data(wage1)
 
-## Attach the data so that the variables `lwage', `female', `educ' and
-## `exper' can be called directly
-
-attach(wage1)
-
 ## Fit a local linear model (since we do not explicitly call npregbw()
 ## which conducts least-squares cross-validated bandwidth selection by
 ## default it is automatically invoked when we call npreg()). Here we
 ## have a `factor' (female) and two `numeric' predictors (educ and
 ## exper - see ?wage1 for details)
 
-model <- npreg(lwage~female+educ+exper,regtype="ll")
+model <- npreg(lwage~female+educ+exper,regtype="ll",data=wage1)
 
 ## model will be an object of class `npreg'. The generic R function
 ## `plot' will dispatch to the `plot.np' S3 methods when it is deployed
