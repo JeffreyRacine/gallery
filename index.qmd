@@ -25,16 +25,15 @@ This website is linked from my academic site and is intended as a practical work
 ::: {.callout-note}
 ## Current package status
 
-As of Tuesday, July 14, 2026, `crs` `0.15-45` is available on CRAN. `npRmpi`
-`0.70-5` and `np` `0.70-5` are release candidates; until CRAN accepts them,
-the public CRAN releases remain `0.70-4`.
+As of Wednesday, July 15, 2026, `crs` `0.15-45`, `npRmpi` `0.70-5`, and `np`
+`0.70-5` are available on CRAN.
 
 The redesigned examples use public controls such as `errors`, `bootstrap`, `band`, `data_rug`, `data_overlay`, and other `snake_case` option names. Plotting code written for releases before the 0.70-2 interface redesign may need small argument-name updates.
 :::
 
 ## Recent Extensions
 
-- [0.70-5 release-candidate notes](runtime_and_scaling.qmd): `np` and `npRmpi` `0.70-5` substantially rework single-index objective evaluation, harden mixed-degree derivatives and formula/data reentry, reduce plot-bootstrap memory use, and strengthen serial/MPI parity across conditional, quantile, mode, copula, and semiparametric routes.
+- [0.70-5 release notes](runtime_and_scaling.qmd): `np` and `npRmpi` `0.70-5` substantially rework single-index objective evaluation, harden mixed-degree derivatives and formula/data reentry, reduce plot-bootstrap memory use, and strengthen serial/MPI parity across conditional, quantile, mode, copula, and semiparametric routes.
 - [Spline updates](crs.qmd): `crs` `0.15-45` brings the spline plot interface into the same named-argument style used by `np` and `npRmpi`, adds route-aware NOMAD budget controls, reports elapsed time and cache diagnostics more clearly, and improves mixed-data cross-validation performance while preserving fallback contracts.
 - [Local polynomial workflows](np_npRmpi.qmd): `np` and `npRmpi` now support local polynomial capability across the conditional family, with joint selection of polynomial degrees and bandwidths for mixed data, gradient support throughout the conditional estimators, and derivative estimation of arbitrarily high order, limited only by the selected polynomial degree whether set manually or chosen automatically for the underlying smoothness class.
 - [Bounded-support and proper conditional density/distribution methods](density_distribution_quantiles.qmd): conditional density and distribution workflows now include bounded-kernel routes for known bounds and practical unknown-bound settings, plus `proper = TRUE` for proper local-polynomial conditional density/distribution estimates when degree exceeds zero.

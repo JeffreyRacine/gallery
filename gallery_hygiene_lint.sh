@@ -123,12 +123,12 @@ expect_fixed \
 
 expect_fixed \
   "$ROOT/index.qmd" \
-  '`0.70-5` are release candidates' \
-  "gallery overview identifies 0.70-5 as release candidates"
+  '`0.70-5` are available on CRAN' \
+  "gallery overview identifies 0.70-5 as current CRAN releases"
 
-forbid_multiline_regex_in_tree \
-  '(?s)(`npRmpi`|`np`)[[:space:]]+`0\.70-5`.{0,160}available on CRAN' \
-  "gallery sources do not claim pre-release 0.70-5 is available on CRAN" \
+forbid_regex_in_tree \
+  'release[- ]candidate|public CRAN releases remain `0\.70-4`' \
+  "gallery sources contain no stale 0.70-5 pre-release status" \
   "$ROOT" \
   -g '*.qmd' \
   -g '!docs/**'

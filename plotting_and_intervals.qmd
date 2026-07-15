@@ -16,8 +16,8 @@ If you want a minimal downloadable script for this route, start with [np_plottin
 ::: {.callout-note}
 ## Current plotting interface
 
-This page reflects the `npRmpi` `0.70-5` and `np` `0.70-5` release candidates.
-Until CRAN accepts them, the public CRAN releases remain `0.70-4`.
+This page reflects the `npRmpi` `0.70-5` and `np` `0.70-5` releases, both
+available on CRAN.
 
 - use `errors`, `bootstrap`, `band`, `alpha`, and `B` for the main interval controls
 - use `snake_case` names such as `data_rug`, `data_overlay`, `common_scale`, and `coef_index`
