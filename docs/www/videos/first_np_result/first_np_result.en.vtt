@@ -1,0 +1,19 @@
+WEBVTT
+
+00:00.100 --> 00:04.050
+R is the computing environment, and RStudio is where we work.
+
+00:04.450 --> 00:08.400
+Install np once, load it, and use the bundled wage data.
+
+00:08.750 --> 00:13.150
+One npreg() call selects the smoothing parameter and fits the relationship.
+
+00:13.600 --> 00:15.950
+The summary records the selected bandwidth.
+
+00:16.000 --> 00:17.000
+The plot shows the result.
+
+00:17.350 --> 00:23.250
+Your first reproducible np analysis is complete, and the full script is on the Gallery Start Here page.

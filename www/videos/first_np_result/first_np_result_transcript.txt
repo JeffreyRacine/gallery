@@ -1,0 +1,9 @@
+R is the computing environment, and RStudio is where we work.
+
+Install `np` once, load it, and use the bundled wage data.
+
+One `npreg()` call selects the smoothing parameter and fits the relationship.
+
+The summary records the selected bandwidth. The plot shows the result.
+
+Your first reproducible `np` analysis is complete, and the full script is on the Gallery Start Here page.

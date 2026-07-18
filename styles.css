@@ -80,6 +80,17 @@ a:focus {
   border-radius: 0.85rem;
 }
 
+.gallery-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: 1.25rem 0 0.75rem;
+  background: #0d1f29;
+  border: 1px solid var(--gallery-border);
+  border-radius: 1rem;
+  box-shadow: var(--gallery-shadow);
+}
+
 table {
   background: var(--gallery-card);
 }
