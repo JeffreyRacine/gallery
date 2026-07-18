@@ -1,8 +1,8 @@
 # Italy Conditional-Density Short
 
 Date: 2026-07-18
-Status: silent grammar and pronunciation approved; narrated review cut prepared;
-not a Gallery promotion candidate
+Status: silent grammar, pronunciation, and corrected narrated prototype
+approved; not a Gallery promotion candidate
 
 ## Contract
 
@@ -130,5 +130,5 @@ claiming that the estimator identifies a causal mechanism.
   padded with silence through the 25-second outro.
 - Pronunciation retake: private `you knee modal` cue corrects only the spoken
   `unimodal`; the public script, captions, and transcript remain unchanged.
-- Review boundary: Jeffrey approved the pronunciation probe and silent visual;
-  the complete narrated cut still requires listening review before promotion.
+- Review boundary: Jeffrey approved the complete corrected narrated prototype
+  on 2026-07-18. Public Gallery promotion remains a separate authorization.

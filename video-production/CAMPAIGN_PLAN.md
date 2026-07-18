@@ -2,7 +2,7 @@
 
 Last updated: 2026-07-18
 Status: Candidate A is the approved template; the Italy conditional-density
-narrated review cut is ready; no Gallery push or Italy public promotion is
+narrated prototype is approved; no Gallery push or Italy public promotion is
 authorized.
 
 ## Product path
@@ -99,10 +99,8 @@ Subsequent independently reviewable episodes should cover:
 
 ## Immediate sequence
 
-1. Jeffrey listens to the Italy conditional-density narrated review cut.
-2. Apply only narration/pacing corrections required by that review.
-3. Prepare the matched conditional-distribution example and camera study.
-4. Prepare the conditional-quantile episode.
-5. Freeze framework version 1 after those three episodes have converged.
-6. Continue the own-data and balanced analytical catalogue in small review
+1. Prepare the matched conditional-distribution example and camera study.
+2. Prepare the conditional-quantile episode.
+3. Freeze framework version 1 after those three episodes have converged.
+4. Continue the own-data and balanced analytical catalogue in small review
    tranches.

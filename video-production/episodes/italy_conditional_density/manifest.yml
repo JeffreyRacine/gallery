@@ -1,6 +1,6 @@
 episode_id: italy_conditional_density
 title: Italy conditional density
-status: narrated-review-awaiting-jeffrey-listening
+status: narrated-prototype-approved
 public_function: npcdens
 canonical_object: fit_cdens
 package:
@@ -48,6 +48,7 @@ narration:
   private_unimodal_cue: you knee modal
   pronunciation_probe: narration/pronunciation_probe.wav
   pronunciation_approval: jeffrey-2026-07-18
+  narrated_prototype_approval: jeffrey-2026-07-18
 captions: captions/captions.en.vtt
 transcript: transcript.txt
 placement:

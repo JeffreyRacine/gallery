@@ -1,8 +1,8 @@
 # Italy Conditional-Density Decision Packet
 
 Date: 2026-07-18
-Status: silent animatic and pronunciation approved; full narrated review cut
-prepared; no Gallery promotion proposed
+Status: silent animatic, pronunciation, and corrected narrated prototype
+approved; no Gallery promotion proposed
 
 ## Jeffrey decisions — 2026-07-18
 
@@ -67,7 +67,7 @@ retain `npcdens()`.
   audio from an aborted opening attempt is absent from the raw and edited
   probe artifacts.
 
-## Current review gate
+## Completed prototype review gate
 
 Jeffrey has approved items 1-4 below for the silent/probe gate:
 
@@ -76,13 +76,12 @@ Jeffrey has approved items 1-4 below for the silent/probe gate:
 3. the 25-second silent pacing and visual density; and
 4. the RStudio/close-up/RStudio structure and final Video Demos route.
 
-The remaining gate is a listening review of `review/narrated-prototype.mp4`.
 Jeffrey's first full-take review identified only the pronunciation of
 `unimodal`: Cove used an “unny-modal” opening. The replacement is a fresh
 24.02-second continuous take using the private cue `you knee modal`; it is not
 a word splice. It has no five-second vocal pre-roll and is padded with silence
-through the unchanged 25-second outro. Nothing in this packet is a Gallery
-promotion candidate.
+through the unchanged 25-second outro. Jeffrey approved that corrected cut on
+2026-07-18. Nothing in this packet is a Gallery promotion candidate.
 
 ## Evidence summary
 

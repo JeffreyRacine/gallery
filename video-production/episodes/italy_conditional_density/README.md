@@ -1,9 +1,9 @@
 # Italy conditional density
 
-Status: example, 90/45 camera, silent animatic, and `npcdens()` pronunciation
-approved. The continuous Cove narration has been captured and synchronized into
-a 25-second review cut. It awaits Jeffrey's listening review and is not a public
-Gallery bundle.
+Status: example, 90/45 camera, silent animatic, `npcdens()` pronunciation, and
+the corrected continuous Cove narration approved by Jeffrey on 2026-07-18.
+This remains a prototype source bundle, not an authorized public Gallery
+promotion.
 
 ## Rebuild the review cut
 
@@ -17,7 +17,7 @@ The tracked review videos let a future update be compared directly:
 
 - `review/silent-animatic.mp4`: approved silent visual,
   SHA-256 `e536a951e5766bb55462a7963ba71fc62ae23c198875d146edfe62522c757b98`;
-- `review/narrated-prototype.mp4`: current listening review,
+- `review/narrated-prototype.mp4`: approved narrated prototype,
   SHA-256 `0cf2add02570e7ff31f8511fd167b34f627468c9cd58e6dfbd2a564679c66cb9`.
 
 The narrated cut copies the approved H.264 visual stream without re-encoding,
