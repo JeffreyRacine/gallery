@@ -23,41 +23,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -326,6 +291,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Interactive Demos</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="./video_demos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Video Demos</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -399,7 +370,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#gallery-of-code-for-np-nprmpi-and-crs" id="toc-gallery-of-code-for-np-nprmpi-and-crs" class="nav-link active" data-scroll-target="#gallery-of-code-for-np-nprmpi-and-crs">Gallery of code for <code>np</code>, <code>npRmpi</code>, and <code>crs</code></a>
   <ul class="collapse">
-  <li><a href="#your-first-np-result" id="toc-your-first-np-result" class="nav-link" data-scroll-target="#your-first-np-result">Your first <code>np</code> result</a></li>
   <li><a href="#recent-extensions" id="toc-recent-extensions" class="nav-link" data-scroll-target="#recent-extensions">Recent Extensions</a></li>
   <li><a href="#learn-by-topic" id="toc-learn-by-topic" class="nav-link" data-scroll-target="#learn-by-topic">Learn by topic</a></li>
   <li><a href="#need-help-fast" id="toc-need-help-fast" class="nav-link" data-scroll-target="#need-help-fast">Need help fast?</a></li>
@@ -450,50 +420,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quick-note">
 <p>This website is linked from my academic site and is intended as a practical working companion, not as a substitute for the package manuals or the underlying papers.</p>
 </div>
-<section id="your-first-np-result" class="level2">
-<h2 class="anchored" data-anchor-id="your-first-np-result">Your first <code>np</code> result</h2>
-<p>R is the computational environment; RStudio is the interface used here to write and run the analysis. If either is new to you, begin with <a href="./R_RStudio.html">Install and Get Started</a>. Then this 23-second walkthrough takes you from loading <code>np</code> to a fitted curve using the package’s bundled wage data.</p>
-<video class="gallery-video" controls="" preload="metadata" poster="www/videos/first_np_result/first_np_result_poster.png" aria-label="A 23-second demonstration of loading np in RStudio, fitting an npreg model to bundled wage data, reading the selected bandwidth, and viewing the fitted curve.">
-<source src="www/videos/first_np_result/first_np_result.mp4" type="video/mp4">
-<track kind="captions" srclang="en" label="English" default="" src="www/videos/first_np_result/first_np_result.en.vtt">
-<p>Your browser does not support embedded video. Use the direct MP4 link below. </p>
-<p><a href="www/videos/first_np_result/first_np_result.mp4">Open or download the MP4</a> · <a href="www/videos/first_np_result/first_np_result.en.vtt">Download the captions</a> · <a href="www/videos/first_np_result/first_np_result_transcript.txt">Read the transcript</a></p>
-<p>Install the public package once:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"np"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Then run the exact demonstrated analysis:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Your first np result.</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Last verified with the public CRAN np 0.70-5 build.</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(cps71, <span class="at">package =</span> <span class="st">"np"</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>fit_first <span class="ot">&lt;-</span> <span class="fu">npreg</span>(logwage <span class="sc">~</span> age, <span class="at">data =</span> cps71)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_first<span class="sc">$</span>bws)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_first, <span class="at">main =</span> <span class="st">"A first np regression"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><a href="www/videos/first_np_result/first_np_result.R">Download the R script</a>.</p>
-<p>The example uses public CRAN <code>np</code> 0.70-5, <code>set.seed(42)</code>, and the 205 observations in the bundled <code>cps71</code> data. Least-squares cross-validation selects an age bandwidth of <code>1.892158</code> in the verified installed build.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Video transcript
+Tip
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>R is the computing environment, and RStudio is where we work.</p>
-<p>Install <code>np</code> once, load it, and use the bundled wage data.</p>
-<p>One <code>npreg()</code> call selects the smoothing parameter and fits the relationship.</p>
-<p>The summary records the selected bandwidth. The plot shows the result.</p>
-<p>Your first reproducible <code>np</code> analysis is complete, and the full script is on the Gallery Start Here page.</p>
+<p><strong>New to <code>np</code>?</strong> Watch <a href="./video_demos.html#first-np-result">Your first <code>np</code> result</a>, a 24-second RStudio walkthrough, then continue with the copyable script.</p>
 </div>
 </div>
-</div>
-<p>Once this works, continue to <a href="./data_preparation.html">Data Preparation</a> to learn how continuous, unordered, and ordered variables should be represented before using your own data.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -508,7 +447,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The redesigned examples use public controls such as <code>errors</code>, <code>bootstrap</code>, <code>band</code>, <code>data_rug</code>, <code>data_overlay</code>, and other <code>snake_case</code> option names. Plotting code written for releases before the 0.70-2 interface redesign may need small argument-name updates.</p>
 </div>
 </div>
-</video></section>
 <section id="recent-extensions" class="level2">
 <h2 class="anchored" data-anchor-id="recent-extensions">Recent Extensions</h2>
 <ul>

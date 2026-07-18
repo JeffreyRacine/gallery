@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="keywords" content="np, npRmpi, crs, choose a package, kernel methods, splines">
-<meta name="description" content="Quick routing between np, npRmpi, and crs based on the job you want to do.">
+<meta name="keywords" content="video demos, RStudio, np, npRmpi, reproducible examples">
+<meta name="description" content="Short, reproducible video demonstrations for np and npRmpi, with captions, transcripts, and exact R scripts.">
 
-<title>Choose a Package – Gallery of Code</title>
+<title>Video Demos – Gallery of Code</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -22,7 +22,7 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
@@ -69,8 +69,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./R_RStudio.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./faq.html" rel="next">
+<link href="./interactive.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -133,9 +133,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/JeffreyRacine/gallery"> <i class="bi bi-github" role="img" aria-label="Gallery source on GitHub">
-</i> 
+</i>
 <span class="menu-text"></span></a>
-  </li>  
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -152,8 +152,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Start Here</a></li><li class="breadcrumb-item"><a href="./primer.html">Choose a Package</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./code_catalog.html">Examples</a></li><li class="breadcrumb-item"><a href="./video_demos.html">Video Demos</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -170,37 +170,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <div id="quarto-search" class="" title="Search"></div>
         </div>
         </div>
-    <div class="sidebar-menu-container"> 
+    <div class="sidebar-menu-container">
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Start Here</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+          </a>
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./primer.html" class="sidebar-item-text sidebar-link active">
+  <div class="sidebar-item-container">
+  <a href="./primer.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Choose a Package</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./R_RStudio.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Install and Get Started</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./quickstarts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Quickstarts</span></a>
   </div>
@@ -208,82 +208,82 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
+      <div class="sidebar-item-container">
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Methods</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+          </a>
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./np_npRmpi.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Kernel Methods</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./kernel_primer.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Kernel Primer</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./density_distribution_quantiles.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Density, Distribution, Quantiles</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./classification_modes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Classification and Modes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./semiparametric_models.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Semiparametric Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./significance_and_specification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Significance and Specification</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./entropy_tests.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Entropy and Testing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./npksum_custom.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Build With npksum</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./mpi_large_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">MPI and Large Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./crs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Splines</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./spline_primer.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Spline Primer</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./spline_search_and_tuning.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Spline Search and Tuning</span></a>
   </div>
@@ -291,105 +291,105 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">Examples</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+          </a>
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./code_catalog.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Code Catalog</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./regression.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Worked Examples</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./multivariate_regression.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Multivariate Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./plotting_and_intervals.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Plotting and Intervals</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./interactive.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interactive Demos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="./video_demos.html" class="sidebar-item-text sidebar-link">
+  <a href="./video_demos.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Video Demos</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
+      <div class="sidebar-item-container">
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">Support</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+          </a>
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./faq.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">FAQ and Troubleshooting</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./data_preparation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Preparation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./runtime_and_scaling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Runtime and Scaling</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./function_index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Reference</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./method_book_code_crosswalk.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Method Crosswalk</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./books_papers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Books, Papers, and Citation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./legacy_materials.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Legacy Materials</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
+  <div class="sidebar-item-container">
   <a href="./about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About</span></a>
   </div>
@@ -404,136 +404,100 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
-   
+
   <ul>
-  <li><a href="#a-practical-rule-of-thumb" id="toc-a-practical-rule-of-thumb" class="nav-link active" data-scroll-target="#a-practical-rule-of-thumb">A practical rule of thumb</a></li>
-  <li><a href="#recent-extensions" id="toc-recent-extensions" class="nav-link" data-scroll-target="#recent-extensions">Recent Extensions</a></li>
-  <li><a href="#common-routes" id="toc-common-routes" class="nav-link" data-scroll-target="#common-routes">Common routes</a>
-  <ul class="collapse">
-  <li><a href="#i-want-a-simple-first-success" id="toc-i-want-a-simple-first-success" class="nav-link" data-scroll-target="#i-want-a-simple-first-success">I want a simple first success</a></li>
-  <li><a href="#i-already-know-i-want-kernel-methods" id="toc-i-already-know-i-want-kernel-methods" class="nav-link" data-scroll-target="#i-already-know-i-want-kernel-methods">I already know I want kernel methods</a></li>
-  <li><a href="#i-already-know-i-need-mpi" id="toc-i-already-know-i-need-mpi" class="nav-link" data-scroll-target="#i-already-know-i-need-mpi">I already know I need MPI</a></li>
-  <li><a href="#i-want-working-scripts" id="toc-i-want-working-scripts" class="nav-link" data-scroll-target="#i-want-working-scripts">I want working scripts</a></li>
-  </ul></li>
-  <li><a href="#first-commands-to-remember" id="toc-first-commands-to-remember" class="nav-link" data-scroll-target="#first-commands-to-remember">First commands to remember</a></li>
+  <li><a href="#onboarding-and-first-results" id="toc-onboarding-and-first-results" class="nav-link active" data-scroll-target="#onboarding-and-first-results">Onboarding and first results</a></li>
+  <li><a href="#analytical-demonstrations" id="toc-analytical-demonstrations" class="nav-link" data-scroll-target="#analytical-demonstrations">Analytical demonstrations</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/JeffreyRacine/gallery/blob/main/primer.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/JeffreyRacine/gallery/blob/main/video_demos.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Start Here</a></li><li class="breadcrumb-item"><a href="./primer.html">Choose a Package</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./code_catalog.html">Examples</a></li><li class="breadcrumb-item"><a href="./video_demos.html">Video Demos</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Choose a Package</h1>
+<h1 class="title">Video Demos</h1>
 </div>
 
 <div>
   <div class="description">
-    Quick routing between np, npRmpi, and crs based on the job you want to do.
+    Short, reproducible video demonstrations for np and npRmpi, with captions, transcripts, and exact R scripts.
   </div>
 </div>
 
 
 <div class="quarto-title-meta">
 
-    
-  
-    
+
+
+
   </div>
-  
+
 
 <div>
   <div class="keywords">
     <div class="block-title">Keywords</div>
-    <p>np, npRmpi, crs, choose a package, kernel methods, splines</p>
+    <p>video demos, RStudio, np, npRmpi, reproducible examples</p>
   </div>
 </div>
 
 </header>
 
 
-<p>If you are deciding where to begin, the short answer is this: start with the package that matches the job, not with the longest document.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>If you want to…</th>
-<th>Start with</th>
-<th>Why</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Fit kernel regression, density, distribution, or related tests on one machine</td>
-<td><code>np</code></td>
-<td>This is the core package and the natural starting point for most users.</td>
-</tr>
-<tr class="even">
-<td>Run the same style of kernel workflows on larger jobs using MPI</td>
-<td><code>npRmpi</code></td>
-<td>The package supports a modern <code>session</code> route on macOS/Linux and <code>attach</code> under <code>mpiexec</code> when that is the appropriate entry path.</td>
-</tr>
-<tr class="odd">
-<td>Work with categorical regression splines and related constrained spline methods</td>
-<td><code>crs</code></td>
-<td>This package is the right entry point for spline-based work rather than kernel-based work.</td>
-</tr>
-</tbody>
-</table>
-<section id="a-practical-rule-of-thumb" class="level2">
-<h2 class="anchored" data-anchor-id="a-practical-rule-of-thumb">A practical rule of thumb</h2>
-<ul>
-<li>Start with <code>np</code> unless you already know that you need MPI.</li>
-<li>Move to <code>npRmpi</code> when the workflow is the same but the job is too large or too slow in serial.</li>
-<li>Use <code>crs</code> when spline bases, shape restrictions, or spline-specific methods are the natural fit.</li>
-</ul>
+<p>These short demonstrations show the finished result quickly, then reveal the few essential R statements needed to reproduce it. Every entry includes captions, a transcript, the exact installed-build script, and direct download links. Longer installation and platform instructions remain on <a href="./R_RStudio.html">Install and Get Started</a>.</p>
+<section id="onboarding-and-first-results" class="level2">
+<h2 class="anchored" data-anchor-id="onboarding-and-first-results">Onboarding and first results</h2>
+<div id="first-np-result" class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Your first <code>np</code> result — 24 seconds
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Function:</strong> <code>npreg()</code><br>
+<strong>Takeaway:</strong> one call selects the smoothing parameter and fits the relationship.</p>
+<p>R is the computational environment; RStudio is the interface used here to write and run the analysis. This walkthrough moves from loading <code>np</code> to a fitted curve using the package’s bundled wage data.</p>
+<video class="gallery-video" controls="" preload="metadata" poster="www/videos/first_np_result/first_np_result_poster.png" aria-label="A 24-second demonstration of loading np in RStudio, fitting an npreg model to bundled wage data, reading the selected bandwidth, and viewing the fitted curve.">
+  <source src="www/videos/first_np_result/first_np_result.mp4" type="video/mp4">
+  <track kind="captions" srclang="en" label="English" default="" src="www/videos/first_np_result/first_np_result.en.vtt">
+  Your browser does not support embedded video. Use the direct MP4 link below.
+</video>
+<p><a href="www/videos/first_np_result/first_np_result.mp4">Open or download the MP4</a> · <a href="www/videos/first_np_result/first_np_result.en.vtt">Download the captions</a> · <a href="www/videos/first_np_result/first_np_result_transcript.txt">Read the transcript</a></p>
+<p>Install the public package once:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"np"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Then run the exact demonstrated analysis:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Your first np result.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Last verified with the public CRAN np 0.70-5 build.</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(cps71, <span class="at">package =</span> <span class="st">"np"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>fit_first <span class="ot">&lt;-</span> <span class="fu">npreg</span>(logwage <span class="sc">~</span> age, <span class="at">data =</span> cps71)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_first<span class="sc">$</span>bws)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_first, <span class="at">main =</span> <span class="st">"A first np regression"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><a href="www/videos/first_np_result/first_np_result.R">Download the R script</a>.</p>
+<p>The example uses public CRAN <code>np</code> 0.70-5 and the 205 observations in the bundled <code>cps71</code> data. No seed is needed because the example neither simulates nor resamples data. Least-squares cross-validation selects an age bandwidth of <code>1.892158</code> in the verified installed build.</p>
+<section id="transcript" class="level3">
+<h3 class="anchored" data-anchor-id="transcript">Transcript</h3>
+<p>R is the computing environment, and RStudio is where we work.</p>
+<p>Install <code>np</code> once, load it, and use the bundled wage data.</p>
+<p>One <code>npreg()</code> call selects the smoothing parameter and fits the relationship.</p>
+<p>The summary records the selected bandwidth. The plot shows the result.</p>
+<p>Your first reproducible <code>np</code> analysis is complete, and the full script is on the Gallery Video Demos page.</p>
+<p>Once this works, continue to <a href="./data_preparation.html">Data Preparation</a> to learn how continuous, unordered, and ordered variables should be represented before using your own data.</p>
 </section>
-<section id="recent-extensions" class="level2">
-<h2 class="anchored" data-anchor-id="recent-extensions">Recent Extensions</h2>
-<ul>
-<li><a href="./runtime_and_scaling.html">Runtime, Memory, and Scaling</a>: <code>np</code> and <code>npRmpi</code> <code>0.70-5</code> substantially rework single-index objective evaluation, harden mixed-degree derivatives and formula/data reentry, reduce plot-bootstrap memory use, and strengthen serial/MPI parity across conditional, quantile, mode, copula, and semiparametric routes.</li>
-<li><a href="./crs.html">Splines</a>: <code>crs</code> <code>0.15-45</code> aligns spline plotting with the current named <code>np</code>/<code>npRmpi</code> interface, adds route-aware NOMAD budget controls, reports elapsed time and cache diagnostics more clearly, and improves mixed-data cross-validation performance.</li>
-<li><a href="./np_npRmpi.html">Kernel Methods</a>: <code>np</code> and <code>npRmpi</code> now expose local polynomial capability across the conditional family, together with joint degree and bandwidth selection for mixed data, gradient support throughout the conditional estimators, and derivative estimation of arbitrarily high order, limited only by the selected polynomial degree whether set manually or chosen automatically for the underlying smoothness class.</li>
-<li><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>: bounded-kernel conditional density and distribution routes are now available when support bounds are known or when practical unknown-bound proxies are appropriate, and <code>proper = TRUE</code> now supports proper LP conditional density/distribution estimates when degree exceeds zero.</li>
-<li><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>: <code>nplsqreg</code> and <code>nplsqregbw</code> now add a first-class location-scale quantile workflow, with formula and bandwidth-object routes, scalar or vector <code>tau</code>, prediction, residuals, summaries, plot routes, and the same NOMAD-enabled LP search style where supported.</li>
-<li><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>: <code>npqreg</code> now behaves like a first-class estimator, with direct formula support, automatic <code>npcdistbw()</code> selection when <code>bws</code> is omitted, vector <code>tau</code>, gradients, standard errors, and <code>nomad = "auto"</code> pass-through for local-polynomial degree-and-bandwidth search.</li>
-<li><a href="./classification_modes.html">Classification and Modes</a>: <code>npconmode</code> is now a first-class estimator too, with direct formula/data/newdata routes, automatic <code>npcdensbw()</code> selection when <code>bws</code> is omitted, probability and gradient support, mirrored degree/search metadata, and <code>nomad = "auto"</code> pass-through for local-polynomial degree-and-bandwidth search.</li>
-<li><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>: <code>npcopula</code> is now a first-class estimator too, with a direct formula interface, automatic <code>npudistbw()</code> or <code>npudensbw()</code> selection when <code>bws</code> is omitted, and automatic two-dimensional probability-grid construction for the default copula grid route.</li>
-<li><a href="./semiparametric_models.html">Semiparametric Models</a>: <code>npreghat</code>, <code>npindexhat</code>, <code>npplreghat</code>, and <code>npscoefhat</code> now simplify constrained nonparametric and semiparametric estimation by exposing one-call hat-matrix operator routes in place of much of the older manual matrix-construction workflow, while <code>npudenshat</code>, <code>npudisthat</code>, <code>npcdenshat</code>, and <code>npcdisthat</code> extend the same operator style to the density/distribution family.</li>
-<li><a href="./regression.html">Worked Examples</a>: Bonferroni and simultaneous variability bounds are new plotting additions, and <code>band = "all"</code> now shows them jointly with the traditional pointwise bounds.</li>
-<li><a href="./plotting_and_intervals.html">Plotting and Intervals</a>: <code>renderer = "rgl"</code> now supports interactive 3D rotation/zoom when <code>rgl</code> is installed, while <code>data_rug</code> and <code>data_overlay</code> manage rugs and observed-data overlays on supported routes.</li>
-<li><a href="./mpi_large_data.html">MPI and Large Data</a>: <code>npRmpi</code> is no longer confined to the older profile/manual-broadcast interface; current <code>session</code> and <code>attach</code> routes make <code>np</code> and <code>npRmpi</code> code much more interchangeable while preserving the profile route for users who want it.</li>
-</ul>
+</div>
+</div>
+</div>
 </section>
-<section id="common-routes" class="level2">
-<h2 class="anchored" data-anchor-id="common-routes">Common routes</h2>
-<section id="i-want-a-simple-first-success" class="level3">
-<h3 class="anchored" data-anchor-id="i-want-a-simple-first-success">I want a simple first success</h3>
-<p>Go to <a href="./R_RStudio.html">Install and Get Started</a>, install the package you need, and then use <a href="./quickstarts.html">Quickstarts</a> for the smallest runnable scripts before worrying about longer documents.</p>
-</section>
-<section id="i-already-know-i-want-kernel-methods" class="level3">
-<h3 class="anchored" data-anchor-id="i-already-know-i-want-kernel-methods">I already know I want kernel methods</h3>
-<p>Go to <a href="./np_npRmpi.html">Kernel Methods</a>. That page starts with <code>np</code> and then points you to <code>npRmpi</code> when parallel execution is warranted.</p>
-</section>
-<section id="i-already-know-i-need-mpi" class="level3">
-<h3 class="anchored" data-anchor-id="i-already-know-i-need-mpi">I already know I need MPI</h3>
-<p>Go directly to <a href="./mpi_large_data.html">MPI and Large Data</a>. The guidance there is organized around current <code>session</code>, <code>attach</code>, and <code>profile</code> usage rather than the older wrapper-heavy style.</p>
-</section>
-<section id="i-want-working-scripts" class="level3">
-<h3 class="anchored" data-anchor-id="i-want-working-scripts">I want working scripts</h3>
-<p>Go first to <a href="./quickstarts.html">Quickstarts</a> if you want the shortest path to runnable code. Then use <a href="./code_catalog.html">Code Catalog</a>, <a href="./regression.html">Worked Examples</a>, or <a href="./interactive.html">Interactive Demos</a> when you want more context or a broader script library.</p>
-</section>
-</section>
-<section id="first-commands-to-remember" class="level2">
-<h2 class="anchored" data-anchor-id="first-commands-to-remember">First commands to remember</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Install the two serial packages directly from CRAN</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"np"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"crs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>For <code>npRmpi</code>, installation depends on your MPI setup and operating system, so it is treated separately on <a href="./mpi_large_data.html">MPI and Large Data</a>.</p>
+<section id="analytical-demonstrations" class="level2">
+<h2 class="anchored" data-anchor-id="analytical-demonstrations">Analytical demonstrations</h2>
+<p>Conditional density, conditional distribution, conditional quantiles, uncertainty bands, testing, and <code>npRmpi</code> session workflows will be added here one reviewed episode at a time.</p>
 
 
 </section>
@@ -550,7 +514,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
-        if (clz.startsWith('code-annotation-')) {                     
+        if (clz.startsWith('code-annotation-')) {
           return true;
         }
       }
@@ -570,11 +534,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
         button.setAttribute("data-bs-title", "Copied!");
-        tooltip = new bootstrap.Tooltip(button, 
-          { trigger: "manual", 
+        tooltip = new bootstrap.Tooltip(button,
+          { trigger: "manual",
             customClass: "code-copy-button-tooltip",
             offset: [0, -8]});
-        tooltip.show();    
+        tooltip.show();
       }
       setTimeout(function() {
         if (tooltip) {
@@ -656,7 +620,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       if (onUntriggerFn) {
         config.onUntrigger = onUntriggerFn;
       }
-      window.tippy(el, config); 
+      window.tippy(el, config);
     }
     const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
     for (var i=0; i<noterefs.length; i++) {
@@ -731,7 +695,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       tippyHover(xref, undefined, function(instance) {
         instance.disable();
         let url = xref.getAttribute('href');
-        let hash = undefined; 
+        let hash = undefined;
         if (url.startsWith('#')) {
           hash = url;
         } else {
@@ -759,7 +723,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
               if (note !== null) {
                 const html = processXRef(id, note);
                 instance.setContent(html);
-              } 
+              }
             }).finally(() => {
               instance.enable();
               instance.show();
@@ -783,7 +747,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
               }
               const html = processXRef(null, note);
               instance.setContent(html);
-            } 
+            }
           }).finally(() => {
             instance.enable();
             instance.show();
@@ -823,7 +787,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
               height = bottom - top;
             }
             if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
+              // cook up a div (if necessary) and position it
               let div = window.document.getElementById("code-annotation-line-highlight");
               if (div === null) {
                 div = window.document.createElement("div");
@@ -946,13 +910,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Overview">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Overview</span>
-      </a>          
+      <a href="./interactive.html" class="pagination-link" aria-label="Interactive Demos">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Interactive Demos</span>
+      </a>
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./R_RStudio.html" class="pagination-link" aria-label="Install and Get Started">
-        <span class="nav-page-text">Install and Get Started</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./faq.html" class="pagination-link" aria-label="FAQ and Troubleshooting">
+        <span class="nav-page-text">FAQ and Troubleshooting</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -961,22 +925,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="nav-footer">
     <div class="nav-footer-left">
 <p>Working examples and notes for <code>np</code>, <code>npRmpi</code>, and <code>crs</code>.</p>
-</div>   
+</div>
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/JeffreyRacine/gallery/blob/main/primer.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/JeffreyRacine/gallery/blob/main/video_demos.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
     <a class="nav-link" href="https://jeffreyracine.github.io/research">
 <p>Research site</p>
 </a>
-  </li>  
+  </li>
     <li class="nav-item">
     <a class="nav-link" href="https://cran.r-project.org/">
 <p>CRAN</p>
 </a>
-  </li>  
+  </li>
 </ul>
     </div>
   </div>

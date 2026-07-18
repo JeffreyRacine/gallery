@@ -72,6 +72,8 @@ website:
             text: "Plotting and Intervals"
           - href: interactive.qmd
             text: "Interactive Demos"
+          - href: video_demos.qmd
+            text: "Video Demos"
       - section: "Support"
         contents:
           - href: faq.qmd

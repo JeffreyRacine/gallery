@@ -6,4 +6,4 @@ One `npreg()` call selects the smoothing parameter and fits the relationship.
 
 The summary records the selected bandwidth. The plot shows the result.
 
-Your first reproducible `np` analysis is complete, and the full script is on the Gallery Start Here page.
+Your first reproducible `np` analysis is complete, and the full script is on the Gallery Video Demos page.

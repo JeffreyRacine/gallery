@@ -22,53 +22,10 @@ If you are new to these packages, start with [Choose a Package](primer.qmd). If 
 This website is linked from my academic site and is intended as a practical working companion, not as a substitute for the package manuals or the underlying papers.
 :::
 
-## Your first `np` result
-
-R is the computational environment; RStudio is the interface used here to
-write and run the analysis. If either is new to you, begin with
-[Install and Get Started](R_RStudio.qmd). Then this 23-second walkthrough takes
-you from loading `np` to a fitted curve using the package's bundled wage data.
-
-<video class="gallery-video" controls preload="metadata"
-  poster="www/videos/first_np_result/first_np_result_poster.png"
-  aria-label="A 23-second demonstration of loading np in RStudio, fitting an npreg model to bundled wage data, reading the selected bandwidth, and viewing the fitted curve.">
-  <source src="www/videos/first_np_result/first_np_result.mp4" type="video/mp4">
-  <track kind="captions" srclang="en" label="English" default
-    src="www/videos/first_np_result/first_np_result.en.vtt">
-  Your browser does not support embedded video. Use the direct MP4 link below.
-</video>
-
-[Open or download the MP4](www/videos/first_np_result/first_np_result.mp4) ·
-[Download the captions](www/videos/first_np_result/first_np_result.en.vtt) ·
-[Read the transcript](www/videos/first_np_result/first_np_result_transcript.txt)
-
-Install the public package once:
-
-```r
-install.packages("np")
-```
-
-Then run the exact demonstrated analysis:
-
-```r
-{{< include www/videos/first_np_result/first_np_result.R >}}
-```
-
-[Download the R script](www/videos/first_np_result/first_np_result.R).
-
-The example uses public CRAN `np` 0.70-5, `set.seed(42)`, and the 205
-observations in the bundled `cps71` data. Least-squares cross-validation selects
-an age bandwidth of `1.892158` in the verified installed build.
-
-::: {.callout-note collapse="true"}
-## Video transcript
-
-{{< include www/videos/first_np_result/first_np_result_transcript.txt >}}
+::: {.callout-tip}
+**New to `np`?** Watch [Your first `np` result](video_demos.qmd#first-np-result),
+a 24-second RStudio walkthrough, then continue with the copyable script.
 :::
-
-Once this works, continue to [Data Preparation](data_preparation.qmd) to learn
-how continuous, unordered, and ordered variables should be represented before
-using your own data.
 
 ::: {.callout-note}
 ## Current package status

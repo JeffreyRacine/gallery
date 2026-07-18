@@ -1,0 +1,77 @@
+---
+title: "Video Demos"
+description: "Short, reproducible video demonstrations for np and npRmpi, with captions, transcripts, and exact R scripts."
+keywords:
+  - video demos
+  - RStudio
+  - np
+  - npRmpi
+  - reproducible examples
+---
+
+These short demonstrations show the finished result quickly, then reveal the
+few essential R statements needed to reproduce it. Every entry includes
+captions, a transcript, the exact installed-build script, and direct download
+links. Longer installation and platform instructions remain on
+[Install and Get Started](R_RStudio.qmd).
+
+## Onboarding and first results
+
+:::: {.callout-note collapse="true" #first-np-result}
+## Your first `np` result — 24 seconds
+
+**Function:** `npreg()`<br>
+**Takeaway:** one call selects the smoothing parameter and fits the relationship.
+
+R is the computational environment; RStudio is the interface used here to
+write and run the analysis. This walkthrough moves from loading `np` to a
+fitted curve using the package's bundled wage data.
+
+```{=html}
+<video class="gallery-video" controls preload="metadata"
+  poster="www/videos/first_np_result/first_np_result_poster.png"
+  aria-label="A 24-second demonstration of loading np in RStudio, fitting an npreg model to bundled wage data, reading the selected bandwidth, and viewing the fitted curve.">
+  <source src="www/videos/first_np_result/first_np_result.mp4" type="video/mp4">
+  <track kind="captions" srclang="en" label="English" default
+    src="www/videos/first_np_result/first_np_result.en.vtt">
+  Your browser does not support embedded video. Use the direct MP4 link below.
+</video>
+```
+
+[Open or download the MP4](www/videos/first_np_result/first_np_result.mp4) ·
+[Download the captions](www/videos/first_np_result/first_np_result.en.vtt) ·
+[Read the transcript](www/videos/first_np_result/first_np_result_transcript.txt)
+
+Install the public package once:
+
+```r
+install.packages("np")
+```
+
+Then run the exact demonstrated analysis:
+
+```r
+{{< include www/videos/first_np_result/first_np_result.R >}}
+```
+
+[Download the R script](www/videos/first_np_result/first_np_result.R).
+
+The example uses public CRAN `np` 0.70-5 and the 205 observations in the bundled
+`cps71` data. No seed is needed because the example neither simulates nor
+resamples data. Least-squares cross-validation selects an age bandwidth of
+`1.892158` in the verified installed build.
+
+### Transcript
+
+{{< include www/videos/first_np_result/first_np_result_transcript.txt >}}
+
+Once this works, continue to [Data Preparation](data_preparation.qmd) to learn
+how continuous, unordered, and ordered variables should be represented before
+using your own data.
+::::
+
+## Analytical demonstrations
+
+Conditional density, conditional distribution, conditional quantiles,
+uncertainty bands, testing, and `npRmpi` session workflows will be added here
+one reviewed episode at a time.
