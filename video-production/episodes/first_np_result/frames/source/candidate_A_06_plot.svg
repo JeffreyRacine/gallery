@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720">
+  <rect width="1280" height="720" fill="#F7F9FC"/>
+  <image href="../../assets/fit_plot.png" x="35" y="40" width="1210" height="640" preserveAspectRatio="xMidYMid meet"/>
+  <rect x="76" y="62" width="470" height="66" rx="16" fill="#173B57" opacity="0.94"/>
+  <text x="105" y="104" font-family="Helvetica Neue, Arial" font-size="27" font-weight="700" fill="#FFFFFF">A smooth fitted relationship</text>
+</svg>

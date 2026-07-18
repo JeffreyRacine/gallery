@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <image href="../../assets/rstudio_context.png" x="0" y="0" width="1280" height="720" preserveAspectRatio="none"/>
+  <rect x="40" y="24" width="620" height="86" rx="18" fill="#173B57" opacity="0.95"/>
+  <text x="72" y="63" font-family="Helvetica Neue, Arial" font-size="28" font-weight="700" fill="#FFFFFF">The complete analysis in RStudio</text>
+  <text x="72" y="94" font-family="Helvetica Neue, Arial" font-size="21" fill="#D8E7F2">Script, summary, fitted object, and fixed plot</text>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <image href="../../assets/rstudio_context.png" x="0" y="0" width="1280" height="720" preserveAspectRatio="none"/>
+  <rect x="42" y="28" width="760" height="86" rx="18" fill="#173B57" opacity="0.95"/>
+  <text x="74" y="66" font-family="Helvetica Neue, Arial" font-size="27" font-weight="700" fill="#FFFFFF">R is the computing environment.</text>
+  <text x="74" y="96" font-family="Helvetica Neue, Arial" font-size="22" fill="#D8E7F2">RStudio is where we write, run, inspect, and plot.</text>
+</svg>

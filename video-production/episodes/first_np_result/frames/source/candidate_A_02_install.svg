@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720">
+  <rect width="1280" height="720" fill="#F7F9FC"/>
+  <text x="80" y="110" font-family="Helvetica Neue, Arial" font-size="46" font-weight="700" fill="#173B57">Install once</text>
+  <text x="80" y="158" font-family="Helvetica Neue, Arial" font-size="24" fill="#4E6474">R first, then RStudio, then the package</text>
+  <rect x="80" y="225" width="1120" height="230" rx="22" fill="#12212D"/>
+  <text x="125" y="330" font-family="Menlo, monospace" font-size="37" fill="#EAF4FA">install.packages(<tspan fill="#7CD6C9">"np"</tspan>)</text>
+  <rect x="82" y="500" width="310" height="64" rx="32" fill="#E4F2EF"/>
+  <text x="237" y="541" text-anchor="middle" font-family="Helvetica Neue, Arial" font-size="25" font-weight="700" fill="#17645C">Run this once</text>
+  <text x="80" y="640" font-family="Helvetica Neue, Arial" font-size="19" fill="#687B89">Command source: official CRAN route · last checked 2026-07-18</text>
+</svg>

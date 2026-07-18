@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720">
+  <rect width="1280" height="720" fill="#F7F9FC"/>
+  <text x="80" y="105" font-family="Helvetica Neue, Arial" font-size="44" font-weight="700" fill="#173B57">The fitted object records the choice</text>
+  <rect x="80" y="180" width="1120" height="390" rx="24" fill="#FFFFFF" stroke="#D8E3EB" stroke-width="3"/>
+  <text x="130" y="270" font-family="Helvetica Neue, Arial" font-size="25" fill="#687B89">Regression type</text>
+  <text x="520" y="270" font-family="Helvetica Neue, Arial" font-size="31" font-weight="700" fill="#173B57">Local constant</text>
+  <line x1="130" y1="305" x2="1140" y2="305" stroke="#D8E3EB" stroke-width="2"/>
+  <text x="130" y="385" font-family="Helvetica Neue, Arial" font-size="25" fill="#687B89">Selection method</text>
+  <text x="520" y="385" font-family="Helvetica Neue, Arial" font-size="31" font-weight="700" fill="#173B57">Least-squares cross-validation</text>
+  <line x1="130" y1="420" x2="1140" y2="420" stroke="#D8E3EB" stroke-width="2"/>
+  <text x="130" y="500" font-family="Helvetica Neue, Arial" font-size="25" fill="#687B89">Age bandwidth</text>
+  <text x="520" y="500" font-family="Menlo, monospace" font-size="34" font-weight="700" fill="#17645C">1.892158</text>
+  <text x="80" y="640" font-family="Helvetica Neue, Arial" font-size="20" fill="#687B89">Full, unedited summary retained in the proof bundle.</text>
+</svg>

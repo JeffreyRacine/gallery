@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#F7F9FC"/>
+  <image href="../../assets/fit_plot.png" x="50" y="110" width="1180" height="572" preserveAspectRatio="xMidYMid meet"/>
+  <rect x="50" y="30" width="600" height="104" rx="18" fill="#173B57" opacity="0.96"/>
+  <text x="82" y="75" font-family="Helvetica Neue, Arial" font-size="34" font-weight="700" fill="#FFFFFF">Your first <tspan font-family="Menlo">np</tspan> result</text>
+  <text x="82" y="111" font-family="Helvetica Neue, Arial" font-size="22" fill="#D8E7F2">From install to fitted curve</text>
+</svg>

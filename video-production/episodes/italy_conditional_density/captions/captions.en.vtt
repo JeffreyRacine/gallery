@@ -1,0 +1,16 @@
+WEBVTT
+
+00:00.000 --> 00:05.800
+Per-capita GDP across 21 Italian regions begins mainly unimodal after the war.
+
+00:06.200 --> 00:11.000
+Here, year is an ordered factor, so npcdens() smooths across observed year levels.
+
+00:11.740 --> 00:16.760
+Across later years, two clear peaks emerge, corresponding to the wealthier North and less wealthy South.
+
+00:17.260 --> 00:20.880
+One call reveals the whole conditional density, not merely an average.
+
+00:20.880 --> 00:23.100
+The full script is on Gallery Video Demos.

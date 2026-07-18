@@ -1,0 +1,18 @@
+np 0.70-5
+Examples and guides at https://jeffreyracine.github.io/gallery/
+See also vignette("np_getting_started", package = "np")
+
+Regression Data (205 observations, 1 variable(s)):
+
+Regression Type: Local-Constant
+Bandwidth Selection Method: Least Squares Cross-Validation
+Bandwidth Type: Fixed
+Objective Function Value: 0.316055 (achieved on multistart 1)
+Number of Function Evaluations: 47
+Evaluation cache (Powell): 17 hits / 41 lookups (41.5%)
+
+Exp. Var. Name: age Bandwidth: 1.892158  Scale Factor: 0.4487743
+
+Continuous Kernel Type: Second-Order Gaussian
+No. Continuous Explanatory Vars.: 1
+Estimation Time: 0.067 seconds

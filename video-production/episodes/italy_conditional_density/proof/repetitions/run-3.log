@@ -1,0 +1,49 @@
+script=<campaign-root>/scripts/italy_conditional_density_short.R
+np.version=0.70.5
+np.path=<campaign-root>/Rlib/np
+
+> library(np)
+np 0.70-5
+Examples and guides at https://jeffreyracine.github.io/gallery/
+See also vignette("np_getting_started", package = "np")
+
+> data(Italy, package = "np")
+
+> class(Italy$year)
+[1] "ordered" "factor"
+
+> fit_cdens <- npcdens(gdp ~ year, data = Italy)
+
+> summary(fit_cdens$bws)
+
+Conditional density data (1008 observations, 2 variable(s))
+(1 dependent variable(s), and 1 explanatory variable(s))
+
+Polynomial Type: Local-Constant
+Bandwidth Selection Method: Maximum Likelihood Cross-Validation
+Formula: gdp ~ year
+Bandwidth Type: Fixed
+Objective Function Value: -2643.904 (achieved on multistart 2)
+Number of Function Evaluations: 300
+Evaluation cache (Powell): 116 hits / 280 lookups (41.4%)
+
+Exp. Var. Name: year Lambda:    0.6135078  Lambda Max:           1
+Dep. Var. Name: gdp  Bandwidth: 0.5708786  Scale Factor: 0.3210418
+
+Continuous Kernel Type: Second-Order Gaussian
+No. Continuous Dependent Vars.: 1
+
+Ordered Categorical Kernel Type: Li and Racine
+No. Ordered Categorical Explanatory Vars.: 1
+Estimation Time: 1.618 seconds
+
+
+> plot(fit_cdens, view = "fixed", theta = 80, phi = 45)
+null device
+          1
+elapsed_seconds=2.765465
+year_ordered=TRUE
+year_levels=48
+result_rds=<campaign-root>/proof/italy_cdens_repeat_3.rds
+plot_png=<campaign-root>/renders/italy_cdens_repeat_3.png
+PROOF_OK

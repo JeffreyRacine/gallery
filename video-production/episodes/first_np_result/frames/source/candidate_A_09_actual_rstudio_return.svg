@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <image href="../../assets/rstudio_context.png" x="0" y="0" width="1280" height="720" preserveAspectRatio="none"/>
+  <rect x="48" y="650" width="520" height="46" rx="23" fill="#173B57" opacity="0.95"/>
+  <text x="308" y="681" text-anchor="middle" font-family="Helvetica Neue, Arial" font-size="21" font-weight="700" fill="#FFFFFF">Source → Console → Plot</text>
+</svg>

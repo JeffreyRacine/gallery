@@ -1,0 +1,54 @@
+episode_id: first_np_result
+title: Your first np result
+status: approved-template-local-commit-not-pushed
+public_function: npreg
+canonical_object: fit_first
+package:
+  name: np
+  version: 0.70-5
+  build: public-cran-campaign-library
+dataset:
+  name: cps71
+  package: np
+  rows: 205
+  response: logwage
+  predictor: age
+randomness:
+  used: false
+  seed: null
+script: analysis.R
+expected_result:
+  regression_type: local-constant
+  bandwidth_method: least-squares-cross-validation
+  bandwidth_type: fixed
+  objective: 0.316054966290262
+  age_bandwidth: 1.892158
+proof:
+  repetitions: 5
+  elapsed_seconds_min: 0.609378099441528
+  elapsed_seconds_median: 0.618973970413208
+  elapsed_seconds_max: 0.62309193611145
+  exact_result_parity: true
+narration:
+  public_source: narration/public.txt
+  private_phonetic_source: narration/voice_prompt.txt
+  master: narration/narration_master.wav
+  public_function_text: npreg()
+  private_spoken_cue: N P REYG
+captions: captions/captions.en.vtt
+transcript: transcript.txt
+placement:
+  canonical_page: Examples -> Video Demos
+  canonical_anchor: your-first-np-result
+media:
+  public_path: www/videos/first_np_result/first_np_result.mp4
+  duration_seconds: 23.966667
+  width: 1920
+  height: 1080
+  fps: 30
+  video_codec: h264
+  audio_codec: aac
+  pixel_format: yuv420p
+  faststart: true
+  bytes: 1930219
+  sha256: e9b8abe6b9616c310230efbcfb314bd40babe3f0162a5f4e26ac7a4c32139a40

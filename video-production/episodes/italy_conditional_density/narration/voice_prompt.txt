@@ -1,0 +1,11 @@
+Read only the following narration once. Begin immediately with "Per-capita" and add no introduction or closing remark. Pronounce the production-only spelling "N P see dense" as four parts: the letters N and P, then the words "see dense." Keep the delivery calm, direct, reassuring, and natural.
+
+Per-capita GDP across 21 Italian regions begins mainly unimodal after the war.
+
+Here, year is an ordered factor, so N P see dense smooths across observed year levels.
+
+Across later years, two clear peaks emerge, corresponding to the wealthier North and less wealthy South.
+
+One call reveals the whole conditional density, not merely an average.
+
+The full script is on Gallery Video Demos.

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720">
+  <rect width="1280" height="720" fill="#F7F9FC"/>
+  <text x="80" y="105" font-family="Helvetica Neue, Arial" font-size="44" font-weight="700" fill="#173B57">Load <tspan font-family="Menlo">np</tspan> and bundled data</text>
+  <rect x="80" y="170" width="1120" height="330" rx="22" fill="#12212D"/>
+  <text x="125" y="300" font-family="Menlo, monospace" font-size="36" fill="#EAF4FA">library(<tspan fill="#7CD6C9">np</tspan>)</text>
+  <text x="125" y="405" font-family="Menlo, monospace" font-size="36" fill="#EAF4FA">data(<tspan fill="#7CD6C9">cps71</tspan>, package = <tspan fill="#7CD6C9">"np"</tspan>)</text>
+  <rect x="80" y="545" width="1120" height="72" rx="16" fill="#E4F2EF"/>
+  <text x="115" y="590" font-family="Helvetica Neue, Arial" font-size="26" fill="#17645C">Bundled data means everyone starts from the same 205 observations.</text>
+</svg>

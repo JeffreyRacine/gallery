@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720">
+  <rect width="1280" height="720" fill="#173B57"/>
+  <circle cx="190" cy="205" r="92" fill="#2A8C82"/>
+  <text x="190" y="223" text-anchor="middle" font-family="Menlo, monospace" font-size="55" font-weight="700" fill="#FFFFFF">np</text>
+  <text x="340" y="180" font-family="Helvetica Neue, Arial" font-size="48" font-weight="700" fill="#FFFFFF">Your first analysis is complete.</text>
+  <text x="340" y="235" font-family="Helvetica Neue, Arial" font-size="27" fill="#D8E7F2">Copy the script and continue with your own mixed data.</text>
+  <rect x="80" y="360" width="1120" height="110" rx="22" fill="#102B40" stroke="#6CC7BA" stroke-width="3"/>
+  <text x="125" y="430" font-family="Menlo, monospace" font-size="37" fill="#7CD6C9">npreg()</text>
+  <text x="395" y="430" font-family="Helvetica Neue, Arial" font-size="28" fill="#FFFFFF">Gallery → Examples → Video Demos</text>
+  <text x="80" y="605" font-family="Helvetica Neue, Arial" font-size="22" fill="#D8E7F2">Video + captions + transcript + selectable code</text>
+</svg>

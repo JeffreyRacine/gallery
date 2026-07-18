@@ -1,0 +1,12 @@
+Read only the following narration once. Begin immediately with "R" and add no
+introduction or closing remark. Do not hum or vocalize before speaking. Use a
+clean, calm, reassuring instructional delivery. Pronounce "R Studio" as two
+words and "N P" as two letters. The production-only cue "N P REYG" means
+`npreg()`: pronounce it with the hard g heard in "regression," never the soft g
+in "reject."
+
+R is the computing environment, and R Studio is where we work. Install N P
+once, load it, and use the bundled wage data. One N P REYG call selects the
+smoothing parameter and fits the relationship. The summary records the selected
+bandwidth. The plot shows the result. Your first reproducible N P analysis is
+complete, and the full script is on the Gallery Video Demos page.

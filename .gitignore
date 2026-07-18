@@ -10,3 +10,7 @@
 **/*.quarto_ipynb
 www/**/.Rhistory
 .positai
+
+# Reproducible video-production sources are tracked; generated frame and media
+# builds remain local until an approved public bundle is synchronized to www/.
+video-production/**/build/

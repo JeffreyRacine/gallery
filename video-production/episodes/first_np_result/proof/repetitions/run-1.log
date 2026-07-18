@@ -1,0 +1,43 @@
+candidate=A
+script=<campaign-root>/scripts/candidate_A_first_success.R
+np.version=0.70.5
+np.path=<campaign-root>/Rlib/np
+crs.version=0.15.45
+crs.path=<campaign-root>/Rlib/crs
+
+> library(np)
+np 0.70-5
+Examples and guides at https://jeffreyracine.github.io/gallery/
+See also vignette("np_getting_started", package = "np")
+
+> set.seed(42)
+
+> data(cps71, package = "np")
+
+> fit_first <- npreg(logwage ~ age, data = cps71)
+
+> summary(fit_first$bws)
+
+Regression Data (205 observations, 1 variable(s)):
+
+Regression Type: Local-Constant
+Bandwidth Selection Method: Least Squares Cross-Validation
+Bandwidth Type: Fixed
+Objective Function Value: 0.316055 (achieved on multistart 1)
+Number of Function Evaluations: 47
+Evaluation cache (Powell): 17 hits / 41 lookups (41.5%)
+
+Exp. Var. Name: age Bandwidth: 1.892158  Scale Factor: 0.4487743
+
+Continuous Kernel Type: Second-Order Gaussian
+No. Continuous Explanatory Vars.: 1
+Estimation Time: 0.064 seconds
+
+
+> plot(fit_first, main = "A first np regression")
+null device
+          1
+elapsed_seconds=0.6093781
+result_rds=<campaign-root>/proof/candidate_A_repeat_1.rds
+plot_png=<campaign-root>/renders/candidate_A_repeat_1.png
+PROOF_OK

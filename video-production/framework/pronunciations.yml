@@ -1,0 +1,11 @@
+version: 1
+entries:
+  - public: np
+    private_cue: N P
+    note: Pronounce as the two letters.
+  - public: npreg()
+    private_cue: N P REYG
+    note: The final consonant is the hard g in regression, never the soft g in reject.
+  - public: npcdens()
+    private_cue: N P see dense
+    note: Pronounce as the letters N and P followed by the words see dense.
