@@ -41,10 +41,11 @@ narration:
   public_source: narration/public.txt
   private_phonetic_source: narration/voice_prompt.txt
   master: narration/narration_master.wav
-  duration_seconds: 23.4
-  sha256: defc7f330c18aebc7a07c2112d2f58c4a6e4598ff8608c6732bd22f03761cb05
+  duration_seconds: 24.02
+  sha256: bab7f79ec2d0ec03ee2074efddcacbe1d4e5d5dc6c4b0cf3be6d370e0af5a95b
   public_function_text: npcdens()
   private_spoken_cue: N P see dense
+  private_unimodal_cue: you knee modal
   pronunciation_probe: narration/pronunciation_probe.wav
   pronunciation_approval: jeffrey-2026-07-18
 captions: captions/captions.en.vtt
@@ -63,8 +64,8 @@ review_media:
   narrated_prototype:
     path: review/narrated-prototype.mp4
     duration_seconds: 25
-    bytes: 1819271
-    sha256: 57ffe6cc3c0dfe9817b8479ba00d6693b108d11c6baba8bc404022e9694d785c
+    bytes: 1829887
+    sha256: 0cf2add02570e7ff31f8511fd167b34f627468c9cd58e6dfbd2a564679c66cb9
 media_target:
   width: 1920
   height: 1080

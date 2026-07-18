@@ -36,6 +36,8 @@ must remain legible at the embedded size. Do not rely on color alone.
 Use the built-in Cove voice with a private phonetic prompt and a public text
 source. Public code, captions, transcript, and Gallery prose always use actual
 function spelling. The microphone remains muted during system-audio capture.
+The private cue for `unimodal` is `you knee modal`, spoken smoothly as
+“you-knee-modal”; the public word remains `unimodal`.
 
 Seeds are included only when an episode invokes randomness. The standing seed
 is `set.seed(42)`. Deterministic bundled-data episodes omit a seed.

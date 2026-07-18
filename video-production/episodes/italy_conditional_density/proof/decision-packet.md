@@ -77,9 +77,12 @@ Jeffrey has approved items 1-4 below for the silent/probe gate:
 4. the RStudio/close-up/RStudio structure and final Video Demos route.
 
 The remaining gate is a listening review of `review/narrated-prototype.mp4`.
-The 23.4-second narration is one continuous response, with no word splice and
-no five-second vocal pre-roll. It is padded with silence through the unchanged
-25-second outro. Nothing in this packet is a Gallery promotion candidate.
+Jeffrey's first full-take review identified only the pronunciation of
+`unimodal`: Cove used an “unny-modal” opening. The replacement is a fresh
+24.02-second continuous take using the private cue `you knee modal`; it is not
+a word splice. It has no five-second vocal pre-roll and is padded with silence
+through the unchanged 25-second outro. Nothing in this packet is a Gallery
+promotion candidate.
 
 ## Evidence summary
 

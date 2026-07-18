@@ -1,6 +1,8 @@
-Read only the following narration once. Begin immediately with "Per-capita" and add no introduction or closing remark. Pronounce the production-only spelling "N P see dense" as four parts: the letters N and P, then the words "see dense." Keep the delivery calm, direct, reassuring, and natural.
+Read only the following narration once. Begin immediately with "Per-capita" and add no introduction or closing remark. Keep the delivery calm, direct, reassuring, and natural.
 
-Per-capita GDP across 21 Italian regions begins mainly unimodal after the war.
+The production-only spelling "you knee modal" represents the public word "unimodal." Pronounce it smoothly as "you-knee-modal," with a clear "you knee" opening, never "unny-modal." Pronounce the production-only spelling "N P see dense" as four parts: the letters N and P, then the words "see dense."
+
+Per-capita GDP across 21 Italian regions begins mainly you knee modal after the war.
 
 Here, year is an ordered factor, so N P see dense smooths across observed year levels.
 

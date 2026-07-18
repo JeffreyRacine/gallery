@@ -9,3 +9,6 @@ entries:
   - public: npcdens()
     private_cue: N P see dense
     note: Pronounce as the letters N and P followed by the words see dense.
+  - public: unimodal
+    private_cue: you knee modal
+    note: Pronounce smoothly as you-knee-modal, never unny-modal.

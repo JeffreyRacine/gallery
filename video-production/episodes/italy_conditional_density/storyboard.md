@@ -125,8 +125,10 @@ claiming that the estimator identifies a causal mechanism.
   approved 90/45 surface never rotates.
 - Actual-interface grammar: the animatic uses a fresh Italy-specific RStudio
   capture before and after the controlled close-ups.
-- Narration: one continuous Cove response, microphone muted, trimmed to 23.4
+- Narration: one continuous Cove response, microphone muted, trimmed to 24.02
   seconds, normalized to -16.5 LUFS integrated with -1.5 dBTP true peak, and
   padded with silence through the 25-second outro.
+- Pronunciation retake: private `you knee modal` cue corrects only the spoken
+  `unimodal`; the public script, captions, and transcript remain unchanged.
 - Review boundary: Jeffrey approved the pronunciation probe and silent visual;
   the complete narrated cut still requires listening review before promotion.

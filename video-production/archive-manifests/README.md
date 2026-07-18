@@ -22,9 +22,9 @@ The manifest is historical proof for the 2026-07-18 campaign. Rebuilding it
 after the external scratch tree changes creates a new checksum state and should
 be reviewed as such.
 
-Current inventory: 777 files, 509,976,443 bytes. Forty-five source artifacts
-have a canonical Gallery destination; 20 raw captures, two rejected takes, 100
+Current inventory: 781 files, 534,761,203 bytes. Forty-five source artifacts
+have a canonical Gallery destination; 21 raw captures, two rejected takes, 100
 installed-environment files, 309 ephemeral profile/model files, 38 generated
-cache files, and 263 additional evidence files remain external. Manifest
+cache files, and 266 additional evidence files remain external. Manifest
 SHA-256:
-`acac048445e8fb47eae2819f90792c712ec397c3e05c872b97046c5194d08f4f`.
+`94e52a6c9fb47770d7acf43b8dedab105a8e45e723166eb3e47178102d29f06f`.
