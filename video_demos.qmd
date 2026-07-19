@@ -77,7 +77,8 @@ density, conditional distribution, and direct conditional quantiles without
 turning any one short into a full theoretical treatment. See
 [How the four targets connect](density_distribution_quantiles.qmd#how-the-four-targets-connect)
 for the population definitions and the important target-specific smoothing
-distinction.
+distinction. A fourth Italy demonstration isolates how the R class assigned to
+a predictor propagates through smoothing, plotting, and gradient semantics.
 
 :::: {.callout-note collapse="true" #italy-conditional-density}
 ## Italy's changing conditional density — 25 seconds
@@ -208,6 +209,69 @@ separate, regression-based location-scale method. No seed is needed.
 ### Transcript
 
 {{< include www/videos/italy_conditional_quantiles/italy_conditional_quantiles_transcript.txt >}}
+::::
+
+:::: {.callout-note collapse="true" #italy-ordered-numeric-gradients}
+## Variable type determines smoothing and gradients — 25 seconds
+
+**Function:** `npreg()`<br>
+**Takeaway:** give the predictor the R class that represents its statistical
+meaning; `np` then carries that type through kernel choice, cross-validation,
+the fitted plot, and the meaning of a gradient.
+
+The bundled `Italy$year` is an ordered factor. For comparison, this episode
+stores the same displayed year values as numeric in a second data frame. The
+response observations are unchanged: only the statistical meaning assigned to
+the predictor differs.
+
+```{=html}
+<video class="gallery-video" controls preload="metadata"
+  poster="www/videos/italy_ordered_numeric_gradients/italy_ordered_numeric_gradients_poster.png"
+  aria-label="A 25-second RStudio comparison showing how npreg uses an ordered Li–Racine kernel and adjacent-level finite differences when Italian year is an ordered factor, versus a continuous Gaussian kernel and analytic derivatives when the same years are numeric.">
+  <source src="www/videos/italy_ordered_numeric_gradients/italy_ordered_numeric_gradients.mp4" type="video/mp4">
+  <track kind="captions" srclang="en" label="English" default
+    src="www/videos/italy_ordered_numeric_gradients/italy_ordered_numeric_gradients.en.vtt">
+  Your browser does not support embedded video. Use the direct MP4 link below.
+</video>
+```
+
+[Open or download the MP4](www/videos/italy_ordered_numeric_gradients/italy_ordered_numeric_gradients.mp4) ·
+[Download the captions](www/videos/italy_ordered_numeric_gradients/italy_ordered_numeric_gradients.en.vtt) ·
+[Read the transcript](www/videos/italy_ordered_numeric_gradients/italy_ordered_numeric_gradients_transcript.txt)
+
+```r
+{{< include www/videos/italy_ordered_numeric_gradients/italy_ordered_numeric_gradients.R >}}
+```
+
+[Download the R script](www/videos/italy_ordered_numeric_gradients/italy_ordered_numeric_gradients.R).
+
+No kernel or gradient switch is required in either `npreg()` call. The variable
+class determines the appropriate route automatically:
+
+- **Ordered factor:** the verified fit uses the Li–Racine ordered kernel,
+  cross-validates the categorical smoothing parameter
+  `lambda = 0.7046792`, plots level-specific fitted values, and reports Delta
+  as an adjacent-ordered-level finite difference.
+- **Numeric:** the verified fit uses a second-order Gaussian kernel,
+  cross-validates the continuous bandwidth `h = 3.337488`, plots a smooth
+  fitted curve, and reports the analytic derivative with respect to year.
+
+The categorical smoothing parameter and continuous bandwidth have different
+meanings and scales; their numerical magnitudes should not be compared. The
+numeric version is included to expose the contrast, not to recommend coercing
+ordered variables. Choose the class from the predictor's substantive meaning:
+integer coding alone does not determine whether a variable is continuous,
+unordered, or ordered. See [Data Preparation](data_preparation.qmd) for the
+mixed-data workflow and [Plotting and Intervals](plotting_and_intervals.qmd)
+for the broader gradient interface.
+
+Five seedless installed runs produced exactly identical bandwidths, fitted
+values, gradients, and four-panel graphics without warnings or messages. No
+seed is needed for this deterministic example.
+
+### Transcript
+
+{{< include www/videos/italy_ordered_numeric_gradients/italy_ordered_numeric_gradients_transcript.txt >}}
 ::::
 
 The next pair uses the built-in `faithful` data to compare two unconditional

@@ -5,9 +5,10 @@ develop Candidate A and the Italy conditional-density review cut.
 `old-faithful-scratch-artifacts.tsv` separately inventories the complete
 scratch tree for the approved Old Faithful joint-density and
 joint-distribution pair. `old-faithful-auto-lp-scratch-artifacts.tsv` covers
-the subsequent automatic local-polynomial and bootstrap-band episode. Paths
-are relative to their scratch roots; no private absolute path or file content
-is stored in any manifest.
+the subsequent automatic local-polynomial and bootstrap-band episode.
+`italy-gradients-scratch-artifacts.tsv` covers the ordered-factor versus
+numeric-gradient episode. Paths are relative to their scratch roots; no
+private absolute path or file content is stored in any manifest.
 
 Each row records bytes, SHA-256, retention class, and the canonical Gallery
 destination when the artifact was selected or adapted for
@@ -26,6 +27,7 @@ The Old Faithful inventory uses
 `old-faithful-copied-artifacts.tsv` as its source-to-destination map.
 The automatic local-polynomial inventory uses
 `old-faithful-auto-lp-copied-artifacts.tsv`.
+The Italy gradient inventory uses `italy-gradients-copied-artifacts.tsv`.
 
 The manifest is historical proof for the 2026-07-18 campaign. Rebuilding it
 after the external scratch tree changes creates a new checksum state and should
@@ -53,3 +55,9 @@ Forty source artifacts have a canonical Gallery destination; one raw capture,
 seven generated cache files, and 48 additional evidence files remain external.
 Manifest SHA-256:
 `194755a21c27b238b59feb9d0d1c2be26ebd6ba9d5d7bf4194195c16849800a5`.
+
+Current Italy gradient inventory: 59 files, 46,123,600 bytes. Thirty-eight
+source artifacts have a canonical Gallery destination; one raw capture, six
+generated cache files, and 14 additional evidence files remain external.
+Manifest SHA-256:
+`04583d62f615c55f5980dabc4f4c0cf1eed451e7348b98debc1ecce2568de935`.

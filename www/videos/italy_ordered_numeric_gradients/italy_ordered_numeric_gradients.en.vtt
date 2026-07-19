@@ -1,0 +1,16 @@
+WEBVTT
+
+00:00:00.170 --> 00:00:04.750
+Give a predictor its correct R class, and np carries that meaning through the analysis.
+
+00:00:05.200 --> 00:00:09.200
+With year ordered, cross-validation tunes a discrete Li–Racine kernel;
+
+00:00:09.550 --> 00:00:13.700
+the fitted values are level-specific, and Delta is an adjacent-level difference.
+
+00:00:14.180 --> 00:00:19.150
+With year numeric, it tunes a continuous Gaussian kernel and returns an analytic derivative.
+
+00:00:19.550 --> 00:00:22.450
+Give the variable the right class; np handles the rest.

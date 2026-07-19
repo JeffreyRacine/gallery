@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+episode_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+video="${1:-${episode_root}/build/silent-animatic.mp4}"
+audio="${episode_root}/narration/narration_master.wav"
+output="${2:-${episode_root}/build/narrated-prototype.mp4}"
+duration=25.20
+mkdir -p "$(dirname "${output}")"
+
+# Preserve the approved visual timing and uninterrupted Cove narration. The
+# audio is neither spliced nor time-stretched; silence fills the final outro.
+ffmpeg -y -hide_banner -nostats \
+  -i "${video}" -i "${audio}" \
+  -map 0:v:0 -map 1:a:0 \
+  -c:v copy \
+  -af "apad=whole_dur=${duration}" \
+  -t "${duration}" \
+  -c:a aac -b:a 160k -ar 48000 \
+  -movflags +faststart "${output}"
+
+printf '%s\n' "${output}"

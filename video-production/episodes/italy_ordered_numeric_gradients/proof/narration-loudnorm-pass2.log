@@ -1,0 +1,29 @@
+[in#0/caf @ 0x9e9410000] Estimating duration from bitrate, this may be inaccurate
+[aist#0:0/pcm_f32le @ 0x9e9408180] Guessed Channel Layout: stereo
+Input #0, caf, from '/Users/jracine/Development/tmp/gallery_video_pilot_execution_20260718/italy_ordered_numeric_gradients/captures/raw/italy_gradient_cove_take2_full.caf':
+  Duration: 00:01:19.82, start: 0.000000, bitrate: 3072 kb/s
+  Stream #0:0: Audio: pcm_f32le (lpcm / 0x6D63706C), 48000 Hz, stereo, flt, 3072 kb/s
+Stream mapping:
+  Stream #0:0 -> #0:0 (pcm_f32le (native) -> pcm_s16le (native))
+Press [q] to stop, [?] for help
+Output #0, wav, to '/Users/jracine/Development/tmp/gallery_video_pilot_execution_20260718/italy_ordered_numeric_gradients/captures/edited/italy_gradient_cove_narration_master.wav':
+  Metadata:
+    ISFT            : Lavf62.12.102
+  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 48000 Hz, mono, s16, 768 kb/s
+    Metadata:
+      encoder         : Lavc62.28.102 pcm_s16le
+[Parsed_loudnorm_3 @ 0x9e8c0d140] 
+Input Integrated:    -39.5 LUFS
+Input True Peak:     -21.1 dBTP
+Input LRA:             1.8 LU
+Input Threshold:     -49.7 LUFS
+
+Output Integrated:   -16.2 LUFS
+Output True Peak:     -1.5 dBTP
+Output LRA:            1.2 LU
+Output Threshold:    -26.4 LUFS
+
+Normalization Type:   Dynamic
+Target Offset:        +0.2 LU
+[out#0/wav @ 0x9e8c0c780] video:0KiB audio:2113KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.003605%
+size=    2113KiB time=00:00:22.60 bitrate= 766.0kbits/s speed=53.1x elapsed=0:00:00.42    

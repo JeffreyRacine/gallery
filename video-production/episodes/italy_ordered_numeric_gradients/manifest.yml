@@ -1,0 +1,99 @@
+episode_id: italy_ordered_numeric_gradients
+title: Variable type determines smoothing and gradients
+status: publication-authorized
+public_function: npreg
+canonical_objects:
+  - fit_ordered
+  - fit_numeric
+package:
+  name: np
+  version: 0.70-5
+  build: public-cran-campaign-library
+dataset:
+  name: Italy
+  package: np
+  rows: 1008
+  regions: 21
+  ordered_year_levels: 48
+  first_year: 1951
+  last_year: 1998
+  response: gdp
+  predictor: year
+comparison:
+  displayed_values_equal: true
+  ordered_class: ordered/factor
+  numeric_class: numeric
+randomness:
+  used: false
+  seed: null
+script: analysis.R
+smoothing:
+  ordered:
+    kernel: li-racine-ordered
+    cross_validated_parameter: lambda
+    value: 0.7046791824993954
+    plot: level-specific
+    gradient: adjacent-ordered-level-finite-difference
+  numeric:
+    kernel: second-order-gaussian
+    cross_validated_parameter: h
+    value: 3.33748801545691
+    plot: continuously-smoothed
+    gradient: analytic-derivative
+proof:
+  repetitions: 5
+  ordered_elapsed_seconds_min: 0.066
+  ordered_elapsed_seconds_median: 0.067
+  ordered_elapsed_seconds_max: 0.071
+  numeric_elapsed_seconds_min: 0.121
+  numeric_elapsed_seconds_median: 0.128
+  numeric_elapsed_seconds_max: 0.130
+  exact_bandwidth_parity: true
+  exact_fitted_parity: true
+  exact_gradient_parity: true
+  byte_identical_plots: true
+  warnings: 0
+  messages: 0
+narration:
+  public_source: narration/public.txt
+  private_phonetic_source: narration/voice_prompt.txt
+  master: narration/narration_master.wav
+  master_duration_seconds: 22.54
+  master_sha256: 3bb4a9cca4186d9e77557b7bd86bc7bd367e7676ffd1c8f4dfcb48ed6491428b
+  private_spoken_cues:
+    np: enn-pee
+    li_racine: lee-ruh-seen
+  approval: jeffrey-2026-07-19
+captions: captions/captions.en.vtt
+transcript: transcript.txt
+placement:
+  canonical_page: Examples -> Video Demos
+  canonical_anchor: italy-ordered-numeric-gradients
+  cross_links:
+    - Data Preparation
+    - Plotting and Intervals
+review_media:
+  silent_animatic:
+    path: review/silent-animatic.mp4
+    duration_seconds: 25.20
+    sha256: e7f1df7f1699d7ddf8fe53fb9e0e462fc03cef9b026f28142230bfdcacc9e2f6
+  narrated_prototype:
+    path: review/narrated-prototype.mp4
+    duration_seconds: 25.20
+    bytes: 2455731
+    sha256: 2514b2a1636b725cca7cf28fb12fe93ae7aba66322ffb8b2cafb230106ad290a
+media_target:
+  width: 1920
+  height: 1080
+  fps: 30
+  video_codec: h264
+  audio_codec: aac
+  audio_sample_rate: 48000
+  audio_channels: 1
+  pixel_format: yuv420p
+  faststart: true
+public_promotion:
+  bundle_prepared: true
+  commit_and_push_authorized: true
+  authorization: jeffrey-2026-07-19
+  www_path: www/videos/italy_ordered_numeric_gradients

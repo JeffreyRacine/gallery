@@ -1,0 +1,406 @@
+{
+  "audio": "captures/raw/italy_gradient_cove_take2_full.caf",
+  "model": "Systran/faster-whisper-tiny.en",
+  "detected_language": "en",
+  "language_probability": 1,
+  "segments": [
+    {
+      "start": 23.5,
+      "end": 46.0,
+      "text": " Give a predictor it's correct R class and np carries that meaning through the analysis With your ordered cross-validation tunes a discrete Li Racine kernel the fitted values are level-specific and Delta is an adjacent level difference With your numeric it tunes a continuous Gaussian kernel and returns an analytic derivative Give the variable the right class np handles the rest",
+      "words": [
+        {
+          "start": 23.5,
+          "end": 24.04,
+          "word": " Give",
+          "probability": 0.7838270664215088
+        },
+        {
+          "start": 24.04,
+          "end": 24.24,
+          "word": " a",
+          "probability": 0.9749924540519714
+        },
+        {
+          "start": 24.24,
+          "end": 24.52,
+          "word": " predictor",
+          "probability": 0.9920965433120728
+        },
+        {
+          "start": 24.52,
+          "end": 25.02,
+          "word": " it's",
+          "probability": 0.794149786233902
+        },
+        {
+          "start": 25.02,
+          "end": 25.04,
+          "word": " correct",
+          "probability": 0.9917147755622864
+        },
+        {
+          "start": 25.04,
+          "end": 25.32,
+          "word": " R",
+          "probability": 0.03497010096907616
+        },
+        {
+          "start": 25.32,
+          "end": 25.66,
+          "word": " class",
+          "probability": 0.5133128762245178
+        },
+        {
+          "start": 25.66,
+          "end": 25.96,
+          "word": " and",
+          "probability": 0.70888352394104
+        },
+        {
+          "start": 25.96,
+          "end": 26.38,
+          "word": " np",
+          "probability": 0.00545849371701479
+        },
+        {
+          "start": 26.38,
+          "end": 26.82,
+          "word": " carries",
+          "probability": 0.9889026284217834
+        },
+        {
+          "start": 26.82,
+          "end": 27.06,
+          "word": " that",
+          "probability": 0.994358241558075
+        },
+        {
+          "start": 27.06,
+          "end": 27.4,
+          "word": " meaning",
+          "probability": 0.9914748668670654
+        },
+        {
+          "start": 27.4,
+          "end": 27.7,
+          "word": " through",
+          "probability": 0.911074697971344
+        },
+        {
+          "start": 27.7,
+          "end": 27.9,
+          "word": " the",
+          "probability": 0.9896348118782043
+        },
+        {
+          "start": 27.9,
+          "end": 28.32,
+          "word": " analysis",
+          "probability": 0.9900034070014954
+        },
+        {
+          "start": 28.32,
+          "end": 29.06,
+          "word": " With",
+          "probability": 0.06101391837000847
+        },
+        {
+          "start": 29.06,
+          "end": 29.36,
+          "word": " your",
+          "probability": 0.42452916502952576
+        },
+        {
+          "start": 29.36,
+          "end": 29.76,
+          "word": " ordered",
+          "probability": 0.9548529982566833
+        },
+        {
+          "start": 29.76,
+          "end": 30.08,
+          "word": " cross",
+          "probability": 0.8809047341346741
+        },
+        {
+          "start": 30.08,
+          "end": 30.68,
+          "word": "-validation",
+          "probability": 0.8388007680575053
+        },
+        {
+          "start": 30.68,
+          "end": 31.04,
+          "word": " tunes",
+          "probability": 0.67208331823349
+        },
+        {
+          "start": 31.04,
+          "end": 31.3,
+          "word": " a",
+          "probability": 0.5085607767105103
+        },
+        {
+          "start": 31.3,
+          "end": 31.54,
+          "word": " discrete",
+          "probability": 0.1675213724374771
+        },
+        {
+          "start": 31.54,
+          "end": 31.82,
+          "word": " Li",
+          "probability": 0.0006289903540164232
+        },
+        {
+          "start": 31.82,
+          "end": 32.36,
+          "word": " Racine",
+          "probability": 0.511663269251585
+        },
+        {
+          "start": 32.36,
+          "end": 32.74,
+          "word": " kernel",
+          "probability": 0.8502234220504761
+        },
+        {
+          "start": 32.74,
+          "end": 33.38,
+          "word": " the",
+          "probability": 0.4608943462371826
+        },
+        {
+          "start": 33.38,
+          "end": 33.56,
+          "word": " fitted",
+          "probability": 0.9707481861114502
+        },
+        {
+          "start": 33.56,
+          "end": 34.0,
+          "word": " values",
+          "probability": 0.9945701956748962
+        },
+        {
+          "start": 34.0,
+          "end": 34.24,
+          "word": " are",
+          "probability": 0.9918661713600159
+        },
+        {
+          "start": 34.24,
+          "end": 34.52,
+          "word": " level",
+          "probability": 0.974469780921936
+        },
+        {
+          "start": 34.52,
+          "end": 35.04,
+          "word": "-specific",
+          "probability": 0.677388995885849
+        },
+        {
+          "start": 35.04,
+          "end": 35.42,
+          "word": " and",
+          "probability": 0.8752291798591614
+        },
+        {
+          "start": 35.42,
+          "end": 35.66,
+          "word": " Delta",
+          "probability": 0.6269820332527161
+        },
+        {
+          "start": 35.66,
+          "end": 35.96,
+          "word": " is",
+          "probability": 0.9941045641899109
+        },
+        {
+          "start": 35.96,
+          "end": 36.08,
+          "word": " an",
+          "probability": 0.6101669073104858
+        },
+        {
+          "start": 36.08,
+          "end": 36.42,
+          "word": " adjacent",
+          "probability": 0.9968202114105225
+        },
+        {
+          "start": 36.42,
+          "end": 36.72,
+          "word": " level",
+          "probability": 0.9675964117050171
+        },
+        {
+          "start": 36.72,
+          "end": 37.24,
+          "word": " difference",
+          "probability": 0.993278443813324
+        },
+        {
+          "start": 37.24,
+          "end": 38.08,
+          "word": " With",
+          "probability": 0.864492654800415
+        },
+        {
+          "start": 38.08,
+          "end": 38.28,
+          "word": " your",
+          "probability": 0.9571561217308044
+        },
+        {
+          "start": 38.28,
+          "end": 38.7,
+          "word": " numeric",
+          "probability": 0.9837063550949097
+        },
+        {
+          "start": 38.7,
+          "end": 39.12,
+          "word": " it",
+          "probability": 0.7643179297447205
+        },
+        {
+          "start": 39.12,
+          "end": 39.34,
+          "word": " tunes",
+          "probability": 0.9431731104850769
+        },
+        {
+          "start": 39.34,
+          "end": 39.64,
+          "word": " a",
+          "probability": 0.9915158748626709
+        },
+        {
+          "start": 39.64,
+          "end": 39.98,
+          "word": " continuous",
+          "probability": 0.9941021800041199
+        },
+        {
+          "start": 39.98,
+          "end": 40.54,
+          "word": " Gaussian",
+          "probability": 0.9800896644592285
+        },
+        {
+          "start": 40.54,
+          "end": 40.9,
+          "word": " kernel",
+          "probability": 0.9720849394798279
+        },
+        {
+          "start": 40.9,
+          "end": 41.18,
+          "word": " and",
+          "probability": 0.9895455241203308
+        },
+        {
+          "start": 41.18,
+          "end": 41.5,
+          "word": " returns",
+          "probability": 0.993958592414856
+        },
+        {
+          "start": 41.5,
+          "end": 41.78,
+          "word": " an",
+          "probability": 0.9520912766456604
+        },
+        {
+          "start": 41.78,
+          "end": 42.12,
+          "word": " analytic",
+          "probability": 0.9877837300300598
+        },
+        {
+          "start": 42.12,
+          "end": 42.7,
+          "word": " derivative",
+          "probability": 0.9899495840072632
+        },
+        {
+          "start": 42.7,
+          "end": 43.24,
+          "word": " Give",
+          "probability": 0.6346200704574585
+        },
+        {
+          "start": 43.24,
+          "end": 43.42,
+          "word": " the",
+          "probability": 0.998033344745636
+        },
+        {
+          "start": 43.42,
+          "end": 43.72,
+          "word": " variable",
+          "probability": 0.9852405786514282
+        },
+        {
+          "start": 43.72,
+          "end": 43.96,
+          "word": " the",
+          "probability": 0.989069402217865
+        },
+        {
+          "start": 43.96,
+          "end": 44.18,
+          "word": " right",
+          "probability": 0.9952000379562378
+        },
+        {
+          "start": 44.18,
+          "end": 44.66,
+          "word": " class",
+          "probability": 0.987656831741333
+        },
+        {
+          "start": 44.66,
+          "end": 45.22,
+          "word": " np",
+          "probability": 0.2649925947189331
+        },
+        {
+          "start": 45.22,
+          "end": 45.52,
+          "word": " handles",
+          "probability": 0.9889726042747498
+        },
+        {
+          "start": 45.52,
+          "end": 45.74,
+          "word": " the",
+          "probability": 0.9989275336265564
+        },
+        {
+          "start": 45.74,
+          "end": 46.0,
+          "word": " rest",
+          "probability": 0.9978094696998596
+        }
+      ]
+    },
+    {
+      "start": 46.0,
+      "end": 46.42,
+      "text": " .",
+      "words": [
+        {
+          "start": 46.0,
+          "end": 46.42,
+          "word": " .",
+          "probability": 0.012054958380758762
+        }
+      ]
+    }
+  ]
+}

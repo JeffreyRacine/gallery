@@ -525,7 +525,7 @@ window.Quarto = {
 </section>
 <section id="analytical-demonstrations" class="level2">
 <h2 class="anchored" data-anchor-id="analytical-demonstrations">Analytical demonstrations</h2>
-<p>The Italy sequence uses the same public dataset to connect conditional density, conditional distribution, and direct conditional quantiles without turning any one short into a full theoretical treatment. See <a href="./density_distribution_quantiles.html#how-the-four-targets-connect">How the four targets connect</a> for the population definitions and the important target-specific smoothing distinction.</p>
+<p>The Italy sequence uses the same public dataset to connect conditional density, conditional distribution, and direct conditional quantiles without turning any one short into a full theoretical treatment. See <a href="./density_distribution_quantiles.html#how-the-four-targets-connect">How the four targets connect</a> for the population definitions and the important target-specific smoothing distinction. A fourth Italy demonstration isolates how the R class assigned to a predictor propagates through smoothing, plotting, and gradient semantics.</p>
 <div id="italy-conditional-density" class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -653,9 +653,84 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<div id="italy-ordered-numeric-gradients" class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Variable type determines smoothing and gradients — 25 seconds
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Function:</strong> <code>npreg()</code><br> <strong>Takeaway:</strong> give the predictor the R class that represents its statistical meaning; <code>np</code> then carries that type through kernel choice, cross-validation, the fitted plot, and the meaning of a gradient.</p>
+<p>The bundled <code>Italy$year</code> is an ordered factor. For comparison, this episode stores the same displayed year values as numeric in a second data frame. The response observations are unchanged: only the statistical meaning assigned to the predictor differs.</p>
+<video class="gallery-video" controls="" preload="metadata" poster="www/videos/italy_ordered_numeric_gradients/italy_ordered_numeric_gradients_poster.png" aria-label="A 25-second RStudio comparison showing how npreg uses an ordered Li–Racine kernel and adjacent-level finite differences when Italian year is an ordered factor, versus a continuous Gaussian kernel and analytic derivatives when the same years are numeric.">
+  <source src="www/videos/italy_ordered_numeric_gradients/italy_ordered_numeric_gradients.mp4" type="video/mp4">
+  <track kind="captions" srclang="en" label="English" default="" src="www/videos/italy_ordered_numeric_gradients/italy_ordered_numeric_gradients.en.vtt">
+  Your browser does not support embedded video. Use the direct MP4 link below.
+</video>
+<p><a href="www/videos/italy_ordered_numeric_gradients/italy_ordered_numeric_gradients.mp4">Open or download the MP4</a> · <a href="www/videos/italy_ordered_numeric_gradients/italy_ordered_numeric_gradients.en.vtt">Download the captions</a> · <a href="www/videos/italy_ordered_numeric_gradients/italy_ordered_numeric_gradients_transcript.txt">Read the transcript</a></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Italy ordered-factor versus numeric gradient short.</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Last verified with the public CRAN np 0.70-5 build.</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Italy, <span class="at">package =</span> <span class="st">"np"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># The bundled data correctly stores year as an ordered factor.</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Italy<span class="sc">$</span>year)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-express the same displayed years as numeric for comparison.</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>italy_numeric <span class="ot">&lt;-</span> <span class="fu">transform</span>(</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  Italy,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(year))</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(italy_numeric<span class="sc">$</span>year)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>fit_ordered <span class="ot">&lt;-</span> <span class="fu">npreg</span>(gdp <span class="sc">~</span> year, <span class="at">data =</span> Italy)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>fit_numeric <span class="ot">&lt;-</span> <span class="fu">npreg</span>(gdp <span class="sc">~</span> year, <span class="at">data =</span> italy_numeric)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_ordered<span class="sc">$</span>bws)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_numeric<span class="sc">$</span>bws)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">plot.par.mfrow =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_ordered,</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Ordered year: fitted mean"</span>,</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Year"</span>, <span class="at">ylab =</span> <span class="st">"GDP"</span>)</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_numeric,</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Numeric year: fitted mean"</span>,</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Year"</span>, <span class="at">ylab =</span> <span class="st">"GDP"</span>)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_ordered, <span class="at">gradients =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Ordered year: finite difference"</span>,</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Year"</span>)</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_numeric, <span class="at">gradients =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Numeric year: derivative"</span>,</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Year"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><a href="www/videos/italy_ordered_numeric_gradients/italy_ordered_numeric_gradients.R">Download the R script</a>.</p>
+<p>No kernel or gradient switch is required in either <code>npreg()</code> call. The variable class determines the appropriate route automatically:</p>
+<ul>
+<li><strong>Ordered factor:</strong> the verified fit uses the Li–Racine ordered kernel, cross-validates the categorical smoothing parameter <code>lambda = 0.7046792</code>, plots level-specific fitted values, and reports Delta as an adjacent-ordered-level finite difference.</li>
+<li><strong>Numeric:</strong> the verified fit uses a second-order Gaussian kernel, cross-validates the continuous bandwidth <code>h = 3.337488</code>, plots a smooth fitted curve, and reports the analytic derivative with respect to year.</li>
+</ul>
+<p>The categorical smoothing parameter and continuous bandwidth have different meanings and scales; their numerical magnitudes should not be compared. The numeric version is included to expose the contrast, not to recommend coercing ordered variables. Choose the class from the predictor’s substantive meaning: integer coding alone does not determine whether a variable is continuous, unordered, or ordered. See <a href="./data_preparation.html">Data Preparation</a> for the mixed-data workflow and <a href="./plotting_and_intervals.html">Plotting and Intervals</a> for the broader gradient interface.</p>
+<p>Five seedless installed runs produced exactly identical bandwidths, fitted values, gradients, and four-panel graphics without warnings or messages. No seed is needed for this deterministic example.</p>
+<section id="transcript-4" class="level3">
+<h3 class="anchored" data-anchor-id="transcript-4">Transcript</h3>
+<p>Give a predictor its correct R class, and <code>np</code> carries that meaning through the analysis.</p>
+<p>With year ordered, cross-validation tunes a discrete Li–Racine kernel; the fitted values are level-specific, and Delta is an adjacent-level difference.</p>
+<p>With year numeric, it tunes a continuous Gaussian kernel and returns an analytic derivative.</p>
+<p>Give the variable the right class; <code>np</code> handles the rest.</p>
+</section>
+</div>
+</div>
+</div>
 <p>The next pair uses the built-in <code>faithful</code> data to compare two unconditional bivariate targets and to demonstrate the interactive <code>rgl</code> renderer in RStudio’s Viewer.</p>
 <div id="old-faithful-joint-density" class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -664,7 +739,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Function:</strong> <code>npudens()</code><br> <strong>Takeaway:</strong> target-specific smoothing reveals two distinct eruption cycles in a manipulable joint-density surface.</p>
 <p>The <code>datasets::faithful</code> data contain 272 observations of Old Faithful eruption duration in minutes and the waiting time to the next eruption. The two peaks correspond to short eruptions followed by shorter waits and long eruptions followed by longer waits.</p>
@@ -674,26 +749,26 @@ window.Quarto = {
   Your browser does not support embedded video. Use the direct MP4 link below.
 </video>
 <p><a href="www/videos/old_faithful_joint_density/old_faithful_joint_density.mp4">Open or download the MP4</a> · <a href="www/videos/old_faithful_joint_density/old_faithful_joint_density.en.vtt">Download the captions</a> · <a href="www/videos/old_faithful_joint_density/old_faithful_joint_density_transcript.txt">Read the transcript</a></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Old Faithful joint-density short.</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Last verified with the public CRAN np 0.70-5 build.</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(faithful, <span class="at">package =</span> <span class="st">"datasets"</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>fit_udens <span class="ot">&lt;-</span> <span class="fu">npudens</span>(<span class="sc">~</span> eruptions <span class="sc">+</span> waiting, <span class="at">data =</span> faithful)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_udens<span class="sc">$</span>bws)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_udens, <span class="at">renderer =</span> <span class="st">"rgl"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Old Faithful joint-density short.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Last verified with the public CRAN np 0.70-5 build.</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(faithful, <span class="at">package =</span> <span class="st">"datasets"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>fit_udens <span class="ot">&lt;-</span> <span class="fu">npudens</span>(<span class="sc">~</span> eruptions <span class="sc">+</span> waiting, <span class="at">data =</span> faithful)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_udens<span class="sc">$</span>bws)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_udens, <span class="at">renderer =</span> <span class="st">"rgl"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><a href="www/videos/old_faithful_joint_density/old_faithful_joint_density.R">Download the R script</a>.</p>
 <p>The verified public CRAN <code>np</code> 0.70-5 build selected bandwidths of <code>0.146981</code> for <code>eruptions</code> and <code>2.925689</code> for <code>waiting</code>, optimized for the joint-density target. No seed is needed. With <code>renderer = "rgl"</code>, the fitted surface opens in RStudio’s Viewer, where it can be rotated, zoomed, and resized.</p>
-<section id="transcript-4" class="level3">
-<h3 class="anchored" data-anchor-id="transcript-4">Transcript</h3>
+<section id="transcript-5" class="level3">
+<h3 class="anchored" data-anchor-id="transcript-5">Transcript</h3>
 <p>Old Faithful’s 272 observations contain measurements of eruption duration and waiting time. One npudens call selects bandwidths optimized for the joint-density target and reveals two distinct peaks: short eruptions with shorter waits, and long eruptions with longer waits. The surface opens in RStudio’s Viewer, where you can drag to rotate, scroll to zoom, and resize the pane. Find the full script in Gallery Video Demos.</p>
 </section>
 </div>
 </div>
 </div>
 <div id="old-faithful-joint-distribution" class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -702,7 +777,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Function:</strong> <code>npudist()</code><br> <strong>Takeaway:</strong> the same data can be viewed cumulatively with smoothing selected for the joint-distribution target.</p>
 <p>At each eruption-duration and waiting-time pair, the fitted surface estimates the probability of observing values at or below both coordinates. <code>npudist()</code> estimates this joint distribution directly; it does not integrate the fitted joint-density object from the preceding video.</p>
@@ -712,26 +787,26 @@ window.Quarto = {
   Your browser does not support embedded video. Use the direct MP4 link below.
 </video>
 <p><a href="www/videos/old_faithful_joint_distribution/old_faithful_joint_distribution.mp4">Open or download the MP4</a> · <a href="www/videos/old_faithful_joint_distribution/old_faithful_joint_distribution.en.vtt">Download the captions</a> · <a href="www/videos/old_faithful_joint_distribution/old_faithful_joint_distribution_transcript.txt">Read the transcript</a></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Old Faithful joint-distribution short.</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Last verified with the public CRAN np 0.70-5 build.</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(faithful, <span class="at">package =</span> <span class="st">"datasets"</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>fit_udist <span class="ot">&lt;-</span> <span class="fu">npudist</span>(<span class="sc">~</span> eruptions <span class="sc">+</span> waiting, <span class="at">data =</span> faithful)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_udist<span class="sc">$</span>bws)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_udist, <span class="at">renderer =</span> <span class="st">"rgl"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Old Faithful joint-distribution short.</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Last verified with the public CRAN np 0.70-5 build.</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(faithful, <span class="at">package =</span> <span class="st">"datasets"</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>fit_udist <span class="ot">&lt;-</span> <span class="fu">npudist</span>(<span class="sc">~</span> eruptions <span class="sc">+</span> waiting, <span class="at">data =</span> faithful)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_udist<span class="sc">$</span>bws)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_udist, <span class="at">renderer =</span> <span class="st">"rgl"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><a href="www/videos/old_faithful_joint_distribution/old_faithful_joint_distribution.R">Download the R script</a>.</p>
 <p>The verified public build selected bandwidths of <code>0.0576794</code> for <code>eruptions</code> and <code>0.186285</code> for <code>waiting</code>, optimized for the joint-distribution target. Five fresh installed runs were exactly identical for each estimator’s selected bandwidth object and fitted result. No seed is needed.</p>
-<section id="transcript-5" class="level3">
-<h3 class="anchored" data-anchor-id="transcript-5">Transcript</h3>
+<section id="transcript-6" class="level3">
+<h3 class="anchored" data-anchor-id="transcript-6">Transcript</h3>
 <p>The same 272 Old Faithful observations can be viewed cumulatively. One npudist call selects bandwidths optimized for the joint-distribution target and estimates the probability at or below each eruption-duration and waiting-time pair. This object is estimated directly, not by integrating the density. It opens in RStudio’s Viewer, where you can rotate, zoom, and resize the surface. Find the full script in Gallery Video Demos.</p>
 </section>
 </div>
 </div>
 </div>
 <div id="old-faithful-automatic-local-polynomial" class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -740,7 +815,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Function:</strong> <code>npreg()</code><br> <strong>Takeaway:</strong> the recommended automatic pathway can select polynomial complexity and smoothing for the target, then display the fitted relationship and its derivatives with complementary bootstrap variability bounds.</p>
 <p>The first <code>cps71</code> short used <code>npreg()</code>’s default local-constant estimator, equivalent to polynomial degree 0. Here, the recent and recommended <code>nomad = "auto"</code> convenience route selects the local-polynomial degree and bandwidth together for the Old Faithful waiting-time relationship. In this inexpensive one-predictor search, the automatic policy uses exhaustive degree search with Powell bandwidth optimization; the verified public build selects degree 4 and a fixed bandwidth of <code>556.863008</code>.</p>
@@ -750,29 +825,29 @@ window.Quarto = {
   Your browser does not support embedded video. Use the direct MP4 link below.
 </video>
 <p><a href="www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial.mp4">Open or download the MP4</a> · <a href="www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial.en.vtt">Download the captions</a> · <a href="www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial_transcript.txt">Read the transcript</a></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Old Faithful automatic local-polynomial regression and bootstrap bands.</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Verified with the public CRAN np 0.70-5 build.</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(faithful, <span class="at">package =</span> <span class="st">"datasets"</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>fit_npreg <span class="ot">&lt;-</span> <span class="fu">npreg</span>(waiting <span class="sc">~</span> eruptions, <span class="at">data =</span> faithful, <span class="at">nomad =</span> <span class="st">"auto"</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_npreg<span class="sc">$</span>bws)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">plot.par.mfrow =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_npreg, <span class="at">errors =</span> <span class="st">"bootstrap"</span>, <span class="at">band =</span> <span class="st">"all"</span>, <span class="at">B =</span> <span class="dv">9999</span>)</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_npreg,</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">errors =</span> <span class="st">"bootstrap"</span>, <span class="at">band =</span> <span class="st">"all"</span>, <span class="at">B =</span> <span class="dv">9999</span>,</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">gradients =</span> <span class="cn">TRUE</span>, <span class="at">gradient_order =</span> <span class="dv">1</span>)</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_npreg,</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">errors =</span> <span class="st">"bootstrap"</span>, <span class="at">band =</span> <span class="st">"all"</span>, <span class="at">B =</span> <span class="dv">9999</span>,</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">gradients =</span> <span class="cn">TRUE</span>, <span class="at">gradient_order =</span> <span class="dv">2</span>)</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_npreg,</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">errors =</span> <span class="st">"bootstrap"</span>, <span class="at">band =</span> <span class="st">"all"</span>, <span class="at">B =</span> <span class="dv">9999</span>,</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>     <span class="at">gradients =</span> <span class="cn">TRUE</span>, <span class="at">gradient_order =</span> <span class="dv">3</span>)</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Old Faithful automatic local-polynomial regression and bootstrap bands.</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Verified with the public CRAN np 0.70-5 build.</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(faithful, <span class="at">package =</span> <span class="st">"datasets"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>fit_npreg <span class="ot">&lt;-</span> <span class="fu">npreg</span>(waiting <span class="sc">~</span> eruptions, <span class="at">data =</span> faithful, <span class="at">nomad =</span> <span class="st">"auto"</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_npreg<span class="sc">$</span>bws)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">plot.par.mfrow =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_npreg, <span class="at">errors =</span> <span class="st">"bootstrap"</span>, <span class="at">band =</span> <span class="st">"all"</span>, <span class="at">B =</span> <span class="dv">9999</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_npreg,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">errors =</span> <span class="st">"bootstrap"</span>, <span class="at">band =</span> <span class="st">"all"</span>, <span class="at">B =</span> <span class="dv">9999</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">gradients =</span> <span class="cn">TRUE</span>, <span class="at">gradient_order =</span> <span class="dv">1</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_npreg,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">errors =</span> <span class="st">"bootstrap"</span>, <span class="at">band =</span> <span class="st">"all"</span>, <span class="at">B =</span> <span class="dv">9999</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">gradients =</span> <span class="cn">TRUE</span>, <span class="at">gradient_order =</span> <span class="dv">2</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_npreg,</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">errors =</span> <span class="st">"bootstrap"</span>, <span class="at">band =</span> <span class="st">"all"</span>, <span class="at">B =</span> <span class="dv">9999</span>,</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>     <span class="at">gradients =</span> <span class="cn">TRUE</span>, <span class="at">gradient_order =</span> <span class="dv">3</span>)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><a href="www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial.R">Download the R script</a>.</p>
 <p><code>band = "all"</code> overlays three bootstrap variability bounds on the fitted function and each requested derivative:</p>
 <ul>
@@ -782,8 +857,8 @@ window.Quarto = {
 </ul>
 <p>These are estimate-centred variability bounds. Smoothing bias can matter, so confidence-band interpretation requires the usual negligible-bias or bias-correction conditions. See <a href="./plotting_and_intervals.html">Plotting and Intervals</a> for the broader plotting interface and bias-corrected centering options.</p>
 <p>Five seedless installed runs with <code>B = 9999</code> selected the same degree, bandwidth, and objective and produced byte-identical four-panel graphics without warnings or messages. No seed is needed for this example. The automatic routing policy is described in <a href="./runtime_and_scaling.html#np-nomad-auto-chooses-the-lightest-reliable-lp-degree-search">Runtime and Scaling</a>, and the recommended convenience workflow appears in the <a href="./kernel_primer.html#modern-lp-shortcut-nomad-auto">Kernel Primer</a>. The higher-order, large-bandwidth result illustrates the behavior studied by Hall and Racine (2015), <em>Infinite Order Cross-Validated Local Polynomial Regression</em>.</p>
-<section id="transcript-6" class="level3">
-<h3 class="anchored" data-anchor-id="transcript-6">Transcript</h3>
+<section id="transcript-7" class="level3">
+<h3 class="anchored" data-anchor-id="transcript-7">Transcript</h3>
 <p>Old Faithful’s waiting-time relationship need not be local constant or local linear.</p>
 <p>Automatic cross-validation selects a degree-four local polynomial and a very large bandwidth for this target.</p>
 <p>The fitted curve and its first three derivatives appear together, with pointwise, simultaneous, and Bonferroni bootstrap variability bounds.</p>

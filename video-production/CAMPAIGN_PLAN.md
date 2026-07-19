@@ -1,12 +1,11 @@
 # Gallery onboarding and analytical-video campaign
 
-Last updated: 2026-07-18
-Status: Candidate A is the approved template. The first-result and three-part
-Italy sequence are public. The Old Faithful unconditional joint-density and
-joint-distribution scripts, interactive-renderer grammar, continuous Cove
-narrations, captions, and Gallery promotion were approved on 2026-07-18. The
-next scratch review tranche returns to Old Faithful regression with NOMAD joint
-selection and bootstrap uncertainty for the fitted function and derivatives.
+Last updated: 2026-07-19
+Status: Candidate A is the approved template. The first-result, three-part
+Italy distributional sequence, Old Faithful unconditional pair, and automatic
+local-polynomial regression episode are public. The Italy ordered-factor versus
+numeric-gradient episode and its uninterrupted Cove narration join the public
+catalogue in the approved 2026-07-19 tranche.
 
 ## Product path
 
@@ -112,20 +111,22 @@ direct conditional-distribution inversion; the supporting description, not
 the narration, distinguishes this distribution-based route from the separate
 regression-based location-scale `nplsqreg()` method.
 
-## Balanced catalogue after the Italy iteration
+## Balanced catalogue after the gradient iteration
 
-Subsequent independently reviewable episodes should cover:
+The public or publication-authorized catalogue now covers conditional density,
+conditional distribution, direct conditional quantiles, unconditional joint
+density/distribution, automatic local-polynomial degree/bandwidth selection,
+first through third derivatives, three bootstrap variability-band types, and
+the distinction between analytic derivatives and Delta-labelled ordered
+finite differences. It deliberately mixes fixed/base and `rgl` rendering.
 
-- automatic local-polynomial mixed-data regression with joint degree,
-  bandwidth, and categorical-lambda selection;
-- conditional density/distribution families and conditional quantiles;
-- gradients, distinguishing derivatives from Delta-labelled categorical
-  finite differences;
-- pointwise, simultaneous, and Bonferroni bootstrap bands;
+Remaining independently reviewable episodes should cover:
+
+- genuinely multivariable mixed-data NOMAD selection of degree, continuous
+  bandwidths, and categorical smoothing parameters;
 - significance testing with the correct non-causal null interpretation;
 - serial `np` and `npRmpi` session-mode parity, honest repeated timing, and
-  clean teardown;
-- a deliberate mix of fixed/base and `rgl` rendering where each is clearest.
+  clean teardown.
 
 ## Old Faithful unconditional pair
 
@@ -190,6 +191,34 @@ distinguishes pointwise, simultaneous, and Bonferroni bootstrap variability
 bounds and retains the smoothing-bias caveat. The full computation is shown;
 no condensation label is required.
 
+## Italy ordered-factor and numeric gradients
+
+The approved comparison keeps the `Italy` response observations and displayed
+year values fixed while changing only the R class of `year`:
+
+```r
+fit_ordered <- npreg(gdp ~ year, data = Italy)
+fit_numeric <- npreg(gdp ~ year, data = italy_numeric)
+```
+
+The bundled ordered-factor representation automatically invokes the
+Li–Racine ordered kernel, cross-validates `lambda = 0.7046792`, produces
+level-specific fitted values, and reports an adjacent-ordered-level finite
+difference. The numeric representation automatically invokes a second-order
+Gaussian kernel, cross-validates `h = 3.337488`, produces a smooth fitted
+curve, and reports an analytic derivative.
+
+The page emphasizes that `lambda` and `h` have different meanings and scales.
+The comparison is not a recommendation to coerce ordered variables: users must
+represent each predictor according to its substantive meaning. Once classified
+correctly, `np` propagates the type through kernels, cross-validation,
+estimation, plotting, and gradients without a separate estimator switch.
+
+Five seedless installed repetitions were exactly identical for bandwidths,
+fitted values, gradients, and graphics. The approved 25-second narrated video
+uses one uninterrupted Cove response and retains public spellings in its
+captions and transcript.
+
 ## Review and promotion gates
 
 - Every episode freezes its script and manifest, runs from the exact installed
@@ -206,10 +235,8 @@ no condensation label is required.
 
 ## Immediate sequence
 
-1. Verify the exact live GitHub Pages build for the approved automatic
-   local-polynomial tranche and retain publication proof.
-2. Continue the balanced analytical catalogue in small review tranches,
-   alternating estimator families, tests, interval routes, and plotting
-   capabilities.
-3. Retain the `npRmpi` session-mode comparison until a serial analytical
-   baseline and the visual grammar are well established.
+1. Continue with a genuinely multivariable NOMAD example or significance
+   testing as the next small review tranche.
+2. Complete the other remaining serial analytical example.
+3. Retain the `npRmpi` session-mode comparison until the remaining serial
+   analytical examples are established.
