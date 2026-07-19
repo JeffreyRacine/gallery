@@ -6,9 +6,10 @@ narrated prototype is approved; the conditional-distribution camera,
 narration, quantile visual, and linked mathematical block are approved. No
 Gallery push or Italy public promotion is authorized. The scratch-only
 conditional-distribution narrated master, captions, and estimation note are
-approved. Jeffrey approved the scratch-only `npqreg()` pronunciation comparison;
-the silent animatic, focused narration, and supporting description remain at
-their review gate.
+approved. Jeffrey approved the scratch-only `npqreg()` pronunciation comparison,
+silent animatic, focused narration, and supporting-description scope. A
+continuous 28-second narrated scratch master is ready for Jeffrey's listening
+and embedded-size review.
 
 ## Product path
 
@@ -145,11 +146,11 @@ Subsequent independently reviewable episodes should cover:
 
 ## Immediate sequence
 
-1. Review the scratch-only conditional-quantile silent animatic, focused
-   narration, and supporting description; the pronunciation comparison is
-   approved and must be reconfirmed in the eventual continuous narration.
-2. After approval, capture the complete Cove narration and assemble the
-   narrated `npqreg()` review master.
+1. Review the continuous 28-second `npqreg()` narrated scratch master for the
+   approved hard-`g` pronunciation, pacing, captions, and embedded-size
+   information load.
+2. After approval, prepare the complete `npqreg()` reproducibility and
+   accessibility bundle plus its proposed Gallery tranche.
 3. Prepare the approved `npcdist()` complete reproducibility/accessibility
    bundle plus the exact proposed Gallery tranche and rendered diff; do not
    promote without separate approval.
