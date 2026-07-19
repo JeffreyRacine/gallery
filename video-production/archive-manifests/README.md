@@ -4,8 +4,10 @@
 develop Candidate A and the Italy conditional-density review cut.
 `old-faithful-scratch-artifacts.tsv` separately inventories the complete
 scratch tree for the approved Old Faithful joint-density and
-joint-distribution pair. Paths are relative to their scratch roots; no private
-absolute path or file content is stored in either manifest.
+joint-distribution pair. `old-faithful-auto-lp-scratch-artifacts.tsv` covers
+the subsequent automatic local-polynomial and bootstrap-band episode. Paths
+are relative to their scratch roots; no private absolute path or file content
+is stored in any manifest.
 
 Each row records bytes, SHA-256, retention class, and the canonical Gallery
 destination when the artifact was selected or adapted for
@@ -22,6 +24,8 @@ python3 ../framework/build_archive_manifest.py \
 
 The Old Faithful inventory uses
 `old-faithful-copied-artifacts.tsv` as its source-to-destination map.
+The automatic local-polynomial inventory uses
+`old-faithful-auto-lp-copied-artifacts.tsv`.
 
 The manifest is historical proof for the 2026-07-18 campaign. Rebuilding it
 after the external scratch tree changes creates a new checksum state and should
@@ -43,3 +47,9 @@ source artifacts have a canonical Gallery destination; 15 raw captures, 14
 generated cache files, and 329 additional evidence files remain external.
 Manifest SHA-256:
 `303843552d02a8af4efe3e84160ffd3d9e993ec287f81eaaf9912ccb8940d1e7`.
+
+Current automatic local-polynomial inventory: 96 files, 36,912,875 bytes.
+Forty source artifacts have a canonical Gallery destination; one raw capture,
+seven generated cache files, and 48 additional evidence files remain external.
+Manifest SHA-256:
+`194755a21c27b238b59feb9d0d1c2be26ebd6ba9d5d7bf4194195c16849800a5`.

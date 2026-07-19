@@ -1,0 +1,44 @@
+np 0.70-5
+Examples and guides at https://jeffreyracine.github.io/gallery/
+See also vignette("np_getting_started", package = "np")
+null device 
+          1 
+B=9999
+degree=4
+degree.search.mode=exhaustive
+degree.search.reason=auto policy: p=1 LP degree lattice uses exhaustive/cell search
+bandwidth=556.863008247459
+objective=32.34860236240425
+fit.elapsed=1.027
+fit.warnings=0
+fit.messages=0
+plot=level;elapsed=0.259;warnings=0;messages=0
+plot=first derivative;elapsed=0.124;warnings=0;messages=0
+plot=second derivative;elapsed=0.124;warnings=0;messages=0
+plot=third derivative;elapsed=0.121;warnings=0;messages=0
+png=/Users/jracine/Development/tmp/gallery_video_pilot_execution_20260718/old_faithful_nomad_regression/plots/seedless/faithful_auto_lp_seedless_run_3.png
+R version 4.6.1 (2026-06-24)
+Platform: aarch64-apple-darwin23
+Running under: macOS Tahoe 26.5.2
+
+Matrix products: default
+BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] C.UTF-8/C.UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+
+time zone: America/Toronto
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] np_0.70-5
+
+loaded via a namespace (and not attached):
+ [1] MASS_7.3-66        cubature_2.1.4-1   compiler_4.6.1     Matrix_1.7-5      
+ [5] quantreg_6.1       tools_4.6.1        SparseM_1.84-2     survival_3.8-9    
+ [9] MatrixModels_0.5-4 Rcpp_1.1.2         splines_4.6.1      grid_4.6.1        
+[13] boot_1.3-32        lattice_0.22-9     quadprog_1.5-8    

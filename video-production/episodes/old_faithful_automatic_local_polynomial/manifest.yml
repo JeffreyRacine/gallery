@@ -1,0 +1,99 @@
+episode_id: old_faithful_automatic_local_polynomial
+title: Old Faithful automatic local-polynomial regression
+status: publication-authorized
+public_function: npreg
+canonical_object: fit_npreg
+package:
+  name: np
+  version: 0.70-5
+  build: public-cran-campaign-library
+dataset:
+  name: faithful
+  package: datasets
+  rows: 272
+  response: waiting
+  predictor: eruptions
+  response_class: numeric
+  predictor_class: numeric
+randomness:
+  used: false
+  seed: null
+script: analysis.R
+selection:
+  shortcut: 'nomad = "auto"'
+  user_contract: recommended-automatic-local-polynomial-route
+  route: exhaustive-degree-search-with-powell-bandwidth-optimization
+  route_reason: inexpensive-one-dimensional-degree-lattice
+  degree_min: 0
+  degree_max: 10
+  selected_degree: 4
+  basis: generalized-bernstein
+  bandwidth_type: fixed
+  bandwidth: 556.863008247459
+  objective: 32.34860236240425
+  objective_method: least-squares-cross-validation
+  evaluations: 953
+plots:
+  layout: 2-by-2
+  level: true
+  gradient_orders:
+    - 1
+    - 2
+    - 3
+  errors: bootstrap
+  bands:
+    - pointwise
+    - simultaneous
+    - bonferroni
+  bootstrap_repetitions: 9999
+proof:
+  repetitions: 5
+  fit_elapsed_seconds_min: 0.994
+  fit_elapsed_seconds_median: 1.027
+  fit_elapsed_seconds_max: 1.069
+  four_plot_elapsed_seconds_min: 0.629
+  four_plot_elapsed_seconds_median: 0.629
+  four_plot_elapsed_seconds_max: 0.690
+  exact_selection_parity: true
+  exact_plot_parity: true
+  warnings: 0
+  messages: 0
+narration:
+  public_source: narration/public.txt
+  private_phonetic_source: narration/voice_prompt.txt
+  master: narration/narration_master.wav
+  master_duration_seconds: 23.65
+  master_sha256: 3500af3c276455c4346d104d38048a8444306872a1fb2e026193e432b70112d9
+  private_spoken_cue: Bon-ferr-OH-nee
+  public_text: Bonferroni
+  approval: jeffrey-2026-07-19
+captions: captions/captions.en.vtt
+transcript: transcript.txt
+placement:
+  canonical_page: Examples -> Video Demos
+  canonical_anchor: old-faithful-automatic-local-polynomial
+review_media:
+  silent_animatic:
+    path: review/silent-animatic.mp4
+    duration_seconds: 28.566667
+    sha256: bdb264c3c89ee091a305aabf7afa98c2fa30a9b375c619d870a1d8912d45dc7a
+  narrated_prototype:
+    path: review/narrated-prototype.mp4
+    duration_seconds: 28.566667
+    bytes: 2441557
+    sha256: 8f92fb474a3a4bbb473ba2123df716d4d44701b6915857ccda98f270cfcb6f0d
+media_target:
+  width: 1920
+  height: 1080
+  fps: 30
+  video_codec: h264
+  audio_codec: aac
+  audio_sample_rate: 48000
+  audio_channels: 1
+  pixel_format: yuv420p
+  faststart: true
+public_promotion:
+  bundle_prepared: true
+  commit_and_push_authorized: true
+  authorization: jeffrey-2026-07-19
+  www_path: www/videos/old_faithful_automatic_local_polynomial

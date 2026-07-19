@@ -1,0 +1,2 @@
+Old Faithful's waiting-time relationship need not be local constant or local linear. Automatic cross-validation selects a degree-four local polynomial and a very large bandwidth for this target. The fitted curve and its first three derivatives appear together, with pointwise, simultaneous, and Bonferroni bootstrap variability bounds. The complete reproducible script is in Gallery Video Demos.
+

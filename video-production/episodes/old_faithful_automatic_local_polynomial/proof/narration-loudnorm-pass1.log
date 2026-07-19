@@ -1,0 +1,29 @@
+[in#0/caf @ 0xb00c20000] Estimating duration from bitrate, this may be inaccurate
+[aist#0:0/pcm_f32le @ 0xb00c14180] Guessed Channel Layout: stereo
+Input #0, caf, from '/Users/jracine/Development/tmp/gallery_video_pilot_execution_20260718/old_faithful_nomad_regression/captures/raw/faithful_auto_lp_cove_take2_full.caf':
+  Duration: 00:00:53.20, start: 0.000000, bitrate: 3072 kb/s
+  Stream #0:0: Audio: pcm_f32le (lpcm / 0x6D63706C), 48000 Hz, stereo, flt, 3072 kb/s
+Stream mapping:
+  Stream #0:0 -> #0:0 (pcm_f32le (native) -> pcm_s16le (native))
+Press [q] to stop, [?] for help
+Output #0, null, to 'pipe:':
+  Metadata:
+    encoder         : Lavf62.12.102
+  Stream #0:0: Audio: pcm_s16le, 192000 Hz, mono, s16, 3072 kb/s
+    Metadata:
+      encoder         : Lavc62.28.102 pcm_s16le
+[Parsed_loudnorm_3 @ 0xb00c4cb40] 
+{
+	"input_i" : "-40.07",
+	"input_tp" : "-20.48",
+	"input_lra" : "2.70",
+	"input_thresh" : "-50.20",
+	"output_i" : "-17.23",
+	"output_tp" : "-1.50",
+	"output_lra" : "2.10",
+	"output_thresh" : "-27.54",
+	"normalization_type" : "dynamic",
+	"target_offset" : "1.23"
+}
+[out#0/null @ 0xb00c4c180] video:0KiB audio:8869KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+size=N/A time=00:00:23.70 bitrate=N/A speed=61.6x elapsed=0:00:00.38    

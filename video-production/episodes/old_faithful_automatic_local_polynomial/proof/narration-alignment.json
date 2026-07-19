@@ -1,0 +1,357 @@
+{
+  "audio": "captures/raw/faithful_auto_lp_cove_take2_full.caf",
+  "model": "Systran/faster-whisper-tiny.en",
+  "detected_language": "en",
+  "language_probability": 1,
+  "segments": [
+    {
+      "start": 13.07,
+      "end": 36.36,
+      "text": " Old Faithful's waiting-time relationship need not be local constant or local linear automatic cross-validation selects a degree-four local polynomial and a very large bandwidth for this target. The fitted curve and its first three derivatives appear together with pointwise simultaneous and Bonferroni bootstrap variability bounds. The complete reproducible script is in Gallery Video Demos.",
+      "words": [
+        {
+          "start": 13.07,
+          "end": 13.73,
+          "word": " Old",
+          "probability": 0.8467950224876404
+        },
+        {
+          "start": 13.73,
+          "end": 14.25,
+          "word": " Faithful's",
+          "probability": 0.8953306476275126
+        },
+        {
+          "start": 14.25,
+          "end": 14.45,
+          "word": " waiting",
+          "probability": 0.8096736669540405
+        },
+        {
+          "start": 14.45,
+          "end": 14.71,
+          "word": "-time",
+          "probability": 0.5605800226330757
+        },
+        {
+          "start": 14.71,
+          "end": 15.27,
+          "word": " relationship",
+          "probability": 0.9943747520446777
+        },
+        {
+          "start": 15.27,
+          "end": 15.65,
+          "word": " need",
+          "probability": 0.958490788936615
+        },
+        {
+          "start": 15.65,
+          "end": 15.87,
+          "word": " not",
+          "probability": 0.9925553202629089
+        },
+        {
+          "start": 15.87,
+          "end": 16.07,
+          "word": " be",
+          "probability": 0.9904463291168213
+        },
+        {
+          "start": 16.07,
+          "end": 16.41,
+          "word": " local",
+          "probability": 0.9791962504386902
+        },
+        {
+          "start": 16.41,
+          "end": 16.79,
+          "word": " constant",
+          "probability": 0.4600636959075928
+        },
+        {
+          "start": 16.79,
+          "end": 17.07,
+          "word": " or",
+          "probability": 0.9833508133888245
+        },
+        {
+          "start": 17.07,
+          "end": 17.27,
+          "word": " local",
+          "probability": 0.9894771575927734
+        },
+        {
+          "start": 17.27,
+          "end": 17.63,
+          "word": " linear",
+          "probability": 0.9053505659103394
+        },
+        {
+          "start": 17.63,
+          "end": 18.41,
+          "word": " automatic",
+          "probability": 0.006257218774408102
+        },
+        {
+          "start": 18.41,
+          "end": 18.81,
+          "word": " cross",
+          "probability": 0.9662845730781555
+        },
+        {
+          "start": 18.81,
+          "end": 19.37,
+          "word": "-validation",
+          "probability": 0.8635194301605225
+        },
+        {
+          "start": 19.37,
+          "end": 19.71,
+          "word": " selects",
+          "probability": 0.8920642137527466
+        },
+        {
+          "start": 19.71,
+          "end": 19.91,
+          "word": " a",
+          "probability": 0.9965253472328186
+        },
+        {
+          "start": 19.91,
+          "end": 20.07,
+          "word": " degree",
+          "probability": 0.9759203195571899
+        },
+        {
+          "start": 20.07,
+          "end": 20.53,
+          "word": "-four",
+          "probability": 0.17063540685921907
+        },
+        {
+          "start": 20.53,
+          "end": 20.87,
+          "word": " local",
+          "probability": 0.9586536884307861
+        },
+        {
+          "start": 20.87,
+          "end": 21.47,
+          "word": " polynomial",
+          "probability": 0.9794981082280477
+        },
+        {
+          "start": 21.47,
+          "end": 21.79,
+          "word": " and",
+          "probability": 0.8857570290565491
+        },
+        {
+          "start": 21.79,
+          "end": 22.03,
+          "word": " a",
+          "probability": 0.9918743968009949
+        },
+        {
+          "start": 22.03,
+          "end": 22.33,
+          "word": " very",
+          "probability": 0.986928403377533
+        },
+        {
+          "start": 22.33,
+          "end": 22.67,
+          "word": " large",
+          "probability": 0.9987555742263794
+        },
+        {
+          "start": 22.67,
+          "end": 22.99,
+          "word": " bandwidth",
+          "probability": 0.991923987865448
+        },
+        {
+          "start": 22.99,
+          "end": 23.29,
+          "word": " for",
+          "probability": 0.9977947473526001
+        },
+        {
+          "start": 23.29,
+          "end": 23.51,
+          "word": " this",
+          "probability": 0.9985392093658447
+        },
+        {
+          "start": 23.51,
+          "end": 24.05,
+          "word": " target.",
+          "probability": 0.9939411878585815
+        },
+        {
+          "start": 25.12,
+          "end": 25.24,
+          "word": " The",
+          "probability": 0.8757815361022949
+        },
+        {
+          "start": 25.24,
+          "end": 25.48,
+          "word": " fitted",
+          "probability": 0.9829965829849243
+        },
+        {
+          "start": 25.48,
+          "end": 25.8,
+          "word": " curve",
+          "probability": 0.9908334612846375
+        },
+        {
+          "start": 25.8,
+          "end": 25.96,
+          "word": " and",
+          "probability": 0.8428936004638672
+        },
+        {
+          "start": 25.96,
+          "end": 26.14,
+          "word": " its",
+          "probability": 0.9459545016288757
+        },
+        {
+          "start": 26.14,
+          "end": 26.42,
+          "word": " first",
+          "probability": 0.9969339370727539
+        },
+        {
+          "start": 26.42,
+          "end": 26.62,
+          "word": " three",
+          "probability": 0.9380331039428711
+        },
+        {
+          "start": 26.62,
+          "end": 27.0,
+          "word": " derivatives",
+          "probability": 0.9890465140342712
+        },
+        {
+          "start": 27.0,
+          "end": 27.32,
+          "word": " appear",
+          "probability": 0.9730984568595886
+        },
+        {
+          "start": 27.32,
+          "end": 27.8,
+          "word": " together",
+          "probability": 0.999247670173645
+        },
+        {
+          "start": 27.8,
+          "end": 28.22,
+          "word": " with",
+          "probability": 0.5328304767608643
+        },
+        {
+          "start": 28.22,
+          "end": 29.06,
+          "word": " pointwise",
+          "probability": 0.5745320543646812
+        },
+        {
+          "start": 29.06,
+          "end": 29.68,
+          "word": " simultaneous",
+          "probability": 0.25876906514167786
+        },
+        {
+          "start": 29.68,
+          "end": 30.16,
+          "word": " and",
+          "probability": 0.974454939365387
+        },
+        {
+          "start": 30.16,
+          "end": 30.84,
+          "word": " Bonferroni",
+          "probability": 0.534394146874547
+        },
+        {
+          "start": 30.84,
+          "end": 31.38,
+          "word": " bootstrap",
+          "probability": 0.8536103665828705
+        },
+        {
+          "start": 31.38,
+          "end": 31.92,
+          "word": " variability",
+          "probability": 0.9489270448684692
+        },
+        {
+          "start": 31.92,
+          "end": 32.46,
+          "word": " bounds.",
+          "probability": 0.9456322193145752
+        },
+        {
+          "start": 33.32,
+          "end": 33.5,
+          "word": " The",
+          "probability": 0.9785528182983398
+        },
+        {
+          "start": 33.5,
+          "end": 33.82,
+          "word": " complete",
+          "probability": 0.9875484704971313
+        },
+        {
+          "start": 33.82,
+          "end": 34.5,
+          "word": " reproducible",
+          "probability": 0.9857223331928253
+        },
+        {
+          "start": 34.5,
+          "end": 34.84,
+          "word": " script",
+          "probability": 0.9948667287826538
+        },
+        {
+          "start": 34.84,
+          "end": 35.16,
+          "word": " is",
+          "probability": 0.9949601888656616
+        },
+        {
+          "start": 35.16,
+          "end": 35.24,
+          "word": " in",
+          "probability": 0.987625777721405
+        },
+        {
+          "start": 35.24,
+          "end": 35.62,
+          "word": " Gallery",
+          "probability": 0.26966768503189087
+        },
+        {
+          "start": 35.62,
+          "end": 35.98,
+          "word": " Video",
+          "probability": 0.5927090644836426
+        },
+        {
+          "start": 35.98,
+          "end": 36.36,
+          "word": " Demos.",
+          "probability": 0.858121782541275
+        }
+      ]
+    }
+  ]
+}

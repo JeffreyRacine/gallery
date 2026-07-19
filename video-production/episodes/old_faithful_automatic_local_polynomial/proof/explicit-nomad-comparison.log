@@ -1,0 +1,36 @@
+np 0.70-5
+Examples and guides at https://jeffreyracine.github.io/gallery/
+See also vignette("np_getting_started", package = "np")
+elapsed=0.113
+degree=1
+bw=0.4419183896748617
+objective=32.37306502369424
+degree.search.mode=nomad+powell
+degree.search.engine=nomad+powell
+degree.search.reason=explicit degree-search controls
+nomad.time=0.063
+powell.time=0.015
+warnings=0
+messages=0
+
+Regression Data (272 observations, 1 variable(s)):
+
+Regression Type: Local-Polynomial (Generalized basis; degree = 1)
+LP Basis Family: Generalized
+LP Basis Representation: Bernstein
+LP Basis Dimension (NCOL(B)): 2
+Bandwidth Selection Method: Least Squares Cross-Validation
+Degree Search Method: NOMAD
+Bandwidth Type: Fixed
+Objective Function Value: 32.37307 (achieved on multistart 1)
+Number of Function Evaluations: 83
+Evaluation cache (NOMAD): 26 hits / 87 lookups (29.9%)
+Evaluation cache (Powell): 5 hits / 20 lookups (25.0%)
+
+Exp. Var. Name: eruptions Bandwidth: 0.4419184  Scale Factor: 1.425723
+
+Continuous Kernel Type: Second-Order Gaussian
+No. Continuous Explanatory Vars.: 1
+Estimation Time: 0.078 seconds (NOMAD 0.063s, Powell 0.015s)
+
+NULL

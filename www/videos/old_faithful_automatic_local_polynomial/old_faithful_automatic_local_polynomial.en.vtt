@@ -1,0 +1,14 @@
+WEBVTT
+
+00:00:00.170 --> 00:00:04.730
+Old Faithful's waiting-time relationship need not be local constant or local linear.
+
+00:00:04.730 --> 00:00:11.150
+Automatic cross-validation selects a degree-four local polynomial and a very large bandwidth for this target.
+
+00:00:12.220 --> 00:00:19.560
+The fitted curve and its first three derivatives appear together, with pointwise, simultaneous, and Bonferroni bootstrap variability bounds.
+
+00:00:20.420 --> 00:00:23.460
+The complete reproducible script is in Gallery Video Demos.
+

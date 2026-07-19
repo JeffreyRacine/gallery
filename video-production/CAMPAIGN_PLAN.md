@@ -148,9 +148,9 @@ captions, transcripts, installed results, repeated-run proof, render scripts,
 and checksum manifests. Raw captures and rejected voice takes remain outside
 Git.
 
-## Old Faithful NOMAD regression and uncertainty
+## Old Faithful automatic local-polynomial regression and uncertainty
 
-The next scratch candidate uses:
+The approved review candidate uses:
 
 ```r
 library(np)
@@ -161,7 +161,6 @@ summary(fit_npreg$bws)
 
 options(plot.par.mfrow = FALSE)
 par(mfrow = c(2, 2))
-set.seed(42)
 plot(fit_npreg, errors = "bootstrap", band = "all", B = 9999)
 plot(fit_npreg, errors = "bootstrap", band = "all", B = 9999,
      gradients = TRUE, gradient_order = 1)
@@ -171,18 +170,25 @@ plot(fit_npreg, errors = "bootstrap", band = "all", B = 9999,
      gradients = TRUE, gradient_order = 3)
 ```
 
-The installed public build must verify the selected polynomial degree,
-bandwidth, runtime, and four bootstrap routes before visual claims are frozen.
-The candidate should contrast the selected higher-order local polynomial with
-the first-result episode's default local-constant (`regtype = "lc"`, degree
-zero) fit without implying that either specification is universally best.
+The public CRAN `np` 0.70-5 build selects degree 4 and fixed bandwidth
+`556.863008` through the recent, recommended `nomad = "auto"` pathway. For
+this inexpensive one-predictor degree lattice, `auto` uses exhaustive degree
+search with Powell bandwidth optimization to avoid a missed global optimum;
+NOMAD remains the automatic route for larger search surfaces. Do not describe
+this particular fit as an explicit NOMAD search.
 
-The video should lead with the completed 2-by-2 result, emphasize that NOMAD
-jointly selects polynomial degree and bandwidth for this regression target,
-and label any condensed bootstrap computation honestly. Keep the formal
-distinction among pointwise, simultaneous, and Bonferroni bands in the
-accompanying description unless the narration remains comfortably within the
-short's information budget. The standing stochastic seed is `set.seed(42)`.
+Five seedless installed `B = 9999` repetitions produced identical selections
+and byte-identical four-panel graphics without warnings or messages. The
+example contrasts the selected higher-order local polynomial with the
+first-result episode's default local-constant (`regtype = "lc"`, degree-zero
+equivalent) fit without implying that either specification is universally
+best. No seed is required.
+
+The approved 29-second video leads with the completed 2-by-2 result and shows
+the fitted relationship plus derivative orders 1--3. The accompanying page
+distinguishes pointwise, simultaneous, and Bonferroni bootstrap variability
+bounds and retains the smoothing-bias caveat. The full computation is shown;
+no condensation label is required.
 
 ## Review and promotion gates
 
@@ -200,14 +206,10 @@ short's information budget. The standing stochastic seed is `set.seed(42)`.
 
 ## Immediate sequence
 
-1. Promote the two approved Old Faithful unconditional episodes, render the
-   complete site, commit, push, and verify the exact live build.
-2. Run the Old Faithful NOMAD regression and bootstrap routes from the public
-   campaign-local `np` build, retaining full logs, `sessionInfo()`, seed, and
-   timings.
-3. Prepare a concise storyboard and silent review animatic. Keep the completed
-   2-by-2 result visible immediately and retain the approved RStudio hybrid
-   framing.
-4. Stop at Jeffrey's review gate for the example, information density,
-   narration, captions, and computation-condensation wording.
-5. Continue the balanced analytical catalogue in small review tranches.
+1. Verify the exact live GitHub Pages build for the approved automatic
+   local-polynomial tranche and retain publication proof.
+2. Continue the balanced analytical catalogue in small review tranches,
+   alternating estimator families, tests, interval routes, and plotting
+   capabilities.
+3. Retain the `npRmpi` session-mode comparison until a serial analytical
+   baseline and the visual grammar are well established.

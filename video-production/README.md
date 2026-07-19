@@ -67,5 +67,8 @@ the inventory itself so it can be regenerated deterministically.
 - `old_faithful_joint_distribution`: approved direct unconditional
   joint-distribution episode with an interactive RStudio Viewer surface and
   public bundle.
+- `old_faithful_automatic_local_polynomial`: approved narrated review and
+  assembled publication tranche for automatic degree/bandwidth selection,
+  derivative orders 1--3, and three bootstrap variability-band types.
 
 See `CAMPAIGN_PLAN.md` for the durable series decisions and next sequence.

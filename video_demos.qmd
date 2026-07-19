@@ -301,7 +301,74 @@ bandwidth object and fitted result. No seed is needed.
 {{< include www/videos/old_faithful_joint_distribution/old_faithful_joint_distribution_transcript.txt >}}
 ::::
 
-The next reviewed episode returns to regression with NOMAD joint selection of
-polynomial degree and bandwidth, followed by bootstrap uncertainty for the
-fitted curve and its derivatives. Testing and `npRmpi` session workflows will
-follow one reviewed example at a time.
+:::: {.callout-note collapse="true" #old-faithful-automatic-local-polynomial}
+## Automatic local-polynomial regression — 29 seconds
+
+**Function:** `npreg()`<br>
+**Takeaway:** the recommended automatic pathway can select polynomial
+complexity and smoothing for the target, then display the fitted relationship
+and its derivatives with complementary bootstrap variability bounds.
+
+The first `cps71` short used `npreg()`'s default local-constant estimator,
+equivalent to polynomial degree 0. Here, the recent and recommended
+`nomad = "auto"` convenience route selects the local-polynomial degree and
+bandwidth together for the Old Faithful waiting-time relationship. In this
+inexpensive one-predictor search, the automatic policy uses exhaustive degree
+search with Powell bandwidth optimization; the verified public build selects
+degree 4 and a fixed bandwidth of `556.863008`.
+
+```{=html}
+<video class="gallery-video" controls preload="metadata"
+  poster="www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial_poster.png"
+  aria-label="A 29-second RStudio demonstration of npreg automatically selecting a degree-four local polynomial and bandwidth for the Old Faithful waiting-time relationship, then plotting the fitted curve and its first three derivatives with pointwise, simultaneous, and Bonferroni bootstrap variability bounds.">
+  <source src="www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial.mp4" type="video/mp4">
+  <track kind="captions" srclang="en" label="English" default
+    src="www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial.en.vtt">
+  Your browser does not support embedded video. Use the direct MP4 link below.
+</video>
+```
+
+[Open or download the MP4](www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial.mp4) ·
+[Download the captions](www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial.en.vtt) ·
+[Read the transcript](www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial_transcript.txt)
+
+```r
+{{< include www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial.R >}}
+```
+
+[Download the R script](www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial.R).
+
+`band = "all"` overlays three bootstrap variability bounds on the fitted
+function and each requested derivative:
+
+- **Pointwise** bounds address uncertainty separately at each displayed
+  evaluation point.
+- **Simultaneous** bounds use the bootstrap joint distribution to cover the
+  displayed function as a whole.
+- **Bonferroni** bounds adjust the pointwise level across the displayed
+  evaluation points.
+
+These are estimate-centred variability bounds. Smoothing bias can matter, so
+confidence-band interpretation requires the usual negligible-bias or
+bias-correction conditions. See [Plotting and Intervals](plotting_and_intervals.qmd)
+for the broader plotting interface and bias-corrected centering options.
+
+Five seedless installed runs with `B = 9999` selected the same degree,
+bandwidth, and objective and produced byte-identical four-panel graphics
+without warnings or messages. No seed is needed for this example. The
+automatic routing policy is described in
+[Runtime and Scaling](runtime_and_scaling.qmd#np-nomad-auto-chooses-the-lightest-reliable-lp-degree-search),
+and the recommended convenience workflow appears in the
+[Kernel Primer](kernel_primer.qmd#modern-lp-shortcut-nomad-auto). The
+higher-order, large-bandwidth result illustrates the behavior studied by Hall
+and Racine (2015), *Infinite Order Cross-Validated Local Polynomial
+Regression*.
+
+### Transcript
+
+{{< include www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial_transcript.txt >}}
+::::
+
+The next reviewed analytical episodes will continue balancing estimator
+families, tests, interval routes, and plotting capabilities before the serial
+to `npRmpi` session-mode comparison.

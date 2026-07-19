@@ -730,7 +730,69 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>The next reviewed episode returns to regression with NOMAD joint selection of polynomial degree and bandwidth, followed by bootstrap uncertainty for the fitted curve and its derivatives. Testing and <code>npRmpi</code> session workflows will follow one reviewed example at a time.</p>
+<div id="old-faithful-automatic-local-polynomial" class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Automatic local-polynomial regression — 29 seconds
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Function:</strong> <code>npreg()</code><br> <strong>Takeaway:</strong> the recommended automatic pathway can select polynomial complexity and smoothing for the target, then display the fitted relationship and its derivatives with complementary bootstrap variability bounds.</p>
+<p>The first <code>cps71</code> short used <code>npreg()</code>’s default local-constant estimator, equivalent to polynomial degree 0. Here, the recent and recommended <code>nomad = "auto"</code> convenience route selects the local-polynomial degree and bandwidth together for the Old Faithful waiting-time relationship. In this inexpensive one-predictor search, the automatic policy uses exhaustive degree search with Powell bandwidth optimization; the verified public build selects degree 4 and a fixed bandwidth of <code>556.863008</code>.</p>
+<video class="gallery-video" controls="" preload="metadata" poster="www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial_poster.png" aria-label="A 29-second RStudio demonstration of npreg automatically selecting a degree-four local polynomial and bandwidth for the Old Faithful waiting-time relationship, then plotting the fitted curve and its first three derivatives with pointwise, simultaneous, and Bonferroni bootstrap variability bounds.">
+  <source src="www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial.mp4" type="video/mp4">
+  <track kind="captions" srclang="en" label="English" default="" src="www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial.en.vtt">
+  Your browser does not support embedded video. Use the direct MP4 link below.
+</video>
+<p><a href="www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial.mp4">Open or download the MP4</a> · <a href="www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial.en.vtt">Download the captions</a> · <a href="www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial_transcript.txt">Read the transcript</a></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Old Faithful automatic local-polynomial regression and bootstrap bands.</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Verified with the public CRAN np 0.70-5 build.</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(faithful, <span class="at">package =</span> <span class="st">"datasets"</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>fit_npreg <span class="ot">&lt;-</span> <span class="fu">npreg</span>(waiting <span class="sc">~</span> eruptions, <span class="at">data =</span> faithful, <span class="at">nomad =</span> <span class="st">"auto"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_npreg<span class="sc">$</span>bws)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">plot.par.mfrow =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_npreg, <span class="at">errors =</span> <span class="st">"bootstrap"</span>, <span class="at">band =</span> <span class="st">"all"</span>, <span class="at">B =</span> <span class="dv">9999</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_npreg,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">errors =</span> <span class="st">"bootstrap"</span>, <span class="at">band =</span> <span class="st">"all"</span>, <span class="at">B =</span> <span class="dv">9999</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">gradients =</span> <span class="cn">TRUE</span>, <span class="at">gradient_order =</span> <span class="dv">1</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_npreg,</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">errors =</span> <span class="st">"bootstrap"</span>, <span class="at">band =</span> <span class="st">"all"</span>, <span class="at">B =</span> <span class="dv">9999</span>,</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">gradients =</span> <span class="cn">TRUE</span>, <span class="at">gradient_order =</span> <span class="dv">2</span>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_npreg,</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">errors =</span> <span class="st">"bootstrap"</span>, <span class="at">band =</span> <span class="st">"all"</span>, <span class="at">B =</span> <span class="dv">9999</span>,</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>     <span class="at">gradients =</span> <span class="cn">TRUE</span>, <span class="at">gradient_order =</span> <span class="dv">3</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><a href="www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial.R">Download the R script</a>.</p>
+<p><code>band = "all"</code> overlays three bootstrap variability bounds on the fitted function and each requested derivative:</p>
+<ul>
+<li><strong>Pointwise</strong> bounds address uncertainty separately at each displayed evaluation point.</li>
+<li><strong>Simultaneous</strong> bounds use the bootstrap joint distribution to cover the displayed function as a whole.</li>
+<li><strong>Bonferroni</strong> bounds adjust the pointwise level across the displayed evaluation points.</li>
+</ul>
+<p>These are estimate-centred variability bounds. Smoothing bias can matter, so confidence-band interpretation requires the usual negligible-bias or bias-correction conditions. See <a href="./plotting_and_intervals.html">Plotting and Intervals</a> for the broader plotting interface and bias-corrected centering options.</p>
+<p>Five seedless installed runs with <code>B = 9999</code> selected the same degree, bandwidth, and objective and produced byte-identical four-panel graphics without warnings or messages. No seed is needed for this example. The automatic routing policy is described in <a href="./runtime_and_scaling.html#np-nomad-auto-chooses-the-lightest-reliable-lp-degree-search">Runtime and Scaling</a>, and the recommended convenience workflow appears in the <a href="./kernel_primer.html#modern-lp-shortcut-nomad-auto">Kernel Primer</a>. The higher-order, large-bandwidth result illustrates the behavior studied by Hall and Racine (2015), <em>Infinite Order Cross-Validated Local Polynomial Regression</em>.</p>
+<section id="transcript-6" class="level3">
+<h3 class="anchored" data-anchor-id="transcript-6">Transcript</h3>
+<p>Old Faithful’s waiting-time relationship need not be local constant or local linear.</p>
+<p>Automatic cross-validation selects a degree-four local polynomial and a very large bandwidth for this target.</p>
+<p>The fitted curve and its first three derivatives appear together, with pointwise, simultaneous, and Bonferroni bootstrap variability bounds.</p>
+<p>The complete reproducible script is in Gallery Video Demos.</p>
+</section>
+</div>
+</div>
+</div>
+<p>The next reviewed analytical episodes will continue balancing estimator families, tests, interval routes, and plotting capabilities before the serial to <code>npRmpi</code> session-mode comparison.</p>
 
 
 </section>
