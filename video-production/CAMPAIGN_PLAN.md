@@ -2,8 +2,9 @@
 
 Last updated: 2026-07-18
 Status: Candidate A is the approved template; the Italy conditional-density
-narrated prototype is approved; no Gallery push or Italy public promotion is
-authorized.
+narrated prototype is approved; the conditional-distribution camera,
+narration, quantile visual, and linked mathematical block are approved. No
+Gallery push or Italy public promotion is authorized.
 
 ## Product path
 
@@ -79,10 +80,18 @@ explicit without overloading either short:
 
 The two videos use the first two relationships in plain language. A compact
 **How the four targets connect** block on **Density, Distribution, Quantiles**
-is the proposed mathematical source of truth, linked from Video Demos. For a
+is the approved mathematical source of truth, linked from Video Demos. For a
 continuous conditional distribution at the requested quantile, it may also
 state $F(q_\tau(x)\mid x)=\tau$; the generalized inverse remains the standing
 definition for distributions with jumps or flat regions.
+
+For the conditional-distribution episode, the approved camera is the fixed
+base renderer at `theta = 90`, `phi = 45`; the approved private Cove cue is
+`N P see dist`; and the narration says, “Invert the conditional distribution
+at a chosen probability and you obtain a conditional quantile.” The
+conditional-quantile episode uses the installed default `npqreg()` plot with
+the 25th, 50th, and 75th conditional-quantile curves over the observed
+per-year boxplots.
 
 ## Balanced catalogue after the Italy iteration
 
@@ -115,8 +124,12 @@ Subsequent independently reviewable episodes should cover:
 
 ## Immediate sequence
 
-1. Prepare the matched conditional-distribution example and camera study.
-2. Prepare the conditional-quantile episode.
-3. Freeze framework version 1 after those three episodes have converged.
-4. Continue the own-data and balanced analytical catalogue in small review
+1. Review the scratch-only `npcdist()` silent animatic and Cove pronunciation
+   probe authorized on 2026-07-18.
+2. After that review, capture the complete `npcdist()` narration and assemble
+   the narrated review master.
+3. Prepare the conditional-quantile silent animatic using the approved default
+   `npqreg()` plot.
+4. Freeze framework version 1 after those three episodes have converged.
+5. Continue the own-data and balanced analytical catalogue in small review
    tranches.
