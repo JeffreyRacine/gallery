@@ -68,6 +68,22 @@ The fixed base renderer is intentional. Base `theta`/`phi` values do not map to
 `rgl` camera angles, and the approved 90/45 surface must never be presented as
 repeated rotation. The private Cove cue for `npcdens()` is `N P see dense`.
 
+The matched distribution/quantile pair should make the underlying relationships
+explicit without overloading either short:
+
+1. integrating $f(y\mid x)$ gives $F(y\mid x)$;
+2. $q_\tau(x)=\inf\{y:F(y\mid x)\geq\tau\}$ runs the conditional distribution
+   backward at probability $\tau$; and
+3. the regression function is the conditional-density-weighted mean,
+   $E[Y\mid X=x]=\int y f(y\mid x)\,dy$.
+
+The two videos use the first two relationships in plain language. A compact
+**How the four targets connect** block on **Density, Distribution, Quantiles**
+is the proposed mathematical source of truth, linked from Video Demos. For a
+continuous conditional distribution at the requested quantile, it may also
+state $F(q_\tau(x)\mid x)=\tau$; the generalized inverse remains the standing
+definition for distributions with jumps or flat regions.
+
 ## Balanced catalogue after the Italy iteration
 
 Subsequent independently reviewable episodes should cover:
