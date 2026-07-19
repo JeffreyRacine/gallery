@@ -4,7 +4,8 @@ Last updated: 2026-07-18
 Status: Candidate A is the approved template; the Italy conditional-density
 narrated prototype is approved; the conditional-distribution camera,
 narration, quantile visual, and linked mathematical block are approved. No
-Gallery push or Italy public promotion is authorized.
+Gallery push or Italy public promotion is authorized. The scratch-only
+conditional-distribution narrated master awaits Jeffrey review.
 
 ## Product path
 
@@ -85,6 +86,17 @@ continuous conditional distribution at the requested quantile, it may also
 state $F(q_\tau(x)\mid x)=\tau$; the generalized inverse remains the standing
 definition for distributions with jumps or flat regions.
 
+The population identities must not be presented as an instruction to derive
+one fitted object mechanically from another. `npreg()`, `npcdens()`, and
+`npcdist()` select smoothing for the conditional mean, conditional density,
+and conditional distribution targets respectively. Consequently, numerically
+integrating a fitted conditional-density surface need not reproduce the
+separately optimized conditional-distribution estimate. `npqreg()` uses the
+underlying conditional-distribution bandwidth selection because it inverts
+that fitted distribution. State this distinction in the Video Demos
+description and linked mathematical block; the first density/distribution
+videos already display their own selected smoothing values.
+
 For the conditional-distribution episode, the approved camera is the fixed
 base renderer at `theta = 90`, `phi = 45`; the approved private Cove cue is
 `N P see dist`; and the narration says, “Invert the conditional distribution
@@ -124,10 +136,12 @@ Subsequent independently reviewable episodes should cover:
 
 ## Immediate sequence
 
-1. Review the scratch-only `npcdist()` silent animatic and Cove pronunciation
-   probe authorized on 2026-07-18.
-2. After that review, capture the complete `npcdist()` narration and assemble
-   the narrated review master.
+1. Review the scratch-only `npcdist()` narrated master, captions, transcript,
+   and target-specific estimation note prepared after Jeffrey approved the
+   silent animatic and pronunciation probe on 2026-07-18.
+2. After narrated-master approval, prepare its complete reproducibility and
+   accessibility bundle plus the exact proposed Gallery tranche and rendered
+   diff; do not promote without separate approval.
 3. Prepare the conditional-quantile silent animatic using the approved default
    `npqreg()` plot.
 4. Freeze framework version 1 after those three episodes have converged.
