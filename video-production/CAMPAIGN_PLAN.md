@@ -6,8 +6,9 @@ narrated prototype is approved; the conditional-distribution camera,
 narration, quantile visual, and linked mathematical block are approved. No
 Gallery push or Italy public promotion is authorized. The scratch-only
 conditional-distribution narrated master, captions, and estimation note are
-approved. The scratch-only `npqreg()` silent animatic and pronunciation probe
-await Jeffrey review.
+approved. Jeffrey approved the scratch-only `npqreg()` pronunciation comparison;
+the silent animatic, focused narration, and supporting description remain at
+their review gate.
 
 ## Product path
 
@@ -105,8 +106,10 @@ base renderer at `theta = 90`, `phi = 45`; the approved private Cove cue is
 at a chosen probability and you obtain a conditional quantile.” The
 conditional-quantile episode uses the installed default `npqreg()` plot with
 the 25th, 50th, and 75th conditional-quantile curves over the observed
-per-year boxplots. Its private Cove cue is `N P cue REYG`, spoken “enn pee cue
-reyg” with the final hard `g` from “regression.” The video stays focused on
+per-year boxplots. Its private Cove rule says N, P, and Q as three letters,
+then `reg` as the one-syllable sound that rhymes exactly with `egg` and ends in
+a hard `g`. Jeffrey approved the comparison “Egg. Reg. N P Q-reg. One N P
+Q-reg call.” The video stays focused on
 direct conditional-distribution inversion; the supporting description, not
 the narration, distinguishes this distribution-based route from the separate
 regression-based location-scale `nplsqreg()` method.
@@ -142,8 +145,9 @@ Subsequent independently reviewable episodes should cover:
 
 ## Immediate sequence
 
-1. Review the scratch-only conditional-quantile silent animatic, `enn pee cue
-   reyg` pronunciation probe, focused narration, and supporting description.
+1. Review the scratch-only conditional-quantile silent animatic, focused
+   narration, and supporting description; the pronunciation comparison is
+   approved and must be reconfirmed in the eventual continuous narration.
 2. After approval, capture the complete Cove narration and assemble the
    narrated `npqreg()` review master.
 3. Prepare the approved `npcdist()` complete reproducibility/accessibility
