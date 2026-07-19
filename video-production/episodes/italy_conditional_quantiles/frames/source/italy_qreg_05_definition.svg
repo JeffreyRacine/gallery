@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#F7F9FC"/>
+  <text x="80" y="105" font-family="Helvetica Neue, Arial" font-size="44" font-weight="700" fill="#173B57">Conditional quantiles come from inversion</text>
+  <rect x="80" y="190" width="300" height="250" rx="24" fill="#FFFFFF" stroke="#D8E3EB" stroke-width="3"/>
+  <text x="230" y="265" text-anchor="middle" font-family="Helvetica Neue, Arial" font-size="28" font-weight="700" fill="#173B57">Choose tau</text>
+  <text x="230" y="335" text-anchor="middle" font-family="Menlo, monospace" font-size="26" fill="#17645C">0.25 · 0.50 · 0.75</text>
+  <text x="430" y="335" text-anchor="middle" font-family="Helvetica Neue, Arial" font-size="52" font-weight="700" fill="#2A8C82">→</text>
+  <rect x="480" y="190" width="340" height="250" rx="24" fill="#E4F2EF" stroke="#2A8C82" stroke-width="3"/>
+  <text x="650" y="260" text-anchor="middle" font-family="Helvetica Neue, Arial" font-size="27" font-weight="700" fill="#17645C">Invert the fitted</text>
+  <text x="650" y="303" text-anchor="middle" font-family="Helvetica Neue, Arial" font-size="27" font-weight="700" fill="#17645C">conditional distribution</text>
+  <text x="650" y="365" text-anchor="middle" font-family="Menlo, monospace" font-size="24" fill="#173B57">F( · | year)</text>
+  <text x="870" y="335" text-anchor="middle" font-family="Helvetica Neue, Arial" font-size="52" font-weight="700" fill="#2A8C82">→</text>
+  <rect x="920" y="190" width="280" height="250" rx="24" fill="#FFFFFF" stroke="#D8E3EB" stroke-width="3"/>
+  <text x="1060" y="265" text-anchor="middle" font-family="Helvetica Neue, Arial" font-size="27" font-weight="700" fill="#173B57">Read the</text>
+  <text x="1060" y="307" text-anchor="middle" font-family="Helvetica Neue, Arial" font-size="27" font-weight="700" fill="#173B57">GDP value</text>
+  <text x="1060" y="365" text-anchor="middle" font-family="Menlo, monospace" font-size="26" fill="#17645C">q_tau(year)</text>
+  <rect x="80" y="510" width="1120" height="100" rx="18" fill="#FFF4D8"/>
+  <text x="640" y="572" text-anchor="middle" font-family="Helvetica Neue, Arial" font-size="28" font-weight="700" fill="#8B6510">One distribution-based object · three requested probabilities</text>
+</svg>

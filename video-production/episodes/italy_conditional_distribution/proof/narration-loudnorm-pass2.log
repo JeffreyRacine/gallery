@@ -1,0 +1,29 @@
+[in#0/caf @ 0xc0d438000] Estimating duration from bitrate, this may be inaccurate
+[aist#0:0/pcm_f32le @ 0xc0d430180] Guessed Channel Layout: stereo
+Input #0, caf, from '<campaign-scratch>/captures/raw/italy_cdist_chatgpt_voice_full_narration.caf':
+  Duration: 00:00:52.96, start: 0.000000, bitrate: 3072 kb/s
+  Stream #0:0: Audio: pcm_f32le (lpcm / 0x6D63706C), 48000 Hz, stereo, flt, 3072 kb/s
+Stream mapping:
+  Stream #0:0 -> #0:0 (pcm_f32le (native) -> pcm_s16le (native))
+Press [q] to stop, [?] for help
+Output #0, wav, to '<campaign-scratch>/captures/edited/italy_cdist_chatgpt_voice_full_narration_master.wav':
+  Metadata:
+    ISFT            : Lavf62.12.102
+  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 48000 Hz, mono, s16, 768 kb/s
+    Metadata:
+      encoder         : Lavc62.28.102 pcm_s16le
+[Parsed_loudnorm_3 @ 0xc0cc0d2c0] 
+Input Integrated:    -39.7 LUFS
+Input True Peak:     -21.1 dBTP
+Input LRA:             2.2 LU
+Input Threshold:     -49.9 LUFS
+
+Output Integrated:   -16.2 LUFS
+Output True Peak:     -1.5 dBTP
+Output LRA:            1.8 LU
+Output Threshold:    -26.4 LUFS
+
+Normalization Type:   Dynamic
+Target Offset:        +0.2 LU
+[out#0/wav @ 0xc0cc0c900] video:0KiB audio:2344KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.003250%
+size=    2344KiB time=00:00:25.00 bitrate= 768.0kbits/s speed=52.5x elapsed=0:00:00.47    

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#F7F9FC"/>
+  <text x="80" y="105" font-family="Helvetica Neue, Arial" font-size="44" font-weight="700" fill="#173B57">Choose the probabilities</text>
+  <rect x="80" y="180" width="1120" height="220" rx="22" fill="#12212D"/>
+  <rect x="105" y="218" width="1070" height="125" rx="14" fill="#1C3445" stroke="#F4B942" stroke-width="4"/>
+  <text x="150" y="296" font-family="Menlo, monospace" font-size="40" fill="#EAF4FA">tau = c(<tspan fill="#7CD6C9">0.25</tspan>, <tspan fill="#F4B942">0.50</tspan>, <tspan fill="#7CD6C9">0.75</tspan>)</text>
+  <rect x="80" y="460" width="330" height="110" rx="18" fill="#E4F2EF"/>
+  <rect x="475" y="460" width="330" height="110" rx="18" fill="#FFF4D8"/>
+  <rect x="870" y="460" width="330" height="110" rx="18" fill="#E4F2EF"/>
+  <text x="245" y="508" text-anchor="middle" font-family="Helvetica Neue, Arial" font-size="23" fill="#687B89">lower</text>
+  <text x="245" y="548" text-anchor="middle" font-family="Helvetica Neue, Arial" font-size="30" font-weight="700" fill="#17645C">25th</text>
+  <text x="640" y="508" text-anchor="middle" font-family="Helvetica Neue, Arial" font-size="23" fill="#687B89">middle</text>
+  <text x="640" y="548" text-anchor="middle" font-family="Helvetica Neue, Arial" font-size="30" font-weight="700" fill="#8B6510">50th</text>
+  <text x="1035" y="508" text-anchor="middle" font-family="Helvetica Neue, Arial" font-size="23" fill="#687B89">upper</text>
+  <text x="1035" y="548" text-anchor="middle" font-family="Helvetica Neue, Arial" font-size="30" font-weight="700" fill="#17645C">75th</text>
+</svg>

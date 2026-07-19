@@ -1,0 +1,60 @@
+
+> library(np)
+
+> data(Italy, package = "np")
+
+> class(Italy$year)
+[1] "ordered" "factor" 
+
+> fit_cdist <- npcdist(gdp ~ year, data = Italy)
+
+> summary(fit_cdist$bws)
+
+Conditional distribution data (1008 observations, 2 variable(s))
+(1 dependent variable(s), and 1 explanatory variable(s))
+
+Polynomial Type: Local-Constant
+Bandwidth Selection Method: Least Squares Cross-Validation
+Formula: gdp ~ year
+Bandwidth Type: Fixed
+Objective Function Value: 0.08860405 (achieved on multistart 1)
+Number of Function Evaluations: 281
+Evaluation cache (Powell): 115 hits / 263 lookups (43.7%)
+
+Exp. Var. Name: year Lambda:    0.6879269  Lambda Max:           1 
+Dep. Var. Name: gdp  Bandwidth: 0.3073657  Scale Factor: 0.1728515
+
+Continuous Kernel Type: Second-Order Gaussian
+No. Continuous Dependent Vars.: 1
+
+Ordered Categorical Kernel Type: Li and Racine
+No. Ordered Categorical Explanatory Vars.: 1
+Estimation Time: 2.59 seconds
+
+
+> plot(fit_cdist, view = "fixed", theta = 90, phi = 45)
+R version 4.6.1 (2026-06-24)
+Platform: aarch64-apple-darwin23
+Running under: macOS Tahoe 26.5.2
+
+Matrix products: default
+BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] C.UTF-8/C.UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+
+time zone: America/Toronto
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] np_0.70-5
+
+loaded via a namespace (and not attached):
+ [1] MASS_7.3-66        cubature_2.1.4-1   compiler_4.6.1     Matrix_1.7-5      
+ [5] quantreg_6.1       tools_4.6.1        SparseM_1.84-2     survival_3.8-9    
+ [9] MatrixModels_0.5-4 Rcpp_1.1.2         splines_4.6.1      grid_4.6.1        
+[13] boot_1.3-32        lattice_0.22-9     quadprog_1.5-8    

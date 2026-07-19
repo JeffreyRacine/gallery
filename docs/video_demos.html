@@ -22,7 +22,7 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
@@ -110,6 +110,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -133,9 +162,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/JeffreyRacine/gallery"> <i class="bi bi-github" role="img" aria-label="Gallery source on GitHub">
-</i>
+</i> 
 <span class="menu-text"></span></a>
-  </li>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -153,7 +182,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./code_catalog.html">Examples</a></li><li class="breadcrumb-item"><a href="./video_demos.html">Video Demos</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -170,37 +199,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <div id="quarto-search" class="" title="Search"></div>
         </div>
         </div>
-    <div class="sidebar-menu-container">
+    <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container">
+      <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Start Here</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
-          </a>
+          </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./primer.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Choose a Package</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./R_RStudio.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Install and Get Started</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./quickstarts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Quickstarts</span></a>
   </div>
@@ -208,82 +237,82 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container">
+      <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Methods</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
-          </a>
+          </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./np_npRmpi.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Kernel Methods</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./kernel_primer.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Kernel Primer</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./density_distribution_quantiles.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Density, Distribution, Quantiles</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./classification_modes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Classification and Modes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./semiparametric_models.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Semiparametric Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./significance_and_specification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Significance and Specification</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./entropy_tests.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Entropy and Testing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./npksum_custom.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Build With npksum</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./mpi_large_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">MPI and Large Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./crs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Splines</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./spline_primer.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Spline Primer</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./spline_search_and_tuning.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Spline Search and Tuning</span></a>
   </div>
@@ -291,46 +320,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container">
+      <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">Examples</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
-          </a>
+          </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./code_catalog.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Code Catalog</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./regression.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Worked Examples</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./multivariate_regression.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Multivariate Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./plotting_and_intervals.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Plotting and Intervals</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./interactive.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interactive Demos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./video_demos.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Video Demos</span></a>
   </div>
@@ -338,58 +367,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container">
+      <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">Support</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
-          </a>
+          </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./faq.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">FAQ and Troubleshooting</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./data_preparation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Preparation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./runtime_and_scaling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Runtime and Scaling</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./function_index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Reference</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./method_book_code_crosswalk.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Method Crosswalk</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./books_papers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Books, Papers, and Citation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./legacy_materials.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Legacy Materials</span></a>
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About</span></a>
   </div>
@@ -404,7 +433,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
-
+   
   <ul>
   <li><a href="#onboarding-and-first-results" id="toc-onboarding-and-first-results" class="nav-link active" data-scroll-target="#onboarding-and-first-results">Onboarding and first results</a></li>
   <li><a href="#analytical-demonstrations" id="toc-analytical-demonstrations" class="nav-link" data-scroll-target="#analytical-demonstrations">Analytical demonstrations</a></li>
@@ -428,11 +457,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="quarto-title-meta">
 
-
-
-
+    
+  
+    
   </div>
-
+  
 
 <div>
   <div class="keywords">
@@ -459,8 +488,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>Function:</strong> <code>npreg()</code><br>
-<strong>Takeaway:</strong> one call selects the smoothing parameter and fits the relationship.</p>
+<p><strong>Function:</strong> <code>npreg()</code><br> <strong>Takeaway:</strong> one call selects the smoothing parameter and fits the relationship.</p>
 <p>R is the computational environment; RStudio is the interface used here to write and run the analysis. This walkthrough moves from loading <code>np</code> to a fitted curve using the package’s bundled wage data.</p>
 <video class="gallery-video" controls="" preload="metadata" poster="www/videos/first_np_result/first_np_result_poster.png" aria-label="A 24-second demonstration of loading np in RStudio, fitting an npreg model to bundled wage data, reading the selected bandwidth, and viewing the fitted curve.">
   <source src="www/videos/first_np_result/first_np_result.mp4" type="video/mp4">
@@ -497,7 +525,135 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="analytical-demonstrations" class="level2">
 <h2 class="anchored" data-anchor-id="analytical-demonstrations">Analytical demonstrations</h2>
-<p>Conditional density, conditional distribution, conditional quantiles, uncertainty bands, testing, and <code>npRmpi</code> session workflows will be added here one reviewed episode at a time.</p>
+<p>The Italy sequence uses the same public dataset to connect conditional density, conditional distribution, and direct conditional quantiles without turning any one short into a full theoretical treatment. See <a href="./density_distribution_quantiles.html#how-the-four-targets-connect">How the four targets connect</a> for the population definitions and the important target-specific smoothing distinction.</p>
+<div id="italy-conditional-density" class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Italy’s changing conditional density — 25 seconds
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Function:</strong> <code>npcdens()</code><br> <strong>Takeaway:</strong> the entire conditional density can change shape, not merely its average.</p>
+<p>The bundled <code>Italy</code> data follow per-capita GDP in 21 regions over 48 observed years from 1951 through 1998. <code>year</code> is already an ordered factor, so the estimator respects its ordered discrete support. The estimated density is mainly unimodal after the war and develops two clear peaks in later years, corresponding descriptively to the wealthier North and less wealthy South.</p>
+<video class="gallery-video" controls="" preload="metadata" poster="www/videos/italy_conditional_density/italy_conditional_density_poster.png" aria-label="A 25-second demonstration in RStudio of estimating and plotting the conditional density of Italian regional per-capita GDP over ordered years with npcdens.">
+  <source src="www/videos/italy_conditional_density/italy_conditional_density.mp4" type="video/mp4">
+  <track kind="captions" srclang="en" label="English" default="" src="www/videos/italy_conditional_density/italy_conditional_density.en.vtt">
+  Your browser does not support embedded video. Use the direct MP4 link below.
+</video>
+<p><a href="www/videos/italy_conditional_density/italy_conditional_density.mp4">Open or download the MP4</a> · <a href="www/videos/italy_conditional_density/italy_conditional_density.en.vtt">Download the captions</a> · <a href="www/videos/italy_conditional_density/italy_conditional_density_transcript.txt">Read the transcript</a></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Italy conditional-density short.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Last verified with the public CRAN np 0.70-5 build.</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Italy, <span class="at">package =</span> <span class="st">"np"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Italy<span class="sc">$</span>year)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>fit_cdens <span class="ot">&lt;-</span> <span class="fu">npcdens</span>(gdp <span class="sc">~</span> year, <span class="at">data =</span> Italy)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_cdens<span class="sc">$</span>bws)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_cdens, <span class="at">view =</span> <span class="st">"fixed"</span>, <span class="at">theta =</span> <span class="dv">90</span>, <span class="at">phi =</span> <span class="dv">45</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><a href="www/videos/italy_conditional_density/italy_conditional_density.R">Download the R script</a>.</p>
+<p>The verified public CRAN <code>np</code> 0.70-5 build selected an ordered-year smoothing parameter of <code>0.613508</code> and a GDP bandwidth of <code>0.570879</code>. No seed is needed. These values are selected for the conditional-density target.</p>
+<section id="transcript-1" class="level3">
+<h3 class="anchored" data-anchor-id="transcript-1">Transcript</h3>
+<p>Per-capita GDP across 21 Italian regions begins mainly unimodal after the war.</p>
+<p>Here, year is an ordered factor, so <code>npcdens()</code> smooths across observed year levels.</p>
+<p>Across later years, two clear peaks emerge, corresponding to the wealthier North and less wealthy South.</p>
+<p>One call reveals the whole conditional density, not merely an average.</p>
+<p>The full script is on Gallery Video Demos.</p>
+</section>
+</div>
+</div>
+</div>
+<div id="italy-conditional-distribution" class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Italy’s conditional distribution — 25 seconds
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Function:</strong> <code>npcdist()</code><br> <strong>Takeaway:</strong> for each ordered year and GDP value, the surface estimates the share of regions at or below that value.</p>
+<p>Integrating a conditional density gives the conditional distribution at the population level. This episode estimates the conditional distribution directly. It does not obtain the fitted surface by numerically integrating the preceding video’s density estimate.</p>
+<video class="gallery-video" controls="" preload="metadata" poster="www/videos/italy_conditional_distribution/italy_conditional_distribution_poster.png" aria-label="A 25-second demonstration in RStudio of directly estimating and plotting the conditional distribution of Italian regional per-capita GDP over ordered years with npcdist.">
+  <source src="www/videos/italy_conditional_distribution/italy_conditional_distribution.mp4" type="video/mp4">
+  <track kind="captions" srclang="en" label="English" default="" src="www/videos/italy_conditional_distribution/italy_conditional_distribution.en.vtt">
+  Your browser does not support embedded video. Use the direct MP4 link below.
+</video>
+<p><a href="www/videos/italy_conditional_distribution/italy_conditional_distribution.mp4">Open or download the MP4</a> · <a href="www/videos/italy_conditional_distribution/italy_conditional_distribution.en.vtt">Download the captions</a> · <a href="www/videos/italy_conditional_distribution/italy_conditional_distribution_transcript.txt">Read the transcript</a></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Italy conditional-distribution short.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Last verified with the public CRAN np 0.70-5 build.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Italy, <span class="at">package =</span> <span class="st">"np"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Italy<span class="sc">$</span>year)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>fit_cdist <span class="ot">&lt;-</span> <span class="fu">npcdist</span>(gdp <span class="sc">~</span> year, <span class="at">data =</span> Italy)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_cdist<span class="sc">$</span>bws)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_cdist, <span class="at">view =</span> <span class="st">"fixed"</span>, <span class="at">theta =</span> <span class="dv">90</span>, <span class="at">phi =</span> <span class="dv">45</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><a href="www/videos/italy_conditional_distribution/italy_conditional_distribution.R">Download the R script</a>.</p>
+<p>The verified public build selected an ordered-year smoothing parameter of <code>0.687927</code> and a GDP bandwidth of <code>0.307366</code> for the conditional-distribution target. Five fresh installed runs were exactly identical for the selected bandwidth object and fitted result. No seed is needed.</p>
+<section id="transcript-2" class="level3">
+<h3 class="anchored" data-anchor-id="transcript-2">Transcript</h3>
+<p>Integrating the conditional density produces the conditional distribution.</p>
+<p>Here, for each ordered year, the surface gives the estimated share of Italian regions with per-capita GDP at or below each value.</p>
+<p>One npcdist() call estimates the whole conditional distribution.</p>
+<p>Invert the conditional distribution at a chosen probability and you obtain a conditional quantile.</p>
+<p>The full script is on Gallery Video Demos.</p>
+</section>
+</div>
+</div>
+</div>
+<div id="italy-conditional-quantiles" class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Direct conditional quantiles — 27 seconds
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Function:</strong> <code>npqreg()</code><br> <strong>Takeaway:</strong> choose probabilities and invert the fitted conditional distribution to obtain the corresponding conditional quantiles.</p>
+<p>This example requests the 25th, 50th, and 75th conditional quantiles of regional GDP for each ordered year. The default plot overlays those curves on the observed per-year distributions.</p>
+<video class="gallery-video" controls="" preload="metadata" poster="www/videos/italy_conditional_quantiles/italy_conditional_quantiles_poster.png" aria-label="A 27-second demonstration in RStudio of directly estimating and plotting the 25th, 50th, and 75th conditional quantiles of Italian regional GDP with npqreg.">
+  <source src="www/videos/italy_conditional_quantiles/italy_conditional_quantiles.mp4" type="video/mp4">
+  <track kind="captions" srclang="en" label="English" default="" src="www/videos/italy_conditional_quantiles/italy_conditional_quantiles.en.vtt">
+  Your browser does not support embedded video. Use the direct MP4 link below.
+</video>
+<p><a href="www/videos/italy_conditional_quantiles/italy_conditional_quantiles.mp4">Open or download the MP4</a> · <a href="www/videos/italy_conditional_quantiles/italy_conditional_quantiles.en.vtt">Download the captions</a> · <a href="www/videos/italy_conditional_quantiles/italy_conditional_quantiles_transcript.txt">Read the transcript</a></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Italy conditional-quantile short.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Last verified with the public CRAN np 0.70-5 build.</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Italy, <span class="at">package =</span> <span class="st">"np"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Italy<span class="sc">$</span>year)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>fit_qreg <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> year,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> Italy,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                   <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_qreg<span class="sc">$</span>bws)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_qreg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><a href="www/videos/italy_conditional_quantiles/italy_conditional_quantiles.R">Download the R script</a>.</p>
+<p><code>npqreg()</code> first computes bandwidths optimized for the conditional-distribution target, estimates that distribution, and then inverts it at the requested <span class="math inline">\(\tau\in(0,1)\)</span> values. With the same data and selection settings, the verified bandwidth values match the preceding <code>npcdist()</code> example. This is a distribution-based quantile route. <code>nplsqreg()</code> is a separate, regression-based location-scale method. No seed is needed.</p>
+<section id="transcript-3" class="level3">
+<h3 class="anchored" data-anchor-id="transcript-3">Transcript</h3>
+<p>Choose a probability, tau, and invert the fitted conditional distribution. The result is the GDP value where that distribution reaches tau. Here, one <code>npqreg()</code> call directly traces the 25th, 50th, and 75th conditional quantiles across Italy’s ordered years. The curves show the lower, middle, and upper parts of the distribution. The full script is on Gallery Video Demos.</p>
+</section>
+</div>
+</div>
+</div>
+<p>Future episodes will add uncertainty bands, testing, and <code>npRmpi</code> session workflows one reviewed example at a time.</p>
 
 
 </section>
@@ -514,7 +670,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
-        if (clz.startsWith('code-annotation-')) {
+        if (clz.startsWith('code-annotation-')) {                     
           return true;
         }
       }
@@ -534,11 +690,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
         button.setAttribute("data-bs-title", "Copied!");
-        tooltip = new bootstrap.Tooltip(button,
-          { trigger: "manual",
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
             customClass: "code-copy-button-tooltip",
             offset: [0, -8]});
-        tooltip.show();
+        tooltip.show();    
       }
       setTimeout(function() {
         if (tooltip) {
@@ -620,7 +776,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       if (onUntriggerFn) {
         config.onUntrigger = onUntriggerFn;
       }
-      window.tippy(el, config);
+      window.tippy(el, config); 
     }
     const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
     for (var i=0; i<noterefs.length; i++) {
@@ -695,7 +851,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       tippyHover(xref, undefined, function(instance) {
         instance.disable();
         let url = xref.getAttribute('href');
-        let hash = undefined;
+        let hash = undefined; 
         if (url.startsWith('#')) {
           hash = url;
         } else {
@@ -723,7 +879,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
               if (note !== null) {
                 const html = processXRef(id, note);
                 instance.setContent(html);
-              }
+              } 
             }).finally(() => {
               instance.enable();
               instance.show();
@@ -747,7 +903,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
               }
               const html = processXRef(null, note);
               instance.setContent(html);
-            }
+            } 
           }).finally(() => {
             instance.enable();
             instance.show();
@@ -787,7 +943,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
               height = bottom - top;
             }
             if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it
+              // cook up a div (if necessary) and position it 
               let div = window.document.getElementById("code-annotation-line-highlight");
               if (div === null) {
                 div = window.document.createElement("div");
@@ -912,7 +1068,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="nav-page nav-page-previous">
       <a href="./interactive.html" class="pagination-link" aria-label="Interactive Demos">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Interactive Demos</span>
-      </a>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./faq.html" class="pagination-link" aria-label="FAQ and Troubleshooting">
@@ -925,7 +1081,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="nav-footer">
     <div class="nav-footer-left">
 <p>Working examples and notes for <code>np</code>, <code>npRmpi</code>, and <code>crs</code>.</p>
-</div>
+</div>   
     <div class="nav-footer-center">
       &nbsp;
     <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/JeffreyRacine/gallery/blob/main/video_demos.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div>
@@ -935,12 +1091,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="https://jeffreyracine.github.io/research">
 <p>Research site</p>
 </a>
-  </li>
+  </li>  
     <li class="nav-item">
     <a class="nav-link" href="https://cran.r-project.org/">
 <p>CRAN</p>
 </a>
-  </li>
+  </li>  
 </ul>
     </div>
   </div>

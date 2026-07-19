@@ -55,10 +55,12 @@ the inventory itself so it can be regenerated deterministically.
 
 ## Current episodes
 
-- `first_np_result`: approved template and locally committed public bundle;
-  not pushed.
-- `italy_conditional_density`: approved example, camera, silent animatic, and
-  pronunciation; narrated review cut prepared for Jeffrey's listening review;
-  not promoted to `www/`.
+- `first_np_result`: approved template and public bundle.
+- `italy_conditional_density`: approved conditional-density episode and public
+  bundle.
+- `italy_conditional_distribution`: approved conditional-distribution episode
+  and public bundle.
+- `italy_conditional_quantiles`: approved direct conditional-quantile episode
+  and public bundle.
 
 See `CAMPAIGN_PLAN.md` for the durable series decisions and next sequence.

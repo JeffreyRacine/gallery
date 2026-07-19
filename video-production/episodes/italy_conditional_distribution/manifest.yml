@@ -1,0 +1,79 @@
+episode_id: italy_conditional_distribution
+title: Italy conditional distribution
+status: approved-publication-candidate
+public_function: npcdist
+canonical_object: fit_cdist
+package:
+  name: np
+  version: 0.70-5
+  build: public-cran-campaign-library
+dataset:
+  name: Italy
+  package: np
+  rows: 1008
+  regions: 21
+  ordered_year_levels: 48
+  first_year: 1951
+  last_year: 1998
+  response: gdp
+  predictor: year
+  predictor_class: ordered/factor
+randomness:
+  used: false
+  seed: null
+script: analysis.R
+proof:
+  repetitions: 5
+  elapsed_seconds_min: 3.046
+  elapsed_seconds_median: 3.083
+  elapsed_seconds_max: 3.655
+  year_lambda: 0.6879269
+  gdp_bandwidth: 0.3073657
+  objective: 0.08860405
+  exact_result_parity: true
+renderer:
+  name: fixed
+  implementation: base-persp
+  approved_theta: 90
+  approved_phi: 45
+  approval: jeffrey-2026-07-18
+narration:
+  public_source: narration/public.txt
+  private_phonetic_source: narration/voice_prompt.txt
+  master: narration/narration_master.wav
+  duration_seconds: 25
+  sha256: 732efa6d78efb7b4aea53780c72352d0598f2c40f8557183bf79664c4d41cde0
+  public_function_text: npcdist()
+  private_spoken_cue: N P see dist
+  pronunciation_probe: narration/pronunciation_probe.wav
+  approval: jeffrey-2026-07-18
+captions: captions/captions.en.vtt
+transcript: transcript.txt
+placement:
+  canonical_page: Examples -> Video Demos
+  canonical_anchor: italy-conditional-distribution
+  cross_links:
+    - Density, Distribution, Quantiles
+review_media:
+  silent_animatic:
+    path: review/silent-animatic.mp4
+    duration_seconds: 25
+    bytes: 1586137
+    sha256: b015b452815e94de74356638e2e7b502044611251bdb4cfa83f30ccde3c7af2c
+  narrated_prototype:
+    path: review/narrated-prototype.mp4
+    duration_seconds: 25
+    bytes: 2146449
+    sha256: 0b9c865e1f649a9061bbd5ccca6b04176ccee63edf4bb601d74ee813ecb2af04
+media_target:
+  width: 1920
+  height: 1080
+  fps: 30
+  video_codec: h264
+  audio_codec: aac
+  pixel_format: yuv420p
+  faststart: true
+public_promotion:
+  authorized: true
+  authorized_by: jeffrey-2026-07-18
+  www_path: www/videos/italy_conditional_distribution

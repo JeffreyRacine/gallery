@@ -1,6 +1,6 @@
 episode_id: first_np_result
 title: Your first np result
-status: approved-template-local-commit-not-pushed
+status: approved-publication-candidate
 public_function: npreg
 canonical_object: fit_first
 package:
@@ -39,7 +39,7 @@ captions: captions/captions.en.vtt
 transcript: transcript.txt
 placement:
   canonical_page: Examples -> Video Demos
-  canonical_anchor: your-first-np-result
+  canonical_anchor: first-np-result
 media:
   public_path: www/videos/first_np_result/first_np_result.mp4
   duration_seconds: 23.966667

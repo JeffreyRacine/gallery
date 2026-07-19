@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#F7F9FC"/>
+  <text x="80" y="105" font-family="Helvetica Neue, Arial" font-size="44" font-weight="700" fill="#173B57">Fit the conditional distribution in one call</text>
+  <rect x="80" y="180" width="1120" height="225" rx="22" fill="#12212D"/>
+  <rect x="102" y="210" width="1076" height="145" rx="14" fill="#1C3445" stroke="#F4B942" stroke-width="4"/>
+  <text x="128" y="293" font-family="Menlo, monospace" font-size="31" fill="#EAF4FA">fit_cdist &lt;- <tspan fill="#7CD6C9">npcdist</tspan>(gdp ~ year, data = Italy)</text>
+  <rect x="80" y="465" width="1120" height="100" rx="18" fill="#E4F2EF"/>
+  <text x="120" y="527" font-family="Helvetica Neue, Arial" font-size="29" font-weight="700" fill="#17645C">At each GDP value: the estimated share at or below it</text>
+  <text x="80" y="640" font-family="Helvetica Neue, Arial" font-size="20" fill="#687B89">Public function: npcdist()</text>
+</svg>

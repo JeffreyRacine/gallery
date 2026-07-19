@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#F7F9FC"/>
+  <text x="80" y="95" font-family="Helvetica Neue, Arial" font-size="42" font-weight="700" fill="#173B57">Year is already an ordered factor</text>
+  <rect x="80" y="155" width="730" height="300" rx="22" fill="#12212D"/>
+  <text x="120" y="225" font-family="Menlo, monospace" font-size="27" fill="#EAF4FA">data(Italy, package = <tspan fill="#F4B942">&quot;np&quot;</tspan>)</text>
+  <rect x="105" y="270" width="680" height="94" rx="14" fill="#1C3445" stroke="#F4B942" stroke-width="4"/>
+  <text x="135" y="329" font-family="Menlo, monospace" font-size="31" fill="#EAF4FA">class(Italy$year)</text>
+  <text x="120" y="415" font-family="Menlo, monospace" font-size="25" fill="#7CD6C9">[1] &quot;ordered&quot; &quot;factor&quot;</text>
+  <rect x="860" y="155" width="340" height="300" rx="22" fill="#FFFFFF" stroke="#D8E3EB" stroke-width="3"/>
+  <text x="900" y="220" font-family="Helvetica Neue, Arial" font-size="24" fill="#687B89">Bundled panel</text>
+  <text x="900" y="275" font-family="Helvetica Neue, Arial" font-size="31" font-weight="700" fill="#173B57">1,008 observations</text>
+  <text x="900" y="330" font-family="Helvetica Neue, Arial" font-size="31" font-weight="700" fill="#173B57">21 regions</text>
+  <text x="900" y="385" font-family="Helvetica Neue, Arial" font-size="31" font-weight="700" fill="#173B57">48 year levels</text>
+  <rect x="80" y="515" width="1120" height="100" rx="18" fill="#E4F2EF"/>
+  <text x="120" y="577" font-family="Helvetica Neue, Arial" font-size="28" font-weight="700" fill="#17645C">The conditional distribution changes across ordered year levels.</text>
+</svg>

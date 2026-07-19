@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#F7F9FC"/>
+  <image href="../../assets/approved_plot.png" x="55" y="78" width="1170" height="610" preserveAspectRatio="xMidYMid meet"/>
+  <rect x="55" y="24" width="450" height="74" rx="18" fill="#173B57" opacity="0.96"/>
+  <text x="88" y="70" font-family="Helvetica Neue, Arial" font-size="28" font-weight="700" fill="#FFFFFF">Choose an ordered year</text>
+  <rect x="625" y="24" width="600" height="74" rx="18" fill="#17645C" opacity="0.96"/>
+  <text x="657" y="70" font-family="Helvetica Neue, Arial" font-size="28" font-weight="700" fill="#FFFFFF">Read the share at or below GDP</text>
+  <rect x="965" y="630" width="240" height="52" rx="16" fill="#FFFFFF" stroke="#173B57" stroke-width="2"/>
+  <text x="1085" y="663" text-anchor="middle" font-family="Menlo, monospace" font-size="20" font-weight="700" fill="#173B57">fixed 90° / 45°</text>
+</svg>

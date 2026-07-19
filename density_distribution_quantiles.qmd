@@ -29,6 +29,36 @@ If you want the shortest route to conditional density or quantile workflows, sta
 - [np_quantile_quickstart.R](www/np_npRmpi/np_quantile_quickstart.R)
 - [np_lsqreg_quickstart.R](www/np_npRmpi/np_lsqreg_quickstart.R)
 
+## How the four targets connect {#how-the-four-targets-connect}
+
+At the population level, the conditional density, distribution, quantiles,
+and mean are connected:
+
+$$
+F(y\mid x)=\int_{-\infty}^{y} f(u\mid x)\,du,
+\qquad
+q_\tau(x)=\inf\{y:F(y\mid x)\geq\tau\},
+$$
+
+and
+
+$$
+E[Y\mid X=x]=\int y f(y\mid x)\,dy.
+$$
+
+When the conditional distribution is continuous at the requested quantile,
+$F(q_\tau(x)\mid x)=\tau$. The generalized-inverse definition remains valid
+when a distribution has jumps or flat regions.
+
+These identities connect population targets; they do not say to derive one
+fitted object mechanically from another. `npreg()`, `npcdens()`, and
+`npcdist()` select smoothing for the conditional mean, density, and
+distribution targets respectively. Numerically integrating a fitted
+conditional-density surface therefore need not reproduce a separately
+optimized conditional-distribution estimate. `npqreg()` first selects
+bandwidths for the conditional-distribution target, estimates that
+distribution, and then inverts it at the requested $\tau\in(0,1)$ values.
+
 ## Unconditional density and distribution: `npudens` and `npudist`
 
 Use these when the object of interest is the joint or marginal distribution itself rather than a regression function.
@@ -188,10 +218,11 @@ selected polynomial degree is high enough to support them.
 Use `npqreg` when your interest lies in conditional quantiles rather than means.
 
 The direct formula interface is now the natural first stop. When `bws` is not
-supplied, `npqreg()` automatically calls `npcdistbw()` internally to select the
-underlying conditional-distribution bandwidth object. Bandwidth-selection
-options supplied to `npqreg()` are passed through to that internal
-`npcdistbw()` call, so you can still control the underlying
+supplied, `npqreg()` automatically calls `npcdistbw()` internally to select
+bandwidths for the conditional-distribution target. It then estimates that
+distribution and inverts it at the requested $\tau\in(0,1)$ values.
+Bandwidth-selection options supplied to `npqreg()` are passed through to the
+internal `npcdistbw()` call, so you can still control the underlying
 conditional-distribution fit without breaking the high-level workflow.
 
 ```r

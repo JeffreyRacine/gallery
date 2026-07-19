@@ -1,0 +1,5 @@
+Choose a probability, tau, and invert the fitted conditional distribution.
+The result is the GDP value where that distribution reaches tau.
+Here, one `npqreg()` call directly traces the 25th, 50th, and 75th conditional quantiles across Italy's ordered years.
+The curves show the lower, middle, and upper parts of the distribution.
+The full script is on Gallery Video Demos.

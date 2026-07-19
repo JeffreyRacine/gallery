@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#F7F9FC"/>
+  <image href="../../assets/approved_plot.png" x="45" y="82" width="1190" height="610" preserveAspectRatio="xMidYMid meet"/>
+  <rect x="45" y="24" width="760" height="104" rx="18" fill="#173B57" opacity="0.96"/>
+  <text x="78" y="70" font-family="Helvetica Neue, Arial" font-size="34" font-weight="700" fill="#FFFFFF">Direct conditional quantiles</text>
+  <text x="78" y="106" font-family="Helvetica Neue, Arial" font-size="22" fill="#D8E7F2">25th · 50th · 75th across ordered year levels</text>
+</svg>

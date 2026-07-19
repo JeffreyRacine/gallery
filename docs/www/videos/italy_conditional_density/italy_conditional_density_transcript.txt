@@ -1,0 +1,9 @@
+Per-capita GDP across 21 Italian regions begins mainly unimodal after the war.
+
+Here, year is an ordered factor, so `npcdens()` smooths across observed year levels.
+
+Across later years, two clear peaks emerge, corresponding to the wealthier North and less wealthy South.
+
+One call reveals the whole conditional density, not merely an average.
+
+The full script is on Gallery Video Demos.

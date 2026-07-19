@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#F7F9FC"/>
+  <text x="80" y="105" font-family="Helvetica Neue, Arial" font-size="44" font-weight="700" fill="#173B57">The fitted object records both choices</text>
+  <rect x="80" y="180" width="1120" height="365" rx="24" fill="#FFFFFF" stroke="#D8E3EB" stroke-width="3"/>
+  <text x="130" y="265" font-family="Helvetica Neue, Arial" font-size="25" fill="#687B89">Ordered predictor</text>
+  <text x="465" y="265" font-family="Menlo, monospace" font-size="31" font-weight="700" fill="#17645C">year</text>
+  <text x="650" y="265" font-family="Helvetica Neue, Arial" font-size="27" fill="#173B57">lambda</text>
+  <text x="865" y="265" font-family="Menlo, monospace" font-size="31" font-weight="700" fill="#173B57">0.6879269</text>
+  <line x1="130" y1="310" x2="1140" y2="310" stroke="#D8E3EB" stroke-width="2"/>
+  <text x="130" y="395" font-family="Helvetica Neue, Arial" font-size="25" fill="#687B89">Continuous response</text>
+  <text x="465" y="395" font-family="Menlo, monospace" font-size="31" font-weight="700" fill="#17645C">gdp</text>
+  <text x="650" y="395" font-family="Helvetica Neue, Arial" font-size="27" fill="#173B57">bandwidth</text>
+  <text x="865" y="395" font-family="Menlo, monospace" font-size="31" font-weight="700" fill="#173B57">0.3073657</text>
+  <text x="80" y="630" font-family="Helvetica Neue, Arial" font-size="21" fill="#687B89">Public CRAN np 0.70-5 · full unedited summary retained in scratch proof</text>
+</svg>

@@ -1,0 +1,23 @@
+WEBVTT
+
+00:00:00.300 --> 00:00:05.550
+Choose a probability, tau, and invert the
+fitted conditional distribution.
+
+00:00:06.150 --> 00:00:10.250
+The result is the GDP value where that
+distribution reaches tau.
+
+00:00:10.750 --> 00:00:17.750
+Here, one npqreg() call directly traces
+the 25th, 50th, and 75th conditional
+
+00:00:17.750 --> 00:00:19.750
+quantiles across Italy's ordered years.
+
+00:00:20.200 --> 00:00:23.650
+The curves show the lower, middle,
+and upper parts of the distribution.
+
+00:00:24.100 --> 00:00:26.480
+The full script is on Gallery Video Demos.

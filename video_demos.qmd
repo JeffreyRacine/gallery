@@ -72,6 +72,143 @@ using your own data.
 
 ## Analytical demonstrations
 
-Conditional density, conditional distribution, conditional quantiles,
-uncertainty bands, testing, and `npRmpi` session workflows will be added here
-one reviewed episode at a time.
+The Italy sequence uses the same public dataset to connect conditional
+density, conditional distribution, and direct conditional quantiles without
+turning any one short into a full theoretical treatment. See
+[How the four targets connect](density_distribution_quantiles.qmd#how-the-four-targets-connect)
+for the population definitions and the important target-specific smoothing
+distinction.
+
+:::: {.callout-note collapse="true" #italy-conditional-density}
+## Italy's changing conditional density — 25 seconds
+
+**Function:** `npcdens()`<br>
+**Takeaway:** the entire conditional density can change shape, not merely its
+average.
+
+The bundled `Italy` data follow per-capita GDP in 21 regions over 48 observed
+years from 1951 through 1998. `year` is already an ordered factor, so the
+estimator respects its ordered discrete support. The estimated density is
+mainly unimodal after the war and develops two clear peaks in later years,
+corresponding descriptively to the wealthier North and less wealthy South.
+
+```{=html}
+<video class="gallery-video" controls preload="metadata"
+  poster="www/videos/italy_conditional_density/italy_conditional_density_poster.png"
+  aria-label="A 25-second demonstration in RStudio of estimating and plotting the conditional density of Italian regional per-capita GDP over ordered years with npcdens.">
+  <source src="www/videos/italy_conditional_density/italy_conditional_density.mp4" type="video/mp4">
+  <track kind="captions" srclang="en" label="English" default
+    src="www/videos/italy_conditional_density/italy_conditional_density.en.vtt">
+  Your browser does not support embedded video. Use the direct MP4 link below.
+</video>
+```
+
+[Open or download the MP4](www/videos/italy_conditional_density/italy_conditional_density.mp4) ·
+[Download the captions](www/videos/italy_conditional_density/italy_conditional_density.en.vtt) ·
+[Read the transcript](www/videos/italy_conditional_density/italy_conditional_density_transcript.txt)
+
+```r
+{{< include www/videos/italy_conditional_density/italy_conditional_density.R >}}
+```
+
+[Download the R script](www/videos/italy_conditional_density/italy_conditional_density.R).
+
+The verified public CRAN `np` 0.70-5 build selected an ordered-year smoothing
+parameter of `0.613508` and a GDP bandwidth of `0.570879`. No seed is needed.
+These values are selected for the conditional-density target.
+
+### Transcript
+
+{{< include www/videos/italy_conditional_density/italy_conditional_density_transcript.txt >}}
+::::
+
+:::: {.callout-note collapse="true" #italy-conditional-distribution}
+## Italy's conditional distribution — 25 seconds
+
+**Function:** `npcdist()`<br>
+**Takeaway:** for each ordered year and GDP value, the surface estimates the
+share of regions at or below that value.
+
+Integrating a conditional density gives the conditional distribution at the
+population level. This episode estimates the conditional distribution
+directly. It does not obtain the fitted surface by numerically integrating the
+preceding video's density estimate.
+
+```{=html}
+<video class="gallery-video" controls preload="metadata"
+  poster="www/videos/italy_conditional_distribution/italy_conditional_distribution_poster.png"
+  aria-label="A 25-second demonstration in RStudio of directly estimating and plotting the conditional distribution of Italian regional per-capita GDP over ordered years with npcdist.">
+  <source src="www/videos/italy_conditional_distribution/italy_conditional_distribution.mp4" type="video/mp4">
+  <track kind="captions" srclang="en" label="English" default
+    src="www/videos/italy_conditional_distribution/italy_conditional_distribution.en.vtt">
+  Your browser does not support embedded video. Use the direct MP4 link below.
+</video>
+```
+
+[Open or download the MP4](www/videos/italy_conditional_distribution/italy_conditional_distribution.mp4) ·
+[Download the captions](www/videos/italy_conditional_distribution/italy_conditional_distribution.en.vtt) ·
+[Read the transcript](www/videos/italy_conditional_distribution/italy_conditional_distribution_transcript.txt)
+
+```r
+{{< include www/videos/italy_conditional_distribution/italy_conditional_distribution.R >}}
+```
+
+[Download the R script](www/videos/italy_conditional_distribution/italy_conditional_distribution.R).
+
+The verified public build selected an ordered-year smoothing parameter of
+`0.687927` and a GDP bandwidth of `0.307366` for the
+conditional-distribution target. Five fresh installed runs were exactly
+identical for the selected bandwidth object and fitted result. No seed is
+needed.
+
+### Transcript
+
+{{< include www/videos/italy_conditional_distribution/italy_conditional_distribution_transcript.txt >}}
+::::
+
+:::: {.callout-note collapse="true" #italy-conditional-quantiles}
+## Direct conditional quantiles — 27 seconds
+
+**Function:** `npqreg()`<br>
+**Takeaway:** choose probabilities and invert the fitted conditional
+distribution to obtain the corresponding conditional quantiles.
+
+This example requests the 25th, 50th, and 75th conditional quantiles of
+regional GDP for each ordered year. The default plot overlays those curves on
+the observed per-year distributions.
+
+```{=html}
+<video class="gallery-video" controls preload="metadata"
+  poster="www/videos/italy_conditional_quantiles/italy_conditional_quantiles_poster.png"
+  aria-label="A 27-second demonstration in RStudio of directly estimating and plotting the 25th, 50th, and 75th conditional quantiles of Italian regional GDP with npqreg.">
+  <source src="www/videos/italy_conditional_quantiles/italy_conditional_quantiles.mp4" type="video/mp4">
+  <track kind="captions" srclang="en" label="English" default
+    src="www/videos/italy_conditional_quantiles/italy_conditional_quantiles.en.vtt">
+  Your browser does not support embedded video. Use the direct MP4 link below.
+</video>
+```
+
+[Open or download the MP4](www/videos/italy_conditional_quantiles/italy_conditional_quantiles.mp4) ·
+[Download the captions](www/videos/italy_conditional_quantiles/italy_conditional_quantiles.en.vtt) ·
+[Read the transcript](www/videos/italy_conditional_quantiles/italy_conditional_quantiles_transcript.txt)
+
+```r
+{{< include www/videos/italy_conditional_quantiles/italy_conditional_quantiles.R >}}
+```
+
+[Download the R script](www/videos/italy_conditional_quantiles/italy_conditional_quantiles.R).
+
+`npqreg()` first computes bandwidths optimized for the
+conditional-distribution target, estimates that distribution, and then inverts
+it at the requested $\tau\in(0,1)$ values. With the same data and selection
+settings, the verified bandwidth values match the preceding `npcdist()`
+example. This is a distribution-based quantile route. `nplsqreg()` is a
+separate, regression-based location-scale method. No seed is needed.
+
+### Transcript
+
+{{< include www/videos/italy_conditional_quantiles/italy_conditional_quantiles_transcript.txt >}}
+::::
+
+Future episodes will add uncertainty bands, testing, and `npRmpi` session
+workflows one reviewed example at a time.

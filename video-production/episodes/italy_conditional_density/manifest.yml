@@ -1,6 +1,6 @@
 episode_id: italy_conditional_density
 title: Italy conditional density
-status: narrated-prototype-approved
+status: approved-publication-candidate
 public_function: npcdens
 canonical_object: fit_cdens
 package:
@@ -60,13 +60,13 @@ review_media:
   silent_animatic:
     path: review/silent-animatic.mp4
     duration_seconds: 25
-    bytes: 1290138
-    sha256: e536a951e5766bb55462a7963ba71fc62ae23c198875d146edfe62522c757b98
+    bytes: 1287475
+    sha256: 60ab43d53f5d1468ac49ebd167a0e73424b64d034d7339824b5669fabb23ecee
   narrated_prototype:
     path: review/narrated-prototype.mp4
     duration_seconds: 25
-    bytes: 1829887
-    sha256: 0cf2add02570e7ff31f8511fd167b34f627468c9cd58e6dfbd2a564679c66cb9
+    bytes: 1827224
+    sha256: 827b90ba90175250f9af46cf2e4760118a9e8f27fcc3801e50653b0cf32fe0ca
 media_target:
   width: 1920
   height: 1080
@@ -76,5 +76,6 @@ media_target:
   pixel_format: yuv420p
   faststart: true
 public_promotion:
-  authorized: false
-  www_path: null
+  authorized: true
+  authorized_by: jeffrey-2026-07-18
+  www_path: www/videos/italy_conditional_density

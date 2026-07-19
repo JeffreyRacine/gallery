@@ -1,0 +1,401 @@
+{
+  "audio": "captures/edited/italy_qreg_chatgpt_voice_full_narration_master.wav",
+  "model": "Systran/faster-whisper-tiny.en",
+  "model_revision": "0d3d19a32d3338f10357c0889762bd8d64bbdeba",
+  "detected_language": "en",
+  "language_probability": 1,
+  "segments": [
+    {
+      "start": 0.05,
+      "end": 26.25,
+      "text": " Choose a probability tau and invert the fitted conditional distribution The result is the GDP value where that distribution reaches tau Here one npq reg call directly traces the 25th 50th and 75th conditional quantiles across Italy's ordered years the curves show the lower middle and upper parts of the distribution the full script is on gallery video demos",
+      "words": [
+        {
+          "start": 0.05,
+          "end": 0.69,
+          "word": " Choose",
+          "probability": 0.9168777465820312
+        },
+        {
+          "start": 0.69,
+          "end": 1.07,
+          "word": " a",
+          "probability": 0.9857915639877319
+        },
+        {
+          "start": 1.07,
+          "end": 1.47,
+          "word": " probability",
+          "probability": 0.9757359623908997
+        },
+        {
+          "start": 1.47,
+          "end": 2.43,
+          "word": " tau",
+          "probability": 0.48493231227621436
+        },
+        {
+          "start": 2.43,
+          "end": 2.97,
+          "word": " and",
+          "probability": 0.7618382573127747
+        },
+        {
+          "start": 2.97,
+          "end": 3.41,
+          "word": " invert",
+          "probability": 0.9549887478351593
+        },
+        {
+          "start": 3.41,
+          "end": 3.95,
+          "word": " the",
+          "probability": 0.9895902276039124
+        },
+        {
+          "start": 3.95,
+          "end": 3.95,
+          "word": " fitted",
+          "probability": 0.9776161313056946
+        },
+        {
+          "start": 3.95,
+          "end": 4.55,
+          "word": " conditional",
+          "probability": 0.9459489583969116
+        },
+        {
+          "start": 4.55,
+          "end": 5.19,
+          "word": " distribution",
+          "probability": 0.9980825185775757
+        },
+        {
+          "start": 5.19,
+          "end": 5.97,
+          "word": " The",
+          "probability": 0.20823167264461517
+        },
+        {
+          "start": 5.97,
+          "end": 6.31,
+          "word": " result",
+          "probability": 0.9956050515174866
+        },
+        {
+          "start": 6.31,
+          "end": 6.67,
+          "word": " is",
+          "probability": 0.9987199306488037
+        },
+        {
+          "start": 6.67,
+          "end": 6.85,
+          "word": " the",
+          "probability": 0.9947804808616638
+        },
+        {
+          "start": 6.85,
+          "end": 7.09,
+          "word": " GDP",
+          "probability": 0.9643843770027161
+        },
+        {
+          "start": 7.09,
+          "end": 7.57,
+          "word": " value",
+          "probability": 0.9932475090026855
+        },
+        {
+          "start": 7.57,
+          "end": 7.93,
+          "word": " where",
+          "probability": 0.9791504144668579
+        },
+        {
+          "start": 7.93,
+          "end": 8.27,
+          "word": " that",
+          "probability": 0.9970290064811707
+        },
+        {
+          "start": 8.27,
+          "end": 8.71,
+          "word": " distribution",
+          "probability": 0.9985986351966858
+        },
+        {
+          "start": 8.71,
+          "end": 9.19,
+          "word": " reaches",
+          "probability": 0.9952980875968933
+        },
+        {
+          "start": 9.19,
+          "end": 9.85,
+          "word": " tau",
+          "probability": 0.9657199084758759
+        },
+        {
+          "start": 9.85,
+          "end": 10.47,
+          "word": " Here",
+          "probability": 0.6261835098266602
+        },
+        {
+          "start": 10.47,
+          "end": 11.01,
+          "word": " one",
+          "probability": 0.6405099034309387
+        },
+        {
+          "start": 11.01,
+          "end": 11.77,
+          "word": " npq",
+          "probability": 0.43064198223873973
+        },
+        {
+          "start": 11.77,
+          "end": 12.03,
+          "word": " reg",
+          "probability": 0.2367054671049118
+        },
+        {
+          "start": 12.03,
+          "end": 12.51,
+          "word": " call",
+          "probability": 0.882332444190979
+        },
+        {
+          "start": 12.51,
+          "end": 12.99,
+          "word": " directly",
+          "probability": 0.8631938695907593
+        },
+        {
+          "start": 12.99,
+          "end": 13.55,
+          "word": " traces",
+          "probability": 0.9949787259101868
+        },
+        {
+          "start": 13.55,
+          "end": 13.91,
+          "word": " the",
+          "probability": 0.9722886681556702
+        },
+        {
+          "start": 13.91,
+          "end": 14.87,
+          "word": " 25th",
+          "probability": 0.9842266142368317
+        },
+        {
+          "start": 14.87,
+          "end": 15.33,
+          "word": " 50th",
+          "probability": 0.953271359205246
+        },
+        {
+          "start": 15.33,
+          "end": 15.49,
+          "word": " and",
+          "probability": 0.9918507933616638
+        },
+        {
+          "start": 15.49,
+          "end": 16.47,
+          "word": " 75th",
+          "probability": 0.9905132949352264
+        },
+        {
+          "start": 16.47,
+          "end": 16.69,
+          "word": " conditional",
+          "probability": 0.9777153730392456
+        },
+        {
+          "start": 16.69,
+          "end": 17.37,
+          "word": " quantiles",
+          "probability": 0.9771058857440948
+        },
+        {
+          "start": 17.37,
+          "end": 17.99,
+          "word": " across",
+          "probability": 0.987730085849762
+        },
+        {
+          "start": 17.99,
+          "end": 18.53,
+          "word": " Italy's",
+          "probability": 0.9824248254299164
+        },
+        {
+          "start": 18.53,
+          "end": 18.73,
+          "word": " ordered",
+          "probability": 0.9619826674461365
+        },
+        {
+          "start": 18.73,
+          "end": 19.39,
+          "word": " years",
+          "probability": 0.9602935910224915
+        },
+        {
+          "start": 19.39,
+          "end": 19.95,
+          "word": " the",
+          "probability": 0.29375576972961426
+        },
+        {
+          "start": 19.95,
+          "end": 20.27,
+          "word": " curves",
+          "probability": 0.9056379199028015
+        },
+        {
+          "start": 20.27,
+          "end": 20.53,
+          "word": " show",
+          "probability": 0.9831763505935669
+        },
+        {
+          "start": 20.53,
+          "end": 20.75,
+          "word": " the",
+          "probability": 0.9953784942626953
+        },
+        {
+          "start": 20.75,
+          "end": 21.17,
+          "word": " lower",
+          "probability": 0.995790421962738
+        },
+        {
+          "start": 21.17,
+          "end": 21.51,
+          "word": " middle",
+          "probability": 0.6978088617324829
+        },
+        {
+          "start": 21.51,
+          "end": 21.83,
+          "word": " and",
+          "probability": 0.9972643852233887
+        },
+        {
+          "start": 21.83,
+          "end": 21.99,
+          "word": " upper",
+          "probability": 0.9699636101722717
+        },
+        {
+          "start": 21.99,
+          "end": 22.39,
+          "word": " parts",
+          "probability": 0.9967553019523621
+        },
+        {
+          "start": 22.39,
+          "end": 22.61,
+          "word": " of",
+          "probability": 0.9988157749176025
+        },
+        {
+          "start": 22.61,
+          "end": 22.79,
+          "word": " the",
+          "probability": 0.9991236329078674
+        },
+        {
+          "start": 22.79,
+          "end": 23.29,
+          "word": " distribution",
+          "probability": 0.994782030582428
+        },
+        {
+          "start": 23.29,
+          "end": 23.91,
+          "word": " the",
+          "probability": 0.6897633671760559
+        },
+        {
+          "start": 23.91,
+          "end": 24.17,
+          "word": " full",
+          "probability": 0.9599106311798096
+        },
+        {
+          "start": 24.17,
+          "end": 24.53,
+          "word": " script",
+          "probability": 0.8660812377929688
+        },
+        {
+          "start": 24.53,
+          "end": 24.81,
+          "word": " is",
+          "probability": 0.9909800887107849
+        },
+        {
+          "start": 24.81,
+          "end": 25.07,
+          "word": " on",
+          "probability": 0.9965204000473022
+        },
+        {
+          "start": 25.07,
+          "end": 25.51,
+          "word": " gallery",
+          "probability": 0.9042901992797852
+        },
+        {
+          "start": 25.51,
+          "end": 25.95,
+          "word": " video",
+          "probability": 0.9801984429359436
+        },
+        {
+          "start": 25.95,
+          "end": 26.25,
+          "word": " demos",
+          "probability": 0.9108862280845642
+        }
+      ]
+    },
+    {
+      "start": 26.25,
+      "end": 26.47,
+      "text": " . . . .",
+      "words": [
+        {
+          "start": 26.25,
+          "end": 26.25,
+          "word": " .",
+          "probability": 0.0172488484531641
+        },
+        {
+          "start": 26.25,
+          "end": 26.33,
+          "word": " .",
+          "probability": 0.9542230367660522
+        },
+        {
+          "start": 26.33,
+          "end": 26.35,
+          "word": " .",
+          "probability": 0.9917427897453308
+        },
+        {
+          "start": 26.35,
+          "end": 26.47,
+          "word": " .",
+          "probability": 0.9574857354164124
+        }
+      ]
+    }
+  ]
+}

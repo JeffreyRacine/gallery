@@ -110,6 +110,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -330,7 +359,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./video_demos.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Video Demos</span></a>
   </div>
@@ -406,7 +435,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#unconditional-density-and-distribution-npudens-and-npudist" id="toc-unconditional-density-and-distribution-npudens-and-npudist" class="nav-link active" data-scroll-target="#unconditional-density-and-distribution-npudens-and-npudist">Unconditional density and distribution: <code>npudens</code> and <code>npudist</code></a>
+  <li><a href="#how-the-four-targets-connect" id="toc-how-the-four-targets-connect" class="nav-link active" data-scroll-target="#how-the-four-targets-connect">How the four targets connect</a></li>
+  <li><a href="#unconditional-density-and-distribution-npudens-and-npudist" id="toc-unconditional-density-and-distribution-npudens-and-npudist" class="nav-link" data-scroll-target="#unconditional-density-and-distribution-npudens-and-npudist">Unconditional density and distribution: <code>npudens</code> and <code>npudist</code></a>
   <ul class="collapse">
   <li><a href="#distribution-bandwidth-selection-support" id="toc-distribution-bandwidth-selection-support" class="nav-link" data-scroll-target="#distribution-bandwidth-selection-support">Distribution bandwidth-selection support</a></li>
   </ul></li>
@@ -464,6 +494,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="www/np_npRmpi/np_quantile_quickstart.R">np_quantile_quickstart.R</a></li>
 <li><a href="www/np_npRmpi/np_lsqreg_quickstart.R">np_lsqreg_quickstart.R</a></li>
 </ul>
+<section id="how-the-four-targets-connect" class="level2">
+<h2 class="anchored" data-anchor-id="how-the-four-targets-connect">How the four targets connect</h2>
+<p>At the population level, the conditional density, distribution, quantiles, and mean are connected:</p>
+<p><span class="math display">\[
+F(y\mid x)=\int_{-\infty}^{y} f(u\mid x)\,du,
+\qquad
+q_\tau(x)=\inf\{y:F(y\mid x)\geq\tau\},
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+E[Y\mid X=x]=\int y f(y\mid x)\,dy.
+\]</span></p>
+<p>When the conditional distribution is continuous at the requested quantile, <span class="math inline">\(F(q_\tau(x)\mid x)=\tau\)</span>. The generalized-inverse definition remains valid when a distribution has jumps or flat regions.</p>
+<p>These identities connect population targets; they do not say to derive one fitted object mechanically from another. <code>npreg()</code>, <code>npcdens()</code>, and <code>npcdist()</code> select smoothing for the conditional mean, density, and distribution targets respectively. Numerically integrating a fitted conditional-density surface therefore need not reproduce a separately optimized conditional-distribution estimate. <code>npqreg()</code> first selects bandwidths for the conditional-distribution target, estimates that distribution, and then inverts it at the requested <span class="math inline">\(\tau\in(0,1)\)</span> values.</p>
+</section>
 <section id="unconditional-density-and-distribution-npudens-and-npudist" class="level2">
 <h2 class="anchored" data-anchor-id="unconditional-density-and-distribution-npudens-and-npudist">Unconditional density and distribution: <code>npudens</code> and <code>npudist</code></h2>
 <p>Use these when the object of interest is the joint or marginal distribution itself rather than a regression function.</p>
@@ -591,7 +636,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="nonparametric-quantile-regression-npqreg" class="level2">
 <h2 class="anchored" data-anchor-id="nonparametric-quantile-regression-npqreg">Nonparametric quantile regression: <code>npqreg</code></h2>
 <p>Use <code>npqreg</code> when your interest lies in conditional quantiles rather than means.</p>
-<p>The direct formula interface is now the natural first stop. When <code>bws</code> is not supplied, <code>npqreg()</code> automatically calls <code>npcdistbw()</code> internally to select the underlying conditional-distribution bandwidth object. Bandwidth-selection options supplied to <code>npqreg()</code> are passed through to that internal <code>npcdistbw()</code> call, so you can still control the underlying conditional-distribution fit without breaking the high-level workflow.</p>
+<p>The direct formula interface is now the natural first stop. When <code>bws</code> is not supplied, <code>npqreg()</code> automatically calls <code>npcdistbw()</code> internally to select bandwidths for the conditional-distribution target. It then estimates that distribution and inverts it at the requested <span class="math inline">\(\tau\in(0,1)\)</span> values. Bandwidth-selection options supplied to <code>npqreg()</code> are passed through to the internal <code>npcdistbw()</code> call, so you can still control the underlying conditional-distribution fit without breaking the high-level workflow.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Extract several quantiles from one selected conditional-distribution fit</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Italy, <span class="at">package =</span> <span class="st">"np"</span>)</span>

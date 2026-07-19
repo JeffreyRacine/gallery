@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#F7F9FC"/>
+  <image href="../../assets/approved_plot.png" x="55" y="78" width="1170" height="610" preserveAspectRatio="xMidYMid meet"/>
+  <rect x="55" y="24" width="475" height="74" rx="18" fill="#173B57" opacity="0.96"/>
+  <text x="88" y="70" font-family="Helvetica Neue, Arial" font-size="28" font-weight="700" fill="#FFFFFF">25th · 50th · 75th</text>
+  <rect x="590" y="24" width="635" height="74" rx="18" fill="#17645C" opacity="0.96"/>
+  <text x="620" y="70" font-family="Helvetica Neue, Arial" font-size="25" font-weight="700" fill="#FFFFFF">Lower · middle · upper conditional quantiles</text>
+</svg>

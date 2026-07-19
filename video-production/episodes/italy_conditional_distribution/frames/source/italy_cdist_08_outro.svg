@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#173B57"/>
+  <circle cx="190" cy="205" r="92" fill="#2A8C82"/>
+  <text x="190" y="222" text-anchor="middle" font-family="Menlo, monospace" font-size="38" font-weight="700" fill="#FFFFFF">np</text>
+  <text x="340" y="175" font-family="Helvetica Neue, Arial" font-size="46" font-weight="700" fill="#FFFFFF">Integrate the density.</text>
+  <text x="340" y="232" font-family="Helvetica Neue, Arial" font-size="27" fill="#D8E7F2">Then invert the distribution to obtain quantiles.</text>
+  <rect x="80" y="360" width="1120" height="110" rx="22" fill="#102B40" stroke="#6CC7BA" stroke-width="3"/>
+  <text x="125" y="430" font-family="Menlo, monospace" font-size="37" fill="#7CD6C9">npcdist()</text>
+  <text x="430" y="430" font-family="Helvetica Neue, Arial" font-size="28" fill="#FFFFFF">Gallery → Examples → Video Demos</text>
+  <text x="80" y="605" font-family="Helvetica Neue, Arial" font-size="22" fill="#D8E7F2">Video + captions + transcript + selectable code</text>
+</svg>

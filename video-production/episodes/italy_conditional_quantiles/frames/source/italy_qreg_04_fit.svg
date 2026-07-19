@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#F7F9FC"/>
+  <text x="80" y="105" font-family="Helvetica Neue, Arial" font-size="44" font-weight="700" fill="#173B57">Estimate three conditional quantiles</text>
+  <rect x="80" y="175" width="1120" height="280" rx="22" fill="#12212D"/>
+  <rect x="102" y="205" width="1076" height="200" rx="14" fill="#1C3445" stroke="#F4B942" stroke-width="4"/>
+  <text x="128" y="285" font-family="Menlo, monospace" font-size="29" fill="#EAF4FA">fit_qreg &lt;- <tspan fill="#7CD6C9">npqreg</tspan>(gdp ~ year,</text>
+  <text x="350" y="340" font-family="Menlo, monospace" font-size="29" fill="#EAF4FA">data = Italy,</text>
+  <text x="350" y="395" font-family="Menlo, monospace" font-size="29" fill="#EAF4FA">tau = c(0.25, 0.50, 0.75))</text>
+  <rect x="80" y="510" width="1120" height="100" rx="18" fill="#E4F2EF"/>
+  <text x="120" y="572" font-family="Helvetica Neue, Arial" font-size="29" font-weight="700" fill="#17645C">Directly invert the fitted conditional distribution</text>
+  <text x="80" y="665" font-family="Helvetica Neue, Arial" font-size="20" fill="#687B89">Public function: npqreg()</text>
+</svg>

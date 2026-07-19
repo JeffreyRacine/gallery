@@ -1,0 +1,9 @@
+Integrating the conditional density produces the conditional distribution.
+
+Here, for each ordered year, the surface gives the estimated share of Italian regions with per-capita GDP at or below each value.
+
+One npcdist() call estimates the whole conditional distribution.
+
+Invert the conditional distribution at a chosen probability and you obtain a conditional quantile.
+
+The full script is on Gallery Video Demos.

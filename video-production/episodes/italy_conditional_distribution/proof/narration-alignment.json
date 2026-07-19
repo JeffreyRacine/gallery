@@ -1,0 +1,400 @@
+{
+  "audio": "captures/edited/italy_cdist_chatgpt_voice_full_narration_master.wav",
+  "model": "Systran/faster-whisper-tiny.en",
+  "model_revision": "0d3d19a32d3338f10357c0889762bd8d64bbdeba",
+  "detected_language": "en",
+  "language_probability": 1,
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 24.9,
+      "text": " Integrating the conditional density produces the conditional distribution. Here for each ordered year the surface gives the estimated share of Italian regions with per capita GDP at or below each value. One N P see dist call estimates the whole conditional distribution. Invert the conditional distribution at a chosen probability and you obtain a conditional quantile. The full script is on Gallery Video Demos.",
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.66,
+          "word": " Integrating",
+          "probability": 0.9550362229347229
+        },
+        {
+          "start": 0.66,
+          "end": 1.08,
+          "word": " the",
+          "probability": 0.9959787130355835
+        },
+        {
+          "start": 1.08,
+          "end": 1.48,
+          "word": " conditional",
+          "probability": 0.921384334564209
+        },
+        {
+          "start": 1.48,
+          "end": 2.04,
+          "word": " density",
+          "probability": 0.9945456981658936
+        },
+        {
+          "start": 2.04,
+          "end": 2.6,
+          "word": " produces",
+          "probability": 0.9819506406784058
+        },
+        {
+          "start": 2.6,
+          "end": 3.02,
+          "word": " the",
+          "probability": 0.9972190856933594
+        },
+        {
+          "start": 3.02,
+          "end": 3.4,
+          "word": " conditional",
+          "probability": 0.983883798122406
+        },
+        {
+          "start": 3.4,
+          "end": 3.98,
+          "word": " distribution.",
+          "probability": 0.998931348323822
+        },
+        {
+          "start": 4.44,
+          "end": 4.74,
+          "word": " Here",
+          "probability": 0.9844330549240112
+        },
+        {
+          "start": 4.74,
+          "end": 5.08,
+          "word": " for",
+          "probability": 0.572909414768219
+        },
+        {
+          "start": 5.08,
+          "end": 5.44,
+          "word": " each",
+          "probability": 0.9966908693313599
+        },
+        {
+          "start": 5.44,
+          "end": 5.7,
+          "word": " ordered",
+          "probability": 0.9734471440315247
+        },
+        {
+          "start": 5.7,
+          "end": 6.14,
+          "word": " year",
+          "probability": 0.8703223466873169
+        },
+        {
+          "start": 6.14,
+          "end": 6.42,
+          "word": " the",
+          "probability": 0.14901866018772125
+        },
+        {
+          "start": 6.42,
+          "end": 6.66,
+          "word": " surface",
+          "probability": 0.9638747572898865
+        },
+        {
+          "start": 6.66,
+          "end": 7.0,
+          "word": " gives",
+          "probability": 0.9942131638526917
+        },
+        {
+          "start": 7.0,
+          "end": 7.38,
+          "word": " the",
+          "probability": 0.9968987703323364
+        },
+        {
+          "start": 7.38,
+          "end": 7.66,
+          "word": " estimated",
+          "probability": 0.9950351715087891
+        },
+        {
+          "start": 7.66,
+          "end": 8.08,
+          "word": " share",
+          "probability": 0.9899545907974243
+        },
+        {
+          "start": 8.08,
+          "end": 8.28,
+          "word": " of",
+          "probability": 0.9974159002304077
+        },
+        {
+          "start": 8.28,
+          "end": 8.66,
+          "word": " Italian",
+          "probability": 0.9778984785079956
+        },
+        {
+          "start": 8.66,
+          "end": 9.06,
+          "word": " regions",
+          "probability": 0.9686657786369324
+        },
+        {
+          "start": 9.06,
+          "end": 9.42,
+          "word": " with",
+          "probability": 0.9564416408538818
+        },
+        {
+          "start": 9.42,
+          "end": 9.62,
+          "word": " per",
+          "probability": 0.9207063317298889
+        },
+        {
+          "start": 9.62,
+          "end": 9.98,
+          "word": " capita",
+          "probability": 0.24855075776576996
+        },
+        {
+          "start": 9.98,
+          "end": 10.4,
+          "word": " GDP",
+          "probability": 0.9790661931037903
+        },
+        {
+          "start": 10.4,
+          "end": 10.94,
+          "word": " at",
+          "probability": 0.9569153785705566
+        },
+        {
+          "start": 10.94,
+          "end": 11.12,
+          "word": " or",
+          "probability": 0.9921070337295532
+        },
+        {
+          "start": 11.12,
+          "end": 11.46,
+          "word": " below",
+          "probability": 0.9986153841018677
+        },
+        {
+          "start": 11.46,
+          "end": 11.74,
+          "word": " each",
+          "probability": 0.9976707100868225
+        },
+        {
+          "start": 11.74,
+          "end": 12.18,
+          "word": " value.",
+          "probability": 0.9968485236167908
+        },
+        {
+          "start": 12.78,
+          "end": 13.1,
+          "word": " One",
+          "probability": 0.8533914685249329
+        },
+        {
+          "start": 13.1,
+          "end": 13.34,
+          "word": " N",
+          "probability": 0.07111241668462753
+        },
+        {
+          "start": 13.34,
+          "end": 13.6,
+          "word": " P",
+          "probability": 0.00041797300218604505
+        },
+        {
+          "start": 13.6,
+          "end": 13.82,
+          "word": " see",
+          "probability": 0.000698903517331928
+        },
+        {
+          "start": 13.82,
+          "end": 14.16,
+          "word": " dist",
+          "probability": 0.14718464016914368
+        },
+        {
+          "start": 14.16,
+          "end": 14.52,
+          "word": " call",
+          "probability": 0.9044066667556763
+        },
+        {
+          "start": 14.52,
+          "end": 14.88,
+          "word": " estimates",
+          "probability": 0.9776741862297058
+        },
+        {
+          "start": 14.88,
+          "end": 15.36,
+          "word": " the",
+          "probability": 0.9927432537078857
+        },
+        {
+          "start": 15.36,
+          "end": 15.68,
+          "word": " whole",
+          "probability": 0.9811896085739136
+        },
+        {
+          "start": 15.68,
+          "end": 16.2,
+          "word": " conditional",
+          "probability": 0.9902016520500183
+        },
+        {
+          "start": 16.2,
+          "end": 16.94,
+          "word": " distribution.",
+          "probability": 0.9992425441741943
+        },
+        {
+          "start": 17.6,
+          "end": 17.84,
+          "word": " Invert",
+          "probability": 0.9791863560676575
+        },
+        {
+          "start": 17.84,
+          "end": 18.12,
+          "word": " the",
+          "probability": 0.9907149076461792
+        },
+        {
+          "start": 18.12,
+          "end": 18.4,
+          "word": " conditional",
+          "probability": 0.9916228652000427
+        },
+        {
+          "start": 18.4,
+          "end": 18.94,
+          "word": " distribution",
+          "probability": 0.9991105198860168
+        },
+        {
+          "start": 18.94,
+          "end": 19.26,
+          "word": " at",
+          "probability": 0.9783636331558228
+        },
+        {
+          "start": 19.26,
+          "end": 19.4,
+          "word": " a",
+          "probability": 0.9938526153564453
+        },
+        {
+          "start": 19.4,
+          "end": 19.64,
+          "word": " chosen",
+          "probability": 0.9947644472122192
+        },
+        {
+          "start": 19.64,
+          "end": 20.18,
+          "word": " probability",
+          "probability": 0.9965621829032898
+        },
+        {
+          "start": 20.18,
+          "end": 20.6,
+          "word": " and",
+          "probability": 0.8585742712020874
+        },
+        {
+          "start": 20.6,
+          "end": 20.74,
+          "word": " you",
+          "probability": 0.9949356317520142
+        },
+        {
+          "start": 20.74,
+          "end": 21.04,
+          "word": " obtain",
+          "probability": 0.9926222562789917
+        },
+        {
+          "start": 21.04,
+          "end": 21.34,
+          "word": " a",
+          "probability": 0.9861160516738892
+        },
+        {
+          "start": 21.34,
+          "end": 21.7,
+          "word": " conditional",
+          "probability": 0.996324360370636
+        },
+        {
+          "start": 21.7,
+          "end": 22.4,
+          "word": " quantile.",
+          "probability": 0.9735187590122223
+        },
+        {
+          "start": 22.66,
+          "end": 22.74,
+          "word": " The",
+          "probability": 0.9314868450164795
+        },
+        {
+          "start": 22.74,
+          "end": 22.96,
+          "word": " full",
+          "probability": 0.9352865815162659
+        },
+        {
+          "start": 22.96,
+          "end": 23.22,
+          "word": " script",
+          "probability": 0.9882599115371704
+        },
+        {
+          "start": 23.22,
+          "end": 23.54,
+          "word": " is",
+          "probability": 0.9971776008605957
+        },
+        {
+          "start": 23.54,
+          "end": 23.7,
+          "word": " on",
+          "probability": 0.9948328733444214
+        },
+        {
+          "start": 23.7,
+          "end": 24.12,
+          "word": " Gallery",
+          "probability": 0.16139771044254303
+        },
+        {
+          "start": 24.12,
+          "end": 24.5,
+          "word": " Video",
+          "probability": 0.6270650625228882
+        },
+        {
+          "start": 24.5,
+          "end": 24.9,
+          "word": " Demos.",
+          "probability": 0.8294192254543304
+        }
+      ]
+    }
+  ]
+}

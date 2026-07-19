@@ -2,8 +2,7 @@
 
 Status: example, 90/45 camera, silent animatic, `npcdens()` pronunciation, and
 the corrected continuous Cove narration approved by Jeffrey on 2026-07-18.
-This remains a prototype source bundle, not an authorized public Gallery
-promotion.
+Jeffrey authorized public Gallery promotion, commit, and push on 2026-07-18.
 
 ## Rebuild the review cut
 
@@ -16,9 +15,13 @@ promotion.
 The tracked review videos let a future update be compared directly:
 
 - `review/silent-animatic.mp4`: approved silent visual,
-  SHA-256 `e536a951e5766bb55462a7963ba71fc62ae23c198875d146edfe62522c757b98`;
+  SHA-256 `60ab43d53f5d1468ac49ebd167a0e73424b64d034d7339824b5669fabb23ecee`;
 - `review/narrated-prototype.mp4`: approved narrated prototype,
-  SHA-256 `0cf2add02570e7ff31f8511fd167b34f627468c9cd58e6dfbd2a564679c66cb9`.
+  SHA-256 `827b90ba90175250f9af46cf2e4760118a9e8f27fcc3801e50653b0cf32fe0ca`.
+
+The public master removes the review-only `DRAFT` badge from the opening
+frame; timing, narration, camera, code, and all other visual content are
+unchanged from Jeffrey's approved cut.
 
 The narrated cut copies the approved H.264 visual stream without re-encoding,
 adds the normalized Cove master, and pads the natural 24.02-second narration
@@ -40,3 +43,7 @@ python3 ../../framework/normalize_system_audio.py RAW.caf \
 Those exact bounds apply only to the retained corrected 2026-07-18 take. The microphone
 was muted during capture. The private cue is `N P see dense`; public text always
 uses `npcdens()`.
+
+Run `render/sync_public_bundle.sh --check` to confirm the promoted public
+script, media, poster, captions, and transcript remain byte-identical to this
+source bundle.

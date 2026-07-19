@@ -1,0 +1,81 @@
+episode_id: italy_conditional_quantiles
+title: Italy conditional quantiles
+status: approved-publication-candidate
+public_function: npqreg
+canonical_object: fit_qreg
+package:
+  name: np
+  version: 0.70-5
+  build: public-cran-campaign-library
+dataset:
+  name: Italy
+  package: np
+  rows: 1008
+  regions: 21
+  ordered_year_levels: 48
+  first_year: 1951
+  last_year: 1998
+  response: gdp
+  predictor: year
+  predictor_class: ordered/factor
+requested_probabilities:
+  - 0.25
+  - 0.50
+  - 0.75
+randomness:
+  used: false
+  seed: null
+script: analysis.R
+proof:
+  repetitions: 5
+  elapsed_seconds_min: 3.018
+  elapsed_seconds_median: 3.069
+  elapsed_seconds_max: 3.805
+  year_lambda: 0.6879269
+  gdp_bandwidth: 0.3073657
+  objective: 0.08860405
+  fitted_dimensions: 1008x3
+  exact_result_parity: true
+renderer:
+  name: default-quantile-plot
+  implementation: base-graphics
+narration:
+  public_source: narration/public.txt
+  private_phonetic_source: narration/voice_prompt.txt
+  master: narration/narration_master.wav
+  duration_seconds: 26.5
+  sha256: ac340a5bef3e4d3428d697fa53aab2c3caeddc4f07a4de8f16a058fd44ef2edb
+  public_function_text: npqreg()
+  private_spoken_rule: N P Q, then reg rhyming with egg
+  pronunciation_probe: narration/pronunciation_probe.wav
+  approval: jeffrey-2026-07-18
+captions: captions/captions.en.vtt
+transcript: transcript.txt
+placement:
+  canonical_page: Examples -> Video Demos
+  canonical_anchor: italy-conditional-quantiles
+  cross_links:
+    - Density, Distribution, Quantiles
+review_media:
+  silent_animatic:
+    path: review/silent-animatic.mp4
+    duration_seconds: 25
+    bytes: 1333903
+    sha256: fae0d804d3ad2c65c8472f90a0cc620ce53b1fb63c2e81cebb2a672eb3ae4228
+  narrated_prototype:
+    path: review/narrated-prototype.mp4
+    duration_seconds: 26.5
+    bytes: 1990543
+    sha256: a941bc9c8eb2085abd6567b767d908fd1e4860e9c6aef6828223aeecd557fc09
+media_target:
+  width: 1920
+  height: 1080
+  fps: 30
+  video_codec: h264
+  audio_codec: aac
+  pixel_format: yuv420p
+  faststart: true
+public_promotion:
+  authorized: true
+  authorized_by: jeffrey-2026-07-18
+  www_path: www/videos/italy_conditional_quantiles
