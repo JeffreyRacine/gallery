@@ -1,17 +1,12 @@
 # Gallery onboarding and analytical-video campaign
 
 Last updated: 2026-07-18
-Status: Candidate A is the approved template; the Italy conditional-density
-narrated prototype is approved; the conditional-distribution camera,
-narration, quantile visual, and linked mathematical block are approved. No
-Gallery push or Italy public promotion is authorized. The scratch-only
-conditional-distribution narrated master, captions, and estimation note are
-approved. Jeffrey approved the scratch-only `npqreg()` pronunciation comparison,
-silent animatic, focused narration, and supporting-description scope. Jeffrey
-rejected the first 28-second narrated scratch master after detecting an audible
-false start. A corrected 26.5-second master excludes that complete aborted
-pre-roll and retains the subsequent narration continuously; it is ready for a
-fresh listening and embedded-size review.
+Status: Candidate A is the approved template. The first-result and three-part
+Italy sequence are public. The Old Faithful unconditional joint-density and
+joint-distribution scripts, interactive-renderer grammar, continuous Cove
+narrations, captions, and Gallery promotion were approved on 2026-07-18. The
+next scratch review tranche returns to Old Faithful regression with NOMAD joint
+selection and bootstrap uncertainty for the fitted function and derivatives.
 
 ## Product path
 
@@ -132,6 +127,63 @@ Subsequent independently reviewable episodes should cover:
   clean teardown;
 - a deliberate mix of fixed/base and `rgl` rendering where each is clearest.
 
+## Old Faithful unconditional pair
+
+The approved pair uses the 272 observations in `datasets::faithful`:
+
+1. `npudens(~ eruptions + waiting, data = faithful)` estimates the joint
+   density and reveals the familiar two-cycle structure;
+2. `npudist(~ eruptions + waiting, data = faithful)` estimates the joint
+   distribution directly.
+
+Both episodes use `renderer = "rgl"` to show an interactive surface in
+RStudio's Viewer. The video explains that users can rotate, zoom, and resize
+the widget. Density and distribution retain distinct selected bandwidths
+because smoothing is optimized for each target. Neither deterministic episode
+uses a seed.
+
+The underlying source bundle retains editable SVG frames, sanitized RStudio
+and Viewer assets, continuous narration masters, exact public scripts,
+captions, transcripts, installed results, repeated-run proof, render scripts,
+and checksum manifests. Raw captures and rejected voice takes remain outside
+Git.
+
+## Old Faithful NOMAD regression and uncertainty
+
+The next scratch candidate uses:
+
+```r
+library(np)
+data(faithful, package = "datasets")
+
+fit_npreg <- npreg(waiting ~ eruptions, data = faithful, nomad = "auto")
+summary(fit_npreg$bws)
+
+options(plot.par.mfrow = FALSE)
+par(mfrow = c(2, 2))
+set.seed(42)
+plot(fit_npreg, errors = "bootstrap", band = "all", B = 9999)
+plot(fit_npreg, errors = "bootstrap", band = "all", B = 9999,
+     gradients = TRUE, gradient_order = 1)
+plot(fit_npreg, errors = "bootstrap", band = "all", B = 9999,
+     gradients = TRUE, gradient_order = 2)
+plot(fit_npreg, errors = "bootstrap", band = "all", B = 9999,
+     gradients = TRUE, gradient_order = 3)
+```
+
+The installed public build must verify the selected polynomial degree,
+bandwidth, runtime, and four bootstrap routes before visual claims are frozen.
+The candidate should contrast the selected higher-order local polynomial with
+the first-result episode's default local-constant (`regtype = "lc"`, degree
+zero) fit without implying that either specification is universally best.
+
+The video should lead with the completed 2-by-2 result, emphasize that NOMAD
+jointly selects polynomial degree and bandwidth for this regression target,
+and label any condensed bootstrap computation honestly. Keep the formal
+distinction among pointwise, simultaneous, and Bonferroni bands in the
+accompanying description unless the narration remains comfortably within the
+short's information budget. The standing stochastic seed is `set.seed(42)`.
+
 ## Review and promotion gates
 
 - Every episode freezes its script and manifest, runs from the exact installed
@@ -148,14 +200,14 @@ Subsequent independently reviewable episodes should cover:
 
 ## Immediate sequence
 
-1. Review the corrected continuous 26.5-second `npqreg()` narrated scratch
-   master for its clean opening, approved hard-`g` pronunciation, pacing,
-   captions, and embedded-size information load.
-2. After approval, prepare the complete `npqreg()` reproducibility and
-   accessibility bundle plus its proposed Gallery tranche.
-3. Prepare the approved `npcdist()` complete reproducibility/accessibility
-   bundle plus the exact proposed Gallery tranche and rendered diff; do not
-   promote without separate approval.
-4. Freeze framework version 1 after those three episodes have converged.
-5. Continue the own-data and balanced analytical catalogue in small review
-   tranches.
+1. Promote the two approved Old Faithful unconditional episodes, render the
+   complete site, commit, push, and verify the exact live build.
+2. Run the Old Faithful NOMAD regression and bootstrap routes from the public
+   campaign-local `np` build, retaining full logs, `sessionInfo()`, seed, and
+   timings.
+3. Prepare a concise storyboard and silent review animatic. Keep the completed
+   2-by-2 result visible immediately and retain the approved RStudio hybrid
+   framing.
+4. Stop at Jeffrey's review gate for the example, information density,
+   narration, captions, and computation-condensation wording.
+5. Continue the balanced analytical catalogue in small review tranches.

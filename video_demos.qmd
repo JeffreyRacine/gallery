@@ -210,5 +210,98 @@ separate, regression-based location-scale method. No seed is needed.
 {{< include www/videos/italy_conditional_quantiles/italy_conditional_quantiles_transcript.txt >}}
 ::::
 
-Future episodes will add uncertainty bands, testing, and `npRmpi` session
-workflows one reviewed example at a time.
+The next pair uses the built-in `faithful` data to compare two unconditional
+bivariate targets and to demonstrate the interactive `rgl` renderer in
+RStudio's Viewer.
+
+:::: {.callout-note collapse="true" #old-faithful-joint-density}
+## Old Faithful joint density — 27 seconds
+
+**Function:** `npudens()`<br>
+**Takeaway:** target-specific smoothing reveals two distinct eruption cycles
+in a manipulable joint-density surface.
+
+The `datasets::faithful` data contain 272 observations of Old Faithful eruption
+duration in minutes and the waiting time to the next eruption. The two peaks
+correspond to short eruptions followed by shorter waits and long eruptions
+followed by longer waits.
+
+```{=html}
+<video class="gallery-video" controls preload="metadata"
+  poster="www/videos/old_faithful_joint_density/old_faithful_joint_density_poster.png"
+  aria-label="A 27-second RStudio demonstration of estimating the joint density of Old Faithful eruption duration and waiting time with npudens, then manipulating its two-peak rgl surface in the Viewer.">
+  <source src="www/videos/old_faithful_joint_density/old_faithful_joint_density.mp4" type="video/mp4">
+  <track kind="captions" srclang="en" label="English" default
+    src="www/videos/old_faithful_joint_density/old_faithful_joint_density.en.vtt">
+  Your browser does not support embedded video. Use the direct MP4 link below.
+</video>
+```
+
+[Open or download the MP4](www/videos/old_faithful_joint_density/old_faithful_joint_density.mp4) ·
+[Download the captions](www/videos/old_faithful_joint_density/old_faithful_joint_density.en.vtt) ·
+[Read the transcript](www/videos/old_faithful_joint_density/old_faithful_joint_density_transcript.txt)
+
+```r
+{{< include www/videos/old_faithful_joint_density/old_faithful_joint_density.R >}}
+```
+
+[Download the R script](www/videos/old_faithful_joint_density/old_faithful_joint_density.R).
+
+The verified public CRAN `np` 0.70-5 build selected bandwidths of
+`0.146981` for `eruptions` and `2.925689` for `waiting`, optimized for the
+joint-density target. No seed is needed. With `renderer = "rgl"`, the fitted
+surface opens in RStudio's Viewer, where it can be rotated, zoomed, and
+resized.
+
+### Transcript
+
+{{< include www/videos/old_faithful_joint_density/old_faithful_joint_density_transcript.txt >}}
+::::
+
+:::: {.callout-note collapse="true" #old-faithful-joint-distribution}
+## Old Faithful joint distribution — 29 seconds
+
+**Function:** `npudist()`<br>
+**Takeaway:** the same data can be viewed cumulatively with smoothing selected
+for the joint-distribution target.
+
+At each eruption-duration and waiting-time pair, the fitted surface estimates
+the probability of observing values at or below both coordinates. `npudist()`
+estimates this joint distribution directly; it does not integrate the fitted
+joint-density object from the preceding video.
+
+```{=html}
+<video class="gallery-video" controls preload="metadata"
+  poster="www/videos/old_faithful_joint_distribution/old_faithful_joint_distribution_poster.png"
+  aria-label="A 29-second RStudio demonstration of directly estimating the joint distribution of Old Faithful eruption duration and waiting time with npudist, then manipulating its cumulative rgl surface in the Viewer.">
+  <source src="www/videos/old_faithful_joint_distribution/old_faithful_joint_distribution.mp4" type="video/mp4">
+  <track kind="captions" srclang="en" label="English" default
+    src="www/videos/old_faithful_joint_distribution/old_faithful_joint_distribution.en.vtt">
+  Your browser does not support embedded video. Use the direct MP4 link below.
+</video>
+```
+
+[Open or download the MP4](www/videos/old_faithful_joint_distribution/old_faithful_joint_distribution.mp4) ·
+[Download the captions](www/videos/old_faithful_joint_distribution/old_faithful_joint_distribution.en.vtt) ·
+[Read the transcript](www/videos/old_faithful_joint_distribution/old_faithful_joint_distribution_transcript.txt)
+
+```r
+{{< include www/videos/old_faithful_joint_distribution/old_faithful_joint_distribution.R >}}
+```
+
+[Download the R script](www/videos/old_faithful_joint_distribution/old_faithful_joint_distribution.R).
+
+The verified public build selected bandwidths of `0.0576794` for `eruptions`
+and `0.186285` for `waiting`, optimized for the joint-distribution target.
+Five fresh installed runs were exactly identical for each estimator's selected
+bandwidth object and fitted result. No seed is needed.
+
+### Transcript
+
+{{< include www/videos/old_faithful_joint_distribution/old_faithful_joint_distribution_transcript.txt >}}
+::::
+
+The next reviewed episode returns to regression with NOMAD joint selection of
+polynomial degree and bandwidth, followed by bootstrap uncertainty for the
+fitted curve and its derivatives. Testing and `npRmpi` session workflows will
+follow one reviewed example at a time.

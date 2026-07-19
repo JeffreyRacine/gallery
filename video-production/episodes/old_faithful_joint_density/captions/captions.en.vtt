@@ -1,0 +1,17 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:06.600
+Old Faithful's 272 observations contain measurements of eruption duration
+and waiting time.
+
+00:00:06.600 --> 00:00:17.550
+One npudens() call selects bandwidths optimized for the joint-density target
+and reveals two distinct peaks: short eruptions with shorter waits,
+and long eruptions with longer waits.
+
+00:00:17.550 --> 00:00:24.000
+The surface opens in RStudio's Viewer, where you can drag to rotate,
+scroll to zoom, and resize the pane.
+
+00:00:24.000 --> 00:00:26.900
+Find the full script in Gallery Video Demos.

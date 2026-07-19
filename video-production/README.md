@@ -62,5 +62,10 @@ the inventory itself so it can be regenerated deterministically.
   and public bundle.
 - `italy_conditional_quantiles`: approved direct conditional-quantile episode
   and public bundle.
+- `old_faithful_joint_density`: approved unconditional joint-density episode
+  with an interactive RStudio Viewer surface and public bundle.
+- `old_faithful_joint_distribution`: approved direct unconditional
+  joint-distribution episode with an interactive RStudio Viewer surface and
+  public bundle.
 
 See `CAMPAIGN_PLAN.md` for the durable series decisions and next sequence.

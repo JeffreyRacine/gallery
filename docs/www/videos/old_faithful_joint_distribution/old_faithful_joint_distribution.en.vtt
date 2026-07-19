@@ -1,0 +1,19 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:05.400
+The same 272 Old Faithful observations can be viewed cumulatively.
+
+00:00:05.400 --> 00:00:16.550
+One npudist() call selects bandwidths optimized for the joint-distribution target
+and estimates the probability at or below each eruption-duration
+and waiting-time pair.
+
+00:00:16.550 --> 00:00:20.500
+This object is estimated directly, not by integrating the density.
+
+00:00:20.500 --> 00:00:25.780
+It opens in RStudio's Viewer, where you can rotate, zoom,
+and resize the surface.
+
+00:00:25.780 --> 00:00:28.800
+Find the full script in Gallery Video Demos.

@@ -1,0 +1,73 @@
+episode_id: old_faithful_joint_density
+title: Old Faithful joint density
+status: approved-publication-candidate
+public_function: npudens
+canonical_object: fit_udens
+package:
+  name: np
+  version: 0.70-5
+  build: public-cran-campaign-library
+dataset:
+  name: faithful
+  package: datasets
+  rows: 272
+  variables: 2
+  eruptions_class: numeric
+  waiting_class: numeric
+randomness:
+  used: false
+  seed: null
+script: analysis.R
+proof:
+  repetitions: 5
+  cold_elapsed_seconds: 1.018
+  warm_elapsed_seconds_min: 0.310
+  warm_elapsed_seconds_median: 0.321
+  warm_elapsed_seconds_max: 0.323
+  eruptions_bandwidth: 0.14698145
+  waiting_bandwidth: 2.92568881
+  objective: -1140.71390004
+  exact_result_parity: true
+renderer:
+  name: rgl
+  implementation: RStudio-Viewer-htmlwidget
+  interaction:
+    - rotate
+    - zoom
+    - resize
+narration:
+  public_source: narration/public.txt
+  private_phonetic_source: narration/voice_prompt.txt
+  master: narration/narration_master.wav
+  duration_seconds: 27
+  sha256: 08f4228da7eb4ece48cfcd8ab075e12ed3de6417e8e29327ba4683d4400c1035
+  public_function_text: npudens()
+  private_spoken_cue: N P U dense
+  approval: jeffrey-2026-07-18
+captions: captions/captions.en.vtt
+transcript: transcript.txt
+placement:
+  canonical_page: Examples -> Video Demos
+  canonical_anchor: old-faithful-joint-density
+review_media:
+  silent_animatic:
+    path: review/silent-animatic.mp4
+    duration_seconds: 23.066667
+    sha256: f18e8d2182cc160722cbb425ff401e5b58fc48a856e16a2d14c315742726e2c9
+  narrated_prototype:
+    path: review/narrated-prototype.mp4
+    duration_seconds: 27
+    bytes: 1815617
+    sha256: 556ef1e04fce64d01a8f5c967895a9e09f773243aaf463f0b904cdba6d37944f
+media_target:
+  width: 1920
+  height: 1080
+  fps: 30
+  video_codec: h264
+  audio_codec: aac
+  pixel_format: yuv420p
+  faststart: true
+public_promotion:
+  authorized: true
+  authorized_by: jeffrey-2026-07-18
+  www_path: www/videos/old_faithful_joint_density

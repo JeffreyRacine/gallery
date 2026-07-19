@@ -1,0 +1,15 @@
+script=/Users/jracine/Development/tmp/gallery_video_pilot_execution_20260718/old_faithful_unconditional/scripts/faithful_joint_distribution.R
+package=np 0.70.5
+library=/Users/jracine/Development/tmp/gallery_video_pilot_execution_20260718/Rlib/np
+rgl=1.3.36
+rows=272
+classes=numeric/numeric
+fit_class=npdistribution
+widget_class=rglWebGL/htmlwidget
+bandwidths=0.057679357,0.186284643
+objective=0.16782071
+elapsed_min=0.348
+elapsed_median=0.352
+elapsed_max=1.005
+exact_parity=TRUE
+PROOF_OK
