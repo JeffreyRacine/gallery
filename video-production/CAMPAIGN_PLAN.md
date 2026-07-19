@@ -7,9 +7,11 @@ narration, quantile visual, and linked mathematical block are approved. No
 Gallery push or Italy public promotion is authorized. The scratch-only
 conditional-distribution narrated master, captions, and estimation note are
 approved. Jeffrey approved the scratch-only `npqreg()` pronunciation comparison,
-silent animatic, focused narration, and supporting-description scope. A
-continuous 28-second narrated scratch master is ready for Jeffrey's listening
-and embedded-size review.
+silent animatic, focused narration, and supporting-description scope. Jeffrey
+rejected the first 28-second narrated scratch master after detecting an audible
+false start. A corrected 26.5-second master excludes that complete aborted
+pre-roll and retains the subsequent narration continuously; it is ready for a
+fresh listening and embedded-size review.
 
 ## Product path
 
@@ -146,9 +148,9 @@ Subsequent independently reviewable episodes should cover:
 
 ## Immediate sequence
 
-1. Review the continuous 28-second `npqreg()` narrated scratch master for the
-   approved hard-`g` pronunciation, pacing, captions, and embedded-size
-   information load.
+1. Review the corrected continuous 26.5-second `npqreg()` narrated scratch
+   master for its clean opening, approved hard-`g` pronunciation, pacing,
+   captions, and embedded-size information load.
 2. After approval, prepare the complete `npqreg()` reproducibility and
    accessibility bundle plus its proposed Gallery tranche.
 3. Prepare the approved `npcdist()` complete reproducibility/accessibility
