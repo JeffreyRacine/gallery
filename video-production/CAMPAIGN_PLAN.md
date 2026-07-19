@@ -72,8 +72,8 @@ The matched distribution/quantile pair should make the underlying relationships
 explicit without overloading either short:
 
 1. integrating $f(y\mid x)$ gives $F(y\mid x)$;
-2. $q_\tau(x)=\inf\{y:F(y\mid x)\geq\tau\}$ runs the conditional distribution
-   backward at probability $\tau$; and
+2. $q_\tau(x)=\inf\{y:F(y\mid x)\geq\tau\}$ inverts the conditional
+   distribution at probability $\tau$; and
 3. the regression function is the conditional-density-weighted mean,
    $E[Y\mid X=x]=\int y f(y\mid x)\,dy$.
 
