@@ -188,18 +188,22 @@ The practical recommendation is:
 
 ## macOS: BLAS/LAPACK choice can matter
 
-For some macOS users, a practical speed lever is the BLAS/LAPACK library that
-R is using. The choice is up to the user: current CRAN macOS R binaries ship
-with both the reference BLAS and Apple's accelerated vecLib BLAS available.
+For the official CRAN macOS build of R (not necessarily Homebrew, Conda, or
+custom builds), `libRblas.dylib` selects either the reference BLAS or Apple
+Accelerate's vecLib BLAS. R's `libRlapack.dylib` remains in place and uses the
+selected BLAS; standard CRAN binary packages normally follow this choice.
 
-The official CRAN macOS FAQ notes that current CRAN R binaries can provide
-both:
+Close R and RStudio, then run in Terminal (administrator permission may be
+required):
 
-- the reference BLAS shipped with R,
-- and Apple Accelerate's vecLib BLAS.
+```bash
+cd /Library/Frameworks/R.framework/Resources/lib
+sudo ln -sf libRblas.vecLib.dylib libRblas.dylib  # Apple Accelerate
+# sudo ln -sf libRblas.0.dylib libRblas.dylib     # restore reference BLAS
+```
 
-It also notes that the active choice is controlled by the
-`libRblas.dylib` symlink and that `sessionInfo()` reports the BLAS in use.
+Start a fresh R session and verify the active BLAS with `sessionInfo()` or
+`extSoftVersion()["BLAS"]`.
 
 Practical takeaway:
 
@@ -210,11 +214,11 @@ Practical takeaway:
 - and for `np`, `npRmpi`, and `crs`, many expensive routes are driven as much
   by search, resampling, kernels, or MPI orchestration as by BLAS alone.
 
-There is also a real caution. Accelerate/vecLib is not fork-safe. A January
-2026 `R-SIG-Mac` report describes parallel failures in some `mclapply()`
-workloads that call BLAS operations such as `crossprod()`. That is why the
-CRAN macOS default reverted to the reference BLAS in R 4.5.3, even though
-Accelerate can be much faster on some Apple Silicon jobs.
+There is also a real caution. Accelerate/vecLib can fail in fork-based
+workflows. A January 2026 `R-SIG-Mac` report describes failures in some
+`mclapply()` workloads that call BLAS operations such as `crossprod()`,
+although the behavior was not universally reproducible. Current CRAN macOS
+builds default to the reference BLAS.
 
 So the best advice is:
 

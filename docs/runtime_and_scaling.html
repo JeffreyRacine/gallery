@@ -591,13 +591,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="macos-blaslapack-choice-can-matter" class="level2">
 <h2 class="anchored" data-anchor-id="macos-blaslapack-choice-can-matter">macOS: BLAS/LAPACK choice can matter</h2>
-<p>For some macOS users, a practical speed lever is the BLAS/LAPACK library that R is using. The choice is up to the user: current CRAN macOS R binaries ship with both the reference BLAS and Apple’s accelerated vecLib BLAS available.</p>
-<p>The official CRAN macOS FAQ notes that current CRAN R binaries can provide both:</p>
-<ul>
-<li>the reference BLAS shipped with R,</li>
-<li>and Apple Accelerate’s vecLib BLAS.</li>
-</ul>
-<p>It also notes that the active choice is controlled by the <code>libRblas.dylib</code> symlink and that <code>sessionInfo()</code> reports the BLAS in use.</p>
+<p>For the official CRAN macOS build of R (not necessarily Homebrew, Conda, or custom builds), <code>libRblas.dylib</code> selects either the reference BLAS or Apple Accelerate’s vecLib BLAS. R’s <code>libRlapack.dylib</code> remains in place and uses the selected BLAS; standard CRAN binary packages normally follow this choice.</p>
+<p>Close R and RStudio, then run in Terminal (administrator permission may be required):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Library/Frameworks/R.framework/Resources/lib</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> ln <span class="at">-sf</span> libRblas.vecLib.dylib libRblas.dylib  <span class="co"># Apple Accelerate</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># sudo ln -sf libRblas.0.dylib libRblas.dylib     # restore reference BLAS</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Start a fresh R session and verify the active BLAS with <code>sessionInfo()</code> or <code>extSoftVersion()["BLAS"]</code>.</p>
 <p>Practical takeaway:</p>
 <ul>
 <li>vecLib can speed up some linear-algebra-heavy workloads on Apple hardware,</li>
@@ -605,7 +604,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>but gains are workflow-dependent rather than universal,</li>
 <li>and for <code>np</code>, <code>npRmpi</code>, and <code>crs</code>, many expensive routes are driven as much by search, resampling, kernels, or MPI orchestration as by BLAS alone.</li>
 </ul>
-<p>There is also a real caution. Accelerate/vecLib is not fork-safe. A January 2026 <code>R-SIG-Mac</code> report describes parallel failures in some <code>mclapply()</code> workloads that call BLAS operations such as <code>crossprod()</code>. That is why the CRAN macOS default reverted to the reference BLAS in R 4.5.3, even though Accelerate can be much faster on some Apple Silicon jobs.</p>
+<p>There is also a real caution. Accelerate/vecLib can fail in fork-based workflows. A January 2026 <code>R-SIG-Mac</code> report describes failures in some <code>mclapply()</code> workloads that call BLAS operations such as <code>crossprod()</code>, although the behavior was not universally reproducible. Current CRAN macOS builds default to the reference BLAS.</p>
 <p>So the best advice is:</p>
 <ol type="1">
 <li>check the current BLAS with <code>sessionInfo()</code>,</li>
@@ -613,7 +612,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>be especially cautious if your workflow relies on fork-based parallelism.</li>
 </ol>
 <p>Beginning with the <code>0.70-4</code> release line, <code>np</code> and <code>npRmpi</code> also provide a package-level Apple Silicon acceleration control that is separate from the R BLAS/LAPACK symlink above:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">np.macMseries.accelerate =</span> <span class="st">"auto"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">np.macMseries.accelerate =</span> <span class="st">"auto"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The default <code>"auto"</code> uses Accelerate/vDSP/vForce fast paths for eligible Gaussian-kernel and weighted-reduction computations only when the package was built for macOS arm64 with Accelerate support. On other platforms, or when those symbols are not available, the packages use the ordinary portable code path. Users can set the option to <code>TRUE</code> to request these routes when available, or to <code>FALSE</code> to disable them for timing or diagnostic comparisons. In <code>npRmpi</code>, the active value is synchronized to MPI workers in autodispatch sessions.</p>
 <p>Accelerated and portable paths can use different math-library kernels or summation orders. Compare them with a numerical tolerance; reserve exact equality for controlled runs using the same acceleration setting.</p>
 <p>Official references:</p>
@@ -668,8 +667,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="crs-quiet-runs" class="level2">
 <h2 class="anchored" data-anchor-id="crs-quiet-runs"><code>crs</code>: quiet runs</h2>
 <p>For quiet runs:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Silence routine crs status messages in a controlled batch run</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">crs.messages =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Silence routine crs status messages in a controlled batch run</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">crs.messages =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For the more package-specific version of this advice, see <a href="./spline_search_and_tuning.html">Spline Search and Tuning</a>.</p>
 </section>
 <section id="practical-triage" class="level2">
