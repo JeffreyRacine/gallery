@@ -33,7 +33,7 @@ mpi.bcast.Robj2slave(sample.B)
 
 ## A consistent density equality test example
 
-t <- system.time(mpi.bcast.cmd(output <- npdeneqtest(sample.A,sample.B,boot.num=99),
+t <- system.time(mpi.bcast.cmd(output <- npdeneqtest(sample.A,sample.B,B=99),
                                caller.execute=TRUE))
 
 output

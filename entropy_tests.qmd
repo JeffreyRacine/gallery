@@ -51,7 +51,7 @@ sample_A <- data.frame(a = rnorm(n),
 sample_B <- data.frame(a = rnorm(n),
   b = factor(rbinom(n, 2, 0.5)))
 
-npdeneqtest(sample_A, sample_B, boot.num = 99)
+npdeneqtest(sample_A, sample_B, B = 99)
 ```
 
 The two data frames should have matching variable names and compatible structure.
@@ -69,7 +69,7 @@ n <- 1000
 x <- rnorm(n)
 y <- rnorm(n)
 
-npunitest(x, y, boot.num = 99)
+npunitest(x, y, B = 99)
 ```
 
 It also works with discrete data, not just continuous data.
@@ -86,7 +86,7 @@ set.seed(1234)
 n <- 100
 y <- rnorm(n)
 
-npsymtest(y, boot.num = 99)
+npsymtest(y, B = 99)
 ```
 
 For bootstrap choice, `iid` is the simple resampling route, while block-based choices are relevant when serial dependence matters.
@@ -105,7 +105,7 @@ x <- rnorm(n)
 y <- 1 + x + rnorm(n)
 model <- lm(y ~ x)
 
-npdeptest(y, fitted(model), boot.num = 99, method = "summation")
+npdeptest(y, fitted(model), B = 99, method = "summation")
 ```
 
 For actual applications, the integration-based route remains the stronger default.
@@ -130,7 +130,7 @@ ar_series <- function(phi, epsilon) {
 }
 
 yt <- ar_series(0.95, rnorm(100))
-npsdeptest(yt, lag.num = 2, boot.num = 99, method = "summation")
+npsdeptest(yt, lag.num = 2, B = 99, method = "summation")
 ```
 
 Again, the fast summation version is useful for illustration, but not the first choice for serious empirical work.

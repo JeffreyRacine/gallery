@@ -17,7 +17,7 @@ sample.B <- data.frame(x=rnorm(n))
 
 ## A consistent density equality test example
 
-t <- system.time(output <- npdeneqtest(sample.A,sample.B,boot.num=99))
+t <- system.time(output <- npdeneqtest(sample.A,sample.B,B=99))
 
 output
 

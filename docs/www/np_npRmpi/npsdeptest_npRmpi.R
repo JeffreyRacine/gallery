@@ -47,7 +47,7 @@ mpi.bcast.Robj2slave(yt)
 
 t <- system.time(mpi.bcast.cmd(output <- npsdeptest(yt,
                                                     lag.num=2,
-                                                    boot.num=399,
+                                                    B=399,
                                                     method="summation"),
                                caller.execute=TRUE))
 

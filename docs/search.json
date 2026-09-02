@@ -1885,7 +1885,7 @@
     "href": "entropy_tests.html#equality-of-multivariate-densities-npdeneqtest",
     "title": "Entropy and Testing",
     "section": "Equality of multivariate densities: npdeneqtest",
-    "text": "Equality of multivariate densities: npdeneqtest\nUse npdeneqtest when you want to compare two multivariate samples, including settings with a mixture of continuous and categorical variables.\n## Compare two multivariate samples with matching mixed-data structure\nlibrary(np)\nset.seed(1234)\n\nn &lt;- 250\nsample_A &lt;- data.frame(a = rnorm(n),\n  b = factor(rbinom(n, 2, 0.5)))\nsample_B &lt;- data.frame(a = rnorm(n),\n  b = factor(rbinom(n, 2, 0.5)))\n\nnpdeneqtest(sample_A, sample_B, boot.num = 99)\nThe two data frames should have matching variable names and compatible structure.",
+    "text": "Equality of multivariate densities: npdeneqtest\nUse npdeneqtest when you want to compare two multivariate samples, including settings with a mixture of continuous and categorical variables.\n## Compare two multivariate samples with matching mixed-data structure\nlibrary(np)\nset.seed(1234)\n\nn &lt;- 250\nsample_A &lt;- data.frame(a = rnorm(n),\n  b = factor(rbinom(n, 2, 0.5)))\nsample_B &lt;- data.frame(a = rnorm(n),\n  b = factor(rbinom(n, 2, 0.5)))\n\nnpdeneqtest(sample_A, sample_B, B = 99)\nThe two data frames should have matching variable names and compatible structure.",
     "crumbs": [
       "Methods",
       "Entropy and Testing"
@@ -1896,7 +1896,7 @@
     "href": "entropy_tests.html#equality-of-univariate-densities-npunitest",
     "title": "Entropy and Testing",
     "section": "Equality of univariate densities: npunitest",
-    "text": "Equality of univariate densities: npunitest\nUse npunitest when the problem is one-dimensional and you want to compare two univariate densities or probability functions.\n## Compare two one-dimensional samples directly\nlibrary(np)\nset.seed(1234)\n\nn &lt;- 1000\nx &lt;- rnorm(n)\ny &lt;- rnorm(n)\n\nnpunitest(x, y, boot.num = 99)\nIt also works with discrete data, not just continuous data.",
+    "text": "Equality of univariate densities: npunitest\nUse npunitest when the problem is one-dimensional and you want to compare two univariate densities or probability functions.\n## Compare two one-dimensional samples directly\nlibrary(np)\nset.seed(1234)\n\nn &lt;- 1000\nx &lt;- rnorm(n)\ny &lt;- rnorm(n)\n\nnpunitest(x, y, B = 99)\nIt also works with discrete data, not just continuous data.",
     "crumbs": [
       "Methods",
       "Entropy and Testing"
@@ -1907,7 +1907,7 @@
     "href": "entropy_tests.html#asymmetry-testing-npsymtest",
     "title": "Entropy and Testing",
     "section": "Asymmetry testing: npsymtest",
-    "text": "Asymmetry testing: npsymtest\nnpsymtest is aimed at the null of symmetry about a center such as the mean. This is useful for univariate data and can also be used for time series.\n## Test a simple univariate sample for symmetry\nlibrary(np)\nset.seed(1234)\n\nn &lt;- 100\ny &lt;- rnorm(n)\n\nnpsymtest(y, boot.num = 99)\nFor bootstrap choice, iid is the simple resampling route, while block-based choices are relevant when serial dependence matters.",
+    "text": "Asymmetry testing: npsymtest\nnpsymtest is aimed at the null of symmetry about a center such as the mean. This is useful for univariate data and can also be used for time series.\n## Test a simple univariate sample for symmetry\nlibrary(np)\nset.seed(1234)\n\nn &lt;- 100\ny &lt;- rnorm(n)\n\nnpsymtest(y, B = 99)\nFor bootstrap choice, iid is the simple resampling route, while block-based choices are relevant when serial dependence matters.",
     "crumbs": [
       "Methods",
       "Entropy and Testing"
@@ -1918,7 +1918,7 @@
     "href": "entropy_tests.html#pairwise-nonlinear-dependence-npdeptest",
     "title": "Entropy and Testing",
     "section": "Pairwise nonlinear dependence: npdeptest",
-    "text": "Pairwise nonlinear dependence: npdeptest\nUse npdeptest when you want a nonparametric measure or test of dependence between two variables. One natural use is to compare observed values with fitted or predicted values.\n## Compare observed values with fitted values using a dependence test\nlibrary(np)\nset.seed(123)\n\nn &lt;- 100\nx &lt;- rnorm(n)\ny &lt;- 1 + x + rnorm(n)\nmodel &lt;- lm(y ~ x)\n\nnpdeptest(y, fitted(model), boot.num = 99, method = \"summation\")\nFor actual applications, the integration-based route remains the stronger default.",
+    "text": "Pairwise nonlinear dependence: npdeptest\nUse npdeptest when you want a nonparametric measure or test of dependence between two variables. One natural use is to compare observed values with fitted or predicted values.\n## Compare observed values with fitted values using a dependence test\nlibrary(np)\nset.seed(123)\n\nn &lt;- 100\nx &lt;- rnorm(n)\ny &lt;- 1 + x + rnorm(n)\nmodel &lt;- lm(y ~ x)\n\nnpdeptest(y, fitted(model), B = 99, method = \"summation\")\nFor actual applications, the integration-based route remains the stronger default.",
     "crumbs": [
       "Methods",
       "Entropy and Testing"
@@ -1929,7 +1929,7 @@
     "href": "entropy_tests.html#nonlinear-serial-dependence-npsdeptest",
     "title": "Entropy and Testing",
     "section": "Nonlinear serial dependence: npsdeptest",
-    "text": "Nonlinear serial dependence: npsdeptest\nUse npsdeptest when the question is serial independence in a univariate series.\n## Test a short series for nonlinear serial dependence\nlibrary(np)\nset.seed(123)\n\nar_series &lt;- function(phi, epsilon) {\n  n &lt;- length(epsilon)\n  y &lt;- numeric(n)\n  y[1] &lt;- epsilon[1] / (1 - phi)\n  for (i in 2:n) {\n    y[i] &lt;- phi * y[i - 1] + epsilon[i]\n  }\n  y\n}\n\nyt &lt;- ar_series(0.95, rnorm(100))\nnpsdeptest(yt, lag.num = 2, boot.num = 99, method = \"summation\")\nAgain, the fast summation version is useful for illustration, but not the first choice for serious empirical work.",
+    "text": "Nonlinear serial dependence: npsdeptest\nUse npsdeptest when the question is serial independence in a univariate series.\n## Test a short series for nonlinear serial dependence\nlibrary(np)\nset.seed(123)\n\nar_series &lt;- function(phi, epsilon) {\n  n &lt;- length(epsilon)\n  y &lt;- numeric(n)\n  y[1] &lt;- epsilon[1] / (1 - phi)\n  for (i in 2:n) {\n    y[i] &lt;- phi * y[i - 1] + epsilon[i]\n  }\n  y\n}\n\nyt &lt;- ar_series(0.95, rnorm(100))\nnpsdeptest(yt, lag.num = 2, B = 99, method = \"summation\")\nAgain, the fast summation version is useful for illustration, but not the first choice for serious empirical work.",
     "crumbs": [
       "Methods",
       "Entropy and Testing"
