@@ -13,11 +13,11 @@ par(mfrow = c(2, 2))
 plot(fit_npreg, errors = "bootstrap", band = "all", B = 9999)
 plot(fit_npreg,
      errors = "bootstrap", band = "all", B = 9999,
-     gradients = TRUE, gradient_order = 1)
+     gradients = TRUE, gradient.order = 1)
 plot(fit_npreg,
      errors = "bootstrap", band = "all", B = 9999,
-     gradients = TRUE, gradient_order = 2)
+     gradients = TRUE, gradient.order = 2)
 plot(fit_npreg,
      errors = "bootstrap", band = "all", B = 9999,
-     gradients = TRUE, gradient_order = 3)
+     gradients = TRUE, gradient.order = 3)
 
