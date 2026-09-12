@@ -14,9 +14,18 @@ u <- -0.5 * v + eps
 w <- rnorm(n)
 z <- 0.2 * w + v
 y <- z^2 + u
+iv_dat <- data.frame(y, z, w)
 
-## Fit the nonparametric IV regression.
-fit_iv <- npregiv(y = y, z = z, w = w, method = "Tikhonov", nmulti = 1)
+## Fit through the 0.80-1 formula/data interface.
+fit_iv <- npregiv(y ~ z | w,
+  data = iv_dat,
+  method = "Tikhonov",
+  nmulti = 1)
 
-## Inspect the fitted IV object.
+## Inspect the selected structural fit and its training residuals.
 summary(fit_iv)
+head(fitted(fit_iv))
+head(residuals(fit_iv))
+
+## Use the dedicated IV plot controls for the fitted structural function.
+plot(fit_iv, data.overlay = TRUE, data.rug = TRUE)

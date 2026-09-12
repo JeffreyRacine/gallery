@@ -26,6 +26,17 @@ This page is a website-first rewrite of the old entropy vignette. The `np` packa
 
 These functions are specialized, but they fit naturally with the broader `np` philosophy: kernel-based estimation, mixed-data support where appropriate, and bootstrap-based inference when needed.
 
+As of 0.80-1, the public bootstrap-count argument is consistently named `B`
+throughout this family. The former `boot.num` input is retired; the examples
+below already use the current spelling.
+
+Default fixed-Gaussian integration uses bounded deterministic
+corrected-trapezoid quadrature and no longer depends on `cubature`. Eligible
+summation and bootstrap work uses bounded native batches rather than retaining
+an $n \times n$ pair cache. Long-running phases report completed work, elapsed
+time, and an ETA once enough progress has been observed, then clear the
+transient display on completion or failure.
+
 ## A practical warning
 
 Some of these procedures rely on numerical integration and bootstrap resampling. They can therefore be slow.

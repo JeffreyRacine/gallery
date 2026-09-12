@@ -54,7 +54,17 @@ fit <- npreg(bws = bw)
 summary(fit)
 ```
 
-You can let `npreg()` perform the bandwidth selection implicitly, but for serious work it is often better to be explicit so that you can inspect the resulting bandwidth object.
+You can let `npreg()` perform the bandwidth selection implicitly, but for serious work it is often better to be explicit so that you can inspect the resulting bandwidth object. The one-call route still retains the selected bandwidth object in `fit$bws`, so you can reuse it if you later want another fitting option without repeating bandwidth search:
+
+```r
+## Search and fit in one call
+fit <- npreg(logwage ~ age, data = cps71)
+
+## Refit with gradients using exactly the same selected bandwidths
+fit_grad <- npreg(bws = fit$bws, gradients = TRUE)
+```
+
+The second call performs the requested fit and derivative calculation, but it does not rerun bandwidth selection. The same pattern applies to other estimators that retain a public `$bws` component.
 
 ## Why inspect the bandwidth object?
 
@@ -153,6 +163,22 @@ Practical note:
 - `nomad = "auto"` requires the `crs` package because NOMAD degree search is
   provided there.
 - after fitting, inspect `fit$bws$nomad.shortcut` to see the normalized preset.
+
+## Complete mixed-degree local polynomials in 0.80-1
+
+Mixed degree vectors are more flexible than assigning the same polynomial
+degree to every continuous covariate. In 0.80-1, heterogeneous generalized
+local-polynomial bases contain every admissible term subject to the
+coordinate-specific caps and declared total degree. For example,
+`degree = c(2, 1)` now includes the `x1*x2` interaction.
+
+Raw and `bernstein.basis = TRUE` fits now span the same complete polynomial
+space. Results can therefore differ from older releases when a heterogeneous
+fit was missing an interaction, while univariate and maximum-degree-one fits
+retain the same polynomial space. The familiar `regtype = "ll"` remains
+available, but is now the public degree-one alias for the same canonical raw
+local-polynomial engine used by objectives, fits, hat operators, and plot
+bootstraps.
 
 ## A small regression example
 

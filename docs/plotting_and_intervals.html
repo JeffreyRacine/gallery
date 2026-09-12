@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -14,10 +14,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -77,10 +80,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -330,7 +333,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./video_demos.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Video Demos</span></a>
   </div>
@@ -465,13 +468,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This page reflects the <code>npRmpi</code> <code>0.70-5</code> and <code>np</code> <code>0.70-5</code> releases, both available on CRAN.</p>
+<p>This page reflects the <code>npRmpi</code> <code>0.80-1</code> and <code>np</code> <code>0.80-1</code> releases, both available on CRAN.</p>
 <ul>
 <li>use <code>errors</code>, <code>bootstrap</code>, <code>band</code>, <code>alpha</code>, and <code>B</code> for the main interval controls</li>
-<li>use <code>snake_case</code> names such as <code>data_rug</code>, <code>data_overlay</code>, <code>common_scale</code>, and <code>coef_index</code></li>
+<li>use dotted names such as <code>data.rug</code>, <code>data.overlay</code>, <code>common.scale</code>, and <code>coef.index</code></li>
 <li>use <code>np_boot_control()</code>, <code>np_grid_control()</code>, and <code>np_render_control()</code> only for the remaining detailed control groups</li>
 </ul>
-<p>If you are adapting code written for releases before the 0.70-2 plot-interface redesign, the most common translation is from <code>plot.errors.*</code> names to these newer public arguments.</p>
+<p>The former underscore spellings of public plot controls are retired rather than silently translated. For example, use <code>data.rug</code>, not <code>data_rug</code>, and <code>render.control</code>, not <code>render_control</code>.</p>
+<p>In estimator calls, uncertainty is requested with <code>se = TRUE</code>; predictions use <code>se.fit = TRUE</code>, and <code>gradients(object, se = TRUE)</code> requests gradient standard errors. Plot methods deliberately retain the method-valued control <code>errors = "asymptotic"</code> or <code>errors = "bootstrap"</code>.</p>
+<p>Older plotting code that uses <code>plot.errors.*</code> names should translate those controls to the public arguments above.</p>
 </div>
 </div>
 <section id="a-simple-fitted-curve-plot" class="level2">
@@ -509,7 +514,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Use the bootstrap route when you want simulation-based intervals</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.ll, <span class="at">errors =</span> <span class="st">"bootstrap"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Current <code>np</code> and <code>npRmpi</code> releases also support bias-corrected bootstrap centering on the supported fixed-bandwidth plot families. Unsupported routes fail explicitly rather than silently drawing a different interval.</p>
-<p>The 0.70-5 release also reduces public-facing bootstrap memory use for single-index, conditional-mode, and partially-linear plots. Their ordinary default evaluation grids grow linearly with the training sample size; an explicit request such as <code>neval = ntrain</code> remains under user control and can still be substantially heavier.</p>
+<p>For fixed-bandwidth conditional density/distribution and gradient plots, the bias-corrected center uses a mixed-data pilot matched to the selected response and conditioning kernels and retains the selected LC/LL/LP estimator. These explicitly requested centers can differ from earlier releases; ordinary fitted values and estimate-centered bootstrap variability draws are unchanged.</p>
+<p>Current bootstrap implementations avoid unnecessary public-facing quadratic storage on ordinary default grids. The default evaluation grids for single-index, conditional-mode, and partially-linear plots grow linearly with the training sample size; an explicit request such as <code>neval = ntrain</code> remains under user control and can still be substantially heavier. Fixed local-polynomial plot bootstraps use a shared count-compressed, bounded-ridge response solver across the supported regression and conditional families. Long bootstrap plots retain one call-scoped elapsed clock and provide an approximate overall ETA across scheduled targets.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Ask supported bootstrap plots to use bias-corrected centers</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.ll,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">errors =</span> <span class="st">"bootstrap"</span>,</span>
@@ -518,7 +524,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="interactive-rgl-rendering-and-rugs" class="level2">
 <h2 class="anchored" data-anchor-id="interactive-rgl-rendering-and-rugs">Interactive <code>rgl</code> rendering and rugs</h2>
-<p>When <code>rgl</code> is installed, plot methods can also render interactive 3D surfaces via <code>renderer = "rgl"</code>. That gives you a manipulable display: drag with the mouse to rotate and use the scroll wheel to zoom. The same plotting surface now also supports 1D/2D rugs and data-overlay controls via the direct <code>data_rug</code> and <code>data_overlay</code> arguments.</p>
+<p>When <code>rgl</code> is installed, plot methods can also render interactive 3D surfaces via <code>renderer = "rgl"</code>. That gives you a manipulable display: drag with the mouse to rotate and use the scroll wheel to zoom. The same plotting surface now also supports 1D/2D rugs and data-overlay controls via the direct <code>data.rug</code> and <code>data.overlay</code> arguments.</p>
+<p>The current widget uses a high-DPI-aware canvas and construction-aware interval legends while preserving ordinary <code>rgl.*</code> overrides.</p>
 <p>These are best viewed in RStudio, where the interactive surface appears in the Viewer pane rather than the Plot pane.</p>
 <p>If you want a minimal runnable script for this route, use <a href="www/np_npRmpi/np_rgl_quickstart.R">np_rgl_quickstart.R</a>.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit a small bivariate model, then draw it with the interactive renderer</span></span>
@@ -533,8 +540,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">view =</span> <span class="st">"fixed"</span>,</span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">renderer =</span> <span class="st">"rgl"</span>,</span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">errors =</span> <span class="st">"asymptotic"</span>,</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_overlay =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_rug =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">data.overlay =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">data.rug =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The same renderer is also useful for conditional density/distribution surfaces when you want to inspect shape changes interactively rather than through a fixed static viewpoint.</p>
 </section>
 <section id="partial-regression-plots" class="level2">

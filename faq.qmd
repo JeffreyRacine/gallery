@@ -61,6 +61,73 @@ This remains a sensible command:
 update.packages(checkBuilt = TRUE, ask = FALSE)
 ```
 
+## What should I check when moving to 0.80-1? {#what-should-i-check-when-moving-to-080-1}
+
+If you are updating from `0.70-5`, the main user-facing migrations in `np` and
+`npRmpi` are compact:
+
+- use `B` rather than `boot.num` in `npcmstest()`, `npqcmstest()`,
+  `npdeneqtest()`, `npdeptest()`, `npsdeptest()`, `npsigtest()`, `npsymtest()`,
+  `npunitest()`, and `npindex()`; the existing `$boot.num` result field is
+  unchanged,
+- replace underscore plot controls with their dotted spellings, including
+  `data.overlay`, `data.rug`, `factor.boxplot`, `boxplot.outliers`,
+  `coef.index`, `common.scale`, `proper.method`, `proper.control`,
+  `boot.control`, `grid.control`, and `render.control`,
+- request fit-time uncertainty with `se = TRUE`; the default is `FALSE` for
+  `npreg()`, `npscoef()`, `nplsqreg()`, `npudens()`, `npudist()`, `npcdens()`,
+  `npcdist()`, `npplreg()`, `npqreg()`, `npconmode()`, and `npcopula()`,
+- treat `npindex()` as the deliberate exception: it defaults to
+  `se = TRUE, se.type = "asymptotic"`; use `se = FALSE` for a point-only fit or
+  `se.type = "bootstrap"` for bootstrap fitted-value and gradient errors,
+- use `se.fit = TRUE` for prediction uncertainty and
+  `gradients(object, se = TRUE)` for stored gradient standard errors; public
+  extractors do not perform a hidden refit when the requested state is absent,
+- use `gradient.order` for derivative order; the `gradient_order` alias is
+  retired,
+- keep using method-valued plot controls such as `errors = "asymptotic"` and
+  `errors = "bootstrap"`; only the former Boolean estimator argument named
+  `errors` has been retired,
+- replace the removed experimental `nptgauss()` and truncated-Gaussian kernel
+  with a supported Gaussian, Epanechnikov, or uniform route.
+
+The instrumental-regression methods are also substantially more conventional:
+`npregiv()` and `npregivderiv()` now accept formula/data calls, return objects
+with `summary()`, `fitted()`, `residuals()`, `gradients()`, and dedicated plot
+methods, and reject unsupported nearest-neighbour bandwidths early. Their plot
+controls are now `gradients`, `data.overlay`, and `data.rug`; the experimental
+`plot.data`, `deriv`, and `phi` switches are retired. `npregivderiv()` now
+defaults to local-linear estimation when `regtype` is omitted, which can change
+results relative to older calls that relied on the former local-constant
+behavior. IV evaluation is requested when fitting; post-fit `predict()` is not
+currently available for these two `np` estimators.
+
+Principal estimators and bandwidth selectors now reject unknown named arguments
+instead of silently accepting them through `...`, so a newly exposed spelling
+error is usually an actionable migration message rather than a numerical
+failure.
+
+Some corrected edge contracts can also change affected numerical results.
+These include heterogeneous polynomial-degree fits, positive-degree
+categorical effects, uniform nearest-neighbour boundary cases, ordered
+Wang--van Ryzin distribution estimates, explicit fixed-bandwidth
+bias-corrected plot centers, and several requested standard-error routes.
+These are targeted corrections rather than a change to unaffected estimators.
+
+## Why can an external evaluation row return `NA`?
+
+If every computed explanatory-kernel weight is zero, or a required
+normalization is non-finite, the affected regression, conditional,
+quantile/mode, single-index, smooth-coefficient, and hat routes return `NA` for
+the external row and issue one consolidated notice. Defined rows in the same
+call remain available.
+
+This most often means that a compact-support evaluation point lies too far from
+the training support for the selected bandwidth. Check the evaluation grid and
+the fitted bandwidth object before deciding whether a larger bandwidth or a
+different supported kernel is scientifically appropriate. The package does not
+invent a numerical floor or a fabricated estimate for that row.
+
 ## Where is the gentlest introduction to the packages?
 
 Use the package vignettes and then the gallery pages.
@@ -156,6 +223,16 @@ fit <- npreg(bws = bw)
 ```
 
 Working explicitly this way makes it easier to inspect the chosen bandwidths, reuse them, and avoid unnecessary recomputation.
+
+If you instead begin with a single high-level estimator call, the fitted object retains its selected bandwidth object. Reuse that `$bws` component when you later want another option without repeating the search:
+
+```r
+## Search and fit first; later request gradients without searching again
+fit <- npreg(y ~ x1 + x2, data = mydat)
+fit_grad <- npreg(bws = fit$bws, gradients = TRUE)
+```
+
+This reruns only the fitting work needed for the new request, not bandwidth optimization.
 
 For the broader runtime side of this issue, see [Runtime, Memory, and Scaling](runtime_and_scaling.qmd).
 

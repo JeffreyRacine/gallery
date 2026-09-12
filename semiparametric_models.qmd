@@ -59,7 +59,7 @@ A semiparametric model is often attractive when:
 
 The partially linear model is useful when some regressors can reasonably enter linearly while another part of the relationship is left nonparametric.
 
-In the old `wage1` example, the idea was to treat some regressors parametrically while allowing experience to enter nonparametrically.
+In the `wage1` example, the idea is to treat some regressors parametrically while allowing experience to enter nonparametrically.
 
 ```r
 ## Keep some regressors linear while letting experience vary nonparametrically
@@ -76,6 +76,11 @@ summary(model_pl)
 Bandwidth selection for partially linear models can be much more expensive than users expect. The model looks simpler than a fully nonparametric regression, but the bandwidth selection problem can be substantially more burdensome because several cross-validated regressions are involved under the hood.
 
 So the practical rule is: do not assume that “partially linear” means “cheap”.
+
+`npplreg()` defaults to `se = FALSE`. Request `se = TRUE` when you need
+`coef(model, se = TRUE)` or `vcov(model)`; the retained coefficient covariance
+allows conditional heteroskedasticity. Prediction errors and asymptotic plots
+request their required uncertainty separately.
 
 ## Single-index models: `npindex`
 
@@ -126,12 +131,22 @@ The single-index route can be appealing when you want more flexibility than a pa
 
 ### Interpreting and tuning the single index
 
-The 0.70-5 release substantially reworks the Ichimura and Klein-Spady
-objectives so they reuse the established `npreg` leave-one-out backend where
-appropriate. Bounded continuous-kernel choices are also carried consistently
-through fitting, evaluation, variance, and bootstrap routes. In `npRmpi`, the
-post-CV fit, evaluation, and gradient work is distributed across evaluation
-rows in an active session.
+`npindex()` is the one principal estimator that defaults to
+`se = TRUE, se.type = "asymptotic"`, providing asymptotic coefficient covariance
+and fitted-value standard errors. Set `se = FALSE` for a point-only fit when
+that extra work is not needed. Selecting `se.type = "bootstrap"` uses `B` for
+fitted-value, gradient, and average-gradient errors; coefficient covariance
+remains asymptotic in either mode.
+
+With a local-constant uniform kernel, the link derivative is zero and cannot
+provide covariance for free index coefficients. Use `se = FALSE` when only the
+point estimate is required for that configuration.
+
+The Ichimura and Klein-Spady objectives reuse the established `npreg`
+leave-one-out backend where appropriate, and `npRmpi` distributes post-CV fit,
+evaluation, and gradient work across evaluation rows. Fixed-bandwidth restarts,
+nearest-neighbour metadata, objective certification, and retained formula data
+are tightly validated.
 
 The coefficient vector is identified only up to scale, so `npindexbw()`
 normalizes its first coefficient to one. Read the remaining coefficients as
@@ -150,7 +165,7 @@ runtime alone.
 
 A varying coefficient model lets the effective coefficients change with another variable. This is useful when you believe the regression effect itself varies systematically across a conditioning variable.
 
-In the old `wage1` illustration, coefficients were allowed to vary with sex.
+In the `wage1` illustration, coefficients are allowed to vary with sex.
 
 ```r
 ## Create numeric coefficient variables, then let them vary with sex
@@ -168,7 +183,19 @@ model_scoef <- npscoef(lwage ~ dfemale + dmarried + educ + exper + tenure | fema
 summary(model_scoef)
 ```
 
-One practical detail from the older vignette still matters: the `X` variables in the varying-coefficient part need to be numeric, so creating explicit `0/1` versions of factors can be appropriate there.
+One practical detail matters: the `X` variables in the varying-coefficient part need to be numeric, so creating explicit `0/1` versions of factors can be appropriate there.
+
+## Instrumental regression
+
+The proof-of-concept `npregiv()` and `npregivderiv()` estimators now support
+explicit formula/data interfaces. Use `y ~ z | w` for a response, endogenous
+regressor, and instrument; `npregiv()` also supports `y ~ z | w | x` when
+separate exogenous covariates are present. The returned objects have dedicated
+summary, fitted-value, residual, gradient, and plot methods. Evaluation grids
+are supplied during fitting rather than through post-fit prediction, and the
+current IV estimators support fixed rather than nearest-neighbour bandwidths.
+
+Start with the [instrumental-regression quickstart](www/np_npRmpi/np_instrumental_regression_quickstart.R).
 
 ## Hat and operator helpers
 
@@ -180,11 +207,12 @@ an explicit matrix, apply the operator without asking users to reconstruct it,
 or produce the transposed response-weighted `output = "constraint"` form used
 in constrained estimation.
 
-In 0.70-5, `npreghat()` also tightens generalized-nearest-neighbor and
-local-constant derivative ownership. For mixed polynomial degrees, available
-derivative components are routed through the correct operator and unavailable
-components are reported explicitly rather than silently applying a different
-derivative.
+`npreghat()` uses the canonical local-polynomial rank and bounded-ridge policy
+shared by the hat, fit, objective, and bootstrap routes. Generalized-nearest-
+neighbor and local-constant derivative ownership is validated explicitly. For
+mixed polynomial degrees, available derivative components are routed through
+the correct operator and unavailable components are reported explicitly rather
+than silently applying a different derivative.
 
 The constrained local-polynomial scripts in the [Code Catalog](code_catalog.qmd)
 show the practical `npreghat()` workflow.

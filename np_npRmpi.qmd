@@ -84,7 +84,11 @@ When you move beyond the single-regressor case, the next useful stop is usually 
 ## Instrumental regression: `npregiv`
 
 When endogeneity is the main issue, `np` also provides a nonparametric
-instrumental-regression route via `npregiv`.
+instrumental-regression route via `npregiv`. In 0.80-1, `npregiv()` and
+`npregivderiv()` accept formula/data calls and return fitted objects with
+dedicated summary, fitted-value, residual, gradient, and plot methods. Supply
+evaluation values during fitting; post-fit prediction is deliberately not
+available for these proof-of-concept estimators.
 
 Source file: [np_instrumental_regression_quickstart.R](www/np_npRmpi/np_instrumental_regression_quickstart.R)
 

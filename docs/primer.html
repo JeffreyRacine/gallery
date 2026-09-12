@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -14,10 +14,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -77,10 +80,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -330,7 +333,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./video_demos.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Video Demos</span></a>
   </div>
@@ -407,7 +410,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#a-practical-rule-of-thumb" id="toc-a-practical-rule-of-thumb" class="nav-link active" data-scroll-target="#a-practical-rule-of-thumb">A practical rule of thumb</a></li>
-  <li><a href="#recent-extensions" id="toc-recent-extensions" class="nav-link" data-scroll-target="#recent-extensions">Recent Extensions</a></li>
+  <li><a href="#current-capabilities" id="toc-current-capabilities" class="nav-link" data-scroll-target="#current-capabilities">Current Capabilities</a></li>
   <li><a href="#common-routes" id="toc-common-routes" class="nav-link" data-scroll-target="#common-routes">Common routes</a>
   <ul class="collapse">
   <li><a href="#i-want-a-simple-first-success" id="toc-i-want-a-simple-first-success" class="nav-link" data-scroll-target="#i-want-a-simple-first-success">I want a simple first success</a></li>
@@ -492,21 +495,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Use <code>crs</code> when spline bases, shape restrictions, or spline-specific methods are the natural fit.</li>
 </ul>
 </section>
-<section id="recent-extensions" class="level2">
-<h2 class="anchored" data-anchor-id="recent-extensions">Recent Extensions</h2>
+<section id="current-capabilities" class="level2">
+<h2 class="anchored" data-anchor-id="current-capabilities">Current Capabilities</h2>
 <ul>
-<li><a href="./runtime_and_scaling.html">Runtime, Memory, and Scaling</a>: <code>np</code> and <code>npRmpi</code> <code>0.70-5</code> substantially rework single-index objective evaluation, harden mixed-degree derivatives and formula/data reentry, reduce plot-bootstrap memory use, and strengthen serial/MPI parity across conditional, quantile, mode, copula, and semiparametric routes.</li>
-<li><a href="./crs.html">Splines</a>: <code>crs</code> <code>0.15-45</code> aligns spline plotting with the current named <code>np</code>/<code>npRmpi</code> interface, adds route-aware NOMAD budget controls, reports elapsed time and cache diagnostics more clearly, and improves mixed-data cross-validation performance.</li>
-<li><a href="./np_npRmpi.html">Kernel Methods</a>: <code>np</code> and <code>npRmpi</code> now expose local polynomial capability across the conditional family, together with joint degree and bandwidth selection for mixed data, gradient support throughout the conditional estimators, and derivative estimation of arbitrarily high order, limited only by the selected polynomial degree whether set manually or chosen automatically for the underlying smoothness class.</li>
-<li><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>: bounded-kernel conditional density and distribution routes are now available when support bounds are known or when practical unknown-bound proxies are appropriate, and <code>proper = TRUE</code> now supports proper LP conditional density/distribution estimates when degree exceeds zero.</li>
-<li><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>: <code>nplsqreg</code> and <code>nplsqregbw</code> now add a first-class location-scale quantile workflow, with formula and bandwidth-object routes, scalar or vector <code>tau</code>, prediction, residuals, summaries, plot routes, and the same NOMAD-enabled LP search style where supported.</li>
-<li><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>: <code>npqreg</code> now behaves like a first-class estimator, with direct formula support, automatic <code>npcdistbw()</code> selection when <code>bws</code> is omitted, vector <code>tau</code>, gradients, standard errors, and <code>nomad = "auto"</code> pass-through for local-polynomial degree-and-bandwidth search.</li>
-<li><a href="./classification_modes.html">Classification and Modes</a>: <code>npconmode</code> is now a first-class estimator too, with direct formula/data/newdata routes, automatic <code>npcdensbw()</code> selection when <code>bws</code> is omitted, probability and gradient support, mirrored degree/search metadata, and <code>nomad = "auto"</code> pass-through for local-polynomial degree-and-bandwidth search.</li>
-<li><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>: <code>npcopula</code> is now a first-class estimator too, with a direct formula interface, automatic <code>npudistbw()</code> or <code>npudensbw()</code> selection when <code>bws</code> is omitted, and automatic two-dimensional probability-grid construction for the default copula grid route.</li>
-<li><a href="./semiparametric_models.html">Semiparametric Models</a>: <code>npreghat</code>, <code>npindexhat</code>, <code>npplreghat</code>, and <code>npscoefhat</code> now simplify constrained nonparametric and semiparametric estimation by exposing one-call hat-matrix operator routes in place of much of the older manual matrix-construction workflow, while <code>npudenshat</code>, <code>npudisthat</code>, <code>npcdenshat</code>, and <code>npcdisthat</code> extend the same operator style to the density/distribution family.</li>
-<li><a href="./regression.html">Worked Examples</a>: Bonferroni and simultaneous variability bounds are new plotting additions, and <code>band = "all"</code> now shows them jointly with the traditional pointwise bounds.</li>
-<li><a href="./plotting_and_intervals.html">Plotting and Intervals</a>: <code>renderer = "rgl"</code> now supports interactive 3D rotation/zoom when <code>rgl</code> is installed, while <code>data_rug</code> and <code>data_overlay</code> manage rugs and observed-data overlays on supported routes.</li>
-<li><a href="./mpi_large_data.html">MPI and Large Data</a>: <code>npRmpi</code> is no longer confined to the older profile/manual-broadcast interface; current <code>session</code> and <code>attach</code> routes make <code>np</code> and <code>npRmpi</code> code much more interchangeable while preserving the profile route for users who want it.</li>
+<li><a href="./runtime_and_scaling.html">Runtime, Memory, and Scaling</a>: <code>np</code> and <code>npRmpi</code> <code>0.80-1</code> standardize bootstrap, uncertainty, and dotted plotting controls, correct heterogeneous local-polynomial bases and categorical effects, modernize instrumental-regression workflows, and strengthen numerical, memory, progress, and serial/MPI behavior across the estimator families.</li>
+<li><a href="./crs.html">Splines</a>: <code>crs</code> <code>0.15-46</code> retains the common named plotting controls and <code>crshat()</code> operator workflow, adds formula/data and S3 support for instrumental spline regression, and provides the observed NOMAD interface used by downstream degree searches.</li>
+<li><a href="./np_npRmpi.html">Kernel Methods</a>: <code>np</code> and <code>npRmpi</code> support local polynomial capability across the conditional family, together with joint degree and bandwidth selection for mixed data, gradient support throughout the conditional estimators, and derivative estimation of arbitrarily high order, limited only by the selected polynomial degree whether set manually or chosen automatically for the underlying smoothness class.</li>
+<li><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>: bounded-kernel conditional density and distribution routes cover known support bounds and practical unknown-bound proxies, while <code>proper = TRUE</code> supports proper LP conditional density/distribution estimates when degree exceeds zero.</li>
+<li><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>: <code>nplsqreg</code> and <code>nplsqregbw</code> provide a first-class location-scale quantile workflow, with formula and bandwidth-object routes, scalar or vector <code>tau</code>, prediction, residuals, summaries, plot routes, and the same NOMAD-enabled LP search style where supported.</li>
+<li><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>: <code>npqreg</code> is a first-class estimator with direct formula support, automatic <code>npcdistbw()</code> selection when <code>bws</code> is omitted, vector <code>tau</code>, gradients, standard errors, and <code>nomad = "auto"</code> pass-through for local-polynomial degree-and-bandwidth search.</li>
+<li><a href="./classification_modes.html">Classification and Modes</a>: <code>npconmode</code> is a first-class estimator with direct formula/data/newdata routes, automatic <code>npcdensbw()</code> selection when <code>bws</code> is omitted, probability and gradient support, mirrored degree/search metadata, and <code>nomad = "auto"</code> pass-through for local-polynomial degree-and-bandwidth search.</li>
+<li><a href="./density_distribution_quantiles.html">Density, Distribution, Quantiles</a>: <code>npcopula</code> is a first-class estimator with a direct formula interface, automatic <code>npudistbw()</code> or <code>npudensbw()</code> selection when <code>bws</code> is omitted, and automatic two-dimensional probability-grid construction for the default copula grid route.</li>
+<li><a href="./semiparametric_models.html">Semiparametric Models</a>: <code>npreghat</code>, <code>npindexhat</code>, <code>npplreghat</code>, and <code>npscoefhat</code> simplify constrained nonparametric and semiparametric estimation through one-call hat-matrix operator routes, while <code>npudenshat</code>, <code>npudisthat</code>, <code>npcdenshat</code>, and <code>npcdisthat</code> extend the same operator style to the density/distribution family.</li>
+<li><a href="./regression.html">Worked Examples</a>: pointwise, Bonferroni, and simultaneous variability bounds share the plotting surface, and <code>band = "all"</code> shows all three together.</li>
+<li><a href="./plotting_and_intervals.html">Plotting and Intervals</a>: <code>renderer = "rgl"</code> supports interactive 3D rotation/zoom when <code>rgl</code> is installed, while <code>data.rug</code> and <code>data.overlay</code> manage rugs and observed-data overlays on supported routes.</li>
+<li><a href="./mpi_large_data.html">MPI and Large Data</a>: <code>npRmpi</code> session and attach routes make <code>np</code> and <code>npRmpi</code> code directly interchangeable, while preserving the profile route for users who want it.</li>
 </ul>
 </section>
 <section id="common-routes" class="level2">

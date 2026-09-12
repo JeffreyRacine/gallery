@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -14,10 +14,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -77,10 +80,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -330,7 +333,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./video_demos.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Video Demos</span></a>
   </div>
@@ -406,7 +409,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-changed-in-0.70-5" id="toc-what-changed-in-0.70-5" class="nav-link active" data-scroll-target="#what-changed-in-0.70-5">What changed in 0.70-5</a></li>
+  <li><a href="#what-changed-in-0.80-1" id="toc-what-changed-in-0.80-1" class="nav-link active" data-scroll-target="#what-changed-in-0.80-1">What changed in 0.80-1</a></li>
   <li><a href="#why-can-these-methods-take-time" id="toc-why-can-these-methods-take-time" class="nav-link" data-scroll-target="#why-can-these-methods-take-time">Why can these methods take time?</a></li>
   <li><a href="#a-good-default-workflow" id="toc-a-good-default-workflow" class="nav-link" data-scroll-target="#a-good-default-workflow">A good default workflow</a></li>
   <li><a href="#np-bandwidth-selection-and-large-jobs" id="toc-np-bandwidth-selection-and-large-jobs" class="nav-link" data-scroll-target="#np-bandwidth-selection-and-large-jobs"><code>np</code>: bandwidth selection and large jobs</a></li>
@@ -464,14 +467,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>This page collects the practical advice that matters once the method is right but the run becomes slow, memory-hungry, or otherwise awkward. The goal is not to promise that every job will be cheap. The goal is to help you decide what to simplify, what to tune, and when to change execution mode.</p>
-<section id="what-changed-in-0.70-5" class="level2">
-<h2 class="anchored" data-anchor-id="what-changed-in-0.70-5">What changed in 0.70-5</h2>
-<p>The <code>np</code> and <code>npRmpi</code> 0.70-5 release concentrates on correctness, reuse, and scaling rather than requiring a new user workflow.</p>
+<section id="what-changed-in-0.80-1" class="level2">
+<h2 class="anchored" data-anchor-id="what-changed-in-0.80-1">What changed in 0.80-1</h2>
+<p>The <code>np</code> and <code>npRmpi</code> 0.80-1 release brings several previously separate computational routes under common, validated owners while simplifying a few public controls.</p>
 <ul>
-<li><code>npindex()</code> and <code>npindexbw()</code> now reuse the established <code>npreg</code> leave-one-out backend where appropriate, materially improving important high-dimensional and local-polynomial objective routes.</li>
-<li>Single-index, conditional-mode, and partially-linear plot bootstraps avoid unnecessary quadratic-size public self-maps on ordinary default grids.</li>
-<li>Formula/data reentry, mixed-degree derivatives, categorical gradients, conditional quantile/mode/copula contracts, and native cache lifecycles are more tightly validated.</li>
-<li>In <code>npRmpi</code>, post-CV single-index fitting and evaluation are distributed, exact nearest-neighbor conditional plot bootstraps match the serial route, and autodispatch state reuse is more strongly guarded.</li>
+<li>local-linear fitting is now the degree-one form of the canonical generalized local-polynomial engine, and regression fits, objectives, hat operators, and plot bootstraps share its rank and bounded-ridge decisions,</li>
+<li>heterogeneous degree vectors use the corrected complete polynomial space, so restored interactions can change affected fits relative to older releases,</li>
+<li>positive-degree categorical gradients now return fitted-value endpoint contrasts rather than zero placeholders,</li>
+<li>uncertainty is requested explicitly with <code>se</code>, <code>se.fit</code>, and <code>gradients(..., se = TRUE)</code> across the estimator families; <code>npindex()</code> is the deliberate exception and defaults to asymptotic <code>se = TRUE</code>,</li>
+<li>requested uncertainty is corrected or extended for important categorical, adaptive-nearest-neighbour, copula-density, higher-derivative, and partially-linear routes,</li>
+<li>mixed-data conditional bias centers, uniform nearest-neighbour support, and ordered Wang–van Ryzin distribution calculations use their corrected numerical contracts, while unsupported external rows fail closed locally as <code>NA</code>,</li>
+<li>entropy tests, plot bootstraps, beta kernels, and conditional objectives use additional bounded-memory or accelerated routes where eligible, and long operations provide clearer elapsed-time and ETA progress,</li>
+<li><code>npRmpi</code> strengthens rank-safe interruption, worker-state validation, master-owned progress, bootstrap work partitioning, and serial/MPI numerical parity.</li>
 </ul>
 <p>The practical advice remains familiar: use the high-level calls normally, retain expensive bandwidth objects when you will reuse them, and move to <code>npRmpi</code> when the validated serial workflow is large enough to benefit.</p>
 </section>
@@ -611,7 +618,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>benchmark a representative script before and after changing it,</li>
 <li>be especially cautious if your workflow relies on fork-based parallelism.</li>
 </ol>
-<p>Beginning with the <code>0.70-4</code> release line, <code>np</code> and <code>npRmpi</code> also provide a package-level Apple Silicon acceleration control that is separate from the R BLAS/LAPACK symlink above:</p>
+<p><code>np</code> and <code>npRmpi</code> also provide a package-level Apple Silicon acceleration control that is separate from the R BLAS/LAPACK symlink above:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">np.macMseries.accelerate =</span> <span class="st">"auto"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The default <code>"auto"</code> uses Accelerate/vDSP/vForce fast paths for eligible Gaussian-kernel and weighted-reduction computations only when the package was built for macOS arm64 with Accelerate support. On other platforms, or when those symbols are not available, the packages use the ordinary portable code path. Users can set the option to <code>TRUE</code> to request these routes when available, or to <code>FALSE</code> to disable them for timing or diagnostic comparisons. In <code>npRmpi</code>, the active value is synchronized to MPI workers in autodispatch sessions.</p>
 <p>Accelerated and portable paths can use different math-library kernels or summation orders. Compare them with a numerical tolerance; reserve exact equality for controlled runs using the same acceleration setting.</p>

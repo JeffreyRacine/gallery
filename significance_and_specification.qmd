@@ -25,6 +25,11 @@ If you want minimal downloadable scripts for the two main routes on this page, s
 - [np_significance_quickstart.R](www/np_npRmpi/np_significance_quickstart.R)
 - [np_specification_quickstart.R](www/np_npRmpi/np_specification_quickstart.R)
 
+In 0.80-1, public bootstrap counts use `B` consistently. `npsigtest()` also
+chooses pivotal statistics for continuous predictors and unstandardized
+statistics for categorical predictors by default; an explicit `pivot` choice
+still overrides that automatic policy.
+
 ## Significance testing: `npsigtest`
 
 Once a nonparametric regression model has been fitted, `npsigtest` provides a nonparametric counterpart to the familiar significance-testing mindset from parametric regression.
@@ -40,7 +45,7 @@ fit <- npreg(logwage ~ age,
   gradients = TRUE,
   data = cps71)
 
-npsigtest(fit)
+npsigtest(fit, B = 99)
 ```
 
 This is useful when you want to know whether a regressor matters without collapsing immediately back to a parametric linear model.
@@ -70,6 +75,7 @@ X <- data.frame(female = wage1$female,
 test_out <- npcmstest(model = model_ols,
   xdat = X,
   ydat = wage1$lwage,
+  B = 99,
   nmulti = 1)
 
 summary(test_out)

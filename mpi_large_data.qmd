@@ -41,14 +41,17 @@ degree search is provided there.
 In the current release line, that route now uses the native `crs` NOMAD
 runtime directly rather than the older transitional fallback path.
 
-## What 0.70-5 changes for MPI work
+## What 0.80-1 changes for MPI work
 
-The 0.70-5 release distributes post-cross-validation `npindex()` fitting,
-evaluation, and gradients across owned evaluation rows in an active MPI
-session. It also restores serial-equivalent exact-bootstrap behavior for
-adaptive and generalized nearest-neighbor conditional density/distribution
-plots, and strengthens autodispatch argument transport and bandwidth-object
-reuse checks.
+The 0.80-1 release carries the same public API changes as `np`, including `B`
+for bootstrap counts, `se`/`se.fit` for requested uncertainty, and
+`gradient.order` for derivative order. Most estimators default to
+`se = FALSE`, while `npindex()` retains the same asymptotic `se = TRUE` default
+as the serial package. It also strengthens autodispatch argument transport and
+bandwidth fingerprints, synchronizes validated seed and option state across
+ranks, reuses common conditional bootstrap centers across worker tasks, and
+improves rank-safe interruption, master-only elapsed/ETA progress, bootstrap
+work partitioning, and worker reuse.
 
 These are implementation improvements rather than new calling conventions:
 the ordinary `np`-style session workflow remains the same. When comparing
@@ -147,7 +150,7 @@ export CXX=mpicxx
 ```bash
 cd /Users/jracine/Development
 R CMD build np-npRmpi
-R CMD INSTALL npRmpi_0.70-5.tar.gz
+R CMD INSTALL npRmpi_0.80-1.tar.gz
 ```
 
 ### 4) First runtime test

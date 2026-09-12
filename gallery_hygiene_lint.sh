@@ -123,14 +123,94 @@ expect_fixed \
 
 expect_fixed \
   "$ROOT/index.qmd" \
-  '`0.70-5` are available on CRAN' \
-  "gallery overview identifies 0.70-5 as current CRAN releases"
+  '`0.80-1` are available on CRAN' \
+  "gallery overview identifies 0.80-1 as the current np release"
+
+expect_fixed \
+  "$ROOT/index.qmd" \
+  'September 11, 2026' \
+  "gallery overview records the 0.80-1 package date"
+
+expect_fixed \
+  "$ROOT/index.qmd" \
+  '`crs` `0.15-46`' \
+  "gallery overview identifies 0.15-46 as the current crs release"
 
 forbid_regex_in_tree \
-  'release[- ]candidate|public CRAN releases remain `0\.70-4`' \
-  "gallery sources contain no stale 0.70-5 pre-release status" \
+  'release[- ]candidate|public CRAN releases remain `0\.70-[45]`' \
+  "gallery sources contain no stale pre-release status" \
   "$ROOT" \
   -g '*.qmd' \
+  -g '!docs/**'
+
+CURRENT_GUIDANCE_SURFACES="
+$ROOT/index.qmd
+$ROOT/primer.qmd
+$ROOT/plotting_and_intervals.qmd
+$ROOT/semiparametric_models.qmd
+$ROOT/runtime_and_scaling.qmd
+$ROOT/npksum_custom.qmd
+"
+
+# Exact older versions remain valid in migration and reproducibility records.
+# shellcheck disable=SC2086
+forbid_regex_in_tree \
+  '0\.70-[1-5]|0\.15-45' \
+  "current guidance avoids superseded release-history framing" \
+  $CURRENT_GUIDANCE_SURFACES
+
+forbid_regex_in_tree \
+  'boot\.num[[:space:]]*=' \
+  "current gallery examples avoid the retired boot.num argument" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g '*.R' \
+  -g '!faq.qmd' \
+  -g '!docs/**'
+
+forbid_regex_in_tree \
+  'errors[[:space:]]*=[[:space:]]*(TRUE|FALSE)' \
+  "current gallery examples avoid retired Boolean estimator errors" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g '*.R' \
+  -g '!docs/**'
+
+forbid_regex_in_tree \
+  'gradient_order[[:space:]]*=' \
+  "current gallery pages avoid the retired gradient_order argument" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g '!docs/**'
+
+RETIRED_NP_PLOT_ARGUMENTS='(data_rug|data_overlay|factor_boxplot|boxplot_outliers|coef_index|common_scale|proper_method|proper_control|boot_control|grid_control|render_control|bar_num|y_vars|y_dat|pair_list)[[:space:]]*='
+
+forbid_regex_in_tree \
+  "$RETIRED_NP_PLOT_ARGUMENTS" \
+  "current np/npRmpi pages avoid retired underscore plot arguments" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g '!crs.qmd' \
+  -g '!docs/**'
+
+forbid_regex_in_tree \
+  "$RETIRED_NP_PLOT_ARGUMENTS" \
+  "current np/npRmpi scripts avoid retired underscore plot arguments" \
+  "$ROOT/www/np_npRmpi" \
+  "$ROOT/www/Regression"
+
+expect_fixed \
+  "$ROOT/faq.qmd" \
+  '`se = TRUE, se.type = "asymptotic"`' \
+  "0.80-1 migration guidance records the npindex uncertainty exception"
+
+forbid_regex_in_tree \
+  'nptgauss[[:space:]]*\(' \
+  "current gallery examples avoid the retired nptgauss interface" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g '*.R' \
+  -g '!faq.qmd' \
   -g '!docs/**'
 
 CURRENT_REGRESSION_SCRIPTS="
@@ -148,7 +228,7 @@ forbid_regex_in_tree \
 
 expect_fixed \
   "$ROOT/mpi_large_data.qmd" \
-  'R CMD INSTALL npRmpi_0.70-5.tar.gz' \
+  'R CMD INSTALL npRmpi_0.80-1.tar.gz' \
   "npRmpi source-install example uses the current release tarball"
 
 expect_fixed \

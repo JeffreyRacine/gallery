@@ -23,7 +23,7 @@ In practice, it can be used to:
 
 ## A simple local-constant example
 
-The older vignette gave a nice minimal illustration: recover a local-constant estimator directly from kernel sums.
+A concise illustration recovers a local-constant estimator directly from kernel sums.
 
 ```r
 ## Recover a local-constant fit directly from the underlying kernel sums
@@ -41,10 +41,10 @@ lines(cps71$age, fit_lc, col = "blue")
 
 This is useful because it makes the estimator construction visible rather than hiding everything inside a higher-level call.
 
-In 0.70-5, numeric `bws` input is also materialized against the supplied data
-before dispatch. This matters for custom mixed-data calculations: continuous,
-unordered, and ordered columns retain their data-aware kernel types rather than
-being treated as a default all-continuous bandwidth object.
+Numeric `bws` input is materialized against the supplied data before dispatch.
+This matters for custom mixed-data calculations: continuous, unordered, and
+ordered columns retain their data-aware kernel types rather than being treated
+as a default all-continuous bandwidth object.
 
 ## What to keep in mind
 

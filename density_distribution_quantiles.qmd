@@ -59,6 +59,21 @@ optimized conditional-distribution estimate. `npqreg()` first selects
 bandwidths for the conditional-distribution target, estimates that
 distribution, and then inverts it at the requested $\tau\in(0,1)$ values.
 
+## Requesting uncertainty deliberately
+
+The fitted density, distribution, conditional, quantile, mode, and copula
+estimators default to `se = FALSE`, so ordinary point estimation does not pay
+for uncertainty that may never be used. Request `se = TRUE` when the fitted
+object must retain supported asymptotic standard errors, use
+`predict(..., se.fit = TRUE)` for prediction errors, and use
+`gradients(object, se = TRUE)` only after fitting with the required gradient
+and uncertainty state.
+
+The public extractors read stored results; they do not launch a hidden refit.
+If uncertainty was omitted, reuse the fitted object's `$bws` component with
+`se = TRUE` to add it without repeating bandwidth selection. Explicit
+asymptotic plots request the uncertainty they need.
+
 ## Unconditional density and distribution: `npudens` and `npudist`
 
 Use these when the object of interest is the joint or marginal distribution itself rather than a regression function.
@@ -105,7 +120,7 @@ coordinates receive zero smoothing under that rule.
 
 Use these when the full conditional distribution matters, not just the conditional mean.
 
-The old GDP panel example remains helpful because the conditional distribution changes shape over time.
+The GDP panel example remains helpful because the conditional distribution changes shape over time.
 
 ```r
 ## Fit conditional density and distribution objects given the covariate
@@ -128,6 +143,34 @@ plot(Fhat, view = "fixed", main = "")
 ```
 
 This route is especially useful when the question is not simply whether the mean changes, but whether the entire distribution changes.
+
+### Numerical and uncertainty updates in 0.80-1
+
+Conditional density and distribution level plots can now construct bootstrap
+intervals when the continuous response and predictor sides use different
+kernel families or orders, including beta kernels on either side. Beta-density
+bandwidth selection also supports mixed continuous, unordered, and ordered
+data for CVML and bounded target-quadrature CVLS with fixed, generalized
+nearest-neighbour, or adaptive nearest-neighbour bandwidths and beta orders 2,
+4, 6, and 8.
+
+For positive-degree local-polynomial fits, categorical gradients and effects
+report fitted-value endpoint contrasts rather than zero placeholders.
+Local-linear and positive-degree local-polynomial conditional density,
+distribution, and quantile fits also provide requested paired
+categorical-contrast standard errors where the required influence is smooth
+and finite; unsupported cases remain explicit `NA` values.
+
+Requested adaptive-nearest-neighbour uncertainty for unconditional density and
+distribution fits accounts for donor-specific radii on qualified regular
+interior ranks. Fixed-bandwidth copula-density uncertainty includes the joint
+covariance with its marginal density estimates. Unqualified boundary or
+degenerate cases retain their point estimates and report unavailable standard
+errors rather than silently applying a different formula.
+
+Ordered distribution estimates use the corrected Wang--van Ryzin cumulative
+upper tail. Readers reproducing results from an earlier release should expect
+affected ordered-CDF estimates and cross-validation values to change.
 
 ## Practitioner-oriented extras
 
@@ -320,7 +363,10 @@ plot(qfit)
 
 As with the other LP-capable conditional families, `nomad = "auto"` can also be
 used on supported continuous-data routes when you want automatic
-degree-and-bandwidth search in the same high-level call.
+degree-and-bandwidth search in the same high-level call. For `nplsqreg`, a
+one-dimensional smoothing problem evaluates the complete requested degree
+lattice and jointly optimizes the bandwidth and `delta` at each degree;
+higher-dimensional problems use the NOMAD/Powell policy.
 
 For vector `tau`, the location-scale fits are estimated independently. Their
 asymptotic standard errors are conditional on the selected bandwidths, pilot

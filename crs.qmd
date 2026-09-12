@@ -17,11 +17,13 @@ source("site_helpers.R", local = knitr::knit_global())
 
 Use `crs` when regression splines, shape restrictions, or spline-specific workflows are the natural tool rather than kernel estimators.
 
-As of `crs` `0.15-45`, spline plotting uses the same named-control style as
+As of `crs` `0.15-46`, spline plotting uses the same named-control style as
 `np` and `npRmpi`. For ordinary fitted curves and two-continuous-predictor
 surfaces, use `plot(model, ...)` directly rather than manually building
 evaluation grids. The companion `crshat()` helper gives constrained spline
 examples the same one-call hat-operator style used by the kernel packages.
+This release also adds formula/data and selected-state S3 workflows for
+`crsiv()` and `crsivderiv()`.
 
 ## First stop
 
@@ -71,7 +73,10 @@ want that style of example, start with
 
 ## Instrumental spline regression: `crsiv`
 
-For spline-based instrumental regression, `crs` provides `crsiv`.
+For spline-based instrumental regression, `crs` provides `crsiv` and
+`crsivderiv`. The current training-grid interface accepts `y ~ z | w` and,
+where supported, `y ~ z | w | x`; fitted objects support structured summaries,
+fitted values, residuals, and selected-state prediction.
 
 Source file: [crs_iv_quickstart.R](www/crs/crs_iv_quickstart.R)
 

@@ -19,6 +19,7 @@ X <- data.frame(x = x)
 test_out <- npcmstest(model = model_ols,
   xdat = X,
   ydat = y,
+  B = 99,
   nmulti = 1)
 
 ## Inspect both the linear fit and the specification test.

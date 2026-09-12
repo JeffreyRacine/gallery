@@ -14,22 +14,35 @@ keywords:
 
 This page collects the practical advice that matters once the method is right but the run becomes slow, memory-hungry, or otherwise awkward. The goal is not to promise that every job will be cheap. The goal is to help you decide what to simplify, what to tune, and when to change execution mode.
 
-## What changed in 0.70-5
+## What changed in 0.80-1
 
-The `np` and `npRmpi` 0.70-5 release concentrates on correctness, reuse, and
-scaling rather than requiring a new user workflow.
+The `np` and `npRmpi` 0.80-1 release brings several previously separate
+computational routes under common, validated owners while simplifying a few
+public controls.
 
-- `npindex()` and `npindexbw()` now reuse the established `npreg`
-  leave-one-out backend where appropriate, materially improving important
-  high-dimensional and local-polynomial objective routes.
-- Single-index, conditional-mode, and partially-linear plot bootstraps avoid
-  unnecessary quadratic-size public self-maps on ordinary default grids.
-- Formula/data reentry, mixed-degree derivatives, categorical gradients,
-  conditional quantile/mode/copula contracts, and native cache lifecycles are
-  more tightly validated.
-- In `npRmpi`, post-CV single-index fitting and evaluation are distributed,
-  exact nearest-neighbor conditional plot bootstraps match the serial route,
-  and autodispatch state reuse is more strongly guarded.
+- local-linear fitting is now the degree-one form of the canonical generalized
+  local-polynomial engine, and regression fits, objectives, hat operators, and
+  plot bootstraps share its rank and bounded-ridge decisions,
+- heterogeneous degree vectors use the corrected complete polynomial space,
+  so restored interactions can change affected fits relative to older releases,
+- positive-degree categorical gradients now return fitted-value endpoint
+  contrasts rather than zero placeholders,
+- uncertainty is requested explicitly with `se`, `se.fit`, and
+  `gradients(..., se = TRUE)` across the estimator families; `npindex()` is the
+  deliberate exception and defaults to asymptotic `se = TRUE`,
+- requested uncertainty is corrected or extended for important categorical,
+  adaptive-nearest-neighbour, copula-density, higher-derivative, and
+  partially-linear routes,
+- mixed-data conditional bias centers, uniform nearest-neighbour support, and
+  ordered Wang--van Ryzin distribution calculations use their corrected
+  numerical contracts, while unsupported external rows fail closed locally as
+  `NA`,
+- entropy tests, plot bootstraps, beta kernels, and conditional objectives use
+  additional bounded-memory or accelerated routes where eligible, and long
+  operations provide clearer elapsed-time and ETA progress,
+- `npRmpi` strengthens rank-safe interruption, worker-state validation,
+  master-owned progress, bootstrap work partitioning, and serial/MPI numerical
+  parity.
 
 The practical advice remains familiar: use the high-level calls normally,
 retain expensive bandwidth objects when you will reuse them, and move to
@@ -226,9 +239,8 @@ So the best advice is:
 2. benchmark a representative script before and after changing it,
 3. be especially cautious if your workflow relies on fork-based parallelism.
 
-Beginning with the `0.70-4` release line, `np` and `npRmpi` also provide a
-package-level Apple Silicon acceleration control that is separate from the R
-BLAS/LAPACK symlink above:
+`np` and `npRmpi` also provide a package-level Apple Silicon acceleration
+control that is separate from the R BLAS/LAPACK symlink above:
 
 ```r
 options(np.macMseries.accelerate = "auto")

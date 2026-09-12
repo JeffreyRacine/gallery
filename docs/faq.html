@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -14,10 +14,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -77,10 +80,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -330,7 +333,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./video_demos.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Video Demos</span></a>
   </div>
@@ -410,6 +413,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#which-package-should-i-start-with" id="toc-which-package-should-i-start-with" class="nav-link" data-scroll-target="#which-package-should-i-start-with">Which package should I start with?</a></li>
   <li><a href="#i-am-new-to-r.-where-should-i-begin" id="toc-i-am-new-to-r.-where-should-i-begin" class="nav-link" data-scroll-target="#i-am-new-to-r.-where-should-i-begin">I am new to R. Where should I begin?</a></li>
   <li><a href="#how-do-i-keep-my-installed-packages-current" id="toc-how-do-i-keep-my-installed-packages-current" class="nav-link" data-scroll-target="#how-do-i-keep-my-installed-packages-current">How do I keep my installed packages current?</a></li>
+  <li><a href="#what-should-i-check-when-moving-to-080-1" id="toc-what-should-i-check-when-moving-to-080-1" class="nav-link" data-scroll-target="#what-should-i-check-when-moving-to-080-1">What should I check when moving to 0.80-1?</a></li>
+  <li><a href="#why-can-an-external-evaluation-row-return-na" id="toc-why-can-an-external-evaluation-row-return-na" class="nav-link" data-scroll-target="#why-can-an-external-evaluation-row-return-na">Why can an external evaluation row return <code>NA</code>?</a></li>
   <li><a href="#where-is-the-gentlest-introduction-to-the-packages" id="toc-where-is-the-gentlest-introduction-to-the-packages" class="nav-link" data-scroll-target="#where-is-the-gentlest-introduction-to-the-packages">Where is the gentlest introduction to the packages?</a></li>
   <li><a href="#how-do-i-find-functions-examples-and-demos-quickly" id="toc-how-do-i-find-functions-examples-and-demos-quickly" class="nav-link" data-scroll-target="#how-do-i-find-functions-examples-and-demos-quickly">How do I find functions, examples, and demos quickly?</a></li>
   <li><a href="#where-do-i-find-runnable-examples" id="toc-where-do-i-find-runnable-examples" class="nav-link" data-scroll-target="#where-do-i-find-runnable-examples">Where do I find runnable examples?</a></li>
@@ -542,6 +547,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Refresh installed packages when you want a conservative update sweep</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">update.packages</span>(<span class="at">checkBuilt =</span> <span class="cn">TRUE</span>, <span class="at">ask =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
+<section id="what-should-i-check-when-moving-to-080-1" class="level2">
+<h2 class="anchored" data-anchor-id="what-should-i-check-when-moving-to-080-1">What should I check when moving to 0.80-1?</h2>
+<p>If you are updating from <code>0.70-5</code>, the main user-facing migrations in <code>np</code> and <code>npRmpi</code> are compact:</p>
+<ul>
+<li>use <code>B</code> rather than <code>boot.num</code> in <code>npcmstest()</code>, <code>npqcmstest()</code>, <code>npdeneqtest()</code>, <code>npdeptest()</code>, <code>npsdeptest()</code>, <code>npsigtest()</code>, <code>npsymtest()</code>, <code>npunitest()</code>, and <code>npindex()</code>; the existing <code>$boot.num</code> result field is unchanged,</li>
+<li>replace underscore plot controls with their dotted spellings, including <code>data.overlay</code>, <code>data.rug</code>, <code>factor.boxplot</code>, <code>boxplot.outliers</code>, <code>coef.index</code>, <code>common.scale</code>, <code>proper.method</code>, <code>proper.control</code>, <code>boot.control</code>, <code>grid.control</code>, and <code>render.control</code>,</li>
+<li>request fit-time uncertainty with <code>se = TRUE</code>; the default is <code>FALSE</code> for <code>npreg()</code>, <code>npscoef()</code>, <code>nplsqreg()</code>, <code>npudens()</code>, <code>npudist()</code>, <code>npcdens()</code>, <code>npcdist()</code>, <code>npplreg()</code>, <code>npqreg()</code>, <code>npconmode()</code>, and <code>npcopula()</code>,</li>
+<li>treat <code>npindex()</code> as the deliberate exception: it defaults to <code>se = TRUE, se.type = "asymptotic"</code>; use <code>se = FALSE</code> for a point-only fit or <code>se.type = "bootstrap"</code> for bootstrap fitted-value and gradient errors,</li>
+<li>use <code>se.fit = TRUE</code> for prediction uncertainty and <code>gradients(object, se = TRUE)</code> for stored gradient standard errors; public extractors do not perform a hidden refit when the requested state is absent,</li>
+<li>use <code>gradient.order</code> for derivative order; the <code>gradient_order</code> alias is retired,</li>
+<li>keep using method-valued plot controls such as <code>errors = "asymptotic"</code> and <code>errors = "bootstrap"</code>; only the former Boolean estimator argument named <code>errors</code> has been retired,</li>
+<li>replace the removed experimental <code>nptgauss()</code> and truncated-Gaussian kernel with a supported Gaussian, Epanechnikov, or uniform route.</li>
+</ul>
+<p>The instrumental-regression methods are also substantially more conventional: <code>npregiv()</code> and <code>npregivderiv()</code> now accept formula/data calls, return objects with <code>summary()</code>, <code>fitted()</code>, <code>residuals()</code>, <code>gradients()</code>, and dedicated plot methods, and reject unsupported nearest-neighbour bandwidths early. Their plot controls are now <code>gradients</code>, <code>data.overlay</code>, and <code>data.rug</code>; the experimental <code>plot.data</code>, <code>deriv</code>, and <code>phi</code> switches are retired. <code>npregivderiv()</code> now defaults to local-linear estimation when <code>regtype</code> is omitted, which can change results relative to older calls that relied on the former local-constant behavior. IV evaluation is requested when fitting; post-fit <code>predict()</code> is not currently available for these two <code>np</code> estimators.</p>
+<p>Principal estimators and bandwidth selectors now reject unknown named arguments instead of silently accepting them through <code>...</code>, so a newly exposed spelling error is usually an actionable migration message rather than a numerical failure.</p>
+<p>Some corrected edge contracts can also change affected numerical results. These include heterogeneous polynomial-degree fits, positive-degree categorical effects, uniform nearest-neighbour boundary cases, ordered Wang–van Ryzin distribution estimates, explicit fixed-bandwidth bias-corrected plot centers, and several requested standard-error routes. These are targeted corrections rather than a change to unaffected estimators.</p>
+</section>
+<section id="why-can-an-external-evaluation-row-return-na" class="level2">
+<h2 class="anchored" data-anchor-id="why-can-an-external-evaluation-row-return-na">Why can an external evaluation row return <code>NA</code>?</h2>
+<p>If every computed explanatory-kernel weight is zero, or a required normalization is non-finite, the affected regression, conditional, quantile/mode, single-index, smooth-coefficient, and hat routes return <code>NA</code> for the external row and issue one consolidated notice. Defined rows in the same call remain available.</p>
+<p>This most often means that a compact-support evaluation point lies too far from the training support for the selected bandwidth. Check the evaluation grid and the fitted bandwidth object before deciding whether a larger bandwidth or a different supported kernel is scientifically appropriate. The package does not invent a numerical floor or a fabricated estimate for that row.</p>
+</section>
 <section id="where-is-the-gentlest-introduction-to-the-packages" class="level2">
 <h2 class="anchored" data-anchor-id="where-is-the-gentlest-introduction-to-the-packages">Where is the gentlest introduction to the packages?</h2>
 <p>Use the package vignettes and then the gallery pages.</p>
@@ -616,6 +643,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bw)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">npreg</span>(<span class="at">bws =</span> bw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Working explicitly this way makes it easier to inspect the chosen bandwidths, reuse them, and avoid unnecessary recomputation.</p>
+<p>If you instead begin with a single high-level estimator call, the fitted object retains its selected bandwidth object. Reuse that <code>$bws</code> component when you later want another option without repeating the search:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Search and fit first; later request gradients without searching again</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">npreg</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> mydat)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>fit_grad <span class="ot">&lt;-</span> <span class="fu">npreg</span>(<span class="at">bws =</span> fit<span class="sc">$</span>bws, <span class="at">gradients =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This reruns only the fitting work needed for the new request, not bandwidth optimization.</p>
 <p>For the broader runtime side of this issue, see <a href="./runtime_and_scaling.html">Runtime, Memory, and Scaling</a>.</p>
 </section>
 <section id="where-do-i-find-the-changelog" class="level2">
@@ -651,10 +683,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="how-do-i-cite-the-packages" class="level2">
 <h2 class="anchored" data-anchor-id="how-do-i-cite-the-packages">How do I cite the packages?</h2>
 <p>Use <code>citation()</code> from inside R and see <a href="./books_papers.html">Books, Papers, and Citation</a> for the package papers and books.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Ask the installed packages for their current citation records</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">"np"</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">"npRmpi"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">"crs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Ask the installed packages for their current citation records</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">"np"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">"npRmpi"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">"crs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="i-am-using-nprmpi-and-see-nprmpi-auto-dispatch-requires-an-active-mpi-slave-pool" class="level2">
 <h2 class="anchored" data-anchor-id="i-am-using-nprmpi-and-see-nprmpi-auto-dispatch-requires-an-active-mpi-slave-pool">I am using <code>npRmpi</code> and see <code>npRmpi auto-dispatch requires an active MPI slave pool</code></h2>

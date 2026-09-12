@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -14,10 +14,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -77,10 +80,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6359ece5ccc7868d972a7c02362e1435.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -330,7 +333,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./video_demos.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Video Demos</span></a>
   </div>
@@ -418,6 +421,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#interpreting-and-tuning-the-single-index" id="toc-interpreting-and-tuning-the-single-index" class="nav-link" data-scroll-target="#interpreting-and-tuning-the-single-index">Interpreting and tuning the single index</a></li>
   </ul></li>
   <li><a href="#varying-coefficient-models-npscoef" id="toc-varying-coefficient-models-npscoef" class="nav-link" data-scroll-target="#varying-coefficient-models-npscoef">Varying coefficient models: <code>npscoef</code></a></li>
+  <li><a href="#instrumental-regression" id="toc-instrumental-regression" class="nav-link" data-scroll-target="#instrumental-regression">Instrumental regression</a></li>
   <li><a href="#hat-and-operator-helpers" id="toc-hat-and-operator-helpers" class="nav-link" data-scroll-target="#hat-and-operator-helpers">Hat and operator helpers</a></li>
   <li><a href="#how-should-i-choose-among-these" id="toc-how-should-i-choose-among-these" class="nav-link" data-scroll-target="#how-should-i-choose-among-these">How should I choose among these?</a></li>
   <li><a href="#practical-advice" id="toc-practical-advice" class="nav-link" data-scroll-target="#practical-advice">Practical advice</a></li>
@@ -494,7 +498,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="partially-linear-models-npplreg" class="level2">
 <h2 class="anchored" data-anchor-id="partially-linear-models-npplreg">Partially linear models: <code>npplreg</code></h2>
 <p>The partially linear model is useful when some regressors can reasonably enter linearly while another part of the relationship is left nonparametric.</p>
-<p>In the old <code>wage1</code> example, the idea was to treat some regressors parametrically while allowing experience to enter nonparametrically.</p>
+<p>In the <code>wage1</code> example, the idea is to treat some regressors parametrically while allowing experience to enter nonparametrically.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Keep some regressors linear while letting experience vary nonparametrically</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wage1, <span class="at">package =</span> <span class="st">"np"</span>)</span>
@@ -506,6 +510,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="practical-warning">Practical warning</h3>
 <p>Bandwidth selection for partially linear models can be much more expensive than users expect. The model looks simpler than a fully nonparametric regression, but the bandwidth selection problem can be substantially more burdensome because several cross-validated regressions are involved under the hood.</p>
 <p>So the practical rule is: do not assume that “partially linear” means “cheap”.</p>
+<p><code>npplreg()</code> defaults to <code>se = FALSE</code>. Request <code>se = TRUE</code> when you need <code>coef(model, se = TRUE)</code> or <code>vcov(model)</code>; the retained coefficient covariance allows conditional heteroskedasticity. Prediction errors and asymptotic plots request their required uncertainty separately.</p>
 </section>
 </section>
 <section id="single-index-models-npindex" class="level2">
@@ -551,7 +556,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="interpreting-and-tuning-the-single-index" class="level3">
 <h3 class="anchored" data-anchor-id="interpreting-and-tuning-the-single-index">Interpreting and tuning the single index</h3>
-<p>The 0.70-5 release substantially reworks the Ichimura and Klein-Spady objectives so they reuse the established <code>npreg</code> leave-one-out backend where appropriate. Bounded continuous-kernel choices are also carried consistently through fitting, evaluation, variance, and bootstrap routes. In <code>npRmpi</code>, the post-CV fit, evaluation, and gradient work is distributed across evaluation rows in an active session.</p>
+<p><code>npindex()</code> is the one principal estimator that defaults to <code>se = TRUE, se.type = "asymptotic"</code>, providing asymptotic coefficient covariance and fitted-value standard errors. Set <code>se = FALSE</code> for a point-only fit when that extra work is not needed. Selecting <code>se.type = "bootstrap"</code> uses <code>B</code> for fitted-value, gradient, and average-gradient errors; coefficient covariance remains asymptotic in either mode.</p>
+<p>With a local-constant uniform kernel, the link derivative is zero and cannot provide covariance for free index coefficients. Use <code>se = FALSE</code> when only the point estimate is required for that configuration.</p>
+<p>The Ichimura and Klein-Spady objectives reuse the established <code>npreg</code> leave-one-out backend where appropriate, and <code>npRmpi</code> distributes post-CV fit, evaluation, and gradient work across evaluation rows. Fixed-bandwidth restarts, nearest-neighbour metadata, objective certification, and retained formula data are tightly validated.</p>
 <p>The coefficient vector is identified only up to scale, so <code>npindexbw()</code> normalizes its first coefficient to one. Read the remaining coefficients as relative movements in the index, not as standalone linear-model slopes, and choose the first continuous regressor deliberately when coefficient interpretation matters.</p>
 <p>The default <code>optim.method = "Nelder-Mead"</code> remains a robust derivative-free starting point for a low-dimensional search. For a higher-dimensional index, <code>optim.method = "BFGS"</code> can be a useful performance and sensitivity comparison. Because the objective can be nonconvex, compare objective values, convergence behavior, and fitted objects rather than selecting an optimizer by runtime alone.</p>
 </section>
@@ -559,7 +566,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="varying-coefficient-models-npscoef" class="level2">
 <h2 class="anchored" data-anchor-id="varying-coefficient-models-npscoef">Varying coefficient models: <code>npscoef</code></h2>
 <p>A varying coefficient model lets the effective coefficients change with another variable. This is useful when you believe the regression effect itself varies systematically across a conditioning variable.</p>
-<p>In the old <code>wage1</code> illustration, coefficients were allowed to vary with sex.</p>
+<p>In the <code>wage1</code> illustration, coefficients are allowed to vary with sex.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Create numeric coefficient variables, then let them vary with sex</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wage1, <span class="at">package =</span> <span class="st">"np"</span>)</span>
@@ -573,12 +580,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> wage1_augmented)</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_scoef)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>One practical detail from the older vignette still matters: the <code>X</code> variables in the varying-coefficient part need to be numeric, so creating explicit <code>0/1</code> versions of factors can be appropriate there.</p>
+<p>One practical detail matters: the <code>X</code> variables in the varying-coefficient part need to be numeric, so creating explicit <code>0/1</code> versions of factors can be appropriate there.</p>
+</section>
+<section id="instrumental-regression" class="level2">
+<h2 class="anchored" data-anchor-id="instrumental-regression">Instrumental regression</h2>
+<p>The proof-of-concept <code>npregiv()</code> and <code>npregivderiv()</code> estimators now support explicit formula/data interfaces. Use <code>y ~ z | w</code> for a response, endogenous regressor, and instrument; <code>npregiv()</code> also supports <code>y ~ z | w | x</code> when separate exogenous covariates are present. The returned objects have dedicated summary, fitted-value, residual, gradient, and plot methods. Evaluation grids are supplied during fitting rather than through post-fit prediction, and the current IV estimators support fixed rather than nearest-neighbour bandwidths.</p>
+<p>Start with the <a href="www/np_npRmpi/np_instrumental_regression_quickstart.R">instrumental-regression quickstart</a>.</p>
 </section>
 <section id="hat-and-operator-helpers" class="level2">
 <h2 class="anchored" data-anchor-id="hat-and-operator-helpers">Hat and operator helpers</h2>
 <p>The public helper family now follows the estimator family directly: <code>npreghat</code>, <code>npindexhat</code>, <code>npplreghat</code>, and <code>npscoefhat</code> cover regression and semiparametric fits, while <code>npudenshat</code>, <code>npudisthat</code>, <code>npcdenshat</code>, and <code>npcdisthat</code> cover density and distribution objects. These helpers can return an explicit matrix, apply the operator without asking users to reconstruct it, or produce the transposed response-weighted <code>output = "constraint"</code> form used in constrained estimation.</p>
-<p>In 0.70-5, <code>npreghat()</code> also tightens generalized-nearest-neighbor and local-constant derivative ownership. For mixed polynomial degrees, available derivative components are routed through the correct operator and unavailable components are reported explicitly rather than silently applying a different derivative.</p>
+<p><code>npreghat()</code> uses the canonical local-polynomial rank and bounded-ridge policy shared by the hat, fit, objective, and bootstrap routes. Generalized-nearest- neighbor and local-constant derivative ownership is validated explicitly. For mixed polynomial degrees, available derivative components are routed through the correct operator and unavailable components are reported explicitly rather than silently applying a different derivative.</p>
 <p>The constrained local-polynomial scripts in the <a href="./code_catalog.html">Code Catalog</a> show the practical <code>npreghat()</code> workflow.</p>
 </section>
 <section id="how-should-i-choose-among-these" class="level2">

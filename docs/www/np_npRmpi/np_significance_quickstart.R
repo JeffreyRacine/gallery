@@ -21,8 +21,8 @@ fit <- npreg(y ~ z + x1 + x2,
   bwmethod = "cv.aic",
   data = dat)
 
-## Test the fitted object and inspect both summaries.
-test_out <- npsigtest(fit)
+## Use the current B argument for a compact bootstrap run.
+test_out <- npsigtest(fit, B = 99)
 
 summary(fit)
 summary(test_out)
