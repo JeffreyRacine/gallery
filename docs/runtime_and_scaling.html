@@ -476,8 +476,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>positive-degree categorical gradients now return fitted-value endpoint contrasts rather than zero placeholders,</li>
 <li>uncertainty is requested explicitly with <code>se</code>, <code>se.fit</code>, and <code>gradients(..., se = TRUE)</code> across the estimator families; <code>npindex()</code> is the deliberate exception and defaults to asymptotic <code>se = TRUE</code>,</li>
 <li>requested uncertainty is corrected or extended for important categorical, adaptive-nearest-neighbour, copula-density, higher-derivative, and partially-linear routes,</li>
+<li>bandwidth objects retain their prepared training samples, missing-data policies, and formula-subset provenance for reliable no-search reuse, serialization, prediction, and plotting,</li>
+<li>single-index factor predictors use retained R contrasts in Ichimura and Klein–Spady models; the Klein–Spady response remains numeric <code>0/1</code>,</li>
 <li>mixed-data conditional bias centers, uniform nearest-neighbour support, and ordered Wang–van Ryzin distribution calculations use their corrected numerical contracts, while unsupported external rows fail closed locally as <code>NA</code>,</li>
-<li>entropy tests, plot bootstraps, beta kernels, and conditional objectives use additional bounded-memory or accelerated routes where eligible, and long operations provide clearer elapsed-time and ETA progress,</li>
+<li>scaled bandwidths, bounded-kernel and beta nearest-neighbour objectives, entropy tests, and plot bootstraps use their corrected physical-bandwidth, deleted-sample, support, and replication-order contracts; affected results can differ from earlier releases,</li>
+<li>conditional local-polynomial bandwidth searches avoid duplicate factorizations where eligible, and long operations provide clearer elapsed-time and ETA progress,</li>
 <li><code>npRmpi</code> strengthens rank-safe interruption, worker-state validation, master-owned progress, bootstrap work partitioning, and serial/MPI numerical parity.</li>
 </ul>
 <p>The practical advice remains familiar: use the high-level calls normally, retain expensive bandwidth objects when you will reuse them, and move to <code>npRmpi</code> when the validated serial workflow is large enough to benefit.</p>
@@ -519,6 +522,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>reuse them across later fits,</li>
 <li>avoid recomputing the same object repeatedly.</li>
 </ul>
+<p>Current bandwidth objects also carry the prepared training sample and its missing-data policy. That means a fitted object can usually be serialized and reused without recreating variables in the original calling environment. An explicit <code>data =</code> argument deliberately replaces the retained training sample; objects created by older package versions may still need their original data.</p>
 </section>
 <section id="np-the-default-tree-policy-is-now-automatic-rather-than-all-or-nothing" class="level2">
 <h2 class="anchored" data-anchor-id="np-the-default-tree-policy-is-now-automatic-rather-than-all-or-nothing"><code>np</code>: the default tree policy is now automatic rather than all-or-nothing</h2>
@@ -527,10 +531,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>the package now turns on the continuous kd-tree route only when the kernel choice makes that shortcut a natural fit,</li>
 <li>bounded-support continuous kernels such as <code>"epanechnikov"</code> and <code>"uniform"</code> are the main beneficiaries,</li>
-<li><code>options(np.tree = TRUE)</code> still force-enables the route when you want to assess its impact,</li>
+<li><code>options(np.tree = TRUE)</code> still force-enables qualified routes when you want to assess its impact; this now includes supported local-linear and local-polynomial generalized- and adaptive-nearest-neighbour regression and conditional density/distribution routes with second-order Epanechnikov or uniform kernels and no boundary normalization,</li>
 <li><code>options(np.tree = FALSE)</code> remains the clean diagnostic off switch.</li>
 </ul>
-<p>So the new default is more selective than the older blanket on/off mindset.</p>
+<p>So the new default is more selective than the older blanket on/off mindset. The automatic eligibility policy has not been broadened to every route; explicit <code>TRUE</code> and <code>FALSE</code> remain useful comparisons for a particular problem.</p>
 </section>
 <section id="np-repetitive-categorical-designs-may-now-compress-automatically" class="level2">
 <h2 class="anchored" data-anchor-id="np-repetitive-categorical-designs-may-now-compress-automatically"><code>np</code>: repetitive categorical designs may now compress automatically</h2>

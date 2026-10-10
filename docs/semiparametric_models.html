@@ -527,7 +527,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(birthwt, <span class="at">package =</span> <span class="st">"MASS"</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>birthwt<span class="sc">$</span>low <span class="ot">&lt;-</span> <span class="fu">factor</span>(birthwt<span class="sc">$</span>low)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Klein-Spady requires a numeric 0/1 response; predictors may be factors.</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>birthwt<span class="sc">$</span>smoke <span class="ot">&lt;-</span> <span class="fu">factor</span>(birthwt<span class="sc">$</span>smoke)</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>birthwt<span class="sc">$</span>race <span class="ot">&lt;-</span> <span class="fu">factor</span>(birthwt<span class="sc">$</span>race)</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>birthwt<span class="sc">$</span>ht <span class="ot">&lt;-</span> <span class="fu">factor</span>(birthwt<span class="sc">$</span>ht)</span>
@@ -540,6 +540,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> birthwt)</span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_index_binary)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Current <code>np</code> and <code>npRmpi</code> releases retain the R model-matrix contrasts used for factor predictors, so fitting, prediction, gradients, and plots share the same single-index design. The Klein–Spady response itself must remain numeric <code>0/1</code>; a factor response is rejected rather than silently interpreted through its internal codes.</p>
 </section>
 <section id="continuous-outcomes" class="level3">
 <h3 class="anchored" data-anchor-id="continuous-outcomes">Continuous outcomes</h3>
@@ -559,6 +560,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>npindex()</code> is the one principal estimator that defaults to <code>se = TRUE, se.type = "asymptotic"</code>, providing asymptotic coefficient covariance and fitted-value standard errors. Set <code>se = FALSE</code> for a point-only fit when that extra work is not needed. Selecting <code>se.type = "bootstrap"</code> uses <code>B</code> for fitted-value, gradient, and average-gradient errors; coefficient covariance remains asymptotic in either mode.</p>
 <p>With a local-constant uniform kernel, the link derivative is zero and cannot provide covariance for free index coefficients. Use <code>se = FALSE</code> when only the point estimate is required for that configuration.</p>
 <p>The Ichimura and Klein-Spady objectives reuse the established <code>npreg</code> leave-one-out backend where appropriate, and <code>npRmpi</code> distributes post-CV fit, evaluation, and gradient work across evaluation rows. Fixed-bandwidth restarts, nearest-neighbour metadata, objective certification, and retained formula data are tightly validated.</p>
+<p>Klein–Spady coefficient uncertainty conditionally centers the covariates on the fitted index, so reported covariance is no longer sensitive to arbitrary translations of the predictors. Coefficient-only refits retain the fitted degree and bandwidth, avoiding another automatic degree or bandwidth search.</p>
 <p>The coefficient vector is identified only up to scale, so <code>npindexbw()</code> normalizes its first coefficient to one. Read the remaining coefficients as relative movements in the index, not as standalone linear-model slopes, and choose the first continuous regressor deliberately when coefficient interpretation matters.</p>
 <p>The default <code>optim.method = "Nelder-Mead"</code> remains a robust derivative-free starting point for a low-dimensional search. For a higher-dimensional index, <code>optim.method = "BFGS"</code> can be a useful performance and sensitivity comparison. Because the objective can be nonconvex, compare objective values, convergence behavior, and fitted objects rather than selecting an optimizer by runtime alone.</p>
 </section>

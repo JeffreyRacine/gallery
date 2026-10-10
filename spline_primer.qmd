@@ -35,7 +35,7 @@ This page is about regression splines, which is the relevant framework for `crs`
 
 It helps to think of the regression function as a linear combination of basis functions.
 
-```r
+```text
 ## A spline regression function is a linear combination of basis functions
 g(x) = beta_1 B_1(x) + beta_2 B_2(x) + ... + beta_K B_K(x)
 ```

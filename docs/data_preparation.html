@@ -413,6 +413,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#do-not-pass-one-hot-blocks-as-if-this-were-a-linear-model" id="toc-do-not-pass-one-hot-blocks-as-if-this-were-a-linear-model" class="nav-link" data-scroll-target="#do-not-pass-one-hot-blocks-as-if-this-were-a-linear-model">Do not pass one-hot blocks as if this were a linear model</a></li>
   <li><a href="#formula-syntax-does-not-imply-a-linear-additive-model" id="toc-formula-syntax-does-not-imply-a-linear-additive-model" class="nav-link" data-scroll-target="#formula-syntax-does-not-imply-a-linear-additive-model">Formula syntax does not imply a linear-additive model</a></li>
   <li><a href="#prefer-data-and-data-frames-to-attach" id="toc-prefer-data-and-data-frames-to-attach" class="nav-link" data-scroll-target="#prefer-data-and-data-frames-to-attach">Prefer <code>data =</code> and data frames to <code>attach()</code></a></li>
+  <li><a href="#retained-samples-and-safe-reuse" id="toc-retained-samples-and-safe-reuse" class="nav-link" data-scroll-target="#retained-samples-and-safe-reuse">Retained samples and safe reuse</a></li>
   <li><a href="#a-common-plotting-trap" id="toc-a-common-plotting-trap" class="nav-link" data-scroll-target="#a-common-plotting-trap">A common plotting trap</a></li>
   <li><a href="#name-variables-cleanly" id="toc-name-variables-cleanly" class="nav-link" data-scroll-target="#name-variables-cleanly">Name variables cleanly</a></li>
   <li><a href="#very-large-numeric-magnitudes" id="toc-very-large-numeric-magnitudes" class="nav-link" data-scroll-target="#very-large-numeric-magnitudes">Very large numeric magnitudes</a></li>
@@ -499,6 +500,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>That keeps scope clear and avoids accidental name collisions.</p>
 <p>Current <code>np</code> and <code>npRmpi</code> formula routes also make this precedence explicit: where an estimator supports both a retained bandwidth object and <code>data =</code>, the explicit estimator data override the data stored in that object. Formula-based <code>newdata</code> is validated against the fitted right-hand-side variables before evaluation, so use the original predictor names and classes rather than relying on similarly named objects in the calling environment.</p>
 </section>
+<section id="retained-samples-and-safe-reuse" class="level2">
+<h2 class="anchored" data-anchor-id="retained-samples-and-safe-reuse">Retained samples and safe reuse</h2>
+<p>Bandwidth objects created by current releases retain the prepared training sample, effective missing-data policy, and formula-subset provenance. This allows ordinary no-search refits, predictions, plots, and serialized objects to reuse the same sample without depending on variables in the original calling environment.</p>
+<p>An explicit <code>data =</code> argument replaces the full retained training sample. In native interfaces, a response-only replacement can reuse the retained design, but partial design replacement is rejected because it could combine new rows with old training roles. Objects created by older package versions do not carry the retained sample and may still need their original bindings or explicit training data.</p>
+<p>For native bandwidth-object prediction, named <code>newdata</code> columns are matched to the retained variable names and reordered as needed. Extra columns are ignored, while missing, duplicate, or ambiguous required columns are rejected. Explicit native evaluation arguments retain precedence over <code>newdata</code>.</p>
+</section>
 <section id="a-common-plotting-trap" class="level2">
 <h2 class="anchored" data-anchor-id="a-common-plotting-trap">A common plotting trap</h2>
 <p>If you create factor or ordered variables inside a data-frame call and then plot a fitted object later, you can sometimes get an error about an object not being found. The safe habit is simple: pass the original data frame to <code>plot()</code> when needed.</p>
@@ -535,7 +542,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Are ordered categorical variables really <code>ordered</code>?</li>
 <li>Have I avoided feeding one-hot blocks where one factor would be the right object?</li>
 <li>Am I passing a clean <code>data =</code> frame?</li>
-<li>If plotting later, do I still have the original data frame available?</li>
+<li>If I am reusing an older saved object, do I still have its original data?</li>
 </ol>
 </section>
 <section id="where-to-go-next" class="level2">

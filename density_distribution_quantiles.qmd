@@ -172,6 +172,13 @@ Ordered distribution estimates use the corrected Wang--van Ryzin cumulative
 upper tail. Readers reproducing results from an earlier release should expect
 affected ordered-CDF estimates and cross-validation values to change.
 
+Scaled bandwidth objects now supply their retained physical bandwidths
+consistently to fitted, operator, uncertainty, and copula routes. Corrected
+deleted-sample geometry for affected beta and bounded-kernel nearest-neighbour
+criteria can likewise change selected bandwidths. Those correctness fixes are
+confined to the affected routes, and some of the corrected searches require
+more work than the former criteria.
+
 ## Practitioner-oriented extras
 
 Some applied tasks are a little different from the standard "fit and inspect"
@@ -232,6 +239,10 @@ on; it does not transform raw `x` and `y` values into probability coordinates.
 For higher-dimensional copulas, provide `u` explicitly or use
 `evaluation = "sample"` rather than asking for an exponentially growing
 automatic grid.
+
+Set `neval` when constructing `npcopula()` if you want a different automatic
+grid size. It is not a post-fit plotting control: `plot.npcopula()` rejects
+`neval`, while a custom fitted grid can be supplied through `u` at construction.
 
 For LP-capable conditional families, the same modern shortcut is now available:
 
@@ -350,6 +361,13 @@ Source file: [np_lsqreg_quickstart.R](www/np_npRmpi/np_lsqreg_quickstart.R)
 #| results: asis
 emit_source("www/np_npRmpi/np_lsqreg_quickstart.R")
 ```
+
+For a vector-`tau` fit, `predict(qfit, tau = ...)` can select one or more
+stored quantiles without repeating bandwidth selection or location-scale
+calibration. Several values are returned in the requested order, with standard
+errors and training scores kept aligned when `se.fit = TRUE`. A value that was
+not fitted is rejected explicitly; fit that quantile first rather than asking
+prediction to create new model state.
 
 If you later want to reuse the selected state for a specific quantile without
 rerunning the full search, the retained `bws` object supports that directly:

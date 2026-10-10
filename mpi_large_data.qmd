@@ -53,6 +53,12 @@ ranks, reuses common conditional bootstrap centers across worker tasks, and
 improves rank-safe interruption, master-only elapsed/ETA progress, bootstrap
 work partitioning, and worker reuse.
 
+Formula subsets, prepared training samples, missing-data policies, and named
+native evaluation data now travel with their bandwidth objects across reuse and
+serialization. Fixed and geometric plot-bootstrap streams are ordered by
+replication rather than worker scheduling, so a fixed seed is stable across
+chunk sizes and worker counts.
+
 These are implementation improvements rather than new calling conventions:
 the ordinary `np`-style session workflow remains the same. When comparing
 worker counts, use a numerical tolerance because MPI reductions can change

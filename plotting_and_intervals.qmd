@@ -34,6 +34,11 @@ errors. Plot methods deliberately retain the method-valued control
 
 Older plotting code that uses `plot.errors.*` names should translate those
 controls to the public arguments above.
+
+Fitted objects and their bandwidth objects now retain the prepared sample used
+for plotting, including subset and missing-data decisions. Copula grid size is
+the exception to ordinary post-fit grid adjustment: set `neval` or supply `u`
+when constructing `npcopula()`, because `plot.npcopula()` rejects `neval`.
 :::
 
 ## A simple fitted-curve plot
@@ -106,6 +111,11 @@ local-polynomial plot bootstraps use a shared count-compressed, bounded-ridge
 response solver across the supported regression and conditional families.
 Long bootstrap plots retain one call-scoped elapsed clock and provide an
 approximate overall ETA across scheduled targets.
+
+Fixed and geometric plot-bootstrap draws are replication ordered, so a fixed
+seed no longer depends on bootstrap chunk size or the number of MPI workers.
+That stronger reproducibility contract can change seeded bands relative to an
+older package version.
 
 ```r
 ## Ask supported bootstrap plots to use bias-corrected centers

@@ -128,8 +128,28 @@ expect_fixed \
 
 expect_fixed \
   "$ROOT/index.qmd" \
-  'September 11, 2026' \
+  'October 12, 2026' \
   "gallery overview records the 0.80-1 package date"
+
+forbid_regex_in_tree \
+  'birthwt\$low[[:space:]]*<-[[:space:]]*factor' \
+  "Klein-Spady gallery examples retain the numeric 0/1 response" \
+  "$ROOT/semiparametric_models.qmd"
+
+expect_fixed \
+  "$ROOT/semiparametric_models.qmd" \
+  'Klein-Spady requires a numeric 0/1 response' \
+  "single-index example records the Klein-Spady response contract"
+
+expect_fixed \
+  "$ROOT/density_distribution_quantiles.qmd" \
+  'plot.npcopula()` rejects' \
+  "copula guidance assigns neval to object construction"
+
+expect_fixed \
+  "$ROOT/www/np_npRmpi/np_lsqreg_quickstart.R" \
+  'predict(qfit, tau = 0.50)' \
+  "location-scale quickstart selects a stored prediction without new search"
 
 expect_fixed \
   "$ROOT/index.qmd" \

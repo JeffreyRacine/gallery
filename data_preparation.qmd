@@ -84,6 +84,26 @@ explicit estimator data override the data stored in that object. Formula-based
 evaluation, so use the original predictor names and classes rather than relying
 on similarly named objects in the calling environment.
 
+## Retained samples and safe reuse
+
+Bandwidth objects created by current releases retain the prepared training
+sample, effective missing-data policy, and formula-subset provenance. This
+allows ordinary no-search refits, predictions, plots, and serialized objects to
+reuse the same sample without depending on variables in the original calling
+environment.
+
+An explicit `data =` argument replaces the full retained training sample. In
+native interfaces, a response-only replacement can reuse the retained design,
+but partial design replacement is rejected because it could combine new rows
+with old training roles. Objects created by older package versions do not carry
+the retained sample and may still need their original bindings or explicit
+training data.
+
+For native bandwidth-object prediction, named `newdata` columns are matched to
+the retained variable names and reordered as needed. Extra columns are ignored,
+while missing, duplicate, or ambiguous required columns are rejected. Explicit
+native evaluation arguments retain precedence over `newdata`.
+
 ## A common plotting trap
 
 If you create factor or ordered variables inside a data-frame call and then plot a fitted object later, you can sometimes get an error about an object not being found. The safe habit is simple: pass the original data frame to `plot()` when needed.
@@ -127,7 +147,7 @@ Before fitting a model, it is worth asking:
 2. Are ordered categorical variables really `ordered`?
 3. Have I avoided feeding one-hot blocks where one factor would be the right object?
 4. Am I passing a clean `data =` frame?
-5. If plotting later, do I still have the original data frame available?
+5. If I am reusing an older saved object, do I still have its original data?
 
 ## Where to go next
 

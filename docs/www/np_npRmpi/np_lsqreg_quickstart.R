@@ -19,7 +19,7 @@ qfit <- nplsqreg(gdp ~ ordered(year),
 summary(qfit$bws)
 summary(qfit)
 
-## Predict the median at the observed design points.
+## Predict the stored median without repeating bandwidth selection.
 qmed <- predict(qfit, tau = 0.50)
 head(qmed)
 

@@ -98,7 +98,7 @@ Two important routes are available in `np`:
 library(np)
 data(birthwt, package = "MASS")
 
-birthwt$low <- factor(birthwt$low)
+## Klein-Spady requires a numeric 0/1 response; predictors may be factors.
 birthwt$smoke <- factor(birthwt$smoke)
 birthwt$race <- factor(birthwt$race)
 birthwt$ht <- factor(birthwt$ht)
@@ -112,6 +112,12 @@ model_index_binary <- npindex(low ~ smoke + race + ht + ui + ftv + age + lwt,
 
 summary(model_index_binary)
 ```
+
+Current `np` and `npRmpi` releases retain the R model-matrix contrasts used for
+factor predictors, so fitting, prediction, gradients, and plots share the same
+single-index design. The Klein--Spady response itself must remain numeric `0/1`;
+a factor response is rejected rather than silently interpreted through its
+internal codes.
 
 ### Continuous outcomes
 
@@ -147,6 +153,11 @@ leave-one-out backend where appropriate, and `npRmpi` distributes post-CV fit,
 evaluation, and gradient work across evaluation rows. Fixed-bandwidth restarts,
 nearest-neighbour metadata, objective certification, and retained formula data
 are tightly validated.
+
+Klein--Spady coefficient uncertainty conditionally centers the covariates on
+the fitted index, so reported covariance is no longer sensitive to arbitrary
+translations of the predictors. Coefficient-only refits retain the fitted
+degree and bandwidth, avoiding another automatic degree or bandwidth search.
 
 The coefficient vector is identified only up to scale, so `npindexbw()`
 normalizes its first coefficient to one. Read the remaining coefficients as
