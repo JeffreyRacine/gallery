@@ -123,6 +123,12 @@ If the data contain continuous and categorical variables, `np` builds a product 
 
 That is the core device that lets the package handle mixed data in a coherent way.
 
+For continuous densities, also consider the variable's support. Known endpoints
+can be supplied without changing the kernel family. See
+[Choosing support bounds](density_distribution_quantiles.qmd#choosing-support-bounds)
+for proportions, positive durations, and an unbounded Gaussian control, with
+guidance on `"fixed"`, `"range"`, and the ordinary specification.
+
 ## Computational reality
 
 Automatic bandwidth selection is one of the strengths of the package, but it can be expensive.

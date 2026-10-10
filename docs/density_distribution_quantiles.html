@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="keywords" content="npudens, npudist, npcdens, npcdist, npqreg, nplsqreg, density, quantile regression">
+<meta name="keywords" content="npudens, npudist, npcdens, npcdist, npqreg, nplsqreg, density, boundary correction, support bounds, quantile regression">
 <meta name="description" content="Practical route to unconditional and conditional density/distribution workflows, plus nonparametric quantile regression in np.">
 
 <title>Density, Distribution, Quantiles – Gallery of Code</title>
@@ -448,6 +448,11 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#numerical-and-uncertainty-updates-in-0.80-1" id="toc-numerical-and-uncertainty-updates-in-0.80-1" class="nav-link" data-scroll-target="#numerical-and-uncertainty-updates-in-0.80-1">Numerical and uncertainty updates in 0.80-1</a></li>
   </ul></li>
+  <li><a href="#choosing-support-bounds" id="toc-choosing-support-bounds" class="nav-link" data-scroll-target="#choosing-support-bounds">Choosing support bounds</a>
+  <ul class="collapse">
+  <li><a href="#two-endpoints-one-endpoint-and-an-unbounded-control" id="toc-two-endpoints-one-endpoint-and-an-unbounded-control" class="nav-link" data-scroll-target="#two-endpoints-one-endpoint-and-an-unbounded-control">Two endpoints, one endpoint, and an unbounded control</a></li>
+  <li><a href="#what-changes-over-repeated-samples" id="toc-what-changes-over-repeated-samples" class="nav-link" data-scroll-target="#what-changes-over-repeated-samples">What changes over repeated samples?</a></li>
+  </ul></li>
   <li><a href="#practitioner-oriented-extras" id="toc-practitioner-oriented-extras" class="nav-link" data-scroll-target="#practitioner-oriented-extras">Practitioner-oriented extras</a></li>
   <li><a href="#copulas-npcopula" id="toc-copulas-npcopula" class="nav-link" data-scroll-target="#copulas-npcopula">Copulas: <code>npcopula</code></a></li>
   <li><a href="#nonparametric-quantile-regression-npqreg" id="toc-nonparametric-quantile-regression-npqreg" class="nav-link" data-scroll-target="#nonparametric-quantile-regression-npqreg">Nonparametric quantile regression: <code>npqreg</code></a></li>
@@ -484,7 +489,7 @@ window.Quarto = {
 <div>
   <div class="keywords">
     <div class="block-title">Keywords</div>
-    <p>npudens, npudist, npcdens, npcdist, npqreg, nplsqreg, density, quantile regression</p>
+    <p>npudens, npudist, npcdens, npcdist, npqreg, nplsqreg, density, boundary correction, support bounds, quantile regression</p>
   </div>
 </div>
 
@@ -572,6 +577,299 @@ E[Y\mid X=x]=\int y f(y\mid x)\,dy.
 <p>Scaled bandwidth objects now supply their retained physical bandwidths consistently to fitted, operator, uncertainty, and copula routes. Corrected deleted-sample geometry for affected beta and bounded-kernel nearest-neighbour criteria can likewise change selected bandwidths. Those correctness fixes are confined to the affected routes, and some of the corrected searches require more work than the former criteria.</p>
 </section>
 </section>
+<section id="choosing-support-bounds" class="level2">
+<h2 class="anchored" data-anchor-id="choosing-support-bounds">Choosing support bounds</h2>
+<p>Before estimating a density, consider which values the variable can take. A proportion has two finite endpoints; a positive duration has a lower endpoint but need not have a finite upper endpoint. Supply endpoints known from the application, in the same units as the data.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>What is known about the support?</th>
+<th>Unconditional density arguments</th>
+<th>Practical interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Both endpoints, such as a proportion in <span class="math inline">\([0,1]\)</span></td>
+<td><code>ckerbound = "fixed", ckerlb = 0, ckerub = 1</code></td>
+<td>Use both known endpoints.</td>
+</tr>
+<tr class="even">
+<td>A lower endpoint only, such as a duration in <span class="math inline">\([0,\infty)\)</span></td>
+<td><code>ckerbound = "fixed", ckerlb = 0, ckerub = Inf</code></td>
+<td>The largest observed duration is not an upper bound.</td>
+</tr>
+<tr class="odd">
+<td>An upper endpoint only, say <span class="math inline">\(b\)</span></td>
+<td><code>ckerbound = "fixed", ckerlb = -Inf, ckerub = b</code></td>
+<td>Leave the unknown or infinite lower endpoint unrestricted.</td>
+</tr>
+<tr class="even">
+<td>Finite endpoints exist but are unknown</td>
+<td><code>ckerbound = "range"</code></td>
+<td>Use the sample minimum and maximum as proxies; examine sensitivity to the support choice.</td>
+</tr>
+<tr class="odd">
+<td>No finite endpoints, such as a Gaussian variable</td>
+<td>Omit the boundary arguments</td>
+<td>A finite sample range does not establish bounded support.</td>
+</tr>
+</tbody>
+</table>
+<p>For conditional density estimation, use <code>cxkerbound</code>, <code>cxkerlb</code>, and <code>cxkerub</code> for the predictors, and <code>cykerbound</code>, <code>cykerlb</code>, and <code>cykerub</code> for the responses. Make the support decision separately for each side. For example, a duration response with an unrestricted predictor calls for the <code>cyker*</code> arguments only. <code>"range"</code> is a modeling choice about finite support, not an automatic way to decide whether a boundary exists. Prefer known endpoints when they are available.</p>
+<section id="two-endpoints-one-endpoint-and-an-unbounded-control" class="level3">
+<h3 class="anchored" data-anchor-id="two-endpoints-one-endpoint-and-an-unbounded-control">Two endpoints, one endpoint, and an unbounded control</h3>
+<p>These examples retain the default second-order <strong>Gaussian kernel</strong>. The change is the support information supplied to the estimator. The top row shows unconditional densities; the bottom row shows conditional densities at the population median of <span class="math inline">\(X\)</span>. Each comparison uses the same sample of 250 observations, seed 42, and separately selected likelihood cross-validation (<code>"cv.ml"</code>) bandwidths with five multistarts.</p>
+<div id="fig-density-support" class="quarto-float quarto-figure quarto-figure-center anchored" alt="One sample, n equals 250, seed 42. Six panels compare the true density and two fitted estimates using ordinary Gaussian kernels and Gaussian kernels with fixed support.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-density-support-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="www/np_npRmpi/boundary_awareness/seed42_n250.png" class="img-fluid figure-img" alt="One sample, n equals 250, seed 42. Six panels compare the true density and two fitted estimates using ordinary Gaussian kernels and Gaussian kernels with fixed support.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-density-support-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: One sample: n = 250, seed 42. Each estimated curve is one fit. Columns show a proportion, a positive duration, and a Gaussian variable; rows show unconditional and conditional densities. Grey regions are outside the declared support.
+</figcaption>
+</figure>
+</div>
+<p>The unconditional examples are uniform on <span class="math inline">\([0,1]\)</span>, exponential with mean one, and standard normal. The conditional examples use the corresponding <span class="math inline">\(X\)</span> distributions and <span class="math inline">\(f(y\mid x)=1+0.8(2x-1)(2y-1)\)</span> on <span class="math inline">\([0,1]\)</span>, an exponential response with mean <span class="math inline">\(1+0.5x\)</span>, and <span class="math inline">\(Y=X+\varepsilon\)</span> with <span class="math inline">\(\varepsilon\sim N(0,1)\)</span> independent of <span class="math inline">\(X\)</span>, respectively. The conditional proportion density is uniform at the displayed median of <span class="math inline">\(X\)</span> but changes shape elsewhere; the <a href="www/np_npRmpi/boundary_awareness/conditional_seed42_n250.png">three-slice figure</a> shows that variation.</p>
+<p>Near a genuine endpoint, an ordinary symmetric kernel assigns mass outside the support. The bounded Gaussian kernel adjusts for the kernel mass remaining inside it. This reduces the leading endpoint distortion, although smoothing bias remains. The uniform example is particularly favorable: with a large bandwidth, the bounded estimate approaches the uniform density. It is an illustration of the mechanism, not a promise of equally large gains for every bounded density.</p>
+<p>The fixed-support curves are extended by zero outside their declared support for display and scoring. The package is evaluated inside that support; its in-support estimates are unchanged. Support correction is distinct from the <code>proper = TRUE</code> option: these examples use the default local-constant conditional estimator with <code>proper = FALSE</code>, without post-estimation normalization.</p>
+<p>Open the <a href="www/np_npRmpi/boundary_awareness/seed42_n250.png">one-sample PNG</a> or download <a href="www/np_npRmpi/np_density_bounds_quickstart.R">np_density_bounds_quickstart.R</a>. It generates all six fits and the figure, and checks the infinite-bounds control.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Show the runnable R example">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Show the runnable R example
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Known support bounds with the default Gaussian kernel (np 0.80-1).</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Source this file to fit and plot all six seed-42 examples.</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Save the plot with:</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">## png("density_bounds.png", width = 1800, height = 1400, res = 180)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">## plot_density_bounds(bounds_examples, main = "One sample | n = 250 | seed = 42")</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="do">## dev.off()</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">## The separate 100-draw Gallery averages are not run by this quickstart.</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">np.messages =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">RNGkind</span>(<span class="st">"Mersenne-Twister"</span>, <span class="st">"Inversion"</span>, <span class="st">"Rejection"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">250</span>L</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>seed <span class="ot">&lt;-</span> <span class="dv">42</span>L</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>search_seed <span class="ot">&lt;-</span> <span class="dv">100000</span>L <span class="sc">+</span> seed</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>designs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"proportion"</span>, <span class="st">"duration"</span>, <span class="st">"gaussian"</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>bounds_examples <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (design <span class="cf">in</span> designs) {</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  bounds <span class="ot">&lt;-</span> <span class="cf">switch</span>(design, <span class="at">proportion =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>                   <span class="at">duration =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">Inf</span>), <span class="at">gaussian =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="cn">Inf</span>))</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  yy <span class="ot">&lt;-</span> <span class="cf">switch</span>(design, <span class="at">proportion =</span> <span class="fu">seq</span>(<span class="sc">-</span>.<span class="dv">2</span>, <span class="fl">1.2</span>, <span class="at">length.out =</span> <span class="dv">281</span>),</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>               <span class="at">duration =</span> <span class="fu">seq</span>(<span class="sc">-</span>.<span class="dv">8</span>, <span class="dv">8</span>, <span class="at">length.out =</span> <span class="dv">221</span>),</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>               <span class="at">gaussian =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">4.5</span>, <span class="fl">4.5</span>, <span class="at">length.out =</span> <span class="dv">201</span>))</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  inside <span class="ot">&lt;-</span> yy <span class="sc">&gt;=</span> bounds[<span class="dv">1</span>] <span class="sc">&amp;</span> yy <span class="sc">&lt;=</span> bounds[<span class="dv">2</span>]</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Unconditional: the same sample, separate CVML bandwidth searches.</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(seed)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="cf">switch</span>(design, <span class="at">proportion =</span> <span class="fu">runif</span>(n),</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>              <span class="at">duration =</span> <span class="fu">rexp</span>(n), <span class="at">gaussian =</span> <span class="fu">rnorm</span>(n))</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(search_seed); <span class="fu">npseed</span>(search_seed)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  b0 <span class="ot">&lt;-</span> <span class="fu">npudensbw</span>(<span class="at">dat =</span> <span class="fu">data.frame</span>(y), <span class="at">bwmethod =</span> <span class="st">"cv.ml"</span>, <span class="at">nmulti =</span> <span class="dv">5</span>)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(search_seed); <span class="fu">npseed</span>(search_seed)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> <span class="fu">npudensbw</span>(<span class="at">dat =</span> <span class="fu">data.frame</span>(y), <span class="at">bwmethod =</span> <span class="st">"cv.ml"</span>, <span class="at">nmulti =</span> <span class="dv">5</span>,</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ckerbound =</span> <span class="st">"fixed"</span>, <span class="at">ckerlb =</span> bounds[<span class="dv">1</span>], <span class="at">ckerub =</span> bounds[<span class="dv">2</span>])</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  u0 <span class="ot">&lt;-</span> <span class="fu">fitted</span>(<span class="fu">npudens</span>(<span class="at">bws =</span> b0, <span class="at">tdat =</span> <span class="fu">data.frame</span>(y), <span class="at">edat =</span> <span class="fu">data.frame</span>(<span class="at">y =</span> yy)))</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Public evaluation is inside the declared support. Zero extension is</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>  <span class="do">## an explicit plotting convention; no in-support estimates are changed.</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  u1 <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(yy))</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>  u1[inside] <span class="ot">&lt;-</span> <span class="fu">fitted</span>(<span class="fu">npudens</span>(<span class="at">bws =</span> b1, <span class="at">tdat =</span> <span class="fu">data.frame</span>(y),</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>                             <span class="at">edat =</span> <span class="fu">data.frame</span>(<span class="at">y =</span> yy[inside])))</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>  tu <span class="ot">&lt;-</span> <span class="cf">switch</span>(design, <span class="at">proportion =</span> <span class="fu">dunif</span>(yy),</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>               <span class="at">duration =</span> <span class="fu">dexp</span>(yy), <span class="at">gaussian =</span> <span class="fu">dnorm</span>(yy))</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Conditional: one continuous X and one continuous Y, default LC.</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(seed)</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="cf">switch</span>(design, <span class="at">proportion =</span> <span class="fu">runif</span>(n),</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>              <span class="at">duration =</span> <span class="fu">rexp</span>(n), <span class="at">gaussian =</span> <span class="fu">rnorm</span>(n))</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="cf">switch</span>(design,</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">proportion =</span> {a <span class="ot">&lt;-</span> .<span class="dv">8</span> <span class="sc">*</span> (<span class="dv">2</span><span class="sc">*</span>x <span class="sc">-</span> <span class="dv">1</span>); u <span class="ot">&lt;-</span> <span class="fu">runif</span>(n)</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>                  <span class="dv">2</span><span class="sc">*</span>u <span class="sc">/</span> ((<span class="dv">1</span><span class="sc">-</span>a) <span class="sc">+</span> <span class="fu">sqrt</span>((<span class="dv">1</span><span class="sc">-</span>a)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">4</span><span class="sc">*</span>a<span class="sc">*</span>u))},</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">duration =</span> <span class="fu">rexp</span>(n, <span class="at">rate =</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> .<span class="dv">5</span><span class="sc">*</span>x)),</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">gaussian =</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> x))</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Display the conditional density at the population median of X.</span></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>  x0 <span class="ot">&lt;-</span> <span class="cf">switch</span>(design, <span class="at">proportion =</span> .<span class="dv">5</span>, <span class="at">duration =</span> <span class="fu">qexp</span>(.<span class="dv">5</span>), <span class="at">gaussian =</span> <span class="dv">0</span>)</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>  grid <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">rep</span>(x0, <span class="fu">length</span>(yy)), <span class="at">y =</span> yy)</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(search_seed); <span class="fu">npseed</span>(search_seed)</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>  b0c <span class="ot">&lt;-</span> <span class="fu">npcdensbw</span>(<span class="at">xdat =</span> <span class="fu">data.frame</span>(x), <span class="at">ydat =</span> <span class="fu">data.frame</span>(y),</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>                   <span class="at">bwmethod =</span> <span class="st">"cv.ml"</span>, <span class="at">nmulti =</span> <span class="dv">5</span>)</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(search_seed); <span class="fu">npseed</span>(search_seed)</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>  b1c <span class="ot">&lt;-</span> <span class="fu">npcdensbw</span>(<span class="at">xdat =</span> <span class="fu">data.frame</span>(x), <span class="at">ydat =</span> <span class="fu">data.frame</span>(y),</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>                   <span class="at">bwmethod =</span> <span class="st">"cv.ml"</span>, <span class="at">nmulti =</span> <span class="dv">5</span>,</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>                   <span class="at">cxkerbound =</span> <span class="st">"fixed"</span>, <span class="at">cxkerlb =</span> bounds[<span class="dv">1</span>], <span class="at">cxkerub =</span> bounds[<span class="dv">2</span>],</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>                   <span class="at">cykerbound =</span> <span class="st">"fixed"</span>, <span class="at">cykerlb =</span> bounds[<span class="dv">1</span>], <span class="at">cykerub =</span> bounds[<span class="dv">2</span>])</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>  c0 <span class="ot">&lt;-</span> <span class="fu">fitted</span>(<span class="fu">npcdens</span>(<span class="at">bws =</span> b0c, <span class="at">txdat =</span> <span class="fu">data.frame</span>(x), <span class="at">tydat =</span> <span class="fu">data.frame</span>(y),</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>                      <span class="at">exdat =</span> grid[<span class="st">"x"</span>], <span class="at">eydat =</span> grid[<span class="st">"y"</span>], <span class="at">proper =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>  c1 <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(yy))</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>  c1[inside] <span class="ot">&lt;-</span> <span class="fu">fitted</span>(<span class="fu">npcdens</span>(<span class="at">bws =</span> b1c, <span class="at">txdat =</span> <span class="fu">data.frame</span>(x), <span class="at">tydat =</span> <span class="fu">data.frame</span>(y),</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>                              <span class="at">exdat =</span> grid[inside, <span class="st">"x"</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>],</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>                              <span class="at">eydat =</span> grid[inside, <span class="st">"y"</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>], <span class="at">proper =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>  tc <span class="ot">&lt;-</span> <span class="cf">switch</span>(design,</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">proportion =</span> (<span class="dv">1</span> <span class="sc">+</span> .<span class="dv">8</span><span class="sc">*</span>(<span class="dv">2</span><span class="sc">*</span>x0 <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">*</span>(<span class="dv">2</span><span class="sc">*</span>yy <span class="sc">-</span> <span class="dv">1</span>)) <span class="sc">*</span> inside,</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>    <span class="at">duration =</span> <span class="fu">dexp</span>(yy, <span class="at">rate =</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> .<span class="dv">5</span><span class="sc">*</span>x0)), <span class="at">gaussian =</span> <span class="fu">dnorm</span>(yy, <span class="at">mean =</span> x0))</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (design <span class="sc">==</span> <span class="st">"gaussian"</span>) {</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Test the estimator separately from bandwidth-search rounding.</span></span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>    same <span class="ot">&lt;-</span> <span class="fu">npcdens</span>(<span class="at">bws =</span> <span class="fu">c</span>(b0c<span class="sc">$</span>ybw, b0c<span class="sc">$</span>xbw),</span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>                    <span class="at">txdat =</span> <span class="fu">data.frame</span>(x), <span class="at">tydat =</span> <span class="fu">data.frame</span>(y),</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>                    <span class="at">exdat =</span> grid[<span class="st">"x"</span>], <span class="at">eydat =</span> grid[<span class="st">"y"</span>], <span class="at">proper =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>                    <span class="at">cxkerbound =</span> <span class="st">"fixed"</span>, <span class="at">cxkerlb =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">cxkerub =</span> <span class="cn">Inf</span>,</span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>                    <span class="at">cykerbound =</span> <span class="st">"fixed"</span>, <span class="at">cykerlb =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">cykerub =</span> <span class="cn">Inf</span>)</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stopifnot</span>(<span class="fu">identical</span>(u0, u1), <span class="fu">identical</span>(c0, <span class="fu">fitted</span>(same)))</span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">c</span>(<span class="at">unconditional_difference =</span> <span class="fu">max</span>(<span class="fu">abs</span>(u0 <span class="sc">-</span> u1)),</span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>            <span class="at">conditional_same_bandwidth =</span> <span class="fu">max</span>(<span class="fu">abs</span>(c0 <span class="sc">-</span> <span class="fu">fitted</span>(same))),</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>            <span class="at">conditional_separate_cvml =</span> <span class="fu">max</span>(<span class="fu">abs</span>(c0 <span class="sc">-</span> c1))))</span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>  bounds_examples[[design]] <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">y =</span> yy, <span class="at">bounds =</span> bounds, <span class="at">x0 =</span> x0,</span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">unconditional =</span> <span class="fu">data.frame</span>(<span class="at">truth =</span> tu, <span class="at">ordinary =</span> u0, <span class="at">fixed =</span> u1),</span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>    <span class="at">conditional =</span> <span class="fu">data.frame</span>(<span class="at">truth =</span> tc, <span class="at">ordinary =</span> c0, <span class="at">fixed =</span> c1))</span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>plot_density_bounds <span class="ot">&lt;-</span> <span class="cf">function</span>(examples, <span class="at">main =</span> <span class="st">"One sample"</span>,</span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>                                <span class="at">subtitle =</span> <span class="st">"One fitted estimate per curve"</span>,</span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>                                <span class="at">ylimits =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a>  op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">no.readonly =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>  <span class="fu">on.exit</span>(<span class="fu">par</span>(op))</span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>), <span class="at">cex =</span> <span class="dv">1</span>, <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="fl">3.5</span>, .<span class="dv">8</span>), <span class="at">oma =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">6.5</span>, <span class="dv">0</span>))</span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>  cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#222222"</span>, <span class="st">"#D55E00"</span>, <span class="st">"#0072B2"</span>)</span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a>  titles <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">proportion =</span> <span class="st">"Proportion: two endpoints"</span>,</span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a>              <span class="at">duration =</span> <span class="st">"Duration: one endpoint"</span>, <span class="at">gaussian =</span> <span class="st">"Gaussian: no finite endpoint"</span>)</span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (family <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"unconditional"</span>, <span class="st">"conditional"</span>)) <span class="cf">for</span> (design <span class="cf">in</span> <span class="fu">names</span>(examples)) {</span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a>    z <span class="ot">&lt;-</span> examples[[design]]; v <span class="ot">&lt;-</span> z[[family]]</span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a>    inside <span class="ot">&lt;-</span> z<span class="sc">$</span>y <span class="sc">&gt;=</span> z<span class="sc">$</span>bounds[<span class="dv">1</span>] <span class="sc">&amp;</span> z<span class="sc">$</span>y <span class="sc">&lt;=</span> z<span class="sc">$</span>bounds[<span class="dv">2</span>]</span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a>    ylim <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">is.null</span>(ylimits)) <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(v)<span class="sc">*</span><span class="fl">1.07</span>) <span class="cf">else</span> ylimits[[family]][[design]]</span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(z<span class="sc">$</span>y, v<span class="sc">$</span>truth, <span class="at">type =</span> <span class="st">"n"</span>, <span class="at">ylim =</span> ylim,</span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a>         <span class="at">xlab =</span> <span class="st">"Value of Y"</span>, <span class="at">ylab =</span> <span class="st">"Density"</span>, <span class="at">main =</span> titles[design], <span class="at">cex.main =</span> .<span class="dv">9</span>)</span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mtext</span>(<span class="cf">if</span> (family <span class="sc">==</span> <span class="st">"unconditional"</span>) <span class="st">"Unconditional"</span> <span class="cf">else</span></span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a>            <span class="fu">sprintf</span>(<span class="st">"Conditional at X = %.2f"</span>, z<span class="sc">$</span>x0), <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> .<span class="dv">3</span>, <span class="at">cex =</span> .<span class="dv">85</span>)</span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.finite</span>(z<span class="sc">$</span>bounds[<span class="dv">1</span>])) <span class="fu">rect</span>(<span class="fu">min</span>(z<span class="sc">$</span>y), <span class="dv">0</span>, z<span class="sc">$</span>bounds[<span class="dv">1</span>], <span class="fu">par</span>(<span class="st">"usr"</span>)[<span class="dv">4</span>],</span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">col =</span> <span class="st">"#F0F0F0"</span>, <span class="at">border =</span> <span class="cn">NA</span>)</span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.finite</span>(z<span class="sc">$</span>bounds[<span class="dv">2</span>])) <span class="fu">rect</span>(z<span class="sc">$</span>bounds[<span class="dv">2</span>], <span class="dv">0</span>, <span class="fu">max</span>(z<span class="sc">$</span>y), <span class="fu">par</span>(<span class="st">"usr"</span>)[<span class="dv">4</span>],</span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">col =</span> <span class="st">"#F0F0F0"</span>, <span class="at">border =</span> <span class="cn">NA</span>)</span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Break at support endpoints rather than draw a spurious sloping join.</span></span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (ix <span class="cf">in</span> <span class="fu">split</span>(<span class="fu">seq_along</span>(z<span class="sc">$</span>y), <span class="fu">cumsum</span>(<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="fu">diff</span>(inside) <span class="sc">!=</span> <span class="dv">0</span>)))) {</span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>      <span class="fu">lines</span>(z<span class="sc">$</span>y[ix], v<span class="sc">$</span>truth[ix], <span class="at">col =</span> cols[<span class="dv">1</span>], <span class="at">lwd =</span> <span class="fl">2.4</span>)</span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>      <span class="fu">lines</span>(z<span class="sc">$</span>y[ix], v<span class="sc">$</span>fixed[ix], <span class="at">col =</span> cols[<span class="dv">3</span>], <span class="at">lwd =</span> <span class="fl">2.4</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines</span>(z<span class="sc">$</span>y, v<span class="sc">$</span>ordinary, <span class="at">col =</span> cols[<span class="dv">2</span>], <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (design <span class="sc">==</span> <span class="st">"gaussian"</span>) <span class="fu">lines</span>(z<span class="sc">$</span>y, v<span class="sc">$</span>fixed, <span class="at">col =</span> cols[<span class="dv">3</span>], <span class="at">lwd =</span> <span class="fl">2.4</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtext</span>(main, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">outer =</span> <span class="cn">TRUE</span>, <span class="at">line =</span> <span class="fl">3.5</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">1.25</span>)</span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtext</span>(subtitle, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">outer =</span> <span class="cn">TRUE</span>, <span class="at">line =</span> <span class="dv">2</span>, <span class="at">cex =</span> .<span class="dv">9</span>)</span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a>  top <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="st">"omi"</span>)[<span class="dv">3</span>] <span class="sc">/</span> <span class="fu">par</span>(<span class="st">"din"</span>)[<span class="dv">2</span>]</span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">fig =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span><span class="sc">-</span>top, <span class="dv">1</span>), <span class="at">new =</span> <span class="cn">TRUE</span>, <span class="at">mar =</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">4</span>), <span class="at">oma =</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">4</span>))</span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot.new</span>()</span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>  <span class="fu">legend</span>(<span class="st">"bottom"</span>, <span class="fu">c</span>(<span class="st">"True density"</span>, <span class="st">"Ordinary Gaussian kernel"</span>, <span class="st">"Gaussian kernel with fixed support"</span>),</span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>         <span class="at">col =</span> cols, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">lwd =</span> <span class="fl">2.4</span>, <span class="at">bty =</span> <span class="st">"n"</span>, <span class="at">horiz =</span> <span class="cn">TRUE</span>, <span class="at">cex =</span> .<span class="dv">9</span>)</span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_density_bounds</span>(bounds_examples, <span class="at">main =</span> <span class="fu">sprintf</span>(<span class="st">"One sample | n = %d | seed = %d"</span>, n, seed))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</section>
+<section id="what-changes-over-repeated-samples" class="level3">
+<h3 class="anchored" data-anchor-id="what-changes-over-repeated-samples">What changes over repeated samples?</h3>
+<p>The next figure averages the fitted densities from <strong>100 separately simulated samples of 250 observations each</strong>, using seeds 42–141. Each sample has its own selected bandwidths. The panels, evaluation points, and axis limits match the one-sample figure above; no samples are pooled into a larger fit.</p>
+<div id="fig-density-support-average" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Average of 100 simulations with 250 observations per sample. Matching six-panel layout shows average density estimates against truth, revealing persistent boundary bias in the uncorrected estimates.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-density-support-average-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="www/np_npRmpi/boundary_awareness/mean100_n250.png" class="img-fluid figure-img" alt="Average of 100 simulations with 250 observations per sample. Matching six-panel layout shows average density estimates against truth, revealing persistent boundary bias in the uncorrected estimates.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-density-support-average-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Average of 100 simulations: n = 250 per sample, seeds 42–141. Each estimated curve is the pointwise average of 100 independently fitted densities.
+</figcaption>
+</figure>
+</div>
+<p>Open the separate <a href="www/np_npRmpi/boundary_awareness/mean100_n250.png">100-simulation-average PNG</a> or download its <a href="www/np_npRmpi/boundary_awareness/mean100_curves_n250.csv">curve values</a>. The average curves show systematic bias and average away much of the sample-to-sample fluctuation. They do not display estimator variance; the MISE results below average each sample’s integrated squared error and include both.</p>
+<p>Across 100 paired draws at each sample size, the known-support specification reduced mean integrated squared error in both finite-boundary examples. The table reports the percentage reduction relative to the ordinary estimator. The seeds were fixed in advance (42–141); both procedures used the same data and the same optimizer seed within each pair.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 22%">
+<col style="width: 22%">
+<col style="width: 22%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Target</th>
+<th style="text-align: right;">Sample size</th>
+<th style="text-align: right;">Proportion: two endpoints</th>
+<th style="text-align: right;">Duration: one endpoint</th>
+<th>Gaussian: no finite endpoint</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unconditional</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">86.7%</td>
+<td style="text-align: right;">74.5%</td>
+<td>Numerical tie</td>
+</tr>
+<tr class="even">
+<td>Unconditional</td>
+<td style="text-align: right;">250</td>
+<td style="text-align: right;">91.6%</td>
+<td style="text-align: right;">81.0%</td>
+<td>Numerical tie</td>
+</tr>
+<tr class="odd">
+<td>Conditional</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">54.5%</td>
+<td style="text-align: right;">66.3%</td>
+<td>Numerical tie</td>
+</tr>
+<tr class="even">
+<td>Conditional</td>
+<td style="text-align: right;">250</td>
+<td style="text-align: right;">66.3%</td>
+<td style="text-align: right;">65.2%</td>
+<td>Numerical tie</td>
+</tr>
+</tbody>
+</table>
+<p>Unconditional loss integrates squared error over the whole real line. Conditional loss is <span class="math inline">\(E_X[\int\{\widehat f(y\mid X)-f(y\mid X)\}^2\,dy]\)</span>, using the population distribution of <span class="math inline">\(X\)</span>. Thus these are integrated losses, not equally weighted errors on the plotting grid. Average gains remain positive in every finite-boundary case when loss is restricted to the true support. The corrected estimator wins in 98–100 of the 100 pairs in these cases; improvement on each sample is not guaranteed.</p>
+<p>Also available are the <a href="www/np_npRmpi/boundary_awareness/conditional_mean100_n250.png">conditional averages at three X values</a> and <a href="www/np_npRmpi/boundary_awareness/conditional_surfaces_seed42_n250.png">conditional surfaces</a>.</p>
+<p>Download the <a href="www/np_npRmpi/boundary_awareness/summary.csv">complete MISE summary and paired Monte Carlo standard errors</a>, <a href="www/np_npRmpi/boundary_awareness/per_fit.csv">per-fit results</a>, and <a href="www/np_npRmpi/boundary_awareness/README.md">simulation definitions and numerical checks</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Infinite bounds and the conditional estimator">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Infinite bounds and the conditional estimator
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>At a common bandwidth, <code>"fixed"</code> with <code>(-Inf, Inf)</code> reproduced ordinary predictions exactly in all 400 Gaussian pairs. Separately selected CVML fits were identical unconditionally and differed by at most <span class="math inline">\(6.30\times10^{-8}\)</span> conditionally. For an unbounded variable, simply omit the boundary arguments.</p>
+<p>This does not establish equality of every bandwidth selector. In <code>np</code> 0.80-1, conditional <code>"cv.ls"</code> with explicitly infinite response bounds uses a finite quadrature surrogate and issues a warning; it can select different bandwidths from the ordinary unbounded route. See the <a href="www/np_npRmpi/boundary_awareness/infinite_bounds_selectors.csv">selector checks</a>.</p>
+<p>For these fixed-bandwidth local-constant conditional fits, the common query-centered correction on the <span class="math inline">\(X\)</span> side cancels from the density ratio at a given bandwidth. The direct correction shown here is on the <span class="math inline">\(Y\)</span> side. Supplying the correct <span class="math inline">\(X\)</span> support remains appropriate, but these examples do not demonstrate a separate <span class="math inline">\(X\)</span>-boundary shape improvement.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
 <section id="practitioner-oriented-extras" class="level2">
 <h2 class="anchored" data-anchor-id="practitioner-oriented-extras">Practitioner-oriented extras</h2>
 <p>Some applied tasks are a little different from the standard “fit and inspect” workflow. The Cambridge practitioner material suggests three especially useful ones:</p>
@@ -582,24 +880,24 @@ E[Y\mid X=x]=\int y f(y\mid x)\,dy.
 </ul>
 <p>The first of these is compact enough to show inline.</p>
 <p>Source file: <a href="www/np_npRmpi/np_probability_quickstart.R">np_probability_quickstart.R</a></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Minimal np smooth-probability example.</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">## This is a compact route for estimating a smooth probability function</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">## on unordered discrete support.</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">np.messages =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Simulate a small unordered outcome with three support points.</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">2</span>, <span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.45</span>, <span class="fl">0.30</span>)))</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit the smooth probability object using the unordered kernel.</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">npudens</span>(<span class="sc">~</span> X, <span class="at">ukertype =</span> <span class="st">"aitchisonaitken"</span>, <span class="at">bwmethod =</span> <span class="st">"cv.ml"</span>)</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="do">## Inspect the fitted object, then recover one fitted probability per class.</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(<span class="fu">fitted</span>(fit), X, mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Minimal np smooth-probability example.</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="do">## This is a compact route for estimating a smooth probability function</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="do">## on unordered discrete support.</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">np.messages =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Simulate a small unordered outcome with three support points.</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">2</span>, <span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.45</span>, <span class="fl">0.30</span>)))</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit the smooth probability object using the unordered kernel.</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">npudens</span>(<span class="sc">~</span> X, <span class="at">ukertype =</span> <span class="st">"aitchisonaitken"</span>, <span class="at">bwmethod =</span> <span class="st">"cv.ml"</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="do">## Inspect the fitted object, then recover one fitted probability per class.</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(<span class="fu">fitted</span>(fit), X, mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Additional practitioner scripts:</p>
 <ul>
 <li><a href="www/np_npRmpi/np_density_resample_quickstart.R">np_density_resample_quickstart.R</a></li>
@@ -611,45 +909,45 @@ E[Y\mid X=x]=\int y f(y\mid x)\,dy.
 <p>If the main object of interest is the dependence structure itself rather than a regression function, <code>npcopula</code> is the natural route.</p>
 <p>The formula interface is now the streamlined first stop: when <code>bws</code> is not supplied, <code>npcopula()</code> automatically builds the required <code>npudistbw()</code> bandwidth object for the default copula target, or <code>npudensbw()</code> when <code>target = "density"</code>. For the default two-dimensional grid workflow, omitting <code>u</code> also triggers automatic construction of a probability grid.</p>
 <p>Source file: <a href="www/np_npRmpi/np_copula_quickstart.R">np_copula_quickstart.R</a></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Minimal np copula example.</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="do">## This uses the direct formula interface and lets npcopula() build</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="do">## the corresponding marginal distribution bandwidth object internally.</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>rho <span class="ot">&lt;-</span> <span class="fl">0.95</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, rho, rho, <span class="dv">1</span>), <span class="dv">2</span>, <span class="dv">2</span>)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Simulate a simple bivariate sample with strong dependence.</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">mvrnorm</span>(<span class="at">n =</span> n, <span class="at">mu =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">Sigma =</span> Sigma))</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>)</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="do">## Let npcopula() create a small default probability grid.</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>copula_fit <span class="ot">&lt;-</span> <span class="fu">npcopula</span>(<span class="sc">~</span> x <span class="sc">+</span> y, <span class="at">data =</span> dat, <span class="at">neval =</span> <span class="dv">20</span>)</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="do">## Inspect the fitted copula object and the retained bandwidth object.</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(copula_fit)</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(copula_fit<span class="sc">$</span>bws)</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="do">## Evaluate on a small Cartesian grid of marginal probability coordinates.</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>u_eval <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">u1 =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">u2 =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(copula_fit, <span class="at">u =</span> u_eval)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Minimal np copula example.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">## This uses the direct formula interface and lets npcopula() build</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="do">## the corresponding marginal distribution bandwidth object internally.</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>rho <span class="ot">&lt;-</span> <span class="fl">0.95</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, rho, rho, <span class="dv">1</span>), <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Simulate a simple bivariate sample with strong dependence.</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">mvrnorm</span>(<span class="at">n =</span> n, <span class="at">mu =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">Sigma =</span> Sigma))</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="do">## Let npcopula() create a small default probability grid.</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>copula_fit <span class="ot">&lt;-</span> <span class="fu">npcopula</span>(<span class="sc">~</span> x <span class="sc">+</span> y, <span class="at">data =</span> dat, <span class="at">neval =</span> <span class="dv">20</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="do">## Inspect the fitted copula object and the retained bandwidth object.</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(copula_fit)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(copula_fit<span class="sc">$</span>bws)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="do">## Evaluate on a small Cartesian grid of marginal probability coordinates.</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>u_eval <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">u1 =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">u2 =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(copula_fit, <span class="at">u =</span> u_eval)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The fitted object retains its public bandwidth state in <code>copula_fit$bws</code>. Copula prediction is expressed in marginal probability coordinates, not in raw data on the original variable scale:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Evaluate the fitted copula on a small Cartesian probability grid</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>u_eval <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">u1 =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">u2 =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(copula_fit, <span class="at">u =</span> u_eval)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Evaluate the fitted copula on a small Cartesian probability grid</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>u_eval <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">u1 =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">u2 =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(copula_fit, <span class="at">u =</span> u_eval)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The compatibility <code>newdata</code> route also expects columns named <code>u1</code>, <code>u2</code>, and so on; it does not transform raw <code>x</code> and <code>y</code> values into probability coordinates. For higher-dimensional copulas, provide <code>u</code> explicitly or use <code>evaluation = "sample"</code> rather than asking for an exponentially growing automatic grid.</p>
 <p>Set <code>neval</code> when constructing <code>npcopula()</code> if you want a different automatic grid size. It is not a post-fit plotting control: <code>plot.npcopula()</code> rejects <code>neval</code>, while a custom fitted grid can be supplied through <code>u</code> at construction.</p>
 <p>For LP-capable conditional families, the same modern shortcut is now available:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>fhat_lp <span class="ot">&lt;-</span> <span class="fu">npcdens</span>(eruptions <span class="sc">~</span> waiting, <span class="at">data =</span> dat, <span class="at">nomad =</span> <span class="st">"auto"</span>, <span class="at">nmulti =</span> <span class="dv">1</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>Fhat_lp <span class="ot">&lt;-</span> <span class="fu">npcdist</span>(eruptions <span class="sc">~</span> waiting, <span class="at">data =</span> dat, <span class="at">nomad =</span> <span class="st">"auto"</span>, <span class="at">nmulti =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fhat_lp <span class="ot">&lt;-</span> <span class="fu">npcdens</span>(eruptions <span class="sc">~</span> waiting, <span class="at">data =</span> dat, <span class="at">nomad =</span> <span class="st">"auto"</span>, <span class="at">nmulti =</span> <span class="dv">1</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Fhat_lp <span class="ot">&lt;-</span> <span class="fu">npcdist</span>(eruptions <span class="sc">~</span> waiting, <span class="at">data =</span> dat, <span class="at">nomad =</span> <span class="st">"auto"</span>, <span class="at">nmulti =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>That is the convenience route for automatic local-polynomial degree and bandwidth search in a single call. As with regression, it requires the <code>crs</code> package because NOMAD degree search is provided there.</p>
 <p>When the local-polynomial degree is above zero, <code>proper = TRUE</code> is also available in the <code>npc*</code> calls and related plot routes. This enforces proper conditional density/distribution output in the practical sense used here: non-negative and integrating to one conditional on <code>x</code>.</p>
 <p>The same local-polynomial extensions now also broaden derivative support across the conditional family. In practice, that means conditional density, conditional distribution, conditional quantile, and related fitted objects can now expose richer gradient and higher-order derivative routes whenever the selected polynomial degree is high enough to support them.</p>
@@ -658,38 +956,38 @@ E[Y\mid X=x]=\int y f(y\mid x)\,dy.
 <h2 class="anchored" data-anchor-id="nonparametric-quantile-regression-npqreg">Nonparametric quantile regression: <code>npqreg</code></h2>
 <p>Use <code>npqreg</code> when your interest lies in conditional quantiles rather than means.</p>
 <p>The direct formula interface is now the natural first stop. When <code>bws</code> is not supplied, <code>npqreg()</code> automatically calls <code>npcdistbw()</code> internally to select bandwidths for the conditional-distribution target. It then estimates that distribution and inverts it at the requested <span class="math inline">\(\tau\in(0,1)\)</span> values. Bandwidth-selection options supplied to <code>npqreg()</code> are passed through to the internal <code>npcdistbw()</code> call, so you can still control the underlying conditional-distribution fit without breaking the high-level workflow.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Extract several quantiles from one selected conditional-distribution fit</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Italy, <span class="at">package =</span> <span class="st">"np"</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>qfit <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year),</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> Italy,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Extract several quantiles from one selected conditional-distribution fit</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Italy, <span class="at">package =</span> <span class="st">"np"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>qfit <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> Italy,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Then compare the fitted quantiles:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Overlay the fitted conditional quantiles</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Overlay the fitted conditional quantiles</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If you later want to reuse the selected bandwidths for additional quantiles without recomputing cross-validation, you still can. Call <code>npqreg()</code> when you need the fitted values as an object, or pass <code>tau</code> directly to <code>plot()</code> when graphical inspection is all you need:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>qmed <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year), <span class="at">data =</span> Italy, <span class="at">tau =</span> <span class="fl">0.50</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>qfit <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(<span class="at">bws =</span> qmed<span class="sc">$</span>bws, <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Or, if plotting is the only goal:</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qmed, <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>qmed <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year), <span class="at">data =</span> Italy, <span class="at">tau =</span> <span class="fl">0.50</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>qfit <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(<span class="at">bws =</span> qmed<span class="sc">$</span>bws, <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Or, if plotting is the only goal:</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qmed, <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If you want derivative information, request it in the fit:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>qgrad <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year),</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> Italy,</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">tau =</span> <span class="fl">0.50</span>,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">gradients =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qgrad, <span class="at">gradients =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>qgrad <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year),</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> Italy,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">tau =</span> <span class="fl">0.50</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">gradients =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qgrad, <span class="at">gradients =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The same formula interface can also use the automatic local-polynomial degree-and-bandwidth search when the conditioning data include at least one continuous variable:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Italy<span class="sc">$</span>year_numeric <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(Italy<span class="sc">$</span>year))</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>qfit_lp <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> year_numeric,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> Italy,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                  <span class="do">## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">nomad =</span> <span class="st">"auto"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Italy<span class="sc">$</span>year_numeric <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(Italy<span class="sc">$</span>year))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>qfit_lp <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(gdp <span class="sc">~</span> year_numeric,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> Italy,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                  <span class="do">## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">nomad =</span> <span class="st">"auto"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This is a good example of the intended progression: start with the direct high-level route, then reuse the retained bandwidth object only when you specifically want to avoid recomputing it.</p>
 <p>Conditional quantile inversion requires a monotone dependent-variable CDF. Accordingly, <code>npqreg</code> supports <code>cykerorder = 2</code> for this route and rejects higher-order dependent-variable CDF kernels, which can be nonmonotone.</p>
 </section>
@@ -698,39 +996,39 @@ E[Y\mid X=x]=\int y f(y\mid x)\,dy.
 <p>Use <code>nplsqreg</code> when you want a location-scale conditional quantile route rather than direct inversion of a fitted conditional distribution.</p>
 <p>The user-facing workflow is meant to feel just as natural as <code>npqreg</code>. When <code>bws</code> is omitted, <code>nplsqreg()</code> calls <code>nplsqregbw()</code> internally to select the underlying bandwidths and location-scale shift state. You still retain the selected bandwidth object for exact reuse, but the normal first stop is the high-level formula interface.</p>
 <p>Source file: <a href="www/np_npRmpi/np_lsqreg_quickstart.R">np_lsqreg_quickstart.R</a></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Minimal np location-scale quantile example.</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit several location-scale quantiles in one call, then inspect the</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="do">## selected bandwidth state and compare the fitted curves.</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">np.messages =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Keep the first location-scale run compact and reproducible.</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Italy, <span class="at">package =</span> <span class="st">"np"</span>)</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit several conditional quantiles using the location-scale route.</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>qfit <span class="ot">&lt;-</span> <span class="fu">nplsqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year),</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> Italy,</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">nmulti =</span> <span class="dv">1</span>)</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="do">## Review the selected search state and fitted object.</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(qfit<span class="sc">$</span>bws)</span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(qfit)</span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="do">## Predict the stored median without repeating bandwidth selection.</span></span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>qmed <span class="ot">&lt;-</span> <span class="fu">predict</span>(qfit, <span class="at">tau =</span> <span class="fl">0.50</span>)</span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(qmed)</span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot the fitted location-scale quantile curves.</span></span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Minimal np location-scale quantile example.</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit several location-scale quantiles in one call, then inspect the</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="do">## selected bandwidth state and compare the fitted curves.</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">np.messages =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Keep the first location-scale run compact and reproducible.</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Italy, <span class="at">package =</span> <span class="st">"np"</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit several conditional quantiles using the location-scale route.</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>qfit <span class="ot">&lt;-</span> <span class="fu">nplsqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year),</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> Italy,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tau =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">nmulti =</span> <span class="dv">1</span>)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="do">## Review the selected search state and fitted object.</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(qfit<span class="sc">$</span>bws)</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(qfit)</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="do">## Predict the stored median without repeating bandwidth selection.</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>qmed <span class="ot">&lt;-</span> <span class="fu">predict</span>(qfit, <span class="at">tau =</span> <span class="fl">0.50</span>)</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(qmed)</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot the fitted location-scale quantile curves.</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For a vector-<code>tau</code> fit, <code>predict(qfit, tau = ...)</code> can select one or more stored quantiles without repeating bandwidth selection or location-scale calibration. Several values are returned in the requested order, with standard errors and training scores kept aligned when <code>se.fit = TRUE</code>. A value that was not fitted is rejected explicitly; fit that quantile first rather than asking prediction to create new model state.</p>
 <p>If you later want to reuse the selected state for a specific quantile without rerunning the full search, the retained <code>bws</code> object supports that directly:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Reuse an exact location-scale bandwidth object for one fitted tau</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>qmed <span class="ot">&lt;-</span> <span class="fu">nplsqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year), <span class="at">data =</span> Italy, <span class="at">tau =</span> <span class="fl">0.50</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>qfit <span class="ot">&lt;-</span> <span class="fu">nplsqreg</span>(<span class="at">bws =</span> qmed<span class="sc">$</span>bws, <span class="at">tau =</span> <span class="fl">0.50</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Reuse an exact location-scale bandwidth object for one fitted tau</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>qmed <span class="ot">&lt;-</span> <span class="fu">nplsqreg</span>(gdp <span class="sc">~</span> <span class="fu">ordered</span>(year), <span class="at">data =</span> Italy, <span class="at">tau =</span> <span class="fl">0.50</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>qfit <span class="ot">&lt;-</span> <span class="fu">nplsqreg</span>(<span class="at">bws =</span> qmed<span class="sc">$</span>bws, <span class="at">tau =</span> <span class="fl">0.50</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qfit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>As with the other LP-capable conditional families, <code>nomad = "auto"</code> can also be used on supported continuous-data routes when you want automatic degree-and-bandwidth search in the same high-level call. For <code>nplsqreg</code>, a one-dimensional smoothing problem evaluates the complete requested degree lattice and jointly optimizes the bandwidth and <code>delta</code> at each degree; higher-dimensional problems use the NOMAD/Powell policy.</p>
 <p>For vector <code>tau</code>, the location-scale fits are estimated independently. Their asymptotic standard errors are conditional on the selected bandwidths, pilot scale, and shift state, and the fitted quantile curves are not monotonized, so finite-sample crossing is possible.</p>
 </section>

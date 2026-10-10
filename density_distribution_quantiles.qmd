@@ -9,6 +9,8 @@ keywords:
   - npqreg
   - nplsqreg
   - density
+  - boundary correction
+  - support bounds
   - quantile regression
 ---
 
@@ -178,6 +180,136 @@ deleted-sample geometry for affected beta and bounded-kernel nearest-neighbour
 criteria can likewise change selected bandwidths. Those correctness fixes are
 confined to the affected routes, and some of the corrected searches require
 more work than the former criteria.
+
+## Choosing support bounds {#choosing-support-bounds}
+
+Before estimating a density, consider which values the variable can take. A
+proportion has two finite endpoints; a positive duration has a lower endpoint
+but need not have a finite upper endpoint. Supply endpoints known from the
+application, in the same units as the data.
+
+| What is known about the support? | Unconditional density arguments | Practical interpretation |
+|---|---|---|
+| Both endpoints, such as a proportion in $[0,1]$ | `ckerbound = "fixed", ckerlb = 0, ckerub = 1` | Use both known endpoints. |
+| A lower endpoint only, such as a duration in $[0,\infty)$ | `ckerbound = "fixed", ckerlb = 0, ckerub = Inf` | The largest observed duration is not an upper bound. |
+| An upper endpoint only, say $b$ | `ckerbound = "fixed", ckerlb = -Inf, ckerub = b` | Leave the unknown or infinite lower endpoint unrestricted. |
+| Finite endpoints exist but are unknown | `ckerbound = "range"` | Use the sample minimum and maximum as proxies; examine sensitivity to the support choice. |
+| No finite endpoints, such as a Gaussian variable | Omit the boundary arguments | A finite sample range does not establish bounded support. |
+
+For conditional density estimation, use `cxkerbound`, `cxkerlb`, and `cxkerub`
+for the predictors, and `cykerbound`, `cykerlb`, and `cykerub` for the responses.
+Make the support decision separately for each side. For example, a duration
+response with an unrestricted predictor calls for the `cyker*` arguments only.
+`"range"` is a modeling choice about finite support, not an automatic way to
+decide whether a boundary exists. Prefer known endpoints when they are available.
+
+### Two endpoints, one endpoint, and an unbounded control
+
+These examples retain the default second-order **Gaussian kernel**. The change
+is the support information supplied to the estimator. The top row shows
+unconditional densities; the bottom row shows conditional densities at the
+population median of $X$. Each comparison uses the same sample of 250 observations,
+seed 42, and separately selected likelihood cross-validation (`"cv.ml"`)
+bandwidths with five multistarts.
+
+![One sample: n = 250, seed 42. Each estimated curve is one fit. Columns show a proportion, a positive duration, and a Gaussian variable; rows show unconditional and conditional densities. Grey regions are outside the declared support.](www/np_npRmpi/boundary_awareness/seed42_n250.png){#fig-density-support fig-alt="One sample, n equals 250, seed 42. Six panels compare the true density and two fitted estimates using ordinary Gaussian kernels and Gaussian kernels with fixed support."}
+
+The unconditional examples are uniform on $[0,1]$, exponential with mean one,
+and standard normal. The conditional examples use the corresponding $X$
+distributions and
+$f(y\mid x)=1+0.8(2x-1)(2y-1)$ on $[0,1]$,
+an exponential response with mean $1+0.5x$, and $Y=X+\varepsilon$ with
+$\varepsilon\sim N(0,1)$ independent of $X$, respectively. The conditional
+proportion density is uniform at the displayed median of $X$ but changes shape
+elsewhere; the [three-slice figure](www/np_npRmpi/boundary_awareness/conditional_seed42_n250.png)
+shows that variation.
+
+Near a genuine endpoint, an ordinary symmetric kernel assigns mass outside the
+support. The bounded Gaussian kernel adjusts for the kernel mass remaining
+inside it. This reduces the leading endpoint distortion, although smoothing
+bias remains. The uniform example is particularly favorable: with a large
+bandwidth, the bounded estimate approaches the uniform density. It is an
+illustration of the mechanism, not a promise of equally large gains for every
+bounded density.
+
+The fixed-support curves are extended by zero outside their declared support
+for display and scoring. The package is evaluated inside that support; its
+in-support estimates are unchanged. Support correction is distinct from the
+`proper = TRUE` option: these examples use the default local-constant conditional
+estimator with `proper = FALSE`, without post-estimation normalization.
+
+Open the [one-sample PNG](www/np_npRmpi/boundary_awareness/seed42_n250.png)
+or download [np_density_bounds_quickstart.R](www/np_npRmpi/np_density_bounds_quickstart.R).
+It generates all six fits and the figure, and checks the infinite-bounds control.
+
+::: {.callout-note collapse="true" title="Show the runnable R example"}
+```{r density-bounds-quickstart-source}
+#| echo: false
+#| results: asis
+emit_source("www/np_npRmpi/np_density_bounds_quickstart.R")
+```
+:::
+
+### What changes over repeated samples?
+
+The next figure averages the fitted densities from **100 separately simulated
+samples of 250 observations each**, using seeds 42--141. Each sample has its
+own selected bandwidths. The panels, evaluation points, and axis limits match
+the one-sample figure above; no samples are pooled into a larger fit.
+
+![Average of 100 simulations: n = 250 per sample, seeds 42--141. Each estimated curve is the pointwise average of 100 independently fitted densities.](www/np_npRmpi/boundary_awareness/mean100_n250.png){#fig-density-support-average fig-alt="Average of 100 simulations with 250 observations per sample. Matching six-panel layout shows average density estimates against truth, revealing persistent boundary bias in the uncorrected estimates."}
+
+Open the separate [100-simulation-average PNG](www/np_npRmpi/boundary_awareness/mean100_n250.png)
+or download its [curve values](www/np_npRmpi/boundary_awareness/mean100_curves_n250.csv).
+The average curves show systematic bias and average away much of the
+sample-to-sample fluctuation. They do not display estimator variance; the MISE
+results below average each sample's integrated squared error and include both.
+
+Across 100 paired draws at each sample size, the known-support specification
+reduced mean integrated squared error in both finite-boundary examples.
+The table reports the percentage reduction relative to the ordinary estimator.
+The seeds were fixed in advance (42--141); both procedures used the same data
+and the same optimizer seed within each pair.
+
+| Target | Sample size | Proportion: two endpoints | Duration: one endpoint | Gaussian: no finite endpoint |
+|---|---:|---:|---:|---|
+| Unconditional | 100 | 86.7% | 74.5% | Numerical tie |
+| Unconditional | 250 | 91.6% | 81.0% | Numerical tie |
+| Conditional | 100 | 54.5% | 66.3% | Numerical tie |
+| Conditional | 250 | 66.3% | 65.2% | Numerical tie |
+
+Unconditional loss integrates squared error over the whole real line.
+Conditional loss is $E_X[\int\{\widehat f(y\mid X)-f(y\mid X)\}^2\,dy]$,
+using the population distribution of $X$. Thus these are integrated losses,
+not equally weighted errors on the plotting grid. Average gains remain positive
+in every finite-boundary case when loss is restricted to the true support.
+The corrected estimator wins in 98--100 of the 100 pairs in these cases;
+improvement on each sample is not guaranteed.
+
+Also available are the [conditional averages at three X values](www/np_npRmpi/boundary_awareness/conditional_mean100_n250.png)
+and [conditional surfaces](www/np_npRmpi/boundary_awareness/conditional_surfaces_seed42_n250.png).
+
+Download the [complete MISE summary and paired Monte Carlo standard errors](www/np_npRmpi/boundary_awareness/summary.csv),
+[per-fit results](www/np_npRmpi/boundary_awareness/per_fit.csv), and
+[simulation definitions and numerical checks](www/np_npRmpi/boundary_awareness/README.md).
+
+::: {.callout-note collapse="true" title="Infinite bounds and the conditional estimator"}
+At a common bandwidth, `"fixed"` with `(-Inf, Inf)` reproduced ordinary
+predictions exactly in all 400 Gaussian pairs. Separately selected CVML fits
+were identical unconditionally and differed by at most $6.30\times10^{-8}$
+conditionally. For an unbounded variable, simply omit the boundary arguments.
+
+This does not establish equality of every bandwidth selector. In `np` 0.80-1,
+conditional `"cv.ls"` with explicitly infinite response bounds uses a finite
+quadrature surrogate and issues a warning; it can select different bandwidths
+from the ordinary unbounded route. See the [selector checks](www/np_npRmpi/boundary_awareness/infinite_bounds_selectors.csv).
+
+For these fixed-bandwidth local-constant conditional fits, the common
+query-centered correction on the $X$ side cancels from the density ratio at
+a given bandwidth. The direct correction shown here is on the $Y$ side.
+Supplying the correct $X$ support remains appropriate, but these examples do
+not demonstrate a separate $X$-boundary shape improvement.
+:::
 
 ## Practitioner-oriented extras
 

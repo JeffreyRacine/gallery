@@ -539,6 +539,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="generalized-product-kernels-in-one-sentence">Generalized product kernels in one sentence</h2>
 <p>If the data contain continuous and categorical variables, <code>np</code> builds a product kernel using the appropriate component for each variable type, then lets the bandwidths differ across variables.</p>
 <p>That is the core device that lets the package handle mixed data in a coherent way.</p>
+<p>For continuous densities, also consider the variable’s support. Known endpoints can be supplied without changing the kernel family. See <a href="./density_distribution_quantiles.html#choosing-support-bounds">Choosing support bounds</a> for proportions, positive durations, and an unbounded Gaussian control, with guidance on <code>"fixed"</code>, <code>"range"</code>, and the ordinary specification.</p>
 </section>
 <section id="computational-reality" class="level2">
 <h2 class="anchored" data-anchor-id="computational-reality">Computational reality</h2>
