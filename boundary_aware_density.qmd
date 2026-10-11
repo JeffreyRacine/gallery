@@ -71,12 +71,14 @@ table reports the percentage reduction relative to the ordinary estimator.
 The seeds were fixed in advance (42--141); both procedures used the same data
 and the same optimizer seed within each pair.
 
+::: {.gallery-scroll-table .gallery-scroll-table-wide}
 | Target | Sample size | Proportion: two endpoints | Duration: one endpoint | Gaussian: no finite endpoint |
 |---|---:|---:|---:|---|
 | Unconditional | 100 | 86.7% | 74.5% | Numerical tie |
 | Unconditional | 250 | 91.6% | 81.0% | Numerical tie |
 | Conditional | 100 | 54.5% | 66.3% | Numerical tie |
 | Conditional | 250 | 66.3% | 65.2% | Numerical tie |
+:::
 
 Unconditional loss integrates squared error over the whole real line.
 Conditional loss is $E_X[\int\{\widehat f(y\mid X)-f(y\mid X)\}^2\,dy]$,

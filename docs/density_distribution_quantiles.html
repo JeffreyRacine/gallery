@@ -575,6 +575,7 @@ E[Y\mid X=x]=\int y f(y\mid x)\,dy.
 <section id="choosing-support-bounds" class="level2">
 <h2 class="anchored" data-anchor-id="choosing-support-bounds">Choosing support bounds</h2>
 <p>Before estimating a density, consider which values the variable can take. A proportion has two finite endpoints; a positive duration has a lower endpoint but need not have a finite upper endpoint. Supply endpoints known from the application, in the same units as the data.</p>
+<div class="gallery-scroll-table">
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -616,6 +617,7 @@ E[Y\mid X=x]=\int y f(y\mid x)\,dy.
 </tr>
 </tbody>
 </table>
+</div>
 <p>For conditional density estimation, use <code>cxkerbound</code>, <code>cxkerlb</code>, and <code>cxkerub</code> for the predictors, and <code>cykerbound</code>, <code>cykerlb</code>, and <code>cykerub</code> for the responses. Make the support decision separately for each side. For example, a duration response with an unrestricted predictor calls for the <code>cyker*</code> arguments only. <code>"range"</code> is a modeling choice about finite support, not an automatic way to decide whether a boundary exists. Prefer known endpoints when they are available.</p>
 <section id="a-one-sample-illustration" class="level3">
 <h3 class="anchored" data-anchor-id="a-one-sample-illustration">A one-sample illustration</h3>

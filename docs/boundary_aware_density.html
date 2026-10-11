@@ -482,6 +482,7 @@ Figure&nbsp;2: Average of 100 simulations: n = 250 per sample, seeds 42–141. E
 </div>
 <p>Open the separate <a href="www/np_npRmpi/boundary_awareness/mean100_n250.png">100-simulation-average PNG</a> or download its <a href="www/np_npRmpi/boundary_awareness/mean100_curves_n250.csv">curve values</a>. The average curves show systematic bias and average away much of the sample-to-sample fluctuation. They do not display estimator variance; the MISE results below average each sample’s integrated squared error and include both.</p>
 <p>Across 100 paired draws at each sample size, the known-support specification reduced mean integrated squared error in both finite-boundary examples. The table reports the percentage reduction relative to the ordinary estimator. The seeds were fixed in advance (42–141); both procedures used the same data and the same optimizer seed within each pair.</p>
+<div class="gallery-scroll-table gallery-scroll-table-wide">
 <table class="caption-top table">
 <colgroup>
 <col style="width: 16%">
@@ -530,6 +531,7 @@ Figure&nbsp;2: Average of 100 simulations: n = 250 per sample, seeds 42–141. E
 </tr>
 </tbody>
 </table>
+</div>
 <p>Unconditional loss integrates squared error over the whole real line. Conditional loss is <span class="math inline">\(E_X[\int\{\widehat f(y\mid X)-f(y\mid X)\}^2\,dy]\)</span>, using the population distribution of <span class="math inline">\(X\)</span>. Thus these are integrated losses, not equally weighted errors on the plotting grid. Average gains remain positive in every finite-boundary case when loss is restricted to the true support. The corrected estimator wins in 98–100 of the 100 pairs in these cases; improvement on each sample is not guaranteed.</p>
 <p>Also available are the <a href="www/np_npRmpi/boundary_awareness/conditional_mean100_n250.png">conditional averages at three X values</a> and <a href="www/np_npRmpi/boundary_awareness/conditional_surfaces_seed42_n250.png">conditional surfaces</a>.</p>
 </section>

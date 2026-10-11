@@ -153,6 +153,7 @@ proportion has two finite endpoints; a positive duration has a lower endpoint
 but need not have a finite upper endpoint. Supply endpoints known from the
 application, in the same units as the data.
 
+::: {.gallery-scroll-table}
 | What is known about the support? | Unconditional density arguments | Practical interpretation |
 |---|---|---|
 | Both endpoints, such as a proportion in $[0,1]$ | `ckerbound = "fixed", ckerlb = 0, ckerub = 1` | Use both known endpoints. |
@@ -160,6 +161,7 @@ application, in the same units as the data.
 | An upper endpoint only, say $b$ | `ckerbound = "fixed", ckerlb = -Inf, ckerub = b` | Leave the unknown or infinite lower endpoint unrestricted. |
 | Finite endpoints exist but are unknown | `ckerbound = "range"` | Use the sample minimum and maximum as proxies; examine sensitivity to the support choice. |
 | No finite endpoints, such as a Gaussian variable | Omit the boundary arguments | A finite sample range does not establish bounded support. |
+:::
 
 For conditional density estimation, use `cxkerbound`, `cxkerlb`, and `cxkerub`
 for the predictors, and `cykerbound`, `cykerlb`, and `cykerub` for the responses.
