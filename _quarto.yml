@@ -68,6 +68,8 @@ website:
             text: "Code Catalog"
           - href: regression.qmd
             text: "Worked Examples"
+          - href: boundary_aware_density.qmd
+            text: "Boundary-Aware Density"
           - href: multivariate_regression.qmd
             text: "Multivariate Regression"
           - href: plotting_and_intervals.qmd

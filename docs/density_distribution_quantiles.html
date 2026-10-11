@@ -344,6 +344,12 @@ window.Quarto = {
   </div>
 </li>
           <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="./boundary_aware_density.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boundary-Aware Density</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./multivariate_regression.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Multivariate Regression</span></a>
@@ -444,14 +450,11 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#distribution-bandwidth-selection-support" id="toc-distribution-bandwidth-selection-support" class="nav-link" data-scroll-target="#distribution-bandwidth-selection-support">Distribution bandwidth-selection support</a></li>
   </ul></li>
-  <li><a href="#conditional-density-and-distribution-npcdens-and-npcdist" id="toc-conditional-density-and-distribution-npcdens-and-npcdist" class="nav-link" data-scroll-target="#conditional-density-and-distribution-npcdens-and-npcdist">Conditional density and distribution: <code>npcdens</code> and <code>npcdist</code></a>
-  <ul class="collapse">
-  <li><a href="#numerical-and-uncertainty-updates-in-0.80-1" id="toc-numerical-and-uncertainty-updates-in-0.80-1" class="nav-link" data-scroll-target="#numerical-and-uncertainty-updates-in-0.80-1">Numerical and uncertainty updates in 0.80-1</a></li>
-  </ul></li>
+  <li><a href="#conditional-density-and-distribution-npcdens-and-npcdist" id="toc-conditional-density-and-distribution-npcdens-and-npcdist" class="nav-link" data-scroll-target="#conditional-density-and-distribution-npcdens-and-npcdist">Conditional density and distribution: <code>npcdens</code> and <code>npcdist</code></a></li>
   <li><a href="#choosing-support-bounds" id="toc-choosing-support-bounds" class="nav-link" data-scroll-target="#choosing-support-bounds">Choosing support bounds</a>
   <ul class="collapse">
-  <li><a href="#two-endpoints-one-endpoint-and-an-unbounded-control" id="toc-two-endpoints-one-endpoint-and-an-unbounded-control" class="nav-link" data-scroll-target="#two-endpoints-one-endpoint-and-an-unbounded-control">Two endpoints, one endpoint, and an unbounded control</a></li>
-  <li><a href="#what-changes-over-repeated-samples" id="toc-what-changes-over-repeated-samples" class="nav-link" data-scroll-target="#what-changes-over-repeated-samples">What changes over repeated samples?</a></li>
+  <li><a href="#a-one-sample-illustration" id="toc-a-one-sample-illustration" class="nav-link" data-scroll-target="#a-one-sample-illustration">A one-sample illustration</a></li>
+  <li><a href="#numerical-and-uncertainty-updates-in-0.80-1" id="toc-numerical-and-uncertainty-updates-in-0.80-1" class="nav-link" data-scroll-target="#numerical-and-uncertainty-updates-in-0.80-1">Numerical and uncertainty updates in 0.80-1</a></li>
   </ul></li>
   <li><a href="#practitioner-oriented-extras" id="toc-practitioner-oriented-extras" class="nav-link" data-scroll-target="#practitioner-oriented-extras">Practitioner-oriented extras</a></li>
   <li><a href="#copulas-npcopula" id="toc-copulas-npcopula" class="nav-link" data-scroll-target="#copulas-npcopula">Copulas: <code>npcopula</code></a></li>
@@ -568,14 +571,6 @@ E[Y\mid X=x]=\int y f(y\mid x)\,dy.
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fhat, <span class="at">view =</span> <span class="st">"fixed"</span>, <span class="at">main =</span> <span class="st">""</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Fhat, <span class="at">view =</span> <span class="st">"fixed"</span>, <span class="at">main =</span> <span class="st">""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This route is especially useful when the question is not simply whether the mean changes, but whether the entire distribution changes.</p>
-<section id="numerical-and-uncertainty-updates-in-0.80-1" class="level3">
-<h3 class="anchored" data-anchor-id="numerical-and-uncertainty-updates-in-0.80-1">Numerical and uncertainty updates in 0.80-1</h3>
-<p>Conditional density and distribution level plots can now construct bootstrap intervals when the continuous response and predictor sides use different kernel families or orders, including beta kernels on either side. Beta-density bandwidth selection also supports mixed continuous, unordered, and ordered data for CVML and bounded target-quadrature CVLS with fixed, generalized nearest-neighbour, or adaptive nearest-neighbour bandwidths and beta orders 2, 4, 6, and 8.</p>
-<p>For positive-degree local-polynomial fits, categorical gradients and effects report fitted-value endpoint contrasts rather than zero placeholders. Local-linear and positive-degree local-polynomial conditional density, distribution, and quantile fits also provide requested paired categorical-contrast standard errors where the required influence is smooth and finite; unsupported cases remain explicit <code>NA</code> values.</p>
-<p>Requested adaptive-nearest-neighbour uncertainty for unconditional density and distribution fits accounts for donor-specific radii on qualified regular interior ranks. Fixed-bandwidth copula-density uncertainty includes the joint covariance with its marginal density estimates. Unqualified boundary or degenerate cases retain their point estimates and report unavailable standard errors rather than silently applying a different formula.</p>
-<p>Ordered distribution estimates use the corrected Wang–van Ryzin cumulative upper tail. Readers reproducing results from an earlier release should expect affected ordered-CDF estimates and cross-validation values to change.</p>
-<p>Scaled bandwidth objects now supply their retained physical bandwidths consistently to fitted, operator, uncertainty, and copula routes. Corrected deleted-sample geometry for affected beta and bounded-kernel nearest-neighbour criteria can likewise change selected bandwidths. Those correctness fixes are confined to the affected routes, and some of the corrected searches require more work than the former criteria.</p>
-</section>
 </section>
 <section id="choosing-support-bounds" class="level2">
 <h2 class="anchored" data-anchor-id="choosing-support-bounds">Choosing support bounds</h2>
@@ -622,9 +617,9 @@ E[Y\mid X=x]=\int y f(y\mid x)\,dy.
 </tbody>
 </table>
 <p>For conditional density estimation, use <code>cxkerbound</code>, <code>cxkerlb</code>, and <code>cxkerub</code> for the predictors, and <code>cykerbound</code>, <code>cykerlb</code>, and <code>cykerub</code> for the responses. Make the support decision separately for each side. For example, a duration response with an unrestricted predictor calls for the <code>cyker*</code> arguments only. <code>"range"</code> is a modeling choice about finite support, not an automatic way to decide whether a boundary exists. Prefer known endpoints when they are available.</p>
-<section id="two-endpoints-one-endpoint-and-an-unbounded-control" class="level3">
-<h3 class="anchored" data-anchor-id="two-endpoints-one-endpoint-and-an-unbounded-control">Two endpoints, one endpoint, and an unbounded control</h3>
-<p>These examples retain the default second-order <strong>Gaussian kernel</strong>. The change is the support information supplied to the estimator. The top row shows unconditional densities; the bottom row shows conditional densities at the population median of <span class="math inline">\(X\)</span>. Each comparison uses the same sample of 250 observations, seed 42, and separately selected likelihood cross-validation (<code>"cv.ml"</code>) bandwidths with five multistarts.</p>
+<section id="a-one-sample-illustration" class="level3">
+<h3 class="anchored" data-anchor-id="a-one-sample-illustration">A one-sample illustration</h3>
+<p>The three columns below compare a proportion, a positive duration, and an unbounded Gaussian variable. Each comparison uses the same sample of 250 observations, seed 42, the default second-order Gaussian kernel, and separately selected likelihood cross-validation bandwidths. The only change is the support information supplied to the estimator.</p>
 <div id="fig-density-support" class="quarto-float quarto-figure quarto-figure-center anchored" alt="One sample, n equals 250, seed 42. Six panels compare the true density and two fitted estimates using ordinary Gaussian kernels and Gaussian kernels with fixed support.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-density-support-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -635,10 +630,8 @@ Figure&nbsp;1: One sample: n = 250, seed 42. Each estimated curve is one fit. Co
 </figcaption>
 </figure>
 </div>
-<p>The unconditional examples are uniform on <span class="math inline">\([0,1]\)</span>, exponential with mean one, and standard normal. The conditional examples use the corresponding <span class="math inline">\(X\)</span> distributions and <span class="math inline">\(f(y\mid x)=1+0.8(2x-1)(2y-1)\)</span> on <span class="math inline">\([0,1]\)</span>, an exponential response with mean <span class="math inline">\(1+0.5x\)</span>, and <span class="math inline">\(Y=X+\varepsilon\)</span> with <span class="math inline">\(\varepsilon\sim N(0,1)\)</span> independent of <span class="math inline">\(X\)</span>, respectively. The conditional proportion density is uniform at the displayed median of <span class="math inline">\(X\)</span> but changes shape elsewhere; the <a href="www/np_npRmpi/boundary_awareness/conditional_seed42_n250.png">three-slice figure</a> shows that variation.</p>
-<p>Near a genuine endpoint, an ordinary symmetric kernel assigns mass outside the support. The bounded Gaussian kernel adjusts for the kernel mass remaining inside it. This reduces the leading endpoint distortion, although smoothing bias remains. The uniform example is particularly favorable: with a large bandwidth, the bounded estimate approaches the uniform density. It is an illustration of the mechanism, not a promise of equally large gains for every bounded density.</p>
-<p>The fixed-support curves are extended by zero outside their declared support for display and scoring. The package is evaluated inside that support; its in-support estimates are unchanged. Support correction is distinct from the <code>proper = TRUE</code> option: these examples use the default local-constant conditional estimator with <code>proper = FALSE</code>, without post-estimation normalization.</p>
-<p>Open the <a href="www/np_npRmpi/boundary_awareness/seed42_n250.png">one-sample PNG</a> or download <a href="www/np_npRmpi/np_density_bounds_quickstart.R">np_density_bounds_quickstart.R</a>. It generates all six fits and the figure, and checks the infinite-bounds control.</p>
+<p>Near a genuine endpoint, an ordinary symmetric kernel assigns mass outside the support. The bounded Gaussian kernel adjusts for the kernel mass remaining inside it. This reduces the leading endpoint distortion, although smoothing bias remains. Support correction is distinct from <code>proper = TRUE</code>, which is a separate optional post-estimation correction for conditional density and distribution output.</p>
+<p>Download <a href="www/np_npRmpi/np_density_bounds_quickstart.R">np_density_bounds_quickstart.R</a> to generate all six fits and the figure and to check the infinite-bounds control.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Show the runnable R example">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -783,91 +776,15 @@ Figure&nbsp;1: One sample: n = 250, seed 42. Each estimated curve is one fit. Co
 </div>
 </div>
 </div>
+<p>For the full simulation designs, repeated-sample figures, MISE comparisons, and selector-level qualifications, continue to <a href="./boundary_aware_density.html">Boundary-Aware Density Estimation</a>.</p>
 </section>
-<section id="what-changes-over-repeated-samples" class="level3">
-<h3 class="anchored" data-anchor-id="what-changes-over-repeated-samples">What changes over repeated samples?</h3>
-<p>The next figure averages the fitted densities from <strong>100 separately simulated samples of 250 observations each</strong>, using seeds 42–141. Each sample has its own selected bandwidths. The panels, evaluation points, and axis limits match the one-sample figure above; no samples are pooled into a larger fit.</p>
-<div id="fig-density-support-average" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Average of 100 simulations with 250 observations per sample. Matching six-panel layout shows average density estimates against truth, revealing persistent boundary bias in the uncorrected estimates.">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-density-support-average-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="www/np_npRmpi/boundary_awareness/mean100_n250.png" class="img-fluid figure-img" alt="Average of 100 simulations with 250 observations per sample. Matching six-panel layout shows average density estimates against truth, revealing persistent boundary bias in the uncorrected estimates.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-density-support-average-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Average of 100 simulations: n = 250 per sample, seeds 42–141. Each estimated curve is the pointwise average of 100 independently fitted densities.
-</figcaption>
-</figure>
-</div>
-<p>Open the separate <a href="www/np_npRmpi/boundary_awareness/mean100_n250.png">100-simulation-average PNG</a> or download its <a href="www/np_npRmpi/boundary_awareness/mean100_curves_n250.csv">curve values</a>. The average curves show systematic bias and average away much of the sample-to-sample fluctuation. They do not display estimator variance; the MISE results below average each sample’s integrated squared error and include both.</p>
-<p>Across 100 paired draws at each sample size, the known-support specification reduced mean integrated squared error in both finite-boundary examples. The table reports the percentage reduction relative to the ordinary estimator. The seeds were fixed in advance (42–141); both procedures used the same data and the same optimizer seed within each pair.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 16%">
-<col style="width: 22%">
-<col style="width: 22%">
-<col style="width: 22%">
-<col style="width: 16%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Target</th>
-<th style="text-align: right;">Sample size</th>
-<th style="text-align: right;">Proportion: two endpoints</th>
-<th style="text-align: right;">Duration: one endpoint</th>
-<th>Gaussian: no finite endpoint</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Unconditional</td>
-<td style="text-align: right;">100</td>
-<td style="text-align: right;">86.7%</td>
-<td style="text-align: right;">74.5%</td>
-<td>Numerical tie</td>
-</tr>
-<tr class="even">
-<td>Unconditional</td>
-<td style="text-align: right;">250</td>
-<td style="text-align: right;">91.6%</td>
-<td style="text-align: right;">81.0%</td>
-<td>Numerical tie</td>
-</tr>
-<tr class="odd">
-<td>Conditional</td>
-<td style="text-align: right;">100</td>
-<td style="text-align: right;">54.5%</td>
-<td style="text-align: right;">66.3%</td>
-<td>Numerical tie</td>
-</tr>
-<tr class="even">
-<td>Conditional</td>
-<td style="text-align: right;">250</td>
-<td style="text-align: right;">66.3%</td>
-<td style="text-align: right;">65.2%</td>
-<td>Numerical tie</td>
-</tr>
-</tbody>
-</table>
-<p>Unconditional loss integrates squared error over the whole real line. Conditional loss is <span class="math inline">\(E_X[\int\{\widehat f(y\mid X)-f(y\mid X)\}^2\,dy]\)</span>, using the population distribution of <span class="math inline">\(X\)</span>. Thus these are integrated losses, not equally weighted errors on the plotting grid. Average gains remain positive in every finite-boundary case when loss is restricted to the true support. The corrected estimator wins in 98–100 of the 100 pairs in these cases; improvement on each sample is not guaranteed.</p>
-<p>Also available are the <a href="www/np_npRmpi/boundary_awareness/conditional_mean100_n250.png">conditional averages at three X values</a> and <a href="www/np_npRmpi/boundary_awareness/conditional_surfaces_seed42_n250.png">conditional surfaces</a>.</p>
-<p>Download the <a href="www/np_npRmpi/boundary_awareness/summary.csv">complete MISE summary and paired Monte Carlo standard errors</a>, <a href="www/np_npRmpi/boundary_awareness/per_fit.csv">per-fit results</a>, and <a href="www/np_npRmpi/boundary_awareness/README.md">simulation definitions and numerical checks</a>.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Infinite bounds and the conditional estimator">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Infinite bounds and the conditional estimator
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>At a common bandwidth, <code>"fixed"</code> with <code>(-Inf, Inf)</code> reproduced ordinary predictions exactly in all 400 Gaussian pairs. Separately selected CVML fits were identical unconditionally and differed by at most <span class="math inline">\(6.30\times10^{-8}\)</span> conditionally. For an unbounded variable, simply omit the boundary arguments.</p>
-<p>This does not establish equality of every bandwidth selector. In <code>np</code> 0.80-1, conditional <code>"cv.ls"</code> with explicitly infinite response bounds uses a finite quadrature surrogate and issues a warning; it can select different bandwidths from the ordinary unbounded route. See the <a href="www/np_npRmpi/boundary_awareness/infinite_bounds_selectors.csv">selector checks</a>.</p>
-<p>For these fixed-bandwidth local-constant conditional fits, the common query-centered correction on the <span class="math inline">\(X\)</span> side cancels from the density ratio at a given bandwidth. The direct correction shown here is on the <span class="math inline">\(Y\)</span> side. Supplying the correct <span class="math inline">\(X\)</span> support remains appropriate, but these examples do not demonstrate a separate <span class="math inline">\(X\)</span>-boundary shape improvement.</p>
-</div>
-</div>
-</div>
+<section id="numerical-and-uncertainty-updates-in-0.80-1" class="level3">
+<h3 class="anchored" data-anchor-id="numerical-and-uncertainty-updates-in-0.80-1">Numerical and uncertainty updates in 0.80-1</h3>
+<p>Conditional density and distribution level plots can now construct bootstrap intervals when the continuous response and predictor sides use different kernel families or orders, including beta kernels on either side. Beta-density bandwidth selection also supports mixed continuous, unordered, and ordered data for CVML and bounded target-quadrature CVLS with fixed, generalized nearest-neighbour, or adaptive nearest-neighbour bandwidths and beta orders 2, 4, 6, and 8.</p>
+<p>For positive-degree local-polynomial fits, categorical gradients and effects report fitted-value endpoint contrasts rather than zero placeholders. Local-linear and positive-degree local-polynomial conditional density, distribution, and quantile fits also provide requested paired categorical-contrast standard errors where the required influence is smooth and finite; unsupported cases remain explicit <code>NA</code> values.</p>
+<p>Requested adaptive-nearest-neighbour uncertainty for unconditional density and distribution fits accounts for donor-specific radii on qualified regular interior ranks. Fixed-bandwidth copula-density uncertainty includes the joint covariance with its marginal density estimates. Unqualified boundary or degenerate cases retain their point estimates and report unavailable standard errors rather than silently applying a different formula.</p>
+<p>Ordered distribution estimates use the corrected Wang–van Ryzin cumulative upper tail. Readers reproducing results from an earlier release should expect affected ordered-CDF estimates and cross-validation values to change.</p>
+<p>Scaled bandwidth objects now supply their retained physical bandwidths consistently to fitted, operator, uncertainty, and copula routes. Corrected deleted-sample geometry for affected beta and bounded-kernel nearest-neighbour criteria can likewise change selected bandwidths. Those correctness fixes are confined to the affected routes, and some of the corrected searches require more work than the former criteria.</p>
 </section>
 </section>
 <section id="practitioner-oriented-extras" class="level2">
