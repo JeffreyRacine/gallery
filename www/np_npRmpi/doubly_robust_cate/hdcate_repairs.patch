@@ -1,0 +1,61 @@
+--- a/R/hdcate_r6_class.R
++++ b/R/hdcate_r6_class.R
+@@ -187,7 +187,7 @@
+       # bandwidth
+       h <- self$get_bw(
+         phi=phi,
+-        use_sample_idx=use_sample_idx
++        use_sample_idx=subsample_idx
+       )
+ 
+       model <- locpol::locPolSmootherC(x=cond_var, y=phi, xeval=cond_interval, bw=h,
+@@ -237,7 +237,7 @@
+         # use full sample to choose bandwidth
+         use_full_sample <- TRUE
+         # update index
+-        use_sample_idx <- c(1:nrow(data))
++        use_sample_idx <- seq_len(nrow(self$data))
+       }
+ 
+       # bandwidth
+@@ -306,7 +306,7 @@
+           self$hdcate <- as.matrix(rowMeans(sapply(cv_res, function(obj) obj$hdcate)))
+           self$ate <- mean(sapply(cv_res, function(obj) obj$ate))
+           self$vate <- as.matrix(rowMeans(sapply(cv_res, function(obj) obj$vate)))
+-          self$sigma_hat <- as.matrix(rowMeans(sapply(cv_res, function(obj) obj$sigma_hat)))
++          self$sigma_hat <- as.matrix(sqrt(rowMeans(sapply(cv_res, function(obj) obj$sigma_hat^2))))
+           self$eta_hat_list <- lapply(cv_res, function(obj) obj$eta_hat)
+         } else {
+           stop(paste0('`k_fold`=', self$k_fold, ' is not supported for cross-fitting method'))
+@@ -362,6 +362,9 @@
+           )
+           hdcate_boot <- as.matrix(rowMeans(sapply(cv_res, function(obj) obj$hdcate)))
+         }
++        if (any(!is.finite(hdcate_boot))) {
++          stop(sprintf("Non-finite local-linear fit in multiplier draw %d (%s); no draws discarded. Check the weighted local design or explicitly select another multiplier distribution.", b, boot_method))
++        }
+         hdcate_stat_boot_one_sided[b] <- max(sqrt(self$n_obs * (self$h ^ self$d)) * (hdcate_boot - self$hdcate) / self$sigma_hat)
+         hdcate_stat_boot_two_sided[b] <- max(sqrt(self$n_obs * (self$h ^ self$d)) * abs(hdcate_boot - self$hdcate) / self$sigma_hat)
+       }
+@@ -370,8 +373,8 @@
+       # alpha can be a vector like c(0.10, 0.05, 0.01)
+       alpha <- sig_level
+       n_alpha <- length(alpha)
+-      c_alpha_one_sided <- quantile(hdcate_stat_boot_one_sided, 1 - alpha, na.rm = TRUE)
+-      c_alpha_two_sided <- quantile(hdcate_stat_boot_two_sided, 1 - alpha, na.rm = TRUE)
++      c_alpha_one_sided <- quantile(hdcate_stat_boot_one_sided, 1 - alpha)
++      c_alpha_two_sided <- quantile(hdcate_stat_boot_two_sided, 1 - alpha)
+ 
+       # Uniform confidence bands
+       i_left_side <- matrix(0, self$length_grid, n_alpha,
+@@ -386,8 +389,8 @@
+       for (idx in 1:n_alpha){
+         i_left_side[,idx] <- self$hdcate - c_alpha_one_sided[idx] * self$sigma_hat / sqrt(self$n_obs * (self$h ^ self$d))
+         i_right_side[,idx] <- self$hdcate + c_alpha_one_sided[idx] * self$sigma_hat / sqrt(self$n_obs * (self$h ^ self$d))
+-        i_two_side[,idx] <- i_left_side[,idx]
+-        i_two_side[,idx+n_alpha] <- i_right_side[,idx]
++        i_two_side[,idx] <- self$hdcate - c_alpha_two_sided[idx] * self$sigma_hat / sqrt(self$n_obs * (self$h ^ self$d))
++        i_two_side[,idx+n_alpha] <- self$hdcate + c_alpha_two_sided[idx] * self$sigma_hat / sqrt(self$n_obs * (self$h ^ self$d))
+       }
+ 
+       self$alpha <- alpha

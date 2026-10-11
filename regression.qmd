@@ -67,6 +67,14 @@ summary(fit)
 
 For a website-first route to the multivariate example, see [Multivariate Regression and Prediction](multivariate_regression.qmd).
 
+## Causal inference examples
+
+[Causal Inference with Local Polynomials](causal_inference.qmd) uses `npreg`
+for a sharp regression-discontinuity estimate and a randomized-trial
+treatment-effect curve. The standalone scripts reproduce author-package
+results, including bias-corrected inference; the trial example adds a
+simultaneous band over a fixed evaluation grid.
+
 ## Notes
 
 - The script links remain useful because they are more heavily commented than the short code blocks on this page.

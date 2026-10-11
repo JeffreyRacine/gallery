@@ -315,7 +315,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
           <li class="sidebar-item">
-  <div class="sidebar-item-container">
+  <div class="sidebar-item-container"> 
   <a href="./boundary_aware_density.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Boundary-Aware Density</span></a>
   </div>
@@ -324,6 +324,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./multivariate_regression.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Multivariate Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./causal_inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Causal Inference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./doubly_robust_cate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Doubly Robust Treatment Effects</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -418,6 +430,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#a-first-regression-example" id="toc-a-first-regression-example" class="nav-link active" data-scroll-target="#a-first-regression-example">A first regression example</a></li>
   <li><a href="#a-small-bandwidth-selection-example" id="toc-a-small-bandwidth-selection-example" class="nav-link" data-scroll-target="#a-small-bandwidth-selection-example">A small bandwidth-selection example</a></li>
   <li><a href="#script-library" id="toc-script-library" class="nav-link" data-scroll-target="#script-library">Script library</a></li>
+  <li><a href="#causal-inference-examples" id="toc-causal-inference-examples" class="nav-link" data-scroll-target="#causal-inference-examples">Causal inference examples</a></li>
   <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/JeffreyRacine/gallery/blob/main/regression.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
@@ -507,6 +520,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Multivariate regression: <a href="www/Regression/regression_multivar_a.R">regression_multivar_a.R</a></li>
 </ul>
 <p>For a website-first route to the multivariate example, see <a href="./multivariate_regression.html">Multivariate Regression and Prediction</a>.</p>
+</section>
+<section id="causal-inference-examples" class="level2">
+<h2 class="anchored" data-anchor-id="causal-inference-examples">Causal inference examples</h2>
+<p><a href="./causal_inference.html">Causal Inference with Local Polynomials</a> uses <code>npreg</code> for a sharp regression-discontinuity estimate and a randomized-trial treatment-effect curve. The standalone scripts reproduce author-package results, including bias-corrected inference; the trial example adds a simultaneous band over a fixed evaluation grid.</p>
 </section>
 <section id="notes" class="level2">
 <h2 class="anchored" data-anchor-id="notes">Notes</h2>

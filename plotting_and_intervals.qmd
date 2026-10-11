@@ -215,6 +215,7 @@ The values returned by `gradients(fit)` are not the same object as the smooth pa
 
 ## What to read next
 
+- [Causal Inference with Local Polynomials](causal_inference.qmd): inference for an RD contrast and simultaneous bands for a randomized-trial effect curve.
 - [Worked Examples](regression.qmd)
 - [Kernel Primer](kernel_primer.qmd)
 - [Code Catalog](code_catalog.qmd)

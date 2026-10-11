@@ -1,0 +1,2 @@
+"n","p","K","B","multipliers","grid_points","bandwidth","critical_two_sided","critical_one_sided","max_np_reference_error","max_sigma_error","max_band_error","minimum_propensity","maximum_propensity","nonpositive_bootstrap_determinants","truth_inside_entire_band_this_sample"
+500,100,5,1999,"Exp(1)",101,0.186776439420311,2.85522462237861,2.52627986806869,2.1316282072803e-14,2.22044604925031e-15,1.24344978758018e-14,0.0138943412728044,0.975091316178261,0,TRUE

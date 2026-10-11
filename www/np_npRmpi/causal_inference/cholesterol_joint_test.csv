@@ -1,0 +1,3 @@
+"method","critical","max_t","monte_carlo_p","B","seed"
+"nprobust + joint calibration",2.60503255619725,7.77903565831994,1.99996000079998e-05,50000,20261011
+"npreg + explicit covariance",2.60503255624443,7.7790356583199,1.99996000079998e-05,50000,20261011
