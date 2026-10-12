@@ -52,6 +52,7 @@ render_quickstart_catalog_table(subset(quickstarts, section == "np"))
 | [sharp_rd_inference.R](www/np_npRmpi/causal_inference/sharp_rd_inference.R) | Sharp regression discontinuity | `npreg`, RD bandwidths, bias-corrected inference | [Causal Inference](causal_inference.qmd#sharp-regression-discontinuity) |
 | [cholesterol_simultaneous.R](www/np_npRmpi/causal_inference/cholesterol_simultaneous.R) | Randomized treatment effects | `npreg`, simultaneous grid bands, joint test | [Causal Inference](causal_inference.qmd#randomized-treatment-effects-with-simultaneous-bands) |
 | [np_crossfit_cate.R](www/np_npRmpi/doubly_robust_cate/np_crossfit_cate.R) | Doubly robust treatment effects | `npreg`, lasso nuisances, cross-fitting, multiplier bands | [Doubly Robust Treatment Effects](doubly_robust_cate.qmd) |
+| [np_composition_did.R](www/np_npRmpi/difference_in_differences/np_composition_did.R) | Difference-in-differences with changing composition | `npconmode`, `npreg`, fresh nuisance estimation, clustered ATT inference | [Difference-in-Differences](difference_in_differences.qmd) |
 
 ## `np`: practitioner-oriented extras
 

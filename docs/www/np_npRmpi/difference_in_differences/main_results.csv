@@ -1,0 +1,69 @@
+"i","outcome","label","kind","kernel","stage","ok","error","ATT","cluster_se","diff","diff_paper_se","min_ess","max_weight","largest_cluster_variance_share"
+1,"bp","Prob(bribe)","paper","author","paper",TRUE,"",-0.306830232539233,0.108592732495428,0,0,31.5565328043548,87.7648949699764,0.320400368811985
+1,"bp","Prob(bribe)","ps_lc","epanechnikov","fixed_outcomes",TRUE,"",-0.267388829597471,0.126759504964867,0.0394414029417621,0.363204811550559,10.0103162702001,291.435023755208,0.318303683230981
+1,"bp","Prob(bribe)","ps_lc","epanechnikov","fresh_outcomes",TRUE,"",-0.427105335552807,0.09943115265919,-0.120275103013574,-1.10757967176706,10.0103162702001,291.435023755208,0.278260815318334
+1,"bp","Prob(bribe)","ps_conmode_lc","epanechnikov","fixed_outcomes",TRUE,"",-0.048914211481181,0.193056521991812,0.257916021058052,2.37507626091748,2.83440826983308,516.733253142663,0.424389519619883
+1,"bp","Prob(bribe)","ps_conmode_lc","epanechnikov","fresh_outcomes",TRUE,"",-0.270004021712526,0.144592228043916,0.0368262108267071,0.339122241244438,2.83440826983308,516.733253142663,0.28888490552337
+1,"bp","Prob(bribe)","ps_conmode_ll","epanechnikov","fixed_outcomes",TRUE,"",-0.500927408592617,0.522608244824034,-0.194097176053384,-1.78738642626528,1.3215814163731,942.171026585255,0.860051754736002
+1,"bp","Prob(bribe)","ps_conmode_ll","epanechnikov","fresh_outcomes",TRUE,"",-0.719948708646122,0.554649603484727,-0.413118476106888,-3.80429211618082,1.3215814163731,942.171026585255,0.924264541612651
+1,"bp","Prob(bribe)","reference","epanechnikov","fixed_outcomes",FALSE,"propensity or outcome fit unavailable / nonconverged",NA,NA,NA,NA,NA,NA,NA
+1,"bp","Prob(bribe)","reference","epanechnikov","fresh_outcomes",FALSE,"propensity or outcome fit unavailable / nonconverged",NA,NA,NA,NA,NA,NA,NA
+1,"bp","Prob(bribe)","ps_lc","gaussian","fixed_outcomes",TRUE,"",-0.0991334841052916,0.244482200805764,0.207696748433942,1.91262107197355,2.48088735004,623.881645156542,0.670158787385178
+1,"bp","Prob(bribe)","ps_lc","gaussian","fresh_outcomes",TRUE,"",-0.341306880580038,0.147851300021805,-0.0344766480408045,-0.317485776888947,2.48088735004,623.881645156542,0.525599572118996
+1,"bp","Prob(bribe)","ps_conmode_lc","gaussian","fixed_outcomes",TRUE,"",-0.0535525366474534,0.192931271911251,0.25327769589178,2.3323632260791,2.85529595490152,509.116594659914,0.439501307709217
+1,"bp","Prob(bribe)","ps_conmode_lc","gaussian","fresh_outcomes",TRUE,"",-0.285292072397242,0.137225308204073,0.0215381601419918,0.198338872657971,2.85529595490152,509.116594659914,0.322258638403211
+1,"bp","Prob(bribe)","ps_conmode_ll","gaussian","fixed_outcomes",TRUE,"",-0.24610612879758,0.221273754408476,0.0607241037416534,0.559191230814734,2.85239346876051,535.55349856269,0.534113179832015
+1,"bp","Prob(bribe)","ps_conmode_ll","gaussian","fresh_outcomes",TRUE,"",-0.485399948470147,0.180136412981748,-0.178569715930914,-1.64439840335017,2.85239346876051,535.55349856269,0.715102240622145
+1,"bp","Prob(bribe)","ps_lc_mixed","gaussian","fixed_outcomes",TRUE,"",-0.267908751077673,0.125652261067382,0.0389214814615602,0.35841700054098,10.0103162702001,291.435023755208,0.312562080879244
+1,"bp","Prob(bribe)","ps_lc_mixed","gaussian","fresh_outcomes",TRUE,"",-0.427193594044599,0.0994437232538337,-0.120363361505366,-1.10839241945066,10.0103162702001,291.435023755208,0.278178310637188
+2,"lba","Log(1 + bribe)","paper","author","paper",TRUE,"",-2.88842169201777,0.914796519670781,0,0,31.5565328043548,87.7648949699764,0.251842993366268
+2,"lba","Log(1 + bribe)","ps_lc","epanechnikov","fixed_outcomes",TRUE,"",-2.52308133345985,1.12757166949183,0.365340358557925,0.399367892970782,10.0103162702001,291.435023755208,0.252112295622312
+2,"lba","Log(1 + bribe)","ps_lc","epanechnikov","fresh_outcomes",TRUE,"",-4.00414276246636,1.00692541130809,-1.11572107044859,-1.2196385168257,10.0103162702001,291.435023755208,0.286353949710695
+2,"lba","Log(1 + bribe)","ps_conmode_lc","epanechnikov","fixed_outcomes",TRUE,"",-0.705600524491573,1.77134574868748,2.1828211675262,2.38612753829863,2.83440826983308,516.733253142663,0.368241762497666
+2,"lba","Log(1 + bribe)","ps_conmode_lc","epanechnikov","fresh_outcomes",TRUE,"",-2.14967616780046,1.74878088097677,0.738745524217313,0.807551743291693,2.83440826983308,516.733253142663,0.539752594304363
+2,"lba","Log(1 + bribe)","ps_conmode_ll","epanechnikov","fixed_outcomes",TRUE,"",-0.874352128437769,3.00328852155842,2.01406956358,2.20165853309633,1.3215814163731,942.171026585255,0.60463535021864
+2,"lba","Log(1 + bribe)","ps_conmode_ll","epanechnikov","fresh_outcomes",TRUE,"",-2.36882896997058,2.91224977523013,0.519592722047194,0.567987209039871,1.3215814163731,942.171026585255,0.588888492998895
+2,"lba","Log(1 + bribe)","reference","epanechnikov","fixed_outcomes",FALSE,"propensity or outcome fit unavailable / nonconverged",NA,NA,NA,NA,NA,NA,NA
+2,"lba","Log(1 + bribe)","reference","epanechnikov","fresh_outcomes",FALSE,"propensity or outcome fit unavailable / nonconverged",NA,NA,NA,NA,NA,NA,NA
+2,"lba","Log(1 + bribe)","ps_lc","gaussian","fixed_outcomes",TRUE,"",-0.89293401522885,1.86350961354837,1.99548767678892,2.18134594292845,2.48088735004,623.881645156542,0.456932728437845
+2,"lba","Log(1 + bribe)","ps_lc","gaussian","fresh_outcomes",TRUE,"",-2.85196028935705,1.49437369880706,0.0364614026607204,0.0398573910992165,2.48088735004,623.881645156542,0.278037310262682
+2,"lba","Log(1 + bribe)","ps_conmode_lc","gaussian","fixed_outcomes",TRUE,"",-0.719292196246645,1.83281961502839,2.16912949577113,2.3711606342269,2.85529595490152,509.116594659914,0.40406357941222
+2,"lba","Log(1 + bribe)","ps_conmode_lc","gaussian","fresh_outcomes",TRUE,"",-2.4308121306243,1.64394701616119,0.457609561393471,0.500230982031016,2.85529595490152,509.116594659914,0.570311618890724
+2,"lba","Log(1 + bribe)","ps_conmode_ll","gaussian","fixed_outcomes",TRUE,"",-0.758917236497353,2.83061467480607,2.12950445552042,2.32784494664102,2.85239346876051,535.55349856269,0.529549572341861
+2,"lba","Log(1 + bribe)","ps_conmode_ll","gaussian","fresh_outcomes",TRUE,"",-2.39417400448359,2.73291800714225,0.494247687534185,0.5402815565062,2.85239346876051,535.55349856269,0.446008885410917
+2,"lba","Log(1 + bribe)","ps_lc_mixed","gaussian","fixed_outcomes",TRUE,"",-2.56954433352383,1.12147635189698,0.318877358493947,0.348577362984181,10.0103162702001,291.435023755208,0.237998893274591
+2,"lba","Log(1 + bribe)","ps_lc_mixed","gaussian","fresh_outcomes",TRUE,"",-4.12240692676623,1.01111307417063,-1.23398523474845,-1.34891771909292,10.0103162702001,291.435023755208,0.279444100310636
+3,"lba_value","Log(1 + bribe/shpt.val.)","paper","author","paper",TRUE,"",-0.0274332702045293,0.0144722510275693,0,0,6.82390505461309,377.033773869126,0.684570664829509
+3,"lba_value","Log(1 + bribe/shpt.val.)","ps_lc","epanechnikov","fixed_outcomes",TRUE,"",0.00367712223772781,0.00967443542712004,0.0311103924422571,2.14965815497482,2.13278797800614,741.17507394259,0.799918531222039
+3,"lba_value","Log(1 + bribe/shpt.val.)","ps_lc","epanechnikov","fresh_outcomes",FALSE,"propensity or outcome fit unavailable / nonconverged",NA,NA,NA,NA,NA,NA,NA
+3,"lba_value","Log(1 + bribe/shpt.val.)","ps_conmode_lc","epanechnikov","fixed_outcomes",TRUE,"",-0.00727697129913172,0.00542828719026393,0.0201562989053976,1.39275492575414,2.78789515957736,512.191983924685,0.313100668423674
+3,"lba_value","Log(1 + bribe/shpt.val.)","ps_conmode_lc","epanechnikov","fresh_outcomes",FALSE,"propensity or outcome fit unavailable / nonconverged",NA,NA,NA,NA,NA,NA,NA
+3,"lba_value","Log(1 + bribe/shpt.val.)","ps_conmode_ll","epanechnikov","fixed_outcomes",TRUE,"",-0.0022738810044489,0.00524080627416415,0.0251593892000804,1.73845721388831,2.99540895806465,537.718931812162,0.228846009391254
+3,"lba_value","Log(1 + bribe/shpt.val.)","ps_conmode_ll","epanechnikov","fresh_outcomes",FALSE,"propensity or outcome fit unavailable / nonconverged",NA,NA,NA,NA,NA,NA,NA
+3,"lba_value","Log(1 + bribe/shpt.val.)","reference","epanechnikov","fixed_outcomes",TRUE,"",-0.00584276898133871,0.00432359477518389,0.0215905012231906,1.4918550805995,3.98200958623227,527.816269340663,0.20094075017395
+3,"lba_value","Log(1 + bribe/shpt.val.)","reference","epanechnikov","fresh_outcomes",FALSE,"propensity or outcome fit unavailable / nonconverged",NA,NA,NA,NA,NA,NA,NA
+3,"lba_value","Log(1 + bribe/shpt.val.)","ps_lc","gaussian","fixed_outcomes",TRUE,"",0.0182980129976501,0.0268687244786656,0.0457312832021794,3.1599288262111,2.23134956382814,718.065848529656,0.90268365374755
+3,"lba_value","Log(1 + bribe/shpt.val.)","ps_lc","gaussian","fresh_outcomes",TRUE,"",0.0231279598896546,0.0257787800856721,0.0505612300941838,3.49366729459473,2.23134956382814,718.065848529656,0.716298657899061
+3,"lba_value","Log(1 + bribe/shpt.val.)","ps_conmode_lc","gaussian","fixed_outcomes",TRUE,"",-0.00716741743418333,0.00494293791836045,0.020265852770346,1.40032485145124,2.77223086369731,511.375235077596,0.266293016250318
+3,"lba_value","Log(1 + bribe/shpt.val.)","ps_conmode_lc","gaussian","fresh_outcomes",TRUE,"",-0.0060074434079874,0.00394826464400265,0.0214258267965419,1.48047644804711,2.77223086369731,511.375235077596,0.257194632835778
+3,"lba_value","Log(1 + bribe/shpt.val.)","ps_conmode_ll","gaussian","fixed_outcomes",TRUE,"",0.00293108403125285,0.00706246697345334,0.0303643542357821,2.09810859263972,2.48571726075064,619.789563688336,0.353978898496593
+3,"lba_value","Log(1 + bribe/shpt.val.)","ps_conmode_ll","gaussian","fresh_outcomes",TRUE,"",0.00446632050912592,0.00725128008851375,0.0318995907136552,2.20418998073536,2.48571726075064,619.789563688336,0.324377005394427
+3,"lba_value","Log(1 + bribe/shpt.val.)","ps_lc_mixed","gaussian","fixed_outcomes",TRUE,"",0.00331299473049023,0.00971631655802008,0.0307462649350195,2.12449776309495,2.13278797800614,741.17507394259,0.808048772630012
+3,"lba_value","Log(1 + bribe/shpt.val.)","ps_lc_mixed","gaussian","fresh_outcomes",TRUE,"",0.00448805904360854,0.0107644709552432,0.0319213292481378,2.20569206458128,2.13278797800614,741.17507394259,0.666708977313392
+4,"lba_tonnage","Log(1 + bribe/shpt.tonn.)","paper","author","paper",TRUE,"",-1.13074952058798,0.634642858734842,0,0,13.9038226880219,242.687150370658,0.34359489550316
+4,"lba_tonnage","Log(1 + bribe/shpt.tonn.)","ps_lc","epanechnikov","fixed_outcomes",TRUE,"",-1.99048236566588,0.75666114824874,-0.859732845077901,-1.35467189655576,5.53262548676078,368.470698782189,0.452751157093814
+4,"lba_tonnage","Log(1 + bribe/shpt.tonn.)","ps_lc","epanechnikov","fresh_outcomes",TRUE,"",-1.35122690268948,0.476295602537543,-0.220477382101494,-0.347403865129775,5.53262548676078,368.470698782189,0.467612572845516
+4,"lba_tonnage","Log(1 + bribe/shpt.tonn.)","ps_conmode_lc","epanechnikov","fixed_outcomes",FALSE,"propensity or outcome fit unavailable / nonconverged",NA,NA,NA,NA,NA,NA,NA
+4,"lba_tonnage","Log(1 + bribe/shpt.tonn.)","ps_conmode_lc","epanechnikov","fresh_outcomes",FALSE,"propensity or outcome fit unavailable / nonconverged",NA,NA,NA,NA,NA,NA,NA
+4,"lba_tonnage","Log(1 + bribe/shpt.tonn.)","ps_conmode_ll","epanechnikov","fixed_outcomes",FALSE,"propensity or outcome fit unavailable / nonconverged",NA,NA,NA,NA,NA,NA,NA
+4,"lba_tonnage","Log(1 + bribe/shpt.tonn.)","ps_conmode_ll","epanechnikov","fresh_outcomes",FALSE,"propensity or outcome fit unavailable / nonconverged",NA,NA,NA,NA,NA,NA,NA
+4,"lba_tonnage","Log(1 + bribe/shpt.tonn.)","reference","epanechnikov","fixed_outcomes",FALSE,"propensity or outcome fit unavailable / nonconverged",NA,NA,NA,NA,NA,NA,NA
+4,"lba_tonnage","Log(1 + bribe/shpt.tonn.)","reference","epanechnikov","fresh_outcomes",FALSE,"propensity or outcome fit unavailable / nonconverged",NA,NA,NA,NA,NA,NA,NA
+4,"lba_tonnage","Log(1 + bribe/shpt.tonn.)","ps_lc","gaussian","fixed_outcomes",TRUE,"",-1.51464082256765,0.643320931006653,-0.383891301979668,-0.604893439981273,2.51730892224494,676.484307539155,0.719593561847558
+4,"lba_tonnage","Log(1 + bribe/shpt.tonn.)","ps_lc","gaussian","fresh_outcomes",TRUE,"",-1.48477889593495,0.978333022767963,-0.354029375346972,-0.557840319912727,2.51730892224494,676.484307539155,0.460452087467578
+4,"lba_tonnage","Log(1 + bribe/shpt.tonn.)","ps_conmode_lc","gaussian","fixed_outcomes",TRUE,"",-0.933595745206517,0.486774501791405,0.197153775381465,0.310653106180837,2.6926772649555,553.741195546001,0.171147626196948
+4,"lba_tonnage","Log(1 + bribe/shpt.tonn.)","ps_conmode_lc","gaussian","fresh_outcomes",TRUE,"",-0.835422491060419,1.15098537880115,0.295327029527563,0.465343658189578,2.6926772649555,553.741195546001,0.593987690073268
+4,"lba_tonnage","Log(1 + bribe/shpt.tonn.)","ps_conmode_ll","gaussian","fixed_outcomes",TRUE,"",0.940818704177288,3.00344407747322,2.07156822476527,3.26414801057548,1.38465677801634,918.143020128123,0.915250067648948
+4,"lba_tonnage","Log(1 + bribe/shpt.tonn.)","ps_conmode_ll","gaussian","fresh_outcomes",TRUE,"",0.320437579876198,3.19915486806455,1.45118710046418,2.28662007377994,1.38465677801634,918.143020128123,0.916763595530628
+4,"lba_tonnage","Log(1 + bribe/shpt.tonn.)","ps_lc_mixed","gaussian","fixed_outcomes",TRUE,"",-2.05231764730131,0.734655099902998,-0.92156812671333,-1.45210509191023,5.53262548676078,368.470698782189,0.430623324342713
+4,"lba_tonnage","Log(1 + bribe/shpt.tonn.)","ps_lc_mixed","gaussian","fresh_outcomes",TRUE,"",-1.68841992361392,0.53350384155024,-0.557670403025942,-0.878715320515313,5.53262548676078,368.470698782189,0.274344273234249

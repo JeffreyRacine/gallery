@@ -1,0 +1,153 @@
+---
+title: "Difference-in-Differences with Changing Composition"
+description: "Revisit the Sant'Anna–Xu tariff-evasion application with freshly estimated np nuisance functions and reproduce the outcome comparison table."
+keywords:
+  - difference-in-differences
+  - compositional changes
+  - npconmode
+  - npreg
+  - propensity scores
+  - tariff evasion
+---
+
+This example revisits the empirical application in
+[Sant’Anna and Xu (2026)](https://doi.org/10.1016/j.jeconom.2025.106147), using
+`np` to estimate both generalized propensity scores and outcome regressions.
+The same data and analogous package functions give results in broad agreement
+with the authors’ findings. It is a replication/reproduction hybrid: a
+same-data robustness check with independently estimated nuisance functions
+and bandwidths.
+
+[Download the complete R script](www/np_npRmpi/difference_in_differences/np_composition_did.R).
+It reads pinned public data into memory, freshly fits both nuisance stages,
+and prints the outcome table below. It requires `np` 0.80-1 or later and
+internet access; it does not install packages or create folders or output
+files. Allow a few minutes for bandwidth selection and leave-one-out fits.
+Progress messages identify the current stage.
+
+## The application and target
+
+The application studies whether tariff reductions reduced bribery on shipments
+entering Mozambique. Treatment identifies products whose tariffs fell in 2008;
+the data contain shipments observed before and after the change. The four
+outcomes describe whether a bribe was paid, its logged amount, and logged
+bribe-to-value and bribe-to-tonnage ratios.
+
+The target is the average treatment effect for treated shipments in the
+post-treatment population. Conditional parallel trends, no anticipation and
+appropriate overlap provide the identifying assumptions. With repeated
+cross-sections, the observed covariate distribution can change across periods.
+The composition-robust estimator allows for that change when constructing the
+comparison for treated post-treatment observations.
+
+The script preserves the authors’ preprocessing, adjustment variables and
+common complete-case sample. There are **1,084 observations**: 120 treated/post,
+56 treated/pre, 824 control/post and 84 control/pre. Each outcome uses two
+continuous predictors and nine unordered predictors. The first two outcomes
+share the same predictor design and therefore share their propensity fit.
+
+## Estimating the nuisance functions with np
+
+The implementation uses the four treatment/time cells as the response classes
+for `npconmode`. Their conditional probabilities supply the generalized
+propensity scores. Separate local-linear outcome regressions describe the
+conditional mean in each cell. The script combines these predictions through
+the normalized composition-robust ATT score, coded explicitly in R.
+
+::: {.gallery-scroll-table}
+| Component | Authors’ implementation | This np example |
+| --- | --- | --- |
+| Propensities | Local multinomial-logit likelihood | Local-constant conditional class probabilities from `npconmode` |
+| Propensity bandwidths | Shared continuous and unordered bandwidths | Separate predictor and class-response bandwidths from `npcdensbw`, selected by likelihood cross-validation |
+| Outcome regressions | Local-linear fits with shared bandwidths | Local-linear `npreg` fits with the same two-parameter sharing structure, freshly selected by pooled leave-one-out squared error |
+| Continuous kernel | Epanechnikov | Gaussian |
+:::
+
+These adaptations use available `np` functions to perform comparable tasks.
+Gaussian kernels and separate propensity bandwidths are choices for this
+specification; the package also supports Epanechnikov kernels. Unordered
+predictors use Li–Racine kernels, and the class response uses normalized
+Aitchison–Aitken smoothing. The shared outcome-bandwidth search is a small
+R `optim` wrapper around public `np` functions.
+
+Own-observation predictions are leave-one-out, holding the selected bandwidths
+fixed. Counterfactual outcomes for treated post-treatment observations use the
+other cells’ fitted regressions. Following the archived application, estimated
+probabilities are clipped to [0.01, 0.99] without subsequent renormalization;
+raw probabilities remain available for inspection. This example follows the
+application’s leave-one-out construction. The separate
+[Doubly Robust Treatment Effects](doubly_robust_cate.qmd) example illustrates
+fold-based cross-fitting for a different target and design.
+
+## Outcome comparison
+
+The table reports composition-robust ATT estimates, with clustered standard
+errors in parentheses. The published column contains the corresponding Table 4
+results at the precision retained in the authors’ archive. Every `np` entry
+uses freshly estimated propensities, outcome means and bandwidths.
+
+::: {.gallery-scroll-table}
+| Outcome | Sant’Anna–Xu | np robustness check |
+| --- | --- | --- |
+| Bribe probability | -0.3068 (0.1086) | -0.2853 (0.1372) |
+| Log(1 + bribe) | -2.8884 (0.9148) | -2.4308 (1.6439) |
+| Log(1 + bribe / shipment value) | -0.0274 (0.0145) | -0.0060 (0.0039) |
+| Log(1 + bribe / shipment tonnage) | -1.1307 (0.6346) | -0.8354 (1.1510) |
+:::
+
+All four effect directions agree. The estimated reduction in bribe probability
+is about **28.5 percentage points**, compared with **30.7** in the published
+results. Three point estimates differ by at most about half of the corresponding
+published clustered standard error. The shipment-value effect is substantially
+smaller, and log bribes no longer meet the conventional 5% significance
+threshold. Bribe probability remains significant at 5%; both ratio outcomes
+have normal 95% intervals containing zero in both implementations.
+
+The script implements clustered multiplier inference explicitly: 9,999 Mammen
+draws, seed 1234, and an interquartile-range scale estimate. It holds nuisance
+fits and bandwidths fixed and clusters by four-digit product code. There are
+131 clusters, with the largest containing 550 observations. These uncertainty
+calculations are part of the supplied script; ordinary regression `se()` values
+are not used as ATT standard errors.
+
+## Reproduce and inspect the results
+
+Download the script, then run:
+
+```r
+source("np_composition_did.R")
+did_results$table       # Formatted published/np comparison
+did_results$comparison  # Numerical estimates, SEs and normal 95% np intervals
+```
+
+`did_results` also contains the analysis data, raw propensity estimates,
+selected bandwidths, outcome predictions, score contributions and session
+information. The published constants enter only after fitting. The script
+uses no saved nuisance fits and has no dependency on the authors’ package.
+
+The Gaussian specification was selected for illustration after a bounded
+comparison of estimators and kernels. The
+[reproducibility and sensitivity note](www/np_npRmpi/difference_in_differences/README.md)
+records those alternatives, including incomplete Epanechnikov fits, numerical
+checks and source provenance. This supports the reported robustness comparison;
+it does not establish identical inference for every specification.
+
+Download the [numerical outcome table](www/np_npRmpi/difference_in_differences/comparison.csv)
+or [standalone verification results](www/np_npRmpi/difference_in_differences/standalone_parity.csv).
+For regression discontinuity and a randomized-trial example, see
+[Causal Inference with Local Polynomials](causal_inference.qmd).
+
+::: {.callout-note collapse="true"}
+## Complete example code
+
+```{r composition-did-source}
+#| echo: false
+#| results: asis
+cat("```r\n", paste(readLines("www/np_npRmpi/difference_in_differences/np_composition_did.R"), collapse = "\n"), "\n```\n", sep = "")
+```
+:::
+
+The reference is Sant’Anna, P. H. C. and Xu, Q. (2026),
+“Difference-in-Differences with compositional changes,” *Journal of Econometrics*,
+253, 106147. See the [published paper](https://doi.org/10.1016/j.jeconom.2025.106147)
+and [open manuscript](https://psantanna.com/files/DiD_CC.pdf).

@@ -369,6 +369,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./difference_in_differences.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Difference-in-Differences</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./plotting_and_intervals.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Plotting and Intervals</span></a>
   </div>
@@ -459,6 +465,7 @@ window.Quarto = {
   <li><a href="#sharp-regression-discontinuity" id="toc-sharp-regression-discontinuity" class="nav-link active" data-scroll-target="#sharp-regression-discontinuity">Sharp regression discontinuity</a></li>
   <li><a href="#randomized-treatment-effects-with-simultaneous-bands" id="toc-randomized-treatment-effects-with-simultaneous-bands" class="nav-link" data-scroll-target="#randomized-treatment-effects-with-simultaneous-bands">Randomized treatment effects with simultaneous bands</a></li>
   <li><a href="#observational-treatment-effects-with-cross-fitting" id="toc-observational-treatment-effects-with-cross-fitting" class="nav-link" data-scroll-target="#observational-treatment-effects-with-cross-fitting">Observational treatment effects with cross-fitting</a></li>
+  <li><a href="#difference-in-differences-with-changing-composition" id="toc-difference-in-differences-with-changing-composition" class="nav-link" data-scroll-target="#difference-in-differences-with-changing-composition">Difference-in-differences with changing composition</a></li>
   <li><a href="#what-is-supplied-by-np" id="toc-what-is-supplied-by-np" class="nav-link" data-scroll-target="#what-is-supplied-by-np">What is supplied by np?</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/JeffreyRacine/gallery/blob/main/causal_inference.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
@@ -854,6 +861,10 @@ Figure&nbsp;2: Matching treatment-effect curves, pointwise intervals and simulta
 <section id="observational-treatment-effects-with-cross-fitting" class="level2">
 <h2 class="anchored" data-anchor-id="observational-treatment-effects-with-cross-fitting">Observational treatment effects with cross-fitting</h2>
 <p>For a workflow with many adjustment covariates, see <a href="./doubly_robust_cate.html">Doubly Robust Treatment Effects</a>. That companion example follows Fan, Hsu, Lieli and Zhang: estimate nuisance functions outside each held-out fold, construct doubly robust scores, and use <code>npreg</code> for the final local-linear CATE curves. A seeded simulation with known truth shows pointwise intervals and simultaneous multiplier bands. The page explains the identifying assumptions and the explicit exponential-weight choice, and supplies a standalone script and reference-verification notes.</p>
+</section>
+<section id="difference-in-differences-with-changing-composition" class="level2">
+<h2 class="anchored" data-anchor-id="difference-in-differences-with-changing-composition">Difference-in-differences with changing composition</h2>
+<p>For repeated cross-sectional data, see <a href="./difference_in_differences.html">Difference-in-Differences with Changing Composition</a>. That example revisits Sant’Anna and Xu’s tariff-evasion application, freshly estimating generalized propensities with <code>npconmode</code> and outcome regressions with <code>npreg</code>. A standalone script produces the published/np ATT comparison table and clustered standard errors. The page explains the adaptations and their broad agreement with the published results.</p>
 </section>
 <section id="what-is-supplied-by-np" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-supplied-by-np">What is supplied by np?</h2>

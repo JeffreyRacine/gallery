@@ -1,0 +1,14 @@
+{
+  "script_sha256": "b75356484e86b1f4812488f34d907d315359358f431c1a92d9f446cd200b5031",
+  "fresh_run_exit_code": 0,
+  "empty_working_directory_after_run": true,
+  "compdid_loaded": false,
+  "sample_rows_match": true,
+  "elapsed_seconds": 132.6,
+  "parity_tolerance": 1e-08,
+  "frozen_archive_files": {
+    "santanna_xu_full_nuisance_comparison_20261012": 170,
+    "santanna_xu_empirical_sensitivity_20261012": 98
+  },
+  "archive_sha256": "8f1c7d69969bad55f6fa8df1a9f666b9e2558a0c2a4fefbcfd99ae3640a68c67"
+}

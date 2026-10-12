@@ -135,6 +135,16 @@ pointwise intervals and simultaneous multiplier bands. The page explains
 the identifying assumptions and the explicit exponential-weight choice,
 and supplies a standalone script and reference-verification notes.
 
+## Difference-in-differences with changing composition
+
+For repeated cross-sectional data, see
+[Difference-in-Differences with Changing Composition](difference_in_differences.qmd).
+That example revisits Sant’Anna and Xu’s tariff-evasion application, freshly
+estimating generalized propensities with `npconmode` and outcome regressions
+with `npreg`. A standalone script produces the published/np ATT comparison
+table and clustered standard errors. The page explains the adaptations and
+their broad agreement with the published results.
+
 ## What is supplied by np?
 
 In the RD and trial examples above, `npreg` supplies the local-polynomial

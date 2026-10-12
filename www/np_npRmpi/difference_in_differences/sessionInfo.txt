@@ -1,0 +1,22 @@
+R version 4.6.1 (2026-06-24)
+Platform: aarch64-apple-darwin23
+Running under: macOS Golden Gate 27.0.1
+
+Matrix products: default
+BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] C.UTF-8/C.UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+
+time zone: America/Toronto
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+ [1] MASS_7.3-66        compiler_4.6.1     Matrix_1.7-6       quantreg_6.1      
+ [5] SparseM_1.84-2     survival_3.8-12    MatrixModels_0.5-4 splines_4.6.1     
+ [9] np_0.80-1          grid_4.6.1         boot_1.3-32        lattice_0.23-1    
+[13] quadprog_1.5-8    
