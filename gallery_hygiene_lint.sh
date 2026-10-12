@@ -203,6 +203,20 @@ forbid_regex_in_tree \
   -g '*.qmd' \
   -g '!docs/**'
 
+forbid_regex_in_tree \
+  'gradient_order[[:space:]]*=' \
+  "current downloadable np/npRmpi examples avoid the retired gradient_order argument" \
+  "$ROOT/www/np_npRmpi" \
+  "$ROOT/www/Regression"
+
+forbid_regex_in_tree \
+  '(glp\.degree|glp\.bernstein|glp\.basis)[[:space:]]*=' \
+  "current gallery examples avoid retired GLP argument aliases" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g '*.R' \
+  -g '!docs/**'
+
 RETIRED_NP_PLOT_ARGUMENTS='(data_rug|data_overlay|factor_boxplot|boxplot_outliers|coef_index|common_scale|proper_method|proper_control|boot_control|grid_control|render_control|bar_num|y_vars|y_dat|pair_list)[[:space:]]*='
 
 forbid_regex_in_tree \
@@ -232,6 +246,79 @@ forbid_regex_in_tree \
   -g '*.R' \
   -g '!faq.qmd' \
   -g '!docs/**'
+
+forbid_regex_in_tree \
+  "(c|cx|cy)kertype[[:space:]]*=[[:space:]]*[\"'](truncated[ ._-]*gaussian|tgauss)[\"']" \
+  "current gallery examples avoid retired truncated-Gaussian kernel names" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g '*.R' \
+  -g '!docs/**'
+
+forbid_regex_in_tree \
+  'plot\.errors\.[[:alnum:].]+[[:space:]]*=' \
+  "current gallery examples do not promote historical plot.errors controls" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g '*.R' \
+  -g '!docs/**'
+
+forbid_regex_in_tree \
+  'npglpreg[[:space:]]*\(' \
+  "current gallery examples avoid calls to the deprecated npglpreg route" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g '*.R' \
+  -g '!docs/**'
+
+forbid_multiline_regex_in_tree \
+  'npqreg[[:space:]]*\([^)]{0,1000}gradient[._]order[[:space:]]*=' \
+  "current npqreg examples avoid unsupported gradient-order arguments" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g '*.R' \
+  -g '!docs/**'
+
+CURRENT_IV_SURFACES="
+$ROOT/semiparametric_models.qmd
+$ROOT/www/np_npRmpi/np_instrumental_regression_quickstart.R
+"
+
+# shellcheck disable=SC2086
+forbid_regex_in_tree \
+  '(plot\.data|deriv|phi)[[:space:]]*=' \
+  "current np IV examples avoid retired plot-only controls" \
+  $CURRENT_IV_SURFACES
+
+CURRENT_COPULA_SURFACES="
+$ROOT/density_distribution_quantiles.qmd
+$ROOT/www/np_npRmpi/np_copula_quickstart.R
+"
+
+# neval belongs to npcopula() construction, not plot.npcopula().
+# shellcheck disable=SC2086
+forbid_multiline_regex_in_tree \
+  'plot[[:space:]]*\([^)]{0,1000}neval[[:space:]]*=' \
+  "current copula examples keep neval out of plot.npcopula" \
+  $CURRENT_COPULA_SURFACES
+
+CURRENT_CRS_PLOT_SURFACES="
+$ROOT/crs.qmd
+$ROOT/www/crs/crs_quickstart.R
+$ROOT/www/crs/radial_rgl.R
+$ROOT/www/crs/sine_rgl.R
+$ROOT/www/crs/radial_constrained_mean.R
+$ROOT/www/crs/radial_constrained_first_partial.R
+$ROOT/www/crs/radial_constrained_second_partial.R
+"
+
+# crs deliberately retains underscore NP-style controls such as data_rug.
+# Only its retired pre-0.15-45 plot switches are forbidden here.
+# shellcheck disable=SC2086
+forbid_regex_in_tree \
+  '(plot\.rug|plot\.errors\.[[:alnum:].]+|ci|mean)[[:space:]]*=' \
+  "current crs examples avoid retired plot controls" \
+  $CURRENT_CRS_PLOT_SURFACES
 
 CURRENT_REGRESSION_SCRIPTS="
 $ROOT/www/Regression/regression_intro_a.R
