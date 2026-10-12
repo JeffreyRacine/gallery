@@ -14,7 +14,10 @@ keywords:
 source("site_helpers.R", local = knitr::knit_global())
 ```
 
-These examples are primarily pedagogical. Most use the `manipulate` package and are intended to be run inside RStudio so that you can move sliders, change kernels, alter smoothing parameters, and immediately see the effect on the estimate.
+These retained examples are primarily pedagogical. Most use the `manipulate`
+package and are intended to be run inside RStudio so that you can move sliders,
+change kernels, alter smoothing parameters, and immediately see the effect on
+the estimate.
 
 ## A quick way to run one
 
@@ -24,7 +27,7 @@ Download or open one of the scripts below in RStudio, then source it. Once the p
 
 | If you want to see... | Start here | Notes |
 |---|---|---|
-| How bandwidth, kernel, and sample size change a density estimate | [manipulate_density.R](www/Fun/manipulate_density.R) | good first teaching demo |
+| How bandwidth, kernel, and sample size change a density estimate | [manipulate_density.R](www/Fun/manipulate_density.R) | introductory teaching demo |
 | How off-axis quantiles change multivariate partial plots | [manipulate_wage1.R](www/Fun/manipulate_wage1.R) | uses the `wage1` data and precomputed bandwidth object |
 | Shape restrictions in action | [manipulate_constrained_spline.R](www/Fun/manipulate_constrained_spline.R) | requires `quadprog` |
 
@@ -54,6 +57,17 @@ Download or open one of the scripts below in RStudio, then source it. Once the p
 - Some scripts require additional packages such as `quadprog`, `mnormt`, or `rgl`.
 - The older `npglpreg` route is deprecated. For a functional replacement, use `npreg(..., nomad = "auto")` in `np` or `npRmpi`.
 - The `manipulate` package is tied to RStudio, so these are best treated as RStudio-first examples rather than generic batch scripts.
+
+## Source and scope
+
+The density, distribution, copula, and shape-restriction simulations are
+Gallery teaching demonstrations rather than reproductions of published
+results. The Old Faithful scripts use `datasets::faithful`; see Azzalini and
+Bowman (1990), *Applied Statistics* 39(3), 357--365. The wage example uses the
+1976 U.S. Current Population Survey data supplied by Jeffrey M. Wooldridge; see
+Wooldridge (2000), *Introductory Econometrics: A Modern Approach*. The SOCCO
+script records its collaboration with Sonali Das and credits the Southern Ocean
+Carbon and Climate Observatory for the supplied data.
 
 ## Inline source for two flagship demos
 

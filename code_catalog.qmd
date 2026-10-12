@@ -25,6 +25,16 @@ This page is meant to be the quickest route to working scripts. It groups the ex
 - If you want a fuller script, use the tables further down.
 - If you know a function name, use the site search box or the [Reference](function_index.qmd) page.
 
+## Source and scope conventions
+
+The catalog combines Gallery-authored quickstarts and simulations, examples
+based on documented package datasets, and adaptations of published research.
+The substantive research examples identify the original paper and reference
+software, state which calculations are supplied by `np`, and disclose material
+departures from the source implementation. Short teaching examples cite their
+data source on the corresponding page; they are not presented as reproductions
+of published estimates.
+
 ## Minimal starters you can copy immediately
 
 ```{r featured-quickstarts}
@@ -188,7 +198,7 @@ render_quickstart_callouts(subset(quickstarts, section == "crs"), prefix_package
 
 ## Notes
 
-- The gallery still preserves the original scripts, but the site now aims to route you to them more directly.
+- The Gallery retains the older teaching scripts, while the current pages route readers to them more directly and supply the missing source context.
 - The short blocks near the top are there so you can copy a minimal working pattern without downloading anything first.
 - For MPI-specific launch semantics, see [MPI and Large Data](mpi_large_data.qmd).
 - For short copyable code blocks rather than full scripts, start with [Worked Examples](regression.qmd).

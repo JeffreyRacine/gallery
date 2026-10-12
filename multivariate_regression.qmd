@@ -10,11 +10,18 @@ keywords:
   - np
 ---
 
-This page is for the common case where the model has more than one regressor and you want a practical route to fitting, plotting, and predicting without having to reconstruct the older gallery scripts from scratch.
+This page covers the common case where a model has more than one regressor and
+you want a practical route to fitting, plotting, and predicting. It streamlines
+the retained
+[`regression_multivar_a.R`](www/Regression/regression_multivar_a.R) teaching
+script rather than reproducing a published empirical estimate.
 
 ## A small mixed-data regression
 
-The `wage1` data are still a useful first example because they combine numeric and categorical predictors in a way that mirrors applied work.
+The bundled `wage1` data are a random sample of 526 observations from the 1976
+U.S. Current Population Survey, supplied by Jeffrey M. Wooldridge. They remain
+a useful first example because they combine numeric and categorical predictors
+in a way that mirrors applied work.
 
 ```r
 ## Fit a small mixed-data regression with one factor and two numeric regressors
@@ -73,7 +80,7 @@ This is often the safest pattern because it preserves the factor structure from 
 
 ## A practical workflow
 
-For multivariate work, a good habit is:
+One practical sequence is:
 
 1. fit a small model first,
 2. inspect `summary(fit_multi)`,
@@ -88,3 +95,8 @@ For multivariate work, a good habit is:
 - [Plotting and Intervals](plotting_and_intervals.qmd)
 - [MPI and Large Data](mpi_large_data.qmd)
 - [Code Catalog](code_catalog.qmd)
+
+## Reference
+
+Wooldridge, J. M. (2000), *Introductory Econometrics: A Modern Approach*,
+South-Western College Publishing.

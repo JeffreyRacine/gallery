@@ -196,6 +196,8 @@ cat("```r\n", paste(readLines("www/np_npRmpi/doubly_robust_cate/np_crossfit_cate
 ```
 :::
 
+## Reference and scope
+
 The reference is Fan, Q., Hsu, Y.-C., Lieli, R. P. and Zhang, Y. (2022),
 “Estimation of Conditional Average Treatment Effects with High-Dimensional
 Data,” *Journal of Business & Economic Statistics*, 40(1), 313–327.

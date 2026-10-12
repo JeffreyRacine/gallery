@@ -1,6 +1,6 @@
 ---
 title: "Difference-in-Differences with Changing Composition"
-description: "Revisit the Sant'Anna–Xu tariff-evasion application with freshly estimated np nuisance functions and reproduce the outcome comparison table."
+description: "Revisit the Sant'Anna–Xu tariff-evasion application with freshly estimated np nuisance functions and compare the outcome estimates."
 keywords:
   - difference-in-differences
   - compositional changes
@@ -146,6 +146,8 @@ For regression discontinuity and a randomized-trial example, see
 cat("```r\n", paste(readLines("www/np_npRmpi/difference_in_differences/np_composition_did.R"), collapse = "\n"), "\n```\n", sep = "")
 ```
 :::
+
+## Reference and scope
 
 The reference is Sant’Anna, P. H. C. and Xu, Q. (2026),
 “Difference-in-Differences with compositional changes,” *Journal of Econometrics*,

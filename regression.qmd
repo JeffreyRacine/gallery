@@ -9,11 +9,18 @@ keywords:
   - local constant
 ---
 
-This page is meant to give you working code that you can copy directly. The longer scripts are still linked below, but the first goal is to let you run something useful without downloading a bundle of files.
+This page provides working code that can be copied directly. The longer scripts
+remain available below, but the first goal is to let you run a useful example
+without downloading a bundle of files. These are teaching examples rather than
+attempts to reproduce published empirical estimates.
 
 ## A first regression example
 
-This mirrors the spirit of `regression_intro_a.R` in a shorter form.
+This is a streamlined version of
+[`regression_intro_a.R`](www/Regression/regression_intro_a.R). The bundled
+`cps71` data contain 205 male grade-13 graduates sampled from the 1971 Canadian
+Census Public Use Tapes. The data were supplied by Aman Ullah and are documented
+in Pagan and Ullah (1999).
 
 ```r
 ## Load the package data, then fit local-constant and local-linear models
@@ -25,7 +32,9 @@ fit_ll <- npreg(logwage ~ age, data = cps71, regtype = "ll")
 
 ## Plot the first fit, then add the second fit and a legend
 plot(fit_lc)
-lines(cps71$age, fitted(fit_ll), col = 2, lty = 2)
+age_order <- order(cps71$age)
+lines(cps71$age[age_order], fitted(fit_ll)[age_order],
+  col = 2, lty = 2)
 
 legend("topleft",
   c("Local constant", "Local linear"),
@@ -35,6 +44,10 @@ legend("topleft",
 ```
 
 ## A small bandwidth-selection example
+
+The next block is a Gallery-authored simulation. It isolates the workflow for
+mixed continuous and unordered predictors; it is not adapted from an empirical
+application.
 
 ```r
 ## Simulate a small mixed-data example and choose the bandwidth explicitly
@@ -82,3 +95,8 @@ simultaneous band over a fixed evaluation grid.
 - The older `npglpreg` route is deprecated. For a functional replacement, use `npreg(..., nomad = "auto")` in `np` or `npRmpi`.
 - The `wage1` multivariate route now has its own page at [Multivariate Regression and Prediction](multivariate_regression.qmd).
 - For plotting objects, gradients, and uncertainty summaries, see [Plotting and Intervals](plotting_and_intervals.qmd).
+
+## Reference
+
+Pagan, A. and Ullah, A. (1999), *Nonparametric Econometrics*, Cambridge
+University Press.

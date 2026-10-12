@@ -439,6 +439,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#prediction" id="toc-prediction" class="nav-link" data-scroll-target="#prediction">Prediction</a></li>
   <li><a href="#a-practical-workflow" id="toc-a-practical-workflow" class="nav-link" data-scroll-target="#a-practical-workflow">A practical workflow</a></li>
   <li><a href="#where-to-go-next" id="toc-where-to-go-next" class="nav-link" data-scroll-target="#where-to-go-next">Where to go next</a></li>
+  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference">Reference</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/JeffreyRacine/gallery/blob/main/multivariate_regression.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
     </div>
@@ -475,10 +476,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This page is for the common case where the model has more than one regressor and you want a practical route to fitting, plotting, and predicting without having to reconstruct the older gallery scripts from scratch.</p>
+<p>This page covers the common case where a model has more than one regressor and you want a practical route to fitting, plotting, and predicting. It streamlines the retained <a href="www/Regression/regression_multivar_a.R"><code>regression_multivar_a.R</code></a> teaching script rather than reproducing a published empirical estimate.</p>
 <section id="a-small-mixed-data-regression" class="level2">
 <h2 class="anchored" data-anchor-id="a-small-mixed-data-regression">A small mixed-data regression</h2>
-<p>The <code>wage1</code> data are still a useful first example because they combine numeric and categorical predictors in a way that mirrors applied work.</p>
+<p>The bundled <code>wage1</code> data are a random sample of 526 observations from the 1976 U.S. Current Population Survey, supplied by Jeffrey M. Wooldridge. They remain a useful first example because they combine numeric and categorical predictors in a way that mirrors applied work.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit a small mixed-data regression with one factor and two numeric regressors</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wage1, <span class="at">package =</span> <span class="st">"np"</span>)</span>
@@ -517,7 +518,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="a-practical-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="a-practical-workflow">A practical workflow</h2>
-<p>For multivariate work, a good habit is:</p>
+<p>One practical sequence is:</p>
 <ol type="1">
 <li>fit a small model first,</li>
 <li>inspect <code>summary(fit_multi)</code>,</li>
@@ -535,6 +536,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="./mpi_large_data.html">MPI and Large Data</a></li>
 <li><a href="./code_catalog.html">Code Catalog</a></li>
 </ul>
+</section>
+<section id="reference" class="level2">
+<h2 class="anchored" data-anchor-id="reference">Reference</h2>
+<p>Wooldridge, J. M. (2000), <em>Introductory Econometrics: A Modern Approach</em>, South-Western College Publishing.</p>
 
 
 </section>

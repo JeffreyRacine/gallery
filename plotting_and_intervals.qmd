@@ -13,6 +13,13 @@ Plotting is one of the places where `np` becomes especially useful, because the 
 
 If you want a minimal downloadable script for this route, start with [np_plotting_quickstart.R](www/np_npRmpi/np_plotting_quickstart.R).
 
+The code blocks are Gallery-authored teaching examples built on two datasets
+bundled with `np`; they do not reproduce published empirical estimates.
+`cps71` is the 1971 Canadian Census wage sample supplied by Aman Ullah and
+documented by Pagan and Ullah (1999). `wage1` is the 1976 U.S. Current
+Population Survey wage sample supplied by Jeffrey M. Wooldridge and documented
+by Wooldridge (2000).
+
 ::: {.callout-note}
 ## Current plotting interface
 
@@ -219,3 +226,9 @@ The values returned by `gradients(fit)` are not the same object as the smooth pa
 - [Worked Examples](regression.qmd)
 - [Kernel Primer](kernel_primer.qmd)
 - [Code Catalog](code_catalog.qmd)
+
+## Data references
+
+Pagan, A. and Ullah, A. (1999), *Nonparametric Econometrics*, Cambridge
+University Press. Wooldridge, J. M. (2000), *Introductory Econometrics: A
+Modern Approach*, South-Western College Publishing.

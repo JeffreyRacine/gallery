@@ -468,6 +468,19 @@ window.Quarto = {
 
 
 <p>This worked example develops the evidence behind the shorter <a href="./density_distribution_quantiles.html#choosing-support-bounds">support-selection guide</a>. It compares ordinary and boundary-adjusted Gaussian-kernel estimates when a variable has two known endpoints, one known endpoint, or no finite endpoint. The results illustrate the mechanism; they are not a promise of equally large gains for every bounded density.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Source and scope
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is a Gallery-authored simulation study constructed to isolate the effect of supplying known support bounds. It does not reproduce a published empirical example. The data-generating processes, fixed seeds, bandwidth searches, scoring rules, and retained numerical artifacts are documented below so that the displayed claims can be inspected independently.</p>
+</div>
+</div>
 <section id="one-sample-two-endpoints-one-endpoint-and-an-unbounded-control" class="level2">
 <h2 class="anchored" data-anchor-id="one-sample-two-endpoints-one-endpoint-and-an-unbounded-control">One sample: two endpoints, one endpoint, and an unbounded control</h2>
 <p>The examples retain the default second-order <strong>Gaussian kernel</strong>. The change is the support information supplied to the estimator. The top row shows unconditional densities; the bottom row shows conditional densities at the population median of <span class="math inline">\(X\)</span>. Each comparison uses the same sample of 250 observations, seed 42, and separately selected likelihood cross-validation (<code>"cv.ml"</code>) bandwidths with five multistarts.</p>

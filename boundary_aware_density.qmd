@@ -16,6 +16,16 @@ variable has two known endpoints, one known endpoint, or no finite endpoint.
 The results illustrate the mechanism; they are not a promise of equally large
 gains for every bounded density.
 
+::: {.callout-note}
+## Source and scope
+
+This is a Gallery-authored simulation study constructed to isolate the effect
+of supplying known support bounds. It does not reproduce a published empirical
+example. The data-generating processes, fixed seeds, bandwidth searches,
+scoring rules, and retained numerical artifacts are documented below so that
+the displayed claims can be inspected independently.
+:::
+
 ## One sample: two endpoints, one endpoint, and an unbounded control
 
 The examples retain the default second-order **Gaussian kernel**. The change is

@@ -15,6 +15,18 @@ captions, a transcript, the exact installed-build script, and direct download
 links. Longer installation and platform instructions remain on
 [Install and Get Started](R_RStudio.qmd).
 
+## Data and source provenance
+
+These videos are Gallery presentations of package workflows, not claimed
+reproductions of results from the references below. The bundled `cps71` sample
+comes from the 1971 Canadian Census Public Use Tapes, was supplied by Aman
+Ullah, and is documented in Pagan and Ullah (1999), *Nonparametric
+Econometrics*. The bundled `Italy` panel was supplied by Giovanni Baiocchi and
+is documented in Baiocchi (2006), “Economic Applications of Nonparametric
+Methods,” Ph.D. thesis, University of York. The Old Faithful episodes use
+`datasets::faithful`; see Azzalini and Bowman (1990), *Applied Statistics*
+39(3), 357--365, [doi:10.2307/2347385](https://doi.org/10.2307/2347385).
+
 ## Onboarding and first results
 
 :::: {.callout-note collapse="true" #first-np-result}
