@@ -2,7 +2,7 @@
 
 Reproducible examples for `np` 0.80-1, prepared October 10, 2026.
 The [quickstart](../np_density_bounds_quickstart.R) generates the six seed-42
-fits and `seed42_n250.png`. It uses only public package calls. Its comments
+fits and displays their figure. It uses only public package calls. Its comments
 show how to save the plot. The other figures and CSV files summarize the
 separate Monte Carlo experiment described below; sourcing the quickstart does
 not launch that experiment.

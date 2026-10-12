@@ -1,6 +1,6 @@
 # Doubly robust CATE: reproducibility and reference verification
 
-This accompanies the Gallery's [Doubly Robust Treatment Effects](../../../doubly_robust_cate.html) example. The standalone [np_crossfit_cate.R](np_crossfit_cate.R) requires `np` and `hdm`, generates all data and writes results under `np_crossfit_cate_results` in the working directory. No patched reference package is needed to run that example.
+This accompanies the Gallery's [Doubly Robust Treatment Effects](../../../doubly_robust_cate.html) example. Source the standalone [np_crossfit_cate.R](np_crossfit_cate.R) in R or RStudio to generate the data, print the summary and display the figure. Results remain in the `cate_results` object, including `cate_results$curve` and `cate_results$summary`; no folders or output files are created. The script requires `np` and `hdm`. No patched reference package is needed to run that example.
 
 ## Method and choices
 
@@ -65,6 +65,6 @@ With `np`, `hdm` and `hdcate`'s other dependencies (`locpol`, `caret`, `R6`, `Ke
 R_BIN="$(command -v R)" RSCRIPT_BIN="$(command -v Rscript)" bash scripts/reproduce.sh
 ```
 
-This installs the retained hdm and original/patched hdcate tarballs into bundle-local libraries, executes original/repaired source and installed witnesses, runs the repaired reference comparison, then runs and checks the standalone np script. Temporary files and outputs also stay in the bundle. No system library is modified. The original-code witnesses expect the recorded defective behavior; a passing witness is not a claim that the original estimator is correct.
+This optional verification workflow installs the retained hdm and original/patched hdcate tarballs into bundle-local libraries, executes original/repaired source and installed witnesses, runs the repaired reference comparison, then runs and checks the standalone np script. The verification harness explicitly captures its in-memory results and plot in the bundle; ordinary use of the example creates no files. Temporary files and outputs also stay in the bundle. No system library is modified. The original-code witnesses expect the recorded defective behavior; a passing witness is not a claim that the original estimator is correct.
 
 The original verification used R 4.6.1, np 0.80-1, hdm 0.3.2, locpol 0.9.0 and pinned hdcate 0.1.0. See [sessionInfo.txt](sessionInfo.txt). Matching these versions helps reproduce numerical receipts; the checks are not a guarantee for every future version. `R CMD build` and `R CMD INSTALL` were run; `R CMD check --as-cran` was not.

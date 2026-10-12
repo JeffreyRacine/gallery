@@ -6,17 +6,9 @@ title: "Start Here"
 
 This site is meant to help you get to working code quickly. The sidebar is now organized by task rather than by old document names, and the search box should find function names such as `npreg`, `npudens`, `crs`, and `npRmpi.init`.
 
-::: {.grid}
-::: {.g-col-12 .g-col-lg-7}
 This gallery complements the package help pages, examples, and vignettes. The aim is simple: make it easy to see what each package is for, copy a small working example, and then move on to longer scripts only if you need them.
 
 If you are new to these packages, start with [Choose a Package](primer.qmd). If you want runnable code immediately, go to [Quickstarts](quickstarts.qmd). If you already know the method you want, go directly to [Kernel Methods](np_npRmpi.qmd), [MPI and Large Data](mpi_large_data.qmd), [Splines](crs.qmd), or [Worked Examples](regression.qmd).
-:::
-
-::: {.g-col-12 .g-col-lg-5}
-![Cross-validated spline illustration](www/radial_rgl.png){.hero-image}
-:::
-:::
 
 ::: {.quick-note}
 This website is linked from my academic site and is intended as a practical working companion, not as a substitute for the package manuals or the underlying papers.

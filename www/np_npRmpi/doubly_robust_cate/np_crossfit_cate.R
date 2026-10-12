@@ -2,6 +2,8 @@
 # https://doi.org/10.1080/07350015.2020.1811102
 # Research illustration: authors' simulated DGP, not the birth-weight application.
 # Requires np and hdm. No package installation or hdcate dependency.
+# Run source("np_crossfit_cate.R") in R or RStudio to display the results.
+# Results stay in cate_results; this script creates no folders or output files.
 # Exp(1) weights are chosen explicitly: paper Assumption 4.1; hdcate's "bayes"
 # option. They differ from the N(1,1) implementation illustrated in the paper.
 # Reference checks and isolated repairs are documented in the accompanying
@@ -9,8 +11,6 @@
 library(np)
 library(hdm)
 options(np.messages = FALSE)
-out <- 'np_crossfit_cate_results'
-dir.create(out, showWarnings = FALSE)
 n <- 500L; p <- 100L; K <- 5L; B <- 1999L
 at <- seq(-1, 1, by = .02)
 seeds <- c(data=20261011L, folds=20261012L, nuisance=20261013L, multiplier=20261014L)
@@ -90,32 +90,32 @@ summary <- data.frame(n, p, K, B, bandwidth=h, multipliers='Exp(1)',
   grid_points=length(at), critical_95=critical,
   min_propensity=min(propensity), max_propensity=max(propensity))
 print(summary, digits=10)
-write.csv(curve, file.path(out, 'cate_curve.csv'), row.names=FALSE)
-write.csv(summary, file.path(out, 'summary.csv'), row.names=FALSE)
-saveRDS(list(data=dat, folds=folds, score=score, propensity=propensity, seeds=seeds,
+cate_results <- list(data=dat, folds=folds, score=score, propensity=propensity, seeds=seeds,
   h=h, fold_curves=fold_curves, fold_variances=fold_variances, bootstrap=bootstrap,
-  maxima=maxima, curve=curve, summary=summary), file.path(out, 'replication.rds'))
-capture.output(sessionInfo(), file=file.path(out, 'sessionInfo.txt'))
+  maxima=maxima, curve=curve, summary=summary, session_info=sessionInfo())
 
-png(file.path(out, 'crossfit_cate.png'), width=1600, height=1050, res=160)
-par(mar=c(5.2, 4.8, 4.3, 1.2), las=1, bty='l', cex=.95)
-plot(at, estimate, type='n', ylim=range(curve[, c('simultaneous_lower', 'simultaneous_upper')]),
-  xlab=expression('Effect modifier '*X[2]), ylab='Conditional average treatment effect',
-  main='Doubly robust CATE with cross-fitting',
-  sub=sprintf('n = 500; 5 folds; 1,999 Exp(1) draws; 95%% grid critical value = %.3f', critical))
-polygon(c(at, rev(at)), c(curve$simultaneous_lower, rev(curve$simultaneous_upper)),
-        col='#dcecf7', border=NA)
-lines(at, curve$point_lower, col='#4682a9', lty=3, lwd=1.5)
-lines(at, curve$point_upper, col='#4682a9', lty=3, lwd=1.5)
-lines(at, estimate, col='#145580', lwd=2.7)
-lines(at, 10+at, col='#ad493b', lwd=2, lty=2)
-legend('topleft', c('npreg final-stage estimate', 'Known CATE: 10 + X2',
-  '95% pointwise intervals', '95% simultaneous grid band'),
-  col=c('#145580', '#ad493b', '#4682a9', '#dcecf7'), lty=c(1, 2, 3, 1),
-  lwd=c(2.7, 2, 1.5, 9), bty='n', cex=.87)
-mtext('Fan-Hsu-Lieli-Zhang methodology; author-package simulation', side=3, line=.35, cex=.84)
-dev.off()
+if (interactive() || dev.cur() > 1L) local({
+  old_par <- par(no.readonly=TRUE)
+  on.exit(par(old_par))
+  par(mar=c(5.2, 4.8, 4.3, 1.2), las=1, bty='l', cex=.95)
+  plot(at, estimate, type='n', ylim=range(curve[, c('simultaneous_lower', 'simultaneous_upper')]),
+    xlab=expression('Effect modifier '*X[2]), ylab='Conditional average treatment effect',
+    main='Doubly robust CATE with cross-fitting',
+    sub=sprintf('n = 500; 5 folds; 1,999 Exp(1) draws; 95%% grid critical value = %.3f', critical))
+  polygon(c(at, rev(at)), c(curve$simultaneous_lower, rev(curve$simultaneous_upper)),
+          col='#dcecf7', border=NA)
+  lines(at, curve$point_lower, col='#4682a9', lty=3, lwd=1.5)
+  lines(at, curve$point_upper, col='#4682a9', lty=3, lwd=1.5)
+  lines(at, estimate, col='#145580', lwd=2.7)
+  lines(at, 10+at, col='#ad493b', lwd=2, lty=2)
+  legend('topleft', c('npreg final-stage estimate', 'Known CATE: 10 + X2',
+    '95% pointwise intervals', '95% simultaneous grid band'),
+    col=c('#145580', '#ad493b', '#4682a9', '#dcecf7'), lty=c(1, 2, 3, 1),
+    lwd=c(2.7, 2, 1.5, 9), bty='n', cex=.87)
+  mtext('Fan-Hsu-Lieli-Zhang methodology; author-package simulation', side=3, line=.35, cex=.84)
+}) else message('Run source("np_crossfit_cate.R") in R or RStudio to display the figure.')
 # This one sample verifies arithmetic, not repeated-sampling coverage. Bands
 # approximate uniform inference by a maximum on 101 fixed evaluation points.
 # Identification still requires unconfoundedness and overlap; smoothing alone
 # supplies neither. Nuisance-rate and undersmoothing conditions remain essential.
+invisible(cate_results)

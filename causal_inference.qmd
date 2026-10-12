@@ -15,9 +15,11 @@ authors' package, then reproduces the estimate and inference using `npreg`
 plus explicit bias-correction and covariance calculations. The causal
 interpretation comes from the study design and its identifying assumptions.
 
-Download a script and run it with `source()`. It retrieves a pinned copy of the
-public data and writes a PNG and comparison tables to `np_causal_results` in
-your working directory. The scripts require `np` 0.80-1 or later and either
+Download a script and run it with `source()` in R or RStudio. It reads the pinned
+public data into memory, prints the numerical results, and displays the figure
+in your graphics window. Results remain available as `rd_results` or
+`cholesterol_results`; the scripts create no folders or output files.
+They require `np` 0.80-1 or later and either
 `rdrobust` or `nprobust`; they do not install packages. The results below were
 checked with `np` 0.80-1, `rdrobust` 4.1.1, and `nprobust` 1.0.0.
 
@@ -44,8 +46,9 @@ The conventional estimate is **7.240 percentage points**; the bias-corrected
 estimate is **7.280**, with a robust 95% interval of **[3.822, 10.737]**.
 The robust two-sided test of a zero discontinuity has $p\approx3.68\times10^{-5}$.
 The estimates, standard errors, interval endpoints and p-value agree to
-numerical precision; the script checks this directly and saves the
-[comparison table](www/np_npRmpi/causal_inference/rd_inference_comparison.csv).
+numerical precision; the script checks this directly and prints the comparison.
+It is also available as `rd_results$comparison` and as a
+[downloadable table](www/np_npRmpi/causal_inference/rd_inference_comparison.csv).
 
 The inference follows
 [Calonico, Cattaneo and Titiunik (2014)](https://mdcattaneo.github.io/papers/Calonico-Cattaneo-Titiunik_2014_ECMA.pdf).
@@ -108,7 +111,8 @@ after correction. These are confidence bands for the conditional mean
 contrast, not prediction bands for individual outcomes.
 
 The script checks the bias-corrected estimates, standard errors, covariance,
-band endpoints and joint test against the author-package calculation. Download
+band endpoints and joint test against the author-package calculation. Inspect
+`cholesterol_results$np_band` and `cholesterol_results$joint_test` in R, or download
 the [np band values](www/np_npRmpi/causal_inference/cholesterol_np_bands.csv),
 [author-package band values](www/np_npRmpi/causal_inference/cholesterol_author_bands.csv),
 [numerical checks](www/np_npRmpi/causal_inference/cholesterol_inference_comparison.csv),

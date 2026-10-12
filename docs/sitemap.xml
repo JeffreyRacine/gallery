@@ -38,7 +38,7 @@
   </url>
   <url>
     <loc>https://jeffreyracine.github.io/gallery/index.html</loc>
-    <lastmod>2026-10-11T00:07:41.042Z</lastmod>
+    <lastmod>2026-10-11T17:23:06.302Z</lastmod>
   </url>
   <url>
     <loc>https://jeffreyracine.github.io/gallery/faq.html</loc>
@@ -46,47 +46,51 @@
   </url>
   <url>
     <loc>https://jeffreyracine.github.io/gallery/doubly_robust_cate.html</loc>
-    <lastmod>2026-10-11T16:18:24.948Z</lastmod>
+    <lastmod>2026-10-11T17:19:12.193Z</lastmod>
   </url>
   <url>
-    <loc>https://jeffreyracine.github.io/gallery/data_preparation.html</loc>
-    <lastmod>2026-10-10T12:36:22.121Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/code_catalog.html</loc>
-    <lastmod>2026-10-12T14:31:28.470Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/causal_inference.html</loc>
-    <lastmod>2026-10-12T14:31:28.470Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/books_papers.html</loc>
-    <lastmod>2026-05-11T00:10:05.324Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/R_RStudio.html</loc>
-    <lastmod>2026-06-26T12:40:01.870Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/about.html</loc>
-    <lastmod>2026-03-16T15:25:07.198Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/boundary_aware_density.html</loc>
-    <lastmod>2026-10-11T00:12:31.619Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/classification_modes.html</loc>
-    <lastmod>2026-06-13T16:29:55.383Z</lastmod>
+    <loc>https://jeffreyracine.github.io/gallery/density_distribution_quantiles.html</loc>
+    <lastmod>2026-10-11T00:12:31.618Z</lastmod>
   </url>
   <url>
     <loc>https://jeffreyracine.github.io/gallery/crs.html</loc>
     <lastmod>2026-09-07T01:15:52.623Z</lastmod>
   </url>
   <url>
-    <loc>https://jeffreyracine.github.io/gallery/density_distribution_quantiles.html</loc>
-    <lastmod>2026-10-11T00:12:31.618Z</lastmod>
+    <loc>https://jeffreyracine.github.io/gallery/classification_modes.html</loc>
+    <lastmod>2026-06-13T16:29:55.383Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/boundary_aware_density.html</loc>
+    <lastmod>2026-10-11T00:12:31.619Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/about.html</loc>
+    <lastmod>2026-03-16T15:25:07.198Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/R_RStudio.html</loc>
+    <lastmod>2026-06-26T12:40:01.870Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/books_papers.html</loc>
+    <lastmod>2026-05-11T00:10:05.324Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/causal_inference.html</loc>
+    <lastmod>2026-10-12T14:31:28.470Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/code_catalog.html</loc>
+    <lastmod>2026-10-12T14:31:28.470Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/data_preparation.html</loc>
+    <lastmod>2026-10-10T12:36:22.121Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jeffreyracine.github.io/gallery/difference_in_differences.html</loc>
+    <lastmod>2026-10-12T14:31:28.441Z</lastmod>
   </url>
   <url>
     <loc>https://jeffreyracine.github.io/gallery/entropy_tests.html</loc>
@@ -131,9 +135,5 @@
   <url>
     <loc>https://jeffreyracine.github.io/gallery/spline_search_and_tuning.html</loc>
     <lastmod>2026-06-26T12:40:01.869Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jeffreyracine.github.io/gallery/difference_in_differences.html</loc>
-    <lastmod>2026-10-12T14:31:28.441Z</lastmod>
   </url>
 </urlset>

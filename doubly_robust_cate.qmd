@@ -19,9 +19,9 @@ smoother, and the script implements the paper's variance and multiplier
 inference calculations explicitly.
 
 [Download the complete R script](www/np_npRmpi/doubly_robust_cate/np_crossfit_cate.R).
-It requires `np` and `hdm`, simulates its own data, and writes a PNG, CSV
-tables and an RDS replication file to `np_crossfit_cate_results` in your
-working directory. It does not install packages. The example was checked
+It requires `np` and `hdm`, simulates its own data, prints a numerical summary,
+and displays the figure in your R or RStudio graphics window. It creates no
+folders or output files and does not install packages. The example was checked
 with `np` 0.80-1 and `hdm` 0.3.2.
 
 For regression discontinuity and a randomized-trial example, start with
@@ -160,7 +160,12 @@ After downloading the script, run:
 
 ```r
 source("np_crossfit_cate.R")
+# Inspect the fitted curve and intervals in memory:
+head(cate_results$curve)
 ```
+
+The `cate_results` object also contains the summary, data, folds, seeds, scores,
+propensities and multiplier draws.
 
 The held-out fitted propensities range from **0.0139 to 0.9751** in this
 sample. The script reports them and does not clip or trim them. For a new

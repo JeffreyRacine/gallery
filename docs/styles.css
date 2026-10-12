@@ -48,12 +48,6 @@ a:focus {
   border-right: 1px solid var(--gallery-border);
 }
 
-.hero-image {
-  border: 1px solid var(--gallery-border);
-  border-radius: 1rem;
-  box-shadow: var(--gallery-shadow);
-}
-
 .home-card {
   height: 100%;
   padding: 1.2rem 1.25rem;
