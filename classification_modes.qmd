@@ -74,6 +74,27 @@ mirrors the selected regression type, degree, NOMAD shortcut metadata, and
 search-engine information used to build the classifier. If you want to inspect
 the fitted class-probability matrix directly, set `probabilities = TRUE`.
 
+### Class-probability uncertainty
+
+Probability plots can display asymptotic pointwise, simultaneous, and
+Bonferroni variability bands for one named response level over the declared
+grid. The target is the smooth class probability, not the discrete winning
+class label, and coverage is not joint across response levels.
+
+```r
+## Reuse the selected bandwidths and retain probabilities and their SEs
+model_np_prob <- npconmode(bws = model_np$bws,
+  probabilities = TRUE,
+  se = TRUE)
+plot(model_np_prob, errors = "asymptotic", band = "all")
+```
+
+Eligible fixed surfaces draw the same available asymptotic interval families.
+Repeated conditioning-variable selectors are rejected rather than used to
+construct a misaligned surface. If clipping or probability projection makes a
+joint calculation nonregular, the simultaneous limits remain unavailable while
+valid pointwise and Bonferroni output is preserved.
+
 ## Comparing with a parametric classifier
 
 One natural comparison is a confusion matrix against a parametric logit model.

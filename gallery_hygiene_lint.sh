@@ -128,8 +128,28 @@ expect_fixed \
 
 expect_fixed \
   "$ROOT/index.qmd" \
-  'October 12, 2026' \
+  'October 19, 2026' \
   "gallery overview records the 0.80-1 package date"
+
+expect_fixed \
+  "$ROOT/plotting_and_intervals.qmd" \
+  'selected-smoothing variability bands over the displayed finite grid' \
+  "plotting guidance states the simultaneous-band scope"
+
+expect_fixed \
+  "$ROOT/density_distribution_quantiles.qmd" \
+  'year.offset <- 1975' \
+  "raw-year local-polynomial example centres calendar year"
+
+expect_fixed \
+  "$ROOT/classification_modes.qmd" \
+  '  se = TRUE)' \
+  "class-probability asymptotic plot refit requests standard errors"
+
+expect_fixed \
+  "$ROOT/faq.qmd" \
+  'where `data` is not a documented' \
+  "migration guidance explains the formula/native data boundary"
 
 forbid_regex_in_tree \
   'birthwt\$low[[:space:]]*<-[[:space:]]*factor' \

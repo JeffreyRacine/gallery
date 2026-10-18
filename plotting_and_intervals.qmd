@@ -74,6 +74,32 @@ For many users, asymptotic intervals are the first reasonable uncertainty summar
 plot(model.ll, errors = "asymptotic")
 ```
 
+### Simultaneous asymptotic variability bands
+
+Supported plots can calibrate a Gaussian simultaneous band over the finite
+evaluation grid within each panel. Use `band = "all"` to compare pointwise,
+simultaneous, and Bonferroni bands on the same display.
+
+```r
+## Compare all supported asymptotic band constructions on one panel
+plot(model.ll, errors = "asymptotic", band = "all")
+```
+
+This common interface now covers supported regression, single-index,
+smooth-coefficient, partially linear, density/distribution, conditional
+quantile, location-scale quantile, class-probability, and copula plots,
+including eligible level surfaces. `gaussian.draws` controls the Gaussian
+maximum simulation and defaults to 9,999; `random.seed` makes that calibration
+reproducible without changing the caller's RNG state.
+
+These are selected-smoothing variability bands over the displayed finite grid.
+They do not correct smoothing bias, include bandwidth- or degree-selection
+uncertainty, cover points between the grid, or provide joint coverage across
+separate panels, quantiles, or response levels. If a joint band is not
+identified for a nonregular, degenerate, or resource-limited request, the plot
+reports the simultaneous limits as unavailable while retaining any valid
+pointwise and Bonferroni results.
+
 ## Gradients
 
 For derivative views, request gradients in the plot call.

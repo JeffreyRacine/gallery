@@ -227,6 +227,22 @@ covariance with its marginal density estimates. Unqualified boundary or
 degenerate cases retain their point estimates and report unavailable standard
 errors rather than silently applying a different formula.
 
+Supported density, distribution, conditional quantile, location-scale
+quantile, class-probability, and copula plots now share the finite-grid
+Gaussian simultaneous-band interface. Request `errors = "asymptotic"` with
+`band = "simultaneous"` or `band = "all"`; eligible conditional LP and
+gradient panels and level surfaces retain their selected estimator. These are
+variability bands conditional on the fitted smoothing state, not
+smoothing-bias-corrected population confidence bands. A route that cannot
+certify a joint band reports unavailable simultaneous limits rather than
+manufacturing a zero-width result.
+
+Conditional density, distribution, quantile, and class-probability fitting and
+replay also use the same literal categorical kernels on both the response and
+conditioning sides. Stored values in older conditional-mode objects remain
+readable, but reconstructing current bootstrap or joint asymptotic uncertainty
+around those historical values requires an explicit refit.
+
 Ordered distribution estimates use the corrected Wang--van Ryzin cumulative
 upper tail. Readers reproducing results from an earlier release should expect
 affected ordered-CDF estimates and cross-validation values to change.
@@ -385,14 +401,22 @@ degree-and-bandwidth search when the conditioning data include at least one
 continuous variable:
 
 ```r
-Italy$year_numeric <- as.numeric(as.character(Italy$year))
+## Centre calendar year before building a raw local-polynomial basis
+year.offset <- 1975
+Italy$year_numeric <- as.numeric(as.character(Italy$year)) - year.offset
 
 qfit_lp <- npqreg(gdp ~ year_numeric,
-                  data = Italy,
-                  tau = c(0.25, 0.50, 0.75),
-                  ## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.
-                  nomad = "auto")
+  data = Italy,
+  tau = c(0.25, 0.50, 0.75),
+  ## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.
+  nomad = "auto")
 ```
+
+The same offset must be applied to calendar years in later evaluation or
+prediction data. Centring or scaling is important for raw higher-order
+polynomial bases because large uncentred values can make their local systems
+severely ill-conditioned; `proper = TRUE` enforces probability shape, not
+numerical conditioning.
 
 This is a good example of the intended progression: start with the direct
 high-level route, then reuse the retained bandwidth object only when you

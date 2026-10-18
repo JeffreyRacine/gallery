@@ -24,7 +24,7 @@ a 24-second RStudio walkthrough, then continue with the copyable script.
 
 `crs` `0.15-46` (published August 19, 2026), `npRmpi` `0.80-1`, and `np`
 `0.80-1` are available on CRAN. The `np` and `npRmpi` releases are dated
-October 12, 2026.
+October 19, 2026.
 
 The examples use current public controls such as `B`, `se`, `se.fit`,
 `gradient.order`, `errors`, `bootstrap`, `band`, `data.rug`, and
@@ -34,7 +34,7 @@ summarizes the argument changes most likely to affect older code.
 
 ## Current Capabilities
 
-- [0.80-1 update and migration notes](runtime_and_scaling.qmd): `np` and `npRmpi` `0.80-1` standardize bootstrap, uncertainty, and dotted plotting controls; make bandwidth-object reuse and serialization more dependable by retaining prepared samples and missing-data policies; support factor predictors in single-index models; and strengthen bounded-kernel, nearest-neighbour, scaled-bandwidth, plotting, and serial/MPI behavior across the estimator families.
+- [0.80-1 update and migration notes](runtime_and_scaling.qmd): `np` and `npRmpi` `0.80-1` standardize bootstrap, uncertainty, and dotted plotting controls; make bandwidth-object reuse and serialization more dependable; add finite-grid simultaneous variability bands across the principal estimator families; diagnose unsupported native `data=` use directly; and strengthen bounded-kernel, nearest-neighbour, scaled-bandwidth, plotting, and serial/MPI behavior.
 - [Spline updates](crs.qmd): `crs` `0.15-46` retains the common named plotting controls and `crshat()` operator workflow, adds formula/data and S3 support for instrumental spline regression, and provides the observed NOMAD interface used for responsive progress in downstream degree searches.
 - [Local polynomial workflows](np_npRmpi.qmd): `np` and `npRmpi` support local polynomial capability across the conditional family, with joint selection of polynomial degrees and bandwidths for mixed data, gradient support throughout the conditional estimators, and derivative estimation of arbitrarily high order, limited only by the selected polynomial degree whether set manually or chosen automatically for the underlying smoothness class.
 - [Boundary-aware density estimation](boundary_aware_density.qmd): unconditional and conditional density workflows support known two-sided or one-sided bounds and practical unknown-bound proxies, with a worked example showing what changes in finite- and unbounded-support settings.
@@ -43,7 +43,7 @@ summarizes the argument changes most likely to affect older code.
 - [Conditional mode classification](classification_modes.qmd): `npconmode` is a first-class high-level estimator, with direct formula/data/newdata workflows, automatic `npcdensbw()` bandwidth selection when `bws` is omitted, conditional-density search controls including `nomad = "auto"`, mirrored degree/search metadata in returned objects and summaries, properized fitted class probabilities for non-local-constant routes before selecting the modal outcome, and level-specific class-probability effects.
 - [Copula estimation](density_distribution_quantiles.qmd): `npcopula` is a first-class high-level estimator with a direct formula interface, automatic `npudistbw()` or `npudensbw()` selection when `bws` is omitted, automatic two-dimensional probability-grid construction for the default grid route, and easy reuse of the selected bandwidth object when you want a custom `u` grid or copula-density target.
 - [Hat-matrix and operator helpers](semiparametric_models.qmd): `npreghat`, `npindexhat`, `npplreghat`, and `npscoefhat` provide one-call operator routes that simplify constrained nonparametric and semiparametric estimation by replacing much of the manual hat-matrix construction and solve-based setup, while `npudenshat`, `npudisthat`, `npcdenshat`, and `npcdisthat` extend the same streamlined operator style to the density/distribution family.
-- [Variability bounds on plots](regression.qmd): pointwise, Bonferroni, and simultaneous bounds share the plotting surface, and `band = "all"` presents all three together.
+- [Variability bounds on plots](plotting_and_intervals.qmd): pointwise, Bonferroni, and simultaneous bounds share the plotting surface across supported regression, density/distribution, quantile, class-probability, and copula targets, and `band = "all"` presents all three together.
 - [Interactive plotting surfaces](plotting_and_intervals.qmd): `renderer = "rgl"` supports interactive 3D rotation/zoom when `rgl` is installed, while `data.rug` and `data.overlay` control rugs and observed-data overlays on supported routes.
 - [MPI operational routes](mpi_large_data.qmd): `npRmpi` session and attach routes let users work directly with `np`-style code, while the profile route remains available when needed.
 

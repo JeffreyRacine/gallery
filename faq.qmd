@@ -132,6 +132,31 @@ instead of silently accepting them through `...`, so a newly exposed spelling
 error is usually an actionable migration message rather than a numerical
 failure.
 
+The role of `data=` is also explicit. Formula calls use `data` to build their
+model frame, and supported formula-bearing bandwidth-object refits can replace
+that data. Native calls instead receive vectors, matrices, or data frames
+through arguments such as `xdat` and `ydat`; where `data` is not a documented
+native input, supplying it, including `data = NULL`, is now an error rather
+than an ignored argument.
+
+```r
+## Formula interface: data supplies the model frame
+fit_formula <- npreg(y ~ x, data = mydat)
+
+## Native interface: supply the observation arrays directly
+bw_native <- npregbw(xdat = mydat["x"], ydat = mydat$y)
+fit_native <- npreg(bws = bw_native)
+
+## with() is another clear native spelling
+bw_with <- with(mydat, npregbw(xdat = x, ydat = y))
+```
+
+Some functions genuinely define a native argument named `data`, including the
+documented observation-data route for `npcopula()` and selected test helpers.
+Follow the individual help page rather than adding `data = NULL` defensively.
+Plot methods generally do not accept replacement data; refit first unless the
+selected plot route explicitly documents that input.
+
 Some corrected edge contracts can also change affected numerical results.
 These include heterogeneous polynomial-degree fits, positive-degree
 categorical effects, uniform nearest-neighbour boundary cases, ordered

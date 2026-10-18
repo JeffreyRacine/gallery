@@ -500,6 +500,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>positive-degree categorical gradients now return fitted-value endpoint contrasts rather than zero placeholders,</li>
 <li>uncertainty is requested explicitly with <code>se</code>, <code>se.fit</code>, and <code>gradients(..., se = TRUE)</code> across the estimator families; <code>npindex()</code> is the deliberate exception and defaults to asymptotic <code>se = TRUE</code>,</li>
 <li>requested uncertainty is corrected or extended for important categorical, adaptive-nearest-neighbour, copula-density, higher-derivative, and partially-linear routes,</li>
+<li>supported regression, density/distribution, quantile, class-probability, and copula plots provide finite-grid Gaussian simultaneous variability bands, while uncertified joint requests remain explicitly unavailable,</li>
 <li>bandwidth objects retain their prepared training samples, missing-data policies, and formula-subset provenance for reliable no-search reuse, serialization, prediction, and plotting,</li>
 <li>single-index factor predictors use retained R contrasts in Ichimura and Klein–Spady models; the Klein–Spady response remains numeric <code>0/1</code>,</li>
 <li>mixed-data conditional bias centers, uniform nearest-neighbour support, and ordered Wang–van Ryzin distribution calculations use their corrected numerical contracts, while unsupported external rows fail closed locally as <code>NA</code>,</li>

@@ -64,6 +64,12 @@ the ordinary `np`-style session workflow remains the same. When comparing
 worker counts, use a numerical tolerance because MPI reductions can change
 summation order at roundoff scale.
 
+For standalone `profile` / manual-broadcast jobs, an unhandled master or worker
+error now terminates with a nonzero process status while preserving the
+diagnostic, rather than waiting indefinitely during cooperative shutdown.
+Errors caught inside the broadcast expression remain recoverable, and the
+ordinary `session` and `attach` contracts are unchanged.
+
 ## Mode chooser
 
 | If you want to... | Use this mode | Launch pattern | Key rule | Script |

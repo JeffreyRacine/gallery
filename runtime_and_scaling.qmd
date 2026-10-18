@@ -33,6 +33,9 @@ public controls.
 - requested uncertainty is corrected or extended for important categorical,
   adaptive-nearest-neighbour, copula-density, higher-derivative, and
   partially-linear routes,
+- supported regression, density/distribution, quantile, class-probability, and
+  copula plots provide finite-grid Gaussian simultaneous variability bands,
+  while uncertified joint requests remain explicitly unavailable,
 - bandwidth objects retain their prepared training samples, missing-data
   policies, and formula-subset provenance for reliable no-search reuse,
   serialization, prediction, and plotting,
