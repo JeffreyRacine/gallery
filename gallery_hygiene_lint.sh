@@ -128,7 +128,7 @@ expect_fixed \
 
 expect_fixed \
   "$ROOT/index.qmd" \
-  'October 19, 2026' \
+  'October 26, 2026' \
   "gallery overview records the 0.80-1 package date"
 
 expect_fixed \

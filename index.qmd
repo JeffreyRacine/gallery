@@ -24,7 +24,7 @@ a 24-second RStudio walkthrough, then continue with the copyable script.
 
 `crs` `0.15-46` (published August 19, 2026), `npRmpi` `0.80-1`, and `np`
 `0.80-1` are available on CRAN. The `np` and `npRmpi` releases are dated
-October 19, 2026.
+October 26, 2026.
 
 The examples use current public controls such as `B`, `se`, `se.fit`,
 `gradient.order`, `errors`, `bootstrap`, `band`, `data.rug`, and
