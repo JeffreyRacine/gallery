@@ -123,13 +123,13 @@ expect_fixed \
 
 expect_fixed \
   "$ROOT/index.qmd" \
-  '`0.80-1` are available on CRAN' \
-  "gallery overview identifies 0.80-1 as the current np release"
+  '`0.80-2` are available on CRAN' \
+  "gallery overview identifies 0.80-2 as the current np release"
 
 expect_fixed \
   "$ROOT/index.qmd" \
-  'October 26, 2026' \
-  "gallery overview records the 0.80-1 package date"
+  'November 13, 2026' \
+  "gallery overview records the 0.80-2 package date"
 
 expect_fixed \
   "$ROOT/plotting_and_intervals.qmd" \
@@ -147,9 +147,19 @@ expect_fixed \
   "class-probability asymptotic plot refit requests standard errors"
 
 expect_fixed \
-  "$ROOT/faq.qmd" \
-  'where `data` is not a documented' \
-  "migration guidance explains the formula/native data boundary"
+  "$ROOT/plotting_and_intervals.qmd" \
+  '`np_plot_data` object' \
+  "plotting guidance documents the common plot-data schema"
+
+expect_fixed \
+  "$ROOT/www/np_npRmpi/np_plotting_quickstart.R" \
+  'as.data.frame(plot_data)' \
+  "plotting quickstart exercises the common plot-data schema"
+
+expect_fixed \
+  "$ROOT/plotting_and_intervals.qmd" \
+  'experimental pre-beta' \
+  "plotting guidance preserves the bounded-density inference warning"
 
 forbid_regex_in_tree \
   'birthwt\$low[[:space:]]*<-[[:space:]]*factor' \
@@ -216,18 +226,13 @@ forbid_regex_in_tree \
   -g '*.R' \
   -g '!docs/**'
 
-forbid_regex_in_tree \
-  'gradient_order[[:space:]]*=' \
-  "current gallery pages avoid the retired gradient_order argument" \
+forbid_multiline_regex_in_tree \
+  '(npreg|npplreg|npscoef|npindex|npudens|npudist|npcdens|npcdist)[[:space:]]*\([^)]{0,1000}gradient_order[[:space:]]*=' \
+  "estimator examples retain the established gradient.order spelling" \
   "$ROOT" \
   -g '*.qmd' \
+  -g '*.R' \
   -g '!docs/**'
-
-forbid_regex_in_tree \
-  'gradient_order[[:space:]]*=' \
-  "current downloadable np/npRmpi examples avoid the retired gradient_order argument" \
-  "$ROOT/www/np_npRmpi" \
-  "$ROOT/www/Regression"
 
 forbid_regex_in_tree \
   '(glp\.degree|glp\.bernstein|glp\.basis)[[:space:]]*=' \
@@ -237,11 +242,11 @@ forbid_regex_in_tree \
   -g '*.R' \
   -g '!docs/**'
 
-RETIRED_NP_PLOT_ARGUMENTS='(data_rug|data_overlay|factor_boxplot|boxplot_outliers|coef_index|common_scale|proper_method|proper_control|boot_control|grid_control|render_control|bar_num|y_vars|y_dat|pair_list)[[:space:]]*='
+RETIRED_NP_PLOT_ARGUMENTS='(data\.rug|data\.overlay|factor\.boxplot|boxplot\.outliers|coef\.index|common\.scale|proper\.method|proper\.control|bias\.control|boot\.control|grid\.control|render\.control|gaussian\.draws|bar\.num|y\.vars|y\.dat|pair\.list)[[:space:]]*='
 
 forbid_regex_in_tree \
   "$RETIRED_NP_PLOT_ARGUMENTS" \
-  "current np/npRmpi pages avoid retired underscore plot arguments" \
+  "current np/npRmpi pages avoid retired dotted plot arguments" \
   "$ROOT" \
   -g '*.qmd' \
   -g '!crs.qmd' \
@@ -249,14 +254,24 @@ forbid_regex_in_tree \
 
 forbid_regex_in_tree \
   "$RETIRED_NP_PLOT_ARGUMENTS" \
-  "current np/npRmpi scripts avoid retired underscore plot arguments" \
-  "$ROOT/www/np_npRmpi" \
-  "$ROOT/www/Regression"
+  "current np/npRmpi scripts avoid retired dotted plot arguments" \
+  "$ROOT" \
+  -g '*.R' \
+  -g '*.md' \
+  -g '!docs/**'
+
+forbid_multiline_regex_in_tree \
+  'plot[[:space:]]*\([^)]{0,1000}(gradient\.order|random\.seed)[[:space:]]*=' \
+  "current plot calls use snake_case derivative and RNG controls" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g '*.R' \
+  -g '!docs/**'
 
 expect_fixed \
   "$ROOT/faq.qmd" \
-  '`se = TRUE, se.type = "asymptotic"`' \
-  "0.80-1 migration guidance records the npindex uncertainty exception"
+  'the snake_case change is plot-facing' \
+  "0.80-2 migration guidance separates plot and estimator spellings"
 
 forbid_regex_in_tree \
   'nptgauss[[:space:]]*\(' \
@@ -355,7 +370,7 @@ forbid_regex_in_tree \
 
 expect_fixed \
   "$ROOT/mpi_large_data.qmd" \
-  'R CMD INSTALL npRmpi_0.80-1.tar.gz' \
+  'R CMD INSTALL npRmpi_0.80-2.tar.gz' \
   "npRmpi source-install example uses the current release tarball"
 
 expect_fixed \

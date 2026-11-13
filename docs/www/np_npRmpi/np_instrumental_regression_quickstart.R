@@ -16,7 +16,7 @@ z <- 0.2 * w + v
 y <- z^2 + u
 iv_dat <- data.frame(y, z, w)
 
-## Fit through the 0.80-1 formula/data interface.
+## Fit through the current formula/data interface.
 fit_iv <- npregiv(y ~ z | w,
   data = iv_dat,
   method = "Tikhonov",
@@ -28,4 +28,4 @@ head(fitted(fit_iv))
 head(residuals(fit_iv))
 
 ## Use the dedicated IV plot controls for the fitted structural function.
-plot(fit_iv, data.overlay = TRUE, data.rug = TRUE)
+plot(fit_iv, data_overlay = TRUE, data_rug = TRUE)

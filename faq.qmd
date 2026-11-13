@@ -61,119 +61,52 @@ This remains a sensible command:
 update.packages(checkBuilt = TRUE, ask = FALSE)
 ```
 
-## What should I check when moving to 0.80-1? {#what-should-i-check-when-moving-to-080-1}
+## What should I check when moving to 0.80-2? {#what-should-i-check-when-moving-to-080-2}
 
-If you are updating from `0.70-5`, the main user-facing migrations in `np` and
-`npRmpi` are compact:
+If you are updating from `0.80-1`, the principal user-facing changes in `np`
+and `npRmpi` are concentrated in plotting and stricter input validation:
 
-- use `B` rather than `boot.num` in `npcmstest()`, `npqcmstest()`,
-  `npdeneqtest()`, `npdeptest()`, `npsdeptest()`, `npsigtest()`, `npsymtest()`,
-  `npunitest()`, and `npindex()`; the existing `$boot.num` result field is
-  unchanged,
-- replace underscore plot controls with their dotted spellings, including
-  `data.overlay`, `data.rug`, `factor.boxplot`, `boxplot.outliers`,
-  `coef.index`, `common.scale`, `proper.method`, `proper.control`,
-  `boot.control`, `grid.control`, and `render.control`,
-- request fit-time uncertainty with `se = TRUE`; the default is `FALSE` for
-  `npreg()`, `npscoef()`, `nplsqreg()`, `npudens()`, `npudist()`, `npcdens()`,
-  `npcdist()`, `npplreg()`, `npqreg()`, `npconmode()`, and `npcopula()`,
-- treat `npindex()` as the deliberate exception: it defaults to
-  `se = TRUE, se.type = "asymptotic"`; use `se = FALSE` for a point-only fit or
-  `se.type = "bootstrap"` for bootstrap fitted-value and gradient errors,
-- use `se.fit = TRUE` for prediction uncertainty and
-  `gradients(object, se = TRUE)` for stored gradient standard errors; public
-  extractors do not perform a hidden refit when the requested state is absent,
-- use `gradient.order` for derivative order; the `gradient_order` alias is
-  retired,
-- keep using method-valued plot controls such as `errors = "asymptotic"` and
-  `errors = "bootstrap"`; only the former Boolean estimator argument named
-  `errors` has been retired,
-- replace the removed experimental `nptgauss()` and truncated-Gaussian kernel
-  with a supported Gaussian, Epanechnikov, or uniform route.
-
-Newly created bandwidth objects retain their prepared training sample,
-effective missing-data policy, and formula-subset provenance. This makes
-ordinary no-search refits, plots, predictions, and `saveRDS()`/`readRDS()`
-workflows much less dependent on objects in the original calling environment.
-Objects created by older package versions do not contain that state and may
-still require their original data bindings or an explicit `data =` argument.
-
-For native bandwidth-object workflows, named `newdata` columns are matched to
-the retained variable names and may be supplied in a different order; extra
-columns are ignored, while missing, duplicate, or ambiguous required columns
-are rejected. Explicit native evaluation arguments continue to take precedence
-over standard `newdata`.
-
-For a fitted vector-`tau` location-scale quantile model,
-`predict(fit, tau = ...)` selects stored quantiles in the requested order
-without bandwidth selection or recalibration. Unfitted values are rejected;
-omit `tau` or use `tau = NULL` to preserve the original all-quantile result.
-
-Klein--Spady single-index models now support factor predictors through retained
-R model-matrix contrasts, but their response must be numeric and contain the
-two values `0` and `1`. A factor response is rejected rather than interpreted
-through its internal codes. For copula plots, choose the probability-grid size
-with `neval` when constructing `npcopula()` or supply `u`; `plot.npcopula()`
-does not accept `neval`.
-
-The instrumental-regression methods are also substantially more conventional:
-`npregiv()` and `npregivderiv()` now accept formula/data calls, return objects
-with `summary()`, `fitted()`, `residuals()`, `gradients()`, and dedicated plot
-methods, and reject unsupported nearest-neighbour bandwidths early. Their plot
-controls are now `gradients`, `data.overlay`, and `data.rug`; the experimental
-`plot.data`, `deriv`, and `phi` switches are retired. `npregivderiv()` now
-defaults to local-linear estimation when `regtype` is omitted, which can change
-results relative to older calls that relied on the former local-constant
-behavior. IV evaluation is requested when fitting; post-fit `predict()` is not
-currently available for these two `np` estimators.
-
-Principal estimators and bandwidth selectors now reject unknown named arguments
-instead of silently accepting them through `...`, so a newly exposed spelling
-error is usually an actionable migration message rather than a numerical
-failure.
-
-The role of `data=` is also explicit. Formula calls use `data` to build their
-model frame, and supported formula-bearing bandwidth-object refits can replace
-that data. Native calls instead receive vectors, matrices, or data frames
-through arguments such as `xdat` and `ydat`; where `data` is not a documented
-native input, supplying it, including `data = NULL`, is now an error rather
-than an ignored argument.
+- use snake_case for compound plot arguments, including `data_overlay`,
+  `data_rug`, `factor_boxplot`, `boxplot_outliers`, `coef_index`,
+  `common_scale`, `proper_method`, `proper_control`, `bias_control`,
+  `boot_control`, `grid_control`, `render_control`, `gaussian_draws`,
+  `random_seed`, and `gradient_order`; the former dotted plot spellings fail
+  with migration guidance,
+- keep established estimator spellings such as `gradient.order`, `se.type`,
+  and `random.seed`; the snake_case change is plot-facing rather than a
+  package-wide renaming exercise,
+- replace `output = "both"` with `output = "plot-data"`; both
+  `output = "data"` and `output = "plot-data"` return an `np_plot_data`
+  object whose interval columns are absolute endpoints,
+- supply numeric integer/double responses to `npreg()`, `npplreg()`,
+  `npscoef()`, and `npindex()` and their selectors; factors and ordered
+  responses now fail rather than being interpreted through internal codes,
+- treat the two values in `np_grid_control(xtrim = c(a, b))` as the lower and
+  upper quantile endpoints of the displayed range; single-index plots apply
+  that range to the fitted index and reject slice-holding `xq`,
+- a named formula is now accepted in `npsigtest(bws = y ~ x, ...)`, and density
+  selectors honor explicit `transform.bounds` through formula and native
+  adapters,
+- corrected bounded-density intervals cover more fixed-bound Gaussian, beta,
+  uniform, and Epanechnikov routes, but all bias-corrected intervals remain
+  experimental pre-beta research and are not recommended for general-purpose
+  inference,
+- RNG replay and MPI worker adoption are checked more strictly; unsupported
+  hidden generator state or mismatched package R/native identities fail clearly
+  rather than being silently remapped or combined.
 
 ```r
-## Formula interface: data supplies the model frame
-fit_formula <- npreg(y ~ x, data = mydat)
-
-## Native interface: supply the observation arrays directly
-bw_native <- npregbw(xdat = mydat["x"], ydat = mydat$y)
-fit_native <- npreg(bws = bw_native)
-
-## with() is another clear native spelling
-bw_with <- with(mydat, npregbw(xdat = x, ydat = y))
+## Compute a plot payload without drawing, then inspect and replay it
+plot_data <- plot(fit, errors = "asymptotic", output = "data")
+curve_data <- as.data.frame(plot_data)
+plot(plot_data)
 ```
 
-Some functions genuinely define a native argument named `data`, including the
-documented observation-data route for `npcopula()` and selected test helpers.
-Follow the individual help page rather than adding `data = NULL` defensively.
-Plot methods generally do not accept replacement data; refit first unless the
-selected plot route explicitly documents that input.
-
-Some corrected edge contracts can also change affected numerical results.
-These include heterogeneous polynomial-degree fits, positive-degree
-categorical effects, uniform nearest-neighbour boundary cases, ordered
-Wang--van Ryzin distribution estimates, explicit fixed-bandwidth
-bias-corrected plot centers, physical bandwidths recovered when
-`bwscaling = TRUE`, and several requested standard-error routes. Corrected
-deleted-sample beta and bounded-kernel nearest-neighbour criteria may also
-select different bandwidths and can cost more than the former incorrect
-criteria. Bootstrap tests count ties as at least as extreme, and
-replication-ordered plot-bootstrap random streams can change historical seeded bands while
-making current results independent of chunk size and MPI worker count. These
-are targeted corrections rather than a change to unaffected estimators.
-
-`npdeneqtest()` now selects one common pooled bandwidth and supports fixed,
-unnormalized Gaussian, Epanechnikov, and uniform kernels. It rejects
-nearest-neighbour, beta, boundary-normalized, and active ordered RLY
-configurations rather than applying a different test silently.
+For several panels, targets, or bands, select the desired component explicitly
+with `as.data.frame(plot_data, panel = ..., target = ..., band = ...)`. Replay
+uses the retained geometry and does not refit, resample, or consume random
+numbers. Calls written for releases older than `0.80-1` may require additional
+migration; use the package `NEWS.md` files as the canonical historical record.
 
 ## Why can an external evaluation row return `NA`?
 

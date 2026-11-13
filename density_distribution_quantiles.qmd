@@ -203,7 +203,7 @@ For the full simulation designs, repeated-sample figures, MISE comparisons,
 and selector-level qualifications, continue to
 [Boundary-Aware Density Estimation](boundary_aware_density.qmd).
 
-### Numerical and uncertainty updates in 0.80-1
+### Current numerical and uncertainty contracts
 
 Conditional density and distribution level plots can now construct bootstrap
 intervals when the continuous response and predictor sides use different

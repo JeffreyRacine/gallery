@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -472,7 +472,7 @@ window.Quarto = {
   <li><a href="#choosing-support-bounds" id="toc-choosing-support-bounds" class="nav-link" data-scroll-target="#choosing-support-bounds">Choosing support bounds</a>
   <ul class="collapse">
   <li><a href="#a-one-sample-illustration" id="toc-a-one-sample-illustration" class="nav-link" data-scroll-target="#a-one-sample-illustration">A one-sample illustration</a></li>
-  <li><a href="#numerical-and-uncertainty-updates-in-0.80-1" id="toc-numerical-and-uncertainty-updates-in-0.80-1" class="nav-link" data-scroll-target="#numerical-and-uncertainty-updates-in-0.80-1">Numerical and uncertainty updates in 0.80-1</a></li>
+  <li><a href="#current-numerical-and-uncertainty-contracts" id="toc-current-numerical-and-uncertainty-contracts" class="nav-link" data-scroll-target="#current-numerical-and-uncertainty-contracts">Current numerical and uncertainty contracts</a></li>
   </ul></li>
   <li><a href="#practitioner-oriented-extras" id="toc-practitioner-oriented-extras" class="nav-link" data-scroll-target="#practitioner-oriented-extras">Practitioner-oriented extras</a></li>
   <li><a href="#copulas-npcopula" id="toc-copulas-npcopula" class="nav-link" data-scroll-target="#copulas-npcopula">Copulas: <code>npcopula</code></a></li>
@@ -664,7 +664,7 @@ Figure&nbsp;1: One sample: n = 250, seed 42. Each estimated curve is one fit. Co
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Known support bounds with the default Gaussian kernel (np 0.80-1).</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Known support bounds with the default Gaussian kernel (np 0.80-2).</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Source this file to fit and plot all six seed-42 examples.</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Save the plot with:</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">## png("density_bounds.png", width = 1800, height = 1400, res = 180)</span></span>
@@ -798,8 +798,8 @@ Figure&nbsp;1: One sample: n = 250, seed 42. Each estimated curve is one fit. Co
 </div>
 <p>For the full simulation designs, repeated-sample figures, MISE comparisons, and selector-level qualifications, continue to <a href="./boundary_aware_density.html">Boundary-Aware Density Estimation</a>.</p>
 </section>
-<section id="numerical-and-uncertainty-updates-in-0.80-1" class="level3">
-<h3 class="anchored" data-anchor-id="numerical-and-uncertainty-updates-in-0.80-1">Numerical and uncertainty updates in 0.80-1</h3>
+<section id="current-numerical-and-uncertainty-contracts" class="level3">
+<h3 class="anchored" data-anchor-id="current-numerical-and-uncertainty-contracts">Current numerical and uncertainty contracts</h3>
 <p>Conditional density and distribution level plots can now construct bootstrap intervals when the continuous response and predictor sides use different kernel families or orders, including beta kernels on either side. Beta-density bandwidth selection also supports mixed continuous, unordered, and ordered data for CVML and bounded target-quadrature CVLS with fixed, generalized nearest-neighbour, or adaptive nearest-neighbour bandwidths and beta orders 2, 4, 6, and 8.</p>
 <p>For positive-degree local-polynomial fits, categorical gradients and effects report fitted-value endpoint contrasts rather than zero placeholders. Local-linear and positive-degree local-polynomial conditional density, distribution, and quantile fits also provide requested paired categorical-contrast standard errors where the required influence is smooth and finite; unsupported cases remain explicit <code>NA</code> values.</p>
 <p>Requested adaptive-nearest-neighbour uncertainty for unconditional density and distribution fits accounts for donor-specific radii on qualified regular interior ranks. Fixed-bandwidth copula-density uncertainty includes the joint covariance with its marginal density estimates. Unqualified boundary or degenerate cases retain their point estimates and report unavailable standard errors rather than silently applying a different formula.</p>

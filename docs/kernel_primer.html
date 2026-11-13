@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -442,7 +442,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#generalized-product-kernels-in-one-sentence" id="toc-generalized-product-kernels-in-one-sentence" class="nav-link" data-scroll-target="#generalized-product-kernels-in-one-sentence">Generalized product kernels in one sentence</a></li>
   <li><a href="#computational-reality" id="toc-computational-reality" class="nav-link" data-scroll-target="#computational-reality">Computational reality</a></li>
   <li><a href="#modern-lp-shortcut-nomad-auto" id="toc-modern-lp-shortcut-nomad-auto" class="nav-link" data-scroll-target="#modern-lp-shortcut-nomad-auto">Modern LP shortcut: <code>nomad = "auto"</code></a></li>
-  <li><a href="#complete-mixed-degree-local-polynomials-in-0.80-1" id="toc-complete-mixed-degree-local-polynomials-in-0.80-1" class="nav-link" data-scroll-target="#complete-mixed-degree-local-polynomials-in-0.80-1">Complete mixed-degree local polynomials in 0.80-1</a></li>
+  <li><a href="#complete-mixed-degree-local-polynomials" id="toc-complete-mixed-degree-local-polynomials" class="nav-link" data-scroll-target="#complete-mixed-degree-local-polynomials">Complete mixed-degree local polynomials</a></li>
   <li><a href="#a-small-regression-example" id="toc-a-small-regression-example" class="nav-link" data-scroll-target="#a-small-regression-example">A small regression example</a></li>
   <li><a href="#what-to-read-next" id="toc-what-to-read-next" class="nav-link" data-scroll-target="#what-to-read-next">What to read next</a></li>
   <li><a href="#historical-note" id="toc-historical-note" class="nav-link" data-scroll-target="#historical-note">Historical note</a></li>
@@ -596,9 +596,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>after fitting, inspect <code>fit$bws$nomad.shortcut</code> to see the normalized preset.</li>
 </ul>
 </section>
-<section id="complete-mixed-degree-local-polynomials-in-0.80-1" class="level2">
-<h2 class="anchored" data-anchor-id="complete-mixed-degree-local-polynomials-in-0.80-1">Complete mixed-degree local polynomials in 0.80-1</h2>
-<p>Mixed degree vectors are more flexible than assigning the same polynomial degree to every continuous covariate. In 0.80-1, heterogeneous generalized local-polynomial bases contain every admissible term subject to the coordinate-specific caps and declared total degree. For example, <code>degree = c(2, 1)</code> now includes the <code>x1*x2</code> interaction.</p>
+<section id="complete-mixed-degree-local-polynomials" class="level2">
+<h2 class="anchored" data-anchor-id="complete-mixed-degree-local-polynomials">Complete mixed-degree local polynomials</h2>
+<p>Mixed degree vectors are more flexible than assigning the same polynomial degree to every continuous covariate. Current heterogeneous generalized local-polynomial bases contain every admissible term subject to the coordinate-specific caps and declared total degree. For example, <code>degree = c(2, 1)</code> now includes the <code>x1*x2</code> interaction.</p>
 <p>Raw and <code>bernstein.basis = TRUE</code> fits now span the same complete polynomial space. Results can therefore differ from older releases when a heterogeneous fit was missing an interaction, while univariate and maximum-degree-one fits retain the same polynomial space. The familiar <code>regtype = "ll"</code> remains available, but is now the public degree-one alias for the same canonical raw local-polynomial engine used by objectives, fits, hat operators, and plot bootstraps.</p>
 </section>
 <section id="a-small-regression-example" class="level2">

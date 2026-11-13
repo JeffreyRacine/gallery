@@ -84,7 +84,7 @@ When you move beyond the single-regressor case, the next useful stop is usually 
 ## Instrumental regression: `npregiv`
 
 When endogeneity is the main issue, `np` also provides a nonparametric
-instrumental-regression route via `npregiv`. In 0.80-1, `npregiv()` and
+instrumental-regression route via `npregiv`. Current `npregiv()` and
 `npregivderiv()` accept formula/data calls and return fitted objects with
 dedicated summary, fitted-value, residual, gradient, and plot methods. Supply
 evaluation values during fitting; post-fit prediction is deliberately not

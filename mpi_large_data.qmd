@@ -41,34 +41,32 @@ degree search is provided there.
 In the current release line, that route now uses the native `crs` NOMAD
 runtime directly rather than the older transitional fallback path.
 
-## What 0.80-1 changes for MPI work
+## What 0.80-2 changes for MPI work
 
-The 0.80-1 release carries the same public API changes as `np`, including `B`
-for bootstrap counts, `se`/`se.fit` for requested uncertainty, and
-`gradient.order` for derivative order. Most estimators default to
-`se = FALSE`, while `npindex()` retains the same asymptotic `se = TRUE` default
-as the serial package. It also strengthens autodispatch argument transport and
-bandwidth fingerprints, synchronizes validated seed and option state across
-ranks, reuses common conditional bootstrap centers across worker tasks, and
-improves rank-safe interruption, master-only elapsed/ETA progress, bootstrap
-work partitioning, and worker reuse.
+The 0.80-2 release carries the same plot-facing API changes as `np`: compound
+plot arguments use snake_case, and `output = "data"` or
+`output = "plot-data"` returns a common `np_plot_data` object. Estimator
+arguments such as `gradient.order` retain their established spellings.
 
-Formula subsets, prepared training samples, missing-data policies, and named
-native evaluation data now travel with their bandwidth objects across reuse and
-serialization. Fixed and geometric plot-bootstrap streams are ordered by
-replication rather than worker scheduling, so a fixed seed is stable across
-chunk sizes and worker counts.
+Package-owned startup and worker reuse now check loaded R and native source
+identities before accepting a pool. Same-source builds at different paths or on
+different platforms remain valid; a genuinely mismatched installation fails
+with restart/reinstall guidance instead of combining incompatible workers.
+Supported attach pools can be adopted and reused without repeating startup
+collectives.
 
-These are implementation improvements rather than new calling conventions:
-the ordinary `np`-style session workflow remains the same. When comparing
+Automatic degree searches and plot tasks select one coordinated collective
+owner, while explicit manual broadcasts retain their established ownership.
+Formula data, subset, missing-value, bandwidth, and RNG promises are consumed
+once before rank fanout. Temporary RNG scopes also agree on admissibility
+before computation and restore supported caller state without silently
+changing the selected generator.
+
+The ordinary `np`-style session workflow remains the same. When comparing
 worker counts, use a numerical tolerance because MPI reductions can change
-summation order at roundoff scale.
-
-For standalone `profile` / manual-broadcast jobs, an unhandled master or worker
-error now terminates with a nonzero process status while preserving the
-diagnostic, rather than waiting indefinitely during cooperative shutdown.
-Errors caught inside the broadcast expression remain recoverable, and the
-ordinary `session` and `attach` contracts are unchanged.
+summation order at roundoff scale. An explicit RNG or source-identity refusal
+is a safety diagnostic, not an invitation to substitute another method or
+generator silently.
 
 ## Mode chooser
 
@@ -162,7 +160,7 @@ export CXX=mpicxx
 ```bash
 cd /Users/jracine/Development
 R CMD build np-npRmpi
-R CMD INSTALL npRmpi_0.80-1.tar.gz
+R CMD INSTALL npRmpi_0.80-2.tar.gz
 ```
 
 ### 4) First runtime test

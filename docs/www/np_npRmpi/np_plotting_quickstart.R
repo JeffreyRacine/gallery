@@ -20,5 +20,10 @@ plot(model.ll,
   band = "all")
 dev.off()
 
-## Report where the rendered image landed.
+## Inspect the same plot geometry without drawing or refitting.
+plot_data <- plot(model.ll, output = "data")
+curve_data <- as.data.frame(plot_data)
+
+## Report the saved image and the rows available for further work.
 cat("Saved plot to:", plot_path, "\n")
+cat("Plot-data rows:", nrow(curve_data), "\n")

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -433,7 +433,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-changed-in-0.80-1" id="toc-what-changed-in-0.80-1" class="nav-link active" data-scroll-target="#what-changed-in-0.80-1">What changed in 0.80-1</a></li>
+  <li><a href="#what-changed-in-0.80-2" id="toc-what-changed-in-0.80-2" class="nav-link active" data-scroll-target="#what-changed-in-0.80-2">What changed in 0.80-2</a></li>
   <li><a href="#why-can-these-methods-take-time" id="toc-why-can-these-methods-take-time" class="nav-link" data-scroll-target="#why-can-these-methods-take-time">Why can these methods take time?</a></li>
   <li><a href="#a-good-default-workflow" id="toc-a-good-default-workflow" class="nav-link" data-scroll-target="#a-good-default-workflow">A good default workflow</a></li>
   <li><a href="#np-bandwidth-selection-and-large-jobs" id="toc-np-bandwidth-selection-and-large-jobs" class="nav-link" data-scroll-target="#np-bandwidth-selection-and-large-jobs"><code>np</code>: bandwidth selection and large jobs</a></li>
@@ -491,22 +491,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>This page collects the practical advice that matters once the method is right but the run becomes slow, memory-hungry, or otherwise awkward. The goal is not to promise that every job will be cheap. The goal is to help you decide what to simplify, what to tune, and when to change execution mode.</p>
-<section id="what-changed-in-0.80-1" class="level2">
-<h2 class="anchored" data-anchor-id="what-changed-in-0.80-1">What changed in 0.80-1</h2>
-<p>The <code>np</code> and <code>npRmpi</code> 0.80-1 release brings several previously separate computational routes under common, validated owners while simplifying a few public controls.</p>
+<section id="what-changed-in-0.80-2" class="level2">
+<h2 class="anchored" data-anchor-id="what-changed-in-0.80-2">What changed in 0.80-2</h2>
+<p>The <code>np</code> and <code>npRmpi</code> 0.80-2 release focuses on a clearer plotting contract, broader bounded-density diagnostics, and stricter validation of calls that previously could be ambiguous.</p>
 <ul>
-<li>local-linear fitting is now the degree-one form of the canonical generalized local-polynomial engine, and regression fits, objectives, hat operators, and plot bootstraps share its rank and bounded-ridge decisions,</li>
-<li>heterogeneous degree vectors use the corrected complete polynomial space, so restored interactions can change affected fits relative to older releases,</li>
-<li>positive-degree categorical gradients now return fitted-value endpoint contrasts rather than zero placeholders,</li>
-<li>uncertainty is requested explicitly with <code>se</code>, <code>se.fit</code>, and <code>gradients(..., se = TRUE)</code> across the estimator families; <code>npindex()</code> is the deliberate exception and defaults to asymptotic <code>se = TRUE</code>,</li>
-<li>requested uncertainty is corrected or extended for important categorical, adaptive-nearest-neighbour, copula-density, higher-derivative, and partially-linear routes,</li>
-<li>supported regression, density/distribution, quantile, class-probability, and copula plots provide finite-grid Gaussian simultaneous variability bands, while uncertified joint requests remain explicitly unavailable,</li>
-<li>bandwidth objects retain their prepared training samples, missing-data policies, and formula-subset provenance for reliable no-search reuse, serialization, prediction, and plotting,</li>
-<li>single-index factor predictors use retained R contrasts in Ichimura and Klein–Spady models; the Klein–Spady response remains numeric <code>0/1</code>,</li>
-<li>mixed-data conditional bias centers, uniform nearest-neighbour support, and ordered Wang–van Ryzin distribution calculations use their corrected numerical contracts, while unsupported external rows fail closed locally as <code>NA</code>,</li>
-<li>scaled bandwidths, bounded-kernel and beta nearest-neighbour objectives, entropy tests, and plot bootstraps use their corrected physical-bandwidth, deleted-sample, support, and replication-order contracts; affected results can differ from earlier releases,</li>
-<li>conditional local-polynomial bandwidth searches avoid duplicate factorizations where eligible, and long operations provide clearer elapsed-time and ETA progress,</li>
-<li><code>npRmpi</code> strengthens rank-safe interruption, worker-state validation, master-owned progress, bootstrap work partitioning, and serial/MPI numerical parity.</li>
+<li>compound plot arguments now use snake_case, including <code>data_overlay</code>, <code>data_rug</code>, <code>gradient_order</code>, <code>gaussian_draws</code>, <code>random_seed</code>, <code>boot_control</code>, <code>grid_control</code>, and <code>render_control</code>; estimator arguments such as <code>gradient.order</code> retain their established spellings,</li>
+<li><code>output = "data"</code> and <code>output = "plot-data"</code> return a common <code>np_plot_data</code> object with absolute interval endpoints, named panels and targets, compact inference metadata, and replay through <code>plot()</code>,</li>
+<li>regression, partially linear, smooth-coefficient, and single-index estimators now require numeric integer/double primary responses; factors and ordered responses are rejected rather than silently interpreted through their codes,</li>
+<li>plot-grid quantile controls use the requested lower and upper endpoints as a range, and single-index plots apply that range to the fitted index,</li>
+<li>class-probability plots restore omitted display positions after computing uncertainty on complete rows, while conditional density and distribution perspective plots retain undefined targets and range over finite results,</li>
+<li>fixed-bound density plots support more corrected asymptotic and bootstrap constructions across Gaussian, beta, uniform, and Epanechnikov kernels; bias-corrected intervals remain experimental pre-beta research and are not recommended for general-purpose inference,</li>
+<li>formula routes consume bandwidth, data, subset, and missing-value promises once; <code>npsigtest(bws = y ~ x, ...)</code> accepts a named formula, and density selectors honor explicit <code>transform.bounds</code>,</li>
+<li>temporary RNG scopes validate replay state more strictly instead of silently changing generators or combining uncertified streams,</li>
+<li><code>npRmpi</code> checks package R/native source identity before adopting workers, preserves supported attach-pool reuse, and coordinates automatic search and plot ownership across ranks.</li>
 </ul>
 <p>The practical advice remains familiar: use the high-level calls normally, retain expensive bandwidth objects when you will reuse them, and move to <code>npRmpi</code> when the validated serial workflow is large enough to benefit.</p>
 </section>

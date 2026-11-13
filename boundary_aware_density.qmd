@@ -108,7 +108,7 @@ predictions exactly in all 400 Gaussian pairs. Separately selected CVML fits
 were identical unconditionally and differed by at most $6.30\times10^{-8}$
 conditionally. For an unbounded variable, simply omit the boundary arguments.
 
-This does not establish equality of every bandwidth selector. In `np` 0.80-1,
+This does not establish equality of every bandwidth selector. In current releases,
 conditional `"cv.ls"` with explicitly infinite response bounds uses a finite
 quadrature surrogate and issues a warning; it can select different bandwidths
 from the ordinary unbounded route. See the [selector checks](www/np_npRmpi/boundary_awareness/infinite_bounds_selectors.csv).

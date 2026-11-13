@@ -21,5 +21,5 @@ plot(fit_rgl,
   view = "fixed",
   renderer = "rgl",
   errors = "asymptotic",
-  data.overlay = FALSE,
-  data.rug = TRUE)
+  data_overlay = FALSE,
+  data_rug = TRUE)

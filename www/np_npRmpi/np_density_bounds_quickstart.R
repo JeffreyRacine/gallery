@@ -1,4 +1,4 @@
-## Known support bounds with the default Gaussian kernel (np 0.80-1).
+## Known support bounds with the default Gaussian kernel (np 0.80-2).
 ## Source this file to fit and plot all six seed-42 examples.
 ## Save the plot with:
 ## png("density_bounds.png", width = 1800, height = 1400, res = 180)

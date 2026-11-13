@@ -23,16 +23,17 @@ by Wooldridge (2000).
 ::: {.callout-note}
 ## Current plotting interface
 
-This page reflects the `npRmpi` `0.80-1` and `np` `0.80-1` releases, both
+This page reflects the `npRmpi` `0.80-2` and `np` `0.80-2` releases, both
 available on CRAN.
 
 - use `errors`, `bootstrap`, `band`, `alpha`, and `B` for the main interval controls
-- use dotted names such as `data.rug`, `data.overlay`, `common.scale`, and `coef.index`
+- use snake_case names such as `data_rug`, `data_overlay`, `common_scale`, and `coef_index`
 - use `np_boot_control()`, `np_grid_control()`, and `np_render_control()` only for the remaining detailed control groups
 
-The former underscore spellings of public plot controls are retired rather
-than silently translated. For example, use `data.rug`, not `data_rug`, and
-`render.control`, not `render_control`.
+The former dotted spellings of compound public plot controls are retired rather
+than silently translated. For example, use `data_rug`, not `data.rug`, and
+`render_control`, not `render.control`. Plot-facing derivative order is
+`gradient_order`; estimator calls continue to use `gradient.order`.
 
 In estimator calls, uncertainty is requested with `se = TRUE`; predictions use
 `se.fit = TRUE`, and `gradients(object, se = TRUE)` requests gradient standard
@@ -40,7 +41,8 @@ errors. Plot methods deliberately retain the method-valued control
 `errors = "asymptotic"` or `errors = "bootstrap"`.
 
 Older plotting code that uses `plot.errors.*` names should translate those
-controls to the public arguments above.
+controls to the public arguments above. The retired `output = "both"` route is
+replaced by `output = "plot-data"`.
 
 Fitted objects and their bandwidth objects now retain the prepared sample used
 for plotting, including subset and missing-data decisions. Copula grid size is
@@ -65,6 +67,26 @@ plot(model.ll,
   band = "all")
 ```
 
+## Save, inspect, and replay plotted data
+
+Plot methods now return a common `np_plot_data` object when you request
+`output = "data"` or `output = "plot-data"`. The former computes without
+drawing; the latter draws and returns the same numerical schema. Interval
+columns are absolute endpoints rather than offsets from the estimate.
+
+```r
+## Compute the plotted curve once, inspect it, then replay it without refitting
+plot_data <- plot(model.ll, output = "data")
+curve_data <- as.data.frame(plot_data)
+head(curve_data)
+plot(plot_data)
+```
+
+For plots with several panels, targets, or bands, select them explicitly in
+`as.data.frame(plot_data, panel = ..., target = ..., band = ...)`. Replaying
+with `plot(plot_data)` uses the retained geometry and does not refit, resample,
+or consume random numbers.
+
 ## Asymptotic intervals
 
 For many users, asymptotic intervals are the first reasonable uncertainty summary because they are much lighter than full bootstrap procedures.
@@ -88,8 +110,8 @@ plot(model.ll, errors = "asymptotic", band = "all")
 This common interface now covers supported regression, single-index,
 smooth-coefficient, partially linear, density/distribution, conditional
 quantile, location-scale quantile, class-probability, and copula plots,
-including eligible level surfaces. `gaussian.draws` controls the Gaussian
-maximum simulation and defaults to 9,999; `random.seed` makes that calibration
+including eligible level surfaces. `gaussian_draws` controls the Gaussian
+maximum simulation and defaults to 9,999; `random_seed` makes that calibration
 reproducible without changing the caller's RNG state.
 
 These are selected-smoothing variability bands over the displayed finite grid.
@@ -99,6 +121,19 @@ separate panels, quantiles, or response levels. If a joint band is not
 identified for a nonregular, degenerate, or resource-limited request, the plot
 reports the simultaneous limits as unavailable while retaining any valid
 pointwise and Bonferroni results.
+
+::: {.callout-warning}
+## Bias-corrected density intervals remain experimental
+
+Version 0.80-2 extends corrected asymptotic and bootstrap plotting routes for
+selected fixed-bound Gaussian, beta, uniform, and Epanechnikov density
+kernels. These bias-corrected intervals and bands are experimental pre-beta
+research, incomplete, and not recommended for general-purpose inference. Their
+availability depends on the kernel, support, dimension, target grid, and
+calibration requested; an unavailable joint band is reported rather than
+silently replaced by another method. The underlying density estimates and
+ordinary no-error plots are not redefined by these opt-in interval routes.
+:::
 
 ## Gradients
 
@@ -165,7 +200,7 @@ When `rgl` is installed, plot methods can also render interactive 3D surfaces
 via `renderer = "rgl"`. That gives you a manipulable display: drag with the
 mouse to rotate and use the scroll wheel to zoom. The same plotting surface now
 also supports 1D/2D rugs and data-overlay controls via the direct
-`data.rug` and `data.overlay` arguments.
+`data_rug` and `data_overlay` arguments.
 
 The current widget uses a high-DPI-aware canvas and construction-aware interval
 legends while preserving ordinary `rgl.*` overrides.
@@ -189,8 +224,8 @@ plot(fit_rgl,
   view = "fixed",
   renderer = "rgl",
   errors = "asymptotic",
-  data.overlay = FALSE,
-  data.rug = TRUE)
+  data_overlay = FALSE,
+  data_rug = TRUE)
 ```
 
 The same renderer is also useful for conditional density/distribution surfaces

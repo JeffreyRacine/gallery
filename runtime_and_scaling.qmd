@@ -14,47 +14,39 @@ keywords:
 
 This page collects the practical advice that matters once the method is right but the run becomes slow, memory-hungry, or otherwise awkward. The goal is not to promise that every job will be cheap. The goal is to help you decide what to simplify, what to tune, and when to change execution mode.
 
-## What changed in 0.80-1
+## What changed in 0.80-2
 
-The `np` and `npRmpi` 0.80-1 release brings several previously separate
-computational routes under common, validated owners while simplifying a few
-public controls.
+The `np` and `npRmpi` 0.80-2 release focuses on a clearer plotting contract,
+broader bounded-density diagnostics, and stricter validation of calls that
+previously could be ambiguous.
 
-- local-linear fitting is now the degree-one form of the canonical generalized
-  local-polynomial engine, and regression fits, objectives, hat operators, and
-  plot bootstraps share its rank and bounded-ridge decisions,
-- heterogeneous degree vectors use the corrected complete polynomial space,
-  so restored interactions can change affected fits relative to older releases,
-- positive-degree categorical gradients now return fitted-value endpoint
-  contrasts rather than zero placeholders,
-- uncertainty is requested explicitly with `se`, `se.fit`, and
-  `gradients(..., se = TRUE)` across the estimator families; `npindex()` is the
-  deliberate exception and defaults to asymptotic `se = TRUE`,
-- requested uncertainty is corrected or extended for important categorical,
-  adaptive-nearest-neighbour, copula-density, higher-derivative, and
-  partially-linear routes,
-- supported regression, density/distribution, quantile, class-probability, and
-  copula plots provide finite-grid Gaussian simultaneous variability bands,
-  while uncertified joint requests remain explicitly unavailable,
-- bandwidth objects retain their prepared training samples, missing-data
-  policies, and formula-subset provenance for reliable no-search reuse,
-  serialization, prediction, and plotting,
-- single-index factor predictors use retained R contrasts in Ichimura and
-  Klein--Spady models; the Klein--Spady response remains numeric `0/1`,
-- mixed-data conditional bias centers, uniform nearest-neighbour support, and
-  ordered Wang--van Ryzin distribution calculations use their corrected
-  numerical contracts, while unsupported external rows fail closed locally as
-  `NA`,
-- scaled bandwidths, bounded-kernel and beta nearest-neighbour objectives,
-  entropy tests, and plot bootstraps use their corrected physical-bandwidth,
-  deleted-sample, support, and replication-order contracts; affected results
-  can differ from earlier releases,
-- conditional local-polynomial bandwidth searches avoid duplicate
-  factorizations where eligible, and long operations provide clearer
-  elapsed-time and ETA progress,
-- `npRmpi` strengthens rank-safe interruption, worker-state validation,
-  master-owned progress, bootstrap work partitioning, and serial/MPI numerical
-  parity.
+- compound plot arguments now use snake_case, including `data_overlay`,
+  `data_rug`, `gradient_order`, `gaussian_draws`, `random_seed`,
+  `boot_control`, `grid_control`, and `render_control`; estimator arguments such
+  as `gradient.order` retain their established spellings,
+- `output = "data"` and `output = "plot-data"` return a common
+  `np_plot_data` object with absolute interval endpoints, named panels and
+  targets, compact inference metadata, and replay through `plot()`,
+- regression, partially linear, smooth-coefficient, and single-index estimators
+  now require numeric integer/double primary responses; factors and ordered
+  responses are rejected rather than silently interpreted through their codes,
+- plot-grid quantile controls use the requested lower and upper endpoints as a
+  range, and single-index plots apply that range to the fitted index,
+- class-probability plots restore omitted display positions after computing
+  uncertainty on complete rows, while conditional density and distribution
+  perspective plots retain undefined targets and range over finite results,
+- fixed-bound density plots support more corrected asymptotic and bootstrap
+  constructions across Gaussian, beta, uniform, and Epanechnikov kernels;
+  bias-corrected intervals remain experimental pre-beta research and are not
+  recommended for general-purpose inference,
+- formula routes consume bandwidth, data, subset, and missing-value promises
+  once; `npsigtest(bws = y ~ x, ...)` accepts a named formula, and density
+  selectors honor explicit `transform.bounds`,
+- temporary RNG scopes validate replay state more strictly instead of silently
+  changing generators or combining uncertified streams,
+- `npRmpi` checks package R/native source identity before adopting workers,
+  preserves supported attach-pool reuse, and coordinates automatic search and
+  plot ownership across ranks.
 
 The practical advice remains familiar: use the high-level calls normally,
 retain expensive bandwidth objects when you will reuse them, and move to

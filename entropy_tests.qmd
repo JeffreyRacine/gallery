@@ -26,7 +26,7 @@ This page is a website-first rewrite of the old entropy vignette. The `np` packa
 
 These functions are specialized, but they fit naturally with the broader `np` philosophy: kernel-based estimation, mixed-data support where appropriate, and bootstrap-based inference when needed.
 
-As of 0.80-1, the public bootstrap-count argument is consistently named `B`
+The public bootstrap-count argument is consistently named `B`
 throughout this family. The former `boot.num` input is retired; the examples
 below already use the current spelling.
 

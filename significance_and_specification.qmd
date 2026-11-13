@@ -25,7 +25,7 @@ If you want minimal downloadable scripts for the two main routes on this page, s
 - [np_significance_quickstart.R](www/np_npRmpi/np_significance_quickstart.R)
 - [np_specification_quickstart.R](www/np_npRmpi/np_specification_quickstart.R)
 
-In 0.80-1, public bootstrap counts use `B` consistently. `npsigtest()` also
+Current releases use `B` consistently for public bootstrap counts. `npsigtest()` also
 chooses pivotal statistics for continuous predictors and unstandardized
 statistics for categorical predictors by default; an explicit `pivot` choice
 still overrides that automatic policy.

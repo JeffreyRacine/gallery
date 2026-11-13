@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -42,7 +42,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-56cbe7e2c74e93eb5a74d5d451ceeedd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -458,14 +458,14 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><code>crs</code> <code>0.15-46</code> (published August 19, 2026), <code>npRmpi</code> <code>0.80-1</code>, and <code>np</code> <code>0.80-1</code> are available on CRAN. The <code>np</code> and <code>npRmpi</code> releases are dated October 26, 2026.</p>
-<p>The examples use current public controls such as <code>B</code>, <code>se</code>, <code>se.fit</code>, <code>gradient.order</code>, <code>errors</code>, <code>bootstrap</code>, <code>band</code>, <code>data.rug</code>, and <code>data.overlay</code>. The <a href="./faq.html#what-should-i-check-when-moving-to-080-1">0.80-1 migration checklist</a> summarizes the argument changes most likely to affect older code.</p>
+<p><code>crs</code> <code>0.15-46</code> (published August 19, 2026), <code>npRmpi</code> <code>0.80-2</code>, and <code>np</code> <code>0.80-2</code> are available on CRAN. The <code>np</code> and <code>npRmpi</code> releases are dated November 13, 2026.</p>
+<p>The examples use current estimator controls such as <code>B</code>, <code>se</code>, <code>se.fit</code>, and <code>gradient.order</code>, together with plot controls such as <code>errors</code>, <code>bootstrap</code>, <code>band</code>, <code>data_rug</code>, and <code>data_overlay</code>. The <a href="./faq.html#what-should-i-check-when-moving-to-080-2">0.80-2 migration checklist</a> summarizes the argument changes most likely to affect older code.</p>
 </div>
 </div>
 <section id="current-capabilities" class="level2">
 <h2 class="anchored" data-anchor-id="current-capabilities">Current Capabilities</h2>
 <ul>
-<li><a href="./runtime_and_scaling.html">0.80-1 update and migration notes</a>: <code>np</code> and <code>npRmpi</code> <code>0.80-1</code> standardize bootstrap, uncertainty, and dotted plotting controls; make bandwidth-object reuse and serialization more dependable; add finite-grid simultaneous variability bands across the principal estimator families; diagnose unsupported native <code>data=</code> use directly; and strengthen bounded-kernel, nearest-neighbour, scaled-bandwidth, plotting, and serial/MPI behavior.</li>
+<li><a href="./runtime_and_scaling.html">0.80-2 update and migration notes</a>: <code>np</code> and <code>npRmpi</code> <code>0.80-2</code> use snake_case compound plot controls and a common <code>np_plot_data</code> return schema; enforce numeric responses across the regression family; refine plot-grid semantics; extend bounded-density plotting and interval support; and strengthen formula evaluation, RNG replay, and MPI startup and ownership checks.</li>
 <li><a href="./crs.html">Spline updates</a>: <code>crs</code> <code>0.15-46</code> retains the common named plotting controls and <code>crshat()</code> operator workflow, adds formula/data and S3 support for instrumental spline regression, and provides the observed NOMAD interface used for responsive progress in downstream degree searches.</li>
 <li><a href="./np_npRmpi.html">Local polynomial workflows</a>: <code>np</code> and <code>npRmpi</code> support local polynomial capability across the conditional family, with joint selection of polynomial degrees and bandwidths for mixed data, gradient support throughout the conditional estimators, and derivative estimation of arbitrarily high order, limited only by the selected polynomial degree whether set manually or chosen automatically for the underlying smoothness class.</li>
 <li><a href="./boundary_aware_density.html">Boundary-aware density estimation</a>: unconditional and conditional density workflows support known two-sided or one-sided bounds and practical unknown-bound proxies, with a worked example showing what changes in finite- and unbounded-support settings.</li>
@@ -475,7 +475,7 @@ Tip
 <li><a href="./density_distribution_quantiles.html">Copula estimation</a>: <code>npcopula</code> is a first-class high-level estimator with a direct formula interface, automatic <code>npudistbw()</code> or <code>npudensbw()</code> selection when <code>bws</code> is omitted, automatic two-dimensional probability-grid construction for the default grid route, and easy reuse of the selected bandwidth object when you want a custom <code>u</code> grid or copula-density target.</li>
 <li><a href="./semiparametric_models.html">Hat-matrix and operator helpers</a>: <code>npreghat</code>, <code>npindexhat</code>, <code>npplreghat</code>, and <code>npscoefhat</code> provide one-call operator routes that simplify constrained nonparametric and semiparametric estimation by replacing much of the manual hat-matrix construction and solve-based setup, while <code>npudenshat</code>, <code>npudisthat</code>, <code>npcdenshat</code>, and <code>npcdisthat</code> extend the same streamlined operator style to the density/distribution family.</li>
 <li><a href="./plotting_and_intervals.html">Variability bounds on plots</a>: pointwise, Bonferroni, and simultaneous bounds share the plotting surface across supported regression, density/distribution, quantile, class-probability, and copula targets, and <code>band = "all"</code> presents all three together.</li>
-<li><a href="./plotting_and_intervals.html">Interactive plotting surfaces</a>: <code>renderer = "rgl"</code> supports interactive 3D rotation/zoom when <code>rgl</code> is installed, while <code>data.rug</code> and <code>data.overlay</code> control rugs and observed-data overlays on supported routes.</li>
+<li><a href="./plotting_and_intervals.html">Interactive plotting surfaces</a>: <code>renderer = "rgl"</code> supports interactive 3D rotation/zoom when <code>rgl</code> is installed, while <code>data_rug</code> and <code>data_overlay</code> control rugs and observed-data overlays on supported routes.</li>
 <li><a href="./mpi_large_data.html">MPI operational routes</a>: <code>npRmpi</code> session and attach routes let users work directly with <code>np</code>-style code, while the profile route remains available when needed.</li>
 </ul>
 <div class="grid">
