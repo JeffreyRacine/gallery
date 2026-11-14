@@ -74,6 +74,77 @@ a:focus {
   border-radius: 0.85rem;
 }
 
+.gallery-live-demo {
+  margin: 1.4rem 0 1rem;
+  padding: 1.25rem;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(15, 107, 111, 0.13), transparent 32%),
+    linear-gradient(145deg, #fffdf8 0%, #edf5f1 100%);
+  border: 1px solid var(--gallery-border);
+  border-radius: 1.15rem;
+  box-shadow: var(--gallery-shadow);
+}
+
+.gallery-live-demo__eyebrow {
+  margin-bottom: 0.25rem;
+  color: var(--gallery-accent);
+  font-size: 0.76rem;
+  font-weight: 750;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.gallery-live-demo h3 {
+  margin: 0 0 0.45rem;
+  font-size: clamp(1.45rem, 2.7vw, 2.15rem);
+}
+
+.gallery-live-demo p {
+  max-width: 72rem;
+  margin-bottom: 1rem;
+  color: var(--gallery-muted);
+}
+
+.gallery-widget-shell {
+  overflow: hidden;
+  background: #f7fbfa;
+  border: 1px solid #c9d8d3;
+  border-radius: 0.9rem;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+}
+
+.gallery-widget-frame {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+.gallery-widget-guide {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 1.2rem;
+  align-items: center;
+  margin-top: 0.85rem;
+  color: var(--gallery-muted);
+  font-size: 0.92rem;
+}
+
+.gallery-widget-guide a {
+  margin-left: auto;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.gallery-demo-notes {
+  margin-bottom: 2rem;
+}
+
+.gallery-demo-notes h3 {
+  margin-top: 0.45rem;
+}
+
 .gallery-video {
   display: block;
   width: 100%;
@@ -129,6 +200,26 @@ code:not(pre code) {
 }
 
 @media (max-width: 767.98px) {
+  .gallery-live-demo {
+    padding: 0.9rem;
+  }
+
+  .gallery-widget-shell {
+    aspect-ratio: 16 / 9;
+  }
+
+  .gallery-widget-frame {
+    width: 200%;
+    max-width: none;
+    transform: scale(0.5);
+    transform-origin: top left;
+  }
+
+  .gallery-widget-guide a {
+    width: 100%;
+    margin-left: 0;
+  }
+
   .gallery-scroll-table {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;

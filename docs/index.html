@@ -26,6 +26,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -397,6 +432,7 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#gallery-of-code-for-np-nprmpi-and-crs" id="toc-gallery-of-code-for-np-nprmpi-and-crs" class="nav-link active" data-scroll-target="#gallery-of-code-for-np-nprmpi-and-crs">Gallery of code for <code>np</code>, <code>npRmpi</code>, and <code>crs</code></a>
   <ul class="collapse">
+  <li><a href="#explore-a-conditional-distribution" id="toc-explore-a-conditional-distribution" class="nav-link" data-scroll-target="#explore-a-conditional-distribution">Explore a conditional distribution</a></li>
   <li><a href="#current-capabilities" id="toc-current-capabilities" class="nav-link" data-scroll-target="#current-capabilities">Current Capabilities</a></li>
   <li><a href="#learn-by-topic" id="toc-learn-by-topic" class="nav-link" data-scroll-target="#learn-by-topic">Learn by topic</a></li>
   <li><a href="#need-help-fast" id="toc-need-help-fast" class="nav-link" data-scroll-target="#need-help-fast">Need help fast?</a></li>
@@ -462,6 +498,45 @@ Tip
 <p>The examples use current estimator controls such as <code>B</code>, <code>se</code>, <code>se.fit</code>, and <code>gradient.order</code>, together with plot controls such as <code>errors</code>, <code>bootstrap</code>, <code>band</code>, <code>data_rug</code>, and <code>data_overlay</code>. The <a href="./faq.html#what-should-i-check-when-moving-to-080-2">0.80-2 migration checklist</a> summarizes the argument changes most likely to affect older code.</p>
 </div>
 </div>
+<section id="explore-a-conditional-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="explore-a-conditional-distribution">Explore a conditional distribution</h2>
+<div class="gallery-live-demo">
+  <div class="gallery-live-demo__eyebrow">Interactive WebGL example</div>
+  <h3 class="anchored">Italian regional GDP, 1951–2024</h3>
+  <p>
+    This surface estimates <em>F</em>(gdp | year), the conditional probability
+    that regional real GDP per capita is at or below a selected level in a
+    given year. It describes the changing distribution across Italy's 20
+    administrative regions rather than only its conditional mean.
+  </p>
+  <div class="gallery-widget-shell">
+    <iframe class="gallery-widget-frame" src="www/widgets/italy_conditional_distribution.html" title="Interactive conditional distribution of Italian regional GDP per capita by year" allowfullscreen="">
+    </iframe>
+  </div>
+  <div class="gallery-widget-guide">
+    <span><strong>Rotate:</strong> click and drag</span>
+    <span><strong>Zoom:</strong> scroll or right-drag</span>
+    <a href="www/widgets/italy_conditional_distribution.html" target="_blank" rel="noopener">Open full screen</a>
+  </div>
+</div>
+<div class="grid gallery-demo-notes">
+<section id="what-is-being-estimated" class="level3 g-col-12 g-col-lg-5">
+<h3 class="anchored" data-anchor-id="what-is-being-estimated">What is being estimated?</h3>
+<p><code>npcdist()</code> estimates the conditional distribution of real GDP per capita given year. Here <code>year</code> is an ordered factor, so the fit respects its ordering without treating the calendar labels as an ordinary continuous measurement. The panel combines a historical <a href="https://datimezzogiorno.svimez.it/en/the-data/svimez-statistics-1861-2011/">SVIMEZ reconstruction</a> with modern <a href="https://territorial.ec.europa.eu/ardeco/viewer/SOVGDP">ARDECO regional data</a>.</p>
+<p>The data are included with <code>np</code> 0.80-3. Download the <a href="www/np_npRmpi/np_italy_conditional_distribution_rgl.R">RStudio script</a>, or run the same short example below.</p>
+</section>
+<section id="generate-it-in-rstudio" class="level3 g-col-12 g-col-lg-7">
+<h3 class="anchored" data-anchor-id="generate-it-in-rstudio">Generate it in RStudio</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Load the package and updated Italian regional panel</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"Italy_Updated"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimate F(gdp | year), then open the interactive surface</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Fhat <span class="ot">&lt;-</span> <span class="fu">npcdist</span>(gdp <span class="sc">~</span> year, <span class="at">data =</span> Italy_Updated)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Fhat, <span class="at">renderer =</span> <span class="st">"rgl"</span>, <span class="at">zlab =</span> <span class="st">"F(gdp|year)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</div>
+</section>
 <section id="current-capabilities" class="level2">
 <h2 class="anchored" data-anchor-id="current-capabilities">Current Capabilities</h2>
 <ul>

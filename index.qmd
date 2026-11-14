@@ -32,6 +32,64 @@ The examples use current estimator controls such as `B`, `se`, `se.fit`, and
 summarizes the argument changes most likely to affect older code.
 :::
 
+## Explore a conditional distribution
+
+```{=html}
+<div class="gallery-live-demo">
+  <div class="gallery-live-demo__eyebrow">Interactive WebGL example</div>
+  <h3>Italian regional GDP, 1951&ndash;2024</h3>
+  <p>
+    This surface estimates <em>F</em>(gdp | year), the conditional probability
+    that regional real GDP per capita is at or below a selected level in a
+    given year. It describes the changing distribution across Italy's 20
+    administrative regions rather than only its conditional mean.
+  </p>
+  <div class="gallery-widget-shell">
+    <iframe
+      class="gallery-widget-frame"
+      src="www/widgets/italy_conditional_distribution.html"
+      title="Interactive conditional distribution of Italian regional GDP per capita by year"
+      allowfullscreen>
+    </iframe>
+  </div>
+  <div class="gallery-widget-guide">
+    <span><strong>Rotate:</strong> click and drag</span>
+    <span><strong>Zoom:</strong> scroll or right-drag</span>
+    <a href="www/widgets/italy_conditional_distribution.html" target="_blank" rel="noopener">Open full screen</a>
+  </div>
+</div>
+```
+
+::: {.grid .gallery-demo-notes}
+::: {.g-col-12 .g-col-lg-5}
+### What is being estimated?
+
+`npcdist()` estimates the conditional distribution of real GDP per capita
+given year. Here `year` is an ordered factor, so the fit respects its ordering
+without treating the calendar labels as an ordinary continuous measurement.
+The panel combines a historical [SVIMEZ reconstruction](https://datimezzogiorno.svimez.it/en/the-data/svimez-statistics-1861-2011/)
+with modern [ARDECO regional data](https://territorial.ec.europa.eu/ardeco/viewer/SOVGDP).
+
+The data are included with `np` 0.80-3. Download the
+[RStudio script](www/np_npRmpi/np_italy_conditional_distribution_rgl.R), or run
+the same short example below.
+:::
+
+::: {.g-col-12 .g-col-lg-7}
+### Generate it in RStudio
+
+```r
+## Load the package and updated Italian regional panel
+library(np)
+data("Italy_Updated")
+
+## Estimate F(gdp | year), then open the interactive surface
+Fhat <- npcdist(gdp ~ year, data = Italy_Updated)
+plot(Fhat, renderer = "rgl", zlab = "F(gdp|year)")
+```
+:::
+:::
+
 ## Current Capabilities
 
 - [0.80-2 update and migration notes](runtime_and_scaling.qmd): `np` and `npRmpi` `0.80-2` use snake_case compound plot controls and a common `np_plot_data` return schema; enforce numeric responses across the regression family; refine plot-grid semantics; extend bounded-density plotting and interval support; and strengthen formula evaluation, RNG replay, and MPI startup and ownership checks.
