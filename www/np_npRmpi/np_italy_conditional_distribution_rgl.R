@@ -1,7 +1,7 @@
 ## Interactive conditional distribution of Italian regional GDP per capita.
 
 library(np)
-library(rgl)
+# This example requires the suggested rgl package: install.packages("rgl")
 data("Italy_Updated")
 # With np < 0.80-3, use data("Italy") and data = Italy below.
 # np 0.80-2 requires the snake-case spelling data_rug = TRUE.
@@ -23,7 +23,7 @@ year_num <- as.numeric(as.character(year_grid$year))
 cond_quantile <- drop(predict(Qhat, newdata = year_grid))
 
 ## Trace the selected quantile at F = tau and project it onto the floor.
-plot3d(widget)
-lines3d(year_num, cond_quantile, 0, color = "grey45", lwd = 1.5)
-lines3d(year_num, cond_quantile, tau, color = "grey45", lwd = 1)
-rglwidget()
+rgl::plot3d(widget)
+rgl::lines3d(year_num, cond_quantile, 0, color = "grey45", lwd = 1.5)
+rgl::lines3d(year_num, cond_quantile, tau, color = "grey45", lwd = 1)
+rgl::rglwidget()

@@ -4,7 +4,10 @@ options(rgl.useNULL = TRUE, rgl.printRglwidget = FALSE, np.messages = FALSE)
 
 library(np)
 library(htmlwidgets)
-library(rgl)
+
+if (!requireNamespace("rgl", quietly = TRUE)) {
+  stop("Rebuild this artifact with the suggested rgl package installed.")
+}
 
 if (packageVersion("np") != package_version("0.80-3")) {
   stop("Rebuild this release artifact with np 0.80-3.")
@@ -32,10 +35,10 @@ year_num <- as.numeric(as.character(year_grid$year))
 cond_quantile <- drop(predict(Qhat, newdata = year_grid))
 
 surface_widget <- widget
-plot3d(surface_widget)
-lines3d(year_num, cond_quantile, 0, color = "grey45", lwd = 1.5)
-lines3d(year_num, cond_quantile, tau, color = "grey45", lwd = 1)
-widget <- rglwidget()
+rgl::plot3d(surface_widget)
+rgl::lines3d(year_num, cond_quantile, 0, color = "grey45", lwd = 1.5)
+rgl::lines3d(year_num, cond_quantile, tau, color = "grey45", lwd = 1)
+widget <- rgl::rglwidget()
 
 ## Retain np's high-DPI rendering hook on the augmented scene.
 widget$jsHooks <- surface_widget$jsHooks
