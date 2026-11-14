@@ -432,7 +432,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#gallery-of-code-for-np-nprmpi-and-crs" id="toc-gallery-of-code-for-np-nprmpi-and-crs" class="nav-link active" data-scroll-target="#gallery-of-code-for-np-nprmpi-and-crs">Gallery of code for <code>np</code>, <code>npRmpi</code>, and <code>crs</code></a>
   <ul class="collapse">
-  <li><a href="#explore-a-conditional-distribution" id="toc-explore-a-conditional-distribution" class="nav-link" data-scroll-target="#explore-a-conditional-distribution">Explore a conditional distribution</a></li>
+  <li><a href="#explore-a-conditional-distribution" id="toc-explore-a-conditional-distribution" class="nav-link" data-scroll-target="#explore-a-conditional-distribution">Explore a conditional distribution</a>
+  <ul class="collapse">
+  <li><a href="#what-is-being-estimated" id="toc-what-is-being-estimated" class="nav-link" data-scroll-target="#what-is-being-estimated">What is being estimated?</a></li>
+  </ul></li>
   <li><a href="#current-capabilities" id="toc-current-capabilities" class="nav-link" data-scroll-target="#current-capabilities">Current Capabilities</a></li>
   <li><a href="#learn-by-topic" id="toc-learn-by-topic" class="nav-link" data-scroll-target="#learn-by-topic">Learn by topic</a></li>
   <li><a href="#need-help-fast" id="toc-need-help-fast" class="nav-link" data-scroll-target="#need-help-fast">Need help fast?</a></li>
@@ -521,14 +524,24 @@ Tip
     <a href="www/widgets/italy_conditional_distribution.html" target="_blank" rel="noopener">Open full screen</a>
   </div>
 </div>
-<div class="grid gallery-demo-notes">
-<section id="what-is-being-estimated" class="level3 g-col-12 g-col-lg-5">
+<section id="what-is-being-estimated" class="level3 gallery-demo-notes">
 <h3 class="anchored" data-anchor-id="what-is-being-estimated">What is being estimated?</h3>
-<p><code>npcdist()</code> estimates the conditional distribution of real GDP per capita given year. Here <code>year</code> is an ordered factor, so the fit respects its ordering without treating the calendar labels as an ordinary continuous measurement. <code>npqreg()</code> inverts that distribution: at <code>tau = 0.5</code>, it finds the conditional median satisfying <em>F</em>(<em>Q</em><sub>0.5</sub>(year) | year) = 0.5. Reusing <code>Fhat$bws</code> connects the two estimators without repeating the bandwidth search. The second grey trace projects the same median onto <em>F</em> = 0 for reference during rotation. Change <code>tau</code> to <code>0.25</code> for the conditional first quartile, or to another probability for the corresponding conditional quantile. The panel combines a historical <a href="https://datimezzogiorno.svimez.it/en/the-data/svimez-statistics-1861-2011/">SVIMEZ reconstruction</a> with modern <a href="https://territorial.ec.europa.eu/ardeco/viewer/SOVGDP">ARDECO regional data</a>.</p>
-<p>The expanded data are included with <code>np</code> 0.80-3. With earlier releases, use <code>data("Italy")</code> for the shorter historical panel. Download the <a href="www/np_npRmpi/np_italy_conditional_distribution_rgl.R">RStudio script</a>, or run the same short example below.</p>
+<p><code>npcdist()</code> estimates the conditional distribution of real GDP per capita given year. Here <code>year</code> is an ordered factor, so the fit respects its ordering without treating the calendar labels as an ordinary continuous measurement. <code>npqreg()</code> inverts that distribution: at <code>tau = 0.5</code>, it finds the conditional median satisfying <em>F</em>(<em>Q</em><sub>0.5</sub>(year) | year) = 0.5. Passing the fitted bandwidth object <code>Fhat$bws</code> to <code>npqreg()</code> connects the two estimators without repeating the bandwidth search. The second grey trace projects the same median onto <em>F</em> = 0 for reference during rotation. Change <code>tau</code> to <code>0.25</code> for the conditional first quartile, or to another probability for the corresponding conditional quantile. The panel combines a historical <a href="https://datimezzogiorno.svimez.it/en/the-data/svimez-statistics-1861-2011/">SVIMEZ reconstruction</a> with modern <a href="https://territorial.ec.europa.eu/ardeco/viewer/SOVGDP">ARDECO regional data</a>.</p>
+<p>The expanded data are included with <code>np</code> 0.80-3. With earlier releases, use <code>data("Italy")</code> for the shorter historical panel. Download the <a href="www/np_npRmpi/np_italy_conditional_distribution_rgl.R">R script</a>, or expand the complete example below.</p>
 </section>
-<section id="generate-it-in-rstudio" class="level3 g-col-12 g-col-lg-7">
-<h3 class="anchored" data-anchor-id="generate-it-in-rstudio">Generate it in RStudio</h3>
+<div class="gallery-code-disclosure">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Reproduce and adapt this figure
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Load the package and updated Italian regional panel</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgl)</span>
@@ -553,7 +566,9 @@ Tip
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">lines3d</span>(year_num, cond_quantile, <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"grey45"</span>, <span class="at">lwd =</span> <span class="dv">1</span>)</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">lines3d</span>(year_num, cond_quantile, tau, <span class="at">color =</span> <span class="st">"grey45"</span>, <span class="at">lwd =</span> <span class="dv">1</span>)</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">rglwidget</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="current-capabilities" class="level2">

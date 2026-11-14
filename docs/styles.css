@@ -145,6 +145,36 @@ a:focus {
   margin-top: 0.45rem;
 }
 
+.gallery-code-disclosure {
+  margin: -0.75rem 0 2rem;
+}
+
+.gallery-code-disclosure .callout {
+  overflow: hidden;
+  border: 1px solid var(--gallery-border);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 10px 24px rgba(24, 52, 63, 0.05);
+}
+
+.gallery-code-disclosure .callout-header {
+  padding: 0.85rem 1rem;
+  background: rgba(233, 242, 240, 0.72);
+}
+
+.gallery-code-disclosure .callout-title-container {
+  font-weight: 700;
+  color: var(--gallery-ink);
+}
+
+.gallery-code-disclosure .callout-body-container {
+  padding: 1rem;
+}
+
+.gallery-code-disclosure .sourceCode {
+  margin-bottom: 0;
+}
+
 .gallery-video {
   display: block;
   width: 100%;

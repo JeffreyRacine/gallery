@@ -62,17 +62,17 @@ summarizes the argument changes most likely to affect older code.
 </div>
 ```
 
-::: {.grid .gallery-demo-notes}
-::: {.g-col-12 .g-col-lg-5}
+::: {.gallery-demo-notes}
 ### What is being estimated?
 
 `npcdist()` estimates the conditional distribution of real GDP per capita
 given year. Here `year` is an ordered factor, so the fit respects its ordering
 without treating the calendar labels as an ordinary continuous measurement.
 `npqreg()` inverts that distribution: at `tau = 0.5`, it finds the conditional
-median satisfying *F*(*Q*~0.5~(year) | year) = 0.5. Reusing `Fhat$bws` connects
-the two estimators without repeating the bandwidth search. The second grey
-trace projects the same median onto *F* = 0 for reference during rotation.
+median satisfying *F*(*Q*~0.5~(year) | year) = 0.5. Passing the fitted bandwidth
+object `Fhat$bws` to `npqreg()` connects the two estimators without repeating
+the bandwidth search. The second grey trace projects the same median onto
+*F* = 0 for reference during rotation.
 Change `tau` to `0.25` for the conditional first quartile, or to another
 probability for the corresponding conditional quantile.
 The panel combines a historical [SVIMEZ reconstruction](https://datimezzogiorno.svimez.it/en/the-data/svimez-statistics-1861-2011/)
@@ -80,12 +80,13 @@ with modern [ARDECO regional data](https://territorial.ec.europa.eu/ardeco/viewe
 
 The expanded data are included with `np` 0.80-3. With earlier releases, use
 `data("Italy")` for the shorter historical panel. Download the
-[RStudio script](www/np_npRmpi/np_italy_conditional_distribution_rgl.R), or run
-the same short example below.
+[R script](www/np_npRmpi/np_italy_conditional_distribution_rgl.R), or expand
+the complete example below.
 :::
 
-::: {.g-col-12 .g-col-lg-7}
-### Generate it in RStudio
+::: {.gallery-code-disclosure}
+::: {.callout-note collapse="true"}
+## Reproduce and adapt this figure
 
 ```r
 ## Load the package and updated Italian regional panel
