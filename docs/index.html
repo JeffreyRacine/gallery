@@ -523,17 +523,18 @@ Tip
 <section id="what-is-being-estimated" class="level3 g-col-12 g-col-lg-5">
 <h3 class="anchored" data-anchor-id="what-is-being-estimated">What is being estimated?</h3>
 <p><code>npcdist()</code> estimates the conditional distribution of real GDP per capita given year. Here <code>year</code> is an ordered factor, so the fit respects its ordering without treating the calendar labels as an ordinary continuous measurement. The panel combines a historical <a href="https://datimezzogiorno.svimez.it/en/the-data/svimez-statistics-1861-2011/">SVIMEZ reconstruction</a> with modern <a href="https://territorial.ec.europa.eu/ardeco/viewer/SOVGDP">ARDECO regional data</a>.</p>
-<p>The data are included with <code>np</code> 0.80-3. Download the <a href="www/np_npRmpi/np_italy_conditional_distribution_rgl.R">RStudio script</a>, or run the same short example below.</p>
+<p>The expanded data are included with <code>np</code> 0.80-3. With earlier releases, use <code>data("Italy")</code> for the shorter historical panel. Download the <a href="www/np_npRmpi/np_italy_conditional_distribution_rgl.R">RStudio script</a>, or run the same short example below.</p>
 </section>
 <section id="generate-it-in-rstudio" class="level3 g-col-12 g-col-lg-7">
 <h3 class="anchored" data-anchor-id="generate-it-in-rstudio">Generate it in RStudio</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Load the package and updated Italian regional panel</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"Italy_Updated"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimate F(gdp | year), then open the interactive surface</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Fhat <span class="ot">&lt;-</span> <span class="fu">npcdist</span>(gdp <span class="sc">~</span> year, <span class="at">data =</span> Italy_Updated)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Fhat, <span class="at">renderer =</span> <span class="st">"rgl"</span>, <span class="at">zlab =</span> <span class="st">"F(gdp|year)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># With np &lt; 0.80-3, use data("Italy") and data = Italy below.</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimate F(gdp | year), then open the interactive surface</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Fhat <span class="ot">&lt;-</span> <span class="fu">npcdist</span>(gdp <span class="sc">~</span> year, <span class="at">data =</span> Italy_Updated)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Fhat, <span class="at">renderer =</span> <span class="st">"rgl"</span>, <span class="at">zlab =</span> <span class="st">"F(gdp|year)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </div>
 </section>

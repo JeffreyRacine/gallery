@@ -70,7 +70,8 @@ without treating the calendar labels as an ordinary continuous measurement.
 The panel combines a historical [SVIMEZ reconstruction](https://datimezzogiorno.svimez.it/en/the-data/svimez-statistics-1861-2011/)
 with modern [ARDECO regional data](https://territorial.ec.europa.eu/ardeco/viewer/SOVGDP).
 
-The data are included with `np` 0.80-3. Download the
+The expanded data are included with `np` 0.80-3. With earlier releases, use
+`data("Italy")` for the shorter historical panel. Download the
 [RStudio script](www/np_npRmpi/np_italy_conditional_distribution_rgl.R), or run
 the same short example below.
 :::
@@ -82,6 +83,7 @@ the same short example below.
 ## Load the package and updated Italian regional panel
 library(np)
 data("Italy_Updated")
+# With np < 0.80-3, use data("Italy") and data = Italy below.
 
 ## Estimate F(gdp | year), then open the interactive surface
 Fhat <- npcdist(gdp ~ year, data = Italy_Updated)
