@@ -5,9 +5,10 @@ library(rgl)
 data("Italy_Updated")
 # With np < 0.80-3, use data("Italy") and data = Italy below.
 
-## Estimate F(gdp | year), then open the WebGL surface in RStudio's Viewer.
+## Estimate F(gdp | year), then face its floor projection toward the viewer.
 Fhat <- npcdist(gdp ~ year, data = Italy_Updated)
-widget <- plot(Fhat, renderer = "rgl", zlab = "F(gdp|year)")
+widget <- plot(Fhat, renderer = "rgl", zlab = "F(gdp|year)",
+  theta = 300, phi = 10)
 
 ## Reuse its bandwidths to estimate a conditional quantile without a new search.
 tau <- 0.5 # Use 0.25 for the conditional first quartile, and so forth.

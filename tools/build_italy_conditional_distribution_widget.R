@@ -15,7 +15,9 @@ data("Italy_Updated", package = "np")
 Fhat <- npcdist(gdp ~ year, data = Italy_Updated)
 widget <- plot(Fhat,
   renderer = "rgl",
-  zlab = "F(gdp|year)")
+  zlab = "F(gdp|year)",
+  theta = 300,
+  phi = 10)
 
 stopifnot(inherits(widget, "rglWebGL"), inherits(widget, "htmlwidget"))
 
