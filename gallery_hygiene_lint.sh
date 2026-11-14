@@ -242,7 +242,7 @@ forbid_regex_in_tree \
   -g '*.R' \
   -g '!docs/**'
 
-RETIRED_NP_PLOT_ARGUMENTS='(data\.rug|data\.overlay|factor\.boxplot|boxplot\.outliers|coef\.index|common\.scale|proper\.method|proper\.control|bias\.control|boot\.control|grid\.control|render\.control|gaussian\.draws|bar\.num|y\.vars|y\.dat|pair\.list)[[:space:]]*='
+RETIRED_NP_PLOT_ARGUMENTS='(data\.overlay|factor\.boxplot|boxplot\.outliers|coef\.index|common\.scale|proper\.method|proper\.control|bias\.control|boot\.control|grid\.control|render\.control|gaussian\.draws|bar\.num|y\.vars|y\.dat|pair\.list)[[:space:]]*='
 
 forbid_regex_in_tree \
   "$RETIRED_NP_PLOT_ARGUMENTS" \
@@ -258,6 +258,28 @@ forbid_regex_in_tree \
   "$ROOT" \
   -g '*.R' \
   -g '*.md' \
+  -g '!docs/**'
+
+# The landing-page widget is intentionally built with np 0.80-3, which restores
+# dotted public plot controls. Keep the 0.80-2 guard everywhere else until the
+# Gallery-wide migration is made with that release.
+forbid_regex_in_tree \
+  'data\.rug[[:space:]]*=' \
+  "current pages outside the 0.80-3 widget avoid dotted data.rug" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g '!index.qmd' \
+  -g '!crs.qmd' \
+  -g '!docs/**'
+
+forbid_regex_in_tree \
+  'data\.rug[[:space:]]*=' \
+  "current scripts outside the 0.80-3 widget avoid dotted data.rug" \
+  "$ROOT" \
+  -g '*.R' \
+  -g '*.md' \
+  -g '!tools/build_italy_conditional_distribution_widget.R' \
+  -g '!www/np_npRmpi/np_italy_conditional_distribution_rgl.R' \
   -g '!docs/**'
 
 forbid_multiline_regex_in_tree \

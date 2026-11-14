@@ -17,7 +17,8 @@ widget <- plot(Fhat,
   renderer = "rgl",
   zlab = "F(gdp|year)",
   theta = 300,
-  phi = 10)
+  phi = 10,
+  data.rug = TRUE)
 
 stopifnot(inherits(widget, "rglWebGL"), inherits(widget, "htmlwidget"))
 
@@ -32,7 +33,7 @@ cond_quantile <- drop(predict(Qhat, newdata = year_grid))
 
 surface_widget <- widget
 plot3d(surface_widget)
-lines3d(year_num, cond_quantile, 0, color = "grey45", lwd = 1)
+lines3d(year_num, cond_quantile, 0, color = "grey45", lwd = 1.5)
 lines3d(year_num, cond_quantile, tau, color = "grey45", lwd = 1)
 widget <- rglwidget()
 

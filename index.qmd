@@ -39,14 +39,10 @@ summarizes the argument changes most likely to affect older code.
   <div class="gallery-live-demo__eyebrow">Interactive WebGL example</div>
   <h3>Italian regional GDP distribution and median, 1951&ndash;2024</h3>
   <p>
-    This surface estimates <em>F</em>(gdp | year), the conditional probability
-    that regional real GDP per capita is at or below a selected level in a
-    given year. It describes the changing distribution across Italy's 20
-    administrative regions rather than only its conditional mean. The grey
-    curve traces the conditional median on the surface and projects it onto
-    the floor so it remains visible as the figure rotates. The opening view
-    faces that floor toward the viewer, where the projection reads as a
-    familiar two-dimensional year&ndash;GDP curve.
+    This surface estimates <em>F</em>(gdp | year) across Italy's 20 regions.
+    The grey curve traces the conditional median and its floor projection;
+    the 3D rug marks the observed year&ndash;GDP support. The opening view makes
+    the projection readable as a familiar two-dimensional curve.
   </p>
   <div class="gallery-widget-shell">
     <iframe
@@ -67,29 +63,19 @@ summarizes the argument changes most likely to affect older code.
 ::: {.gallery-demo-notes}
 ### What is being estimated?
 
-`npcdist()` estimates the conditional distribution of real GDP per capita
-given year. Here `year` is an ordered factor, so the fit respects its ordering
-without treating the calendar labels as an ordinary continuous measurement.
-`npqreg()` inverts that distribution, estimating
-$Q_\tau(\mathrm{year}) = F^{-1}(\tau \mid \mathrm{year})$. At `tau = 0.5`, it
-finds the conditional median satisfying *F*(*Q*~0.5~(year) | year) = 0.5.
-Passing the fitted bandwidth object `Fhat$bws` to `npqreg()` connects the two
-estimators without repeating the bandwidth search. The second grey trace
-projects the same median onto *F* = 0 for reference during rotation.
-Change `tau` to `0.25` for the conditional first quartile, or to another
-probability for the corresponding conditional quantile.
-The initial `theta = 300`, `phi = 10` view was chosen to expose the floor
-projection as a conventional conditional-quantile curve against year while
-preserving the distribution surface above it. Rotating the figure reveals that
-the two grey traces are the same conditional quantile drawn at *F* = 0 and
-*F* = `tau`.
+`npcdist()` estimates the conditional distribution with `year` treated as an
+ordered factor. `npqreg()` inverts it:
+$Q_\tau(\mathrm{year}) = F^{-1}(\tau \mid \mathrm{year})$. At `tau = 0.5`,
+this is the conditional median. Reusing `Fhat$bws` avoids another bandwidth
+search. The grey traces show the same quantile at *F* = `tau` and on the floor
+at *F* = 0; the 3D rug marks the observed support. The opening angle emphasizes
+the floor projection, while rotation reveals its relationship to the surface.
 The panel combines a historical [SVIMEZ reconstruction](https://datimezzogiorno.svimez.it/en/the-data/svimez-statistics-1861-2011/)
 with modern [ARDECO regional data](https://territorial.ec.europa.eu/ardeco/viewer/SOVGDP).
 
-The expanded data are included with `np` 0.80-3. With earlier releases, use
-`data("Italy")` for the shorter historical panel. Download the
+The expanded data are included with `np` 0.80-3. Download the
 [R script](www/np_npRmpi/np_italy_conditional_distribution_rgl.R), or expand
-the complete example below.
+the example below.
 :::
 
 ::: {.gallery-code-disclosure}
@@ -102,15 +88,18 @@ library(np)
 library(rgl)
 data("Italy_Updated")
 # With np < 0.80-3, use data("Italy") and data = Italy below.
+# np 0.80-2 requires the snake-case spelling data_rug = TRUE.
 
 ## Estimate F(gdp | year), then face its floor projection toward the viewer
 Fhat <- npcdist(gdp ~ year, data = Italy_Updated)
 widget <- plot(Fhat, renderer = "rgl", zlab = "F(gdp|year)",
-  theta = 300, phi = 10)
+  theta = 300, phi = 10, data.rug = TRUE)
 
 ## Reuse its bandwidths to estimate a conditional quantile without a new search
 tau <- 0.5 # Use 0.25 for the conditional first quartile, and so forth.
 Qhat <- npqreg(bws = Fhat$bws, tau = tau, data = Italy_Updated)
+# Optional: plot(Qhat) draws the conditional quantile.
+# plot(Qhat, gradients = TRUE) draws its marginal effect, \Delta Q / \Delta year.
 year_grid <- data.frame(
   year = ordered(levels(Italy_Updated$year),
     levels = levels(Italy_Updated$year)))
@@ -119,7 +108,7 @@ cond_quantile <- drop(predict(Qhat, newdata = year_grid))
 
 ## Trace the selected quantile at F = tau and project it onto the floor
 plot3d(widget)
-lines3d(year_num, cond_quantile, 0, color = "grey45", lwd = 1)
+lines3d(year_num, cond_quantile, 0, color = "grey45", lwd = 1.5)
 lines3d(year_num, cond_quantile, tau, color = "grey45", lwd = 1)
 rglwidget()
 ```
