@@ -39,7 +39,8 @@ summarizes the argument changes most likely to affect older code.
   <div class="gallery-live-demo__eyebrow">Interactive WebGL example</div>
   <h3>Italian regional GDP distribution and median, 1951&ndash;2024</h3>
   <p>
-    This surface estimates <em>F</em>(gdp | year) across Italy's 20 regions.
+    This surface estimates <em>F</em>(gdp | year) across Italy's 20 regions,
+    with real GDP per capita measured in thousands of 2020 euros.
     The grey curve traces the conditional median and its floor projection;
     the 3D rug marks the observed year&ndash;GDP support. The opening view makes
     the projection readable as a familiar two-dimensional curve.
@@ -87,6 +88,7 @@ the example below.
 library(np)
 # This example requires the suggested rgl package: install.packages("rgl")
 data("Italy_Updated")
+# gdp is real GDP per capita in thousands of 2020 euros.
 # With np < 0.80-3, use data("Italy") and data = Italy below.
 # np 0.80-2 requires the snake-case spelling data_rug = TRUE.
 

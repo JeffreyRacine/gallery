@@ -536,7 +536,8 @@ Tip
   <div class="gallery-live-demo__eyebrow">Interactive WebGL example</div>
   <h3 class="anchored">Italian regional GDP distribution and median, 1951–2024</h3>
   <p>
-    This surface estimates <em>F</em>(gdp | year) across Italy's 20 regions.
+    This surface estimates <em>F</em>(gdp | year) across Italy's 20 regions,
+    with real GDP per capita measured in thousands of 2020 euros.
     The grey curve traces the conditional median and its floor projection;
     the 3D rug marks the observed year–GDP support. The opening view makes
     the projection readable as a familiar two-dimensional curve.
@@ -573,30 +574,31 @@ Tip
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This example requires the suggested rgl package: install.packages("rgl")</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"Italy_Updated"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># With np &lt; 0.80-3, use data("Italy") and data = Italy below.</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># np 0.80-2 requires the snake-case spelling data_rug = TRUE.</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimate F(gdp | year), then face its floor projection toward the viewer</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>Fhat <span class="ot">&lt;-</span> <span class="fu">npcdist</span>(gdp <span class="sc">~</span> year, <span class="at">data =</span> Italy_Updated)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>widget <span class="ot">&lt;-</span> <span class="fu">plot</span>(Fhat, <span class="at">renderer =</span> <span class="st">"rgl"</span>, <span class="at">zlab =</span> <span class="st">"F(gdp|year)"</span>,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">theta =</span> <span class="dv">300</span>, <span class="at">phi =</span> <span class="dv">10</span>, <span class="at">data.rug =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Reuse its bandwidths to estimate a conditional quantile without a new search</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="co"># Use 0.25 for the conditional first quartile, and so forth.</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>Qhat <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(<span class="at">bws =</span> Fhat<span class="sc">$</span>bws, <span class="at">tau =</span> tau, <span class="at">data =</span> Italy_Updated)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional: plot(Qhat) draws the conditional quantile.</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(Qhat, gradients = TRUE) draws its marginal effect, \Delta Q / \Delta year.</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>year_grid <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="fu">ordered</span>(<span class="fu">levels</span>(Italy_Updated<span class="sc">$</span>year),</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">levels</span>(Italy_Updated<span class="sc">$</span>year)))</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>year_num <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(year_grid<span class="sc">$</span>year))</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>cond_quantile <span class="ot">&lt;-</span> <span class="fu">drop</span>(<span class="fu">predict</span>(Qhat, <span class="at">newdata =</span> year_grid))</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="do">## Trace the selected quantile at F = tau and project it onto the floor</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">plot3d</span>(widget)</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">lines3d</span>(year_num, cond_quantile, <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"grey45"</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">lines3d</span>(year_num, cond_quantile, tau, <span class="at">color =</span> <span class="st">"grey45"</span>, <span class="at">lwd =</span> <span class="dv">1</span>)</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">rglwidget</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># gdp is real GDP per capita in thousands of 2020 euros.</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># With np &lt; 0.80-3, use data("Italy") and data = Italy below.</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># np 0.80-2 requires the snake-case spelling data_rug = TRUE.</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimate F(gdp | year), then face its floor projection toward the viewer</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Fhat <span class="ot">&lt;-</span> <span class="fu">npcdist</span>(gdp <span class="sc">~</span> year, <span class="at">data =</span> Italy_Updated)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>widget <span class="ot">&lt;-</span> <span class="fu">plot</span>(Fhat, <span class="at">renderer =</span> <span class="st">"rgl"</span>, <span class="at">zlab =</span> <span class="st">"F(gdp|year)"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">theta =</span> <span class="dv">300</span>, <span class="at">phi =</span> <span class="dv">10</span>, <span class="at">data.rug =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Reuse its bandwidths to estimate a conditional quantile without a new search</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="co"># Use 0.25 for the conditional first quartile, and so forth.</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>Qhat <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(<span class="at">bws =</span> Fhat<span class="sc">$</span>bws, <span class="at">tau =</span> tau, <span class="at">data =</span> Italy_Updated)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional: plot(Qhat) draws the conditional quantile.</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(Qhat, gradients = TRUE) draws its marginal effect, \Delta Q / \Delta year.</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>year_grid <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="fu">ordered</span>(<span class="fu">levels</span>(Italy_Updated<span class="sc">$</span>year),</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">levels</span>(Italy_Updated<span class="sc">$</span>year)))</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>year_num <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(year_grid<span class="sc">$</span>year))</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>cond_quantile <span class="ot">&lt;-</span> <span class="fu">drop</span>(<span class="fu">predict</span>(Qhat, <span class="at">newdata =</span> year_grid))</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="do">## Trace the selected quantile at F = tau and project it onto the floor</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">plot3d</span>(widget)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">lines3d</span>(year_num, cond_quantile, <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"grey45"</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">lines3d</span>(year_num, cond_quantile, tau, <span class="at">color =</span> <span class="st">"grey45"</span>, <span class="at">lwd =</span> <span class="dv">1</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">rglwidget</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
