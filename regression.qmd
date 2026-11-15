@@ -9,12 +9,12 @@ keywords:
   - local constant
 ---
 
-This page provides working code that can be copied directly. The longer scripts
-remain available below, but the first goal is to let you run a useful example
-without downloading a bundle of files. These are teaching examples rather than
-attempts to reproduce published empirical estimates.
+Regression estimates the conditional mean $g(x)=E(Y\mid X=x)$. The examples
+below show local-constant and local-linear estimates of $g(x)$, followed by a
+mixed-data bandwidth workflow. They are teaching examples rather than
+reproductions of published empirical estimates.
 
-## A first regression example
+## A first conditional-mean example
 
 This is a streamlined version of
 [`regression_intro_a.R`](www/Regression/regression_intro_a.R). The bundled
@@ -23,7 +23,7 @@ Census Public Use Tapes. The data were supplied by Aman Ullah and are documented
 in Pagan and Ullah (1999).
 
 ```r
-## Load the package data, then fit local-constant and local-linear models
+## Estimate g(age) with local-constant and local-linear regressions
 library(np)
 data(cps71, package = "np")
 

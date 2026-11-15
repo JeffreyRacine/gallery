@@ -1,23 +1,21 @@
-## This is the serial version of npdeneqtest_npRmpi.R for comparison
-## purposes (bandwidth ought to be identical, timing may
-## differ). Study the differences between this file and its MPI
-## counterpart for insight about your own problems.
+## Serial counterpart to npdeneqtest_npRmpi.R.
+## The test results should agree; elapsed times may differ.
 
 library(np)
-options(np.messages=FALSE)
+options(np.messages = FALSE)
 
-## Generate some data
+## Draw two samples from the same reference density.
 
 set.seed(42)
 
 n <- 1000
 
-sample.A <- data.frame(x=rnorm(n))
-sample.B <- data.frame(x=rnorm(n))
+sample.A <- data.frame(x = rnorm(n))
+sample.B <- data.frame(x = rnorm(n))
 
-## A consistent density equality test example
+## Test whether the two samples have the same density.
 
-t <- system.time(output <- npdeneqtest(sample.A,sample.B,B=99))
+t <- system.time(output <- npdeneqtest(sample.A, sample.B, B = 99))
 
 output
 

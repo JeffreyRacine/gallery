@@ -1,12 +1,9 @@
-## Minimal np entropy/testing example.
-##
-## This uses the univariate density-equality test because it is a
-## compact, fast first run.
+## Test whether two univariate samples have the same density.
 
 library(np)
 options(np.messages = FALSE)
 
-## Generate two simple samples so the test output is easy to interpret.
+## Generate two samples from the same reference distribution.
 set.seed(1234)
 n <- 300
 x <- rnorm(n)

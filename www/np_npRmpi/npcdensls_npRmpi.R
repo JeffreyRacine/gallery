@@ -1,56 +1,51 @@
-## Make sure you have the .Rprofile file from npRmpi/inst/ in your
-## current directory or home directory. It is necessary.
-
-## To run this on systems with OPENMPI installed and working, try
-## mpirun -np 2 R CMD BATCH npcdensls_npRmpi. Check the time in the
-## output file foo.Rout (the name of this file with extension .Rout),
-## then try with, say, 4 processors and compare run time.
+## Manual-broadcast counterpart to npcdensls_serial.R.
+## Place npRmpi's installed Rprofile in the working or home directory.
+## Example: mpirun -np 2 R CMD BATCH npcdensls_npRmpi.R
 
 ## Initialize master and slaves.
 
 mpi.bcast.cmd(np.mpi.initialize(),
-              caller.execute=TRUE)
+              caller.execute = TRUE)
 
-## Turn off progress i/o as this clutters the output file (if you want
-## to see search progress you can comment out this command)
+## Suppress progress messages in batch output; remove this line to retain them.
 
-mpi.bcast.cmd(options(np.messages=FALSE),
-              caller.execute=TRUE)
+mpi.bcast.cmd(options(np.messages = FALSE),
+              caller.execute = TRUE)
 
-## Load your data and broadcast it to all slave nodes
+## Simulate correlated continuous data and broadcast the data frame.
 
 library(MASS)
 
 mpi.bcast.cmd(set.seed(42),
-              caller.execute=TRUE)
+              caller.execute = TRUE)
 
 n <- 500
 
 rho <- 0.25
-mu <- c(0,0)
-Sigma <- matrix(c(1,rho,rho,1),2,2)
-data <- mvrnorm(n=n, mu, Sigma)
-mydat <- data.frame(x=data[,2],y=data[,1])
+mu <- c(0, 0)
+Sigma <- matrix(c(1, rho, rho, 1), 2, 2)
+draws <- mvrnorm(n = n, mu, Sigma)
+mydat <- data.frame(x = draws[, 2], y = draws[, 1])
 
 mpi.bcast.Robj2slave(mydat)
 
-## A conditional density estimation example. 
+## Estimate f(y | x) using least-squares cross-validation.
 
-t <- system.time(mpi.bcast.cmd(bw <- npcdensbw(y~x,
-                                               bwmethod="cv.ls",
-                                               data=mydat),
-                               caller.execute=TRUE))
+t <- system.time(mpi.bcast.cmd(bw <- npcdensbw(y ~ x,
+                                               bwmethod = "cv.ls",
+                                               data = mydat),
+                               caller.execute = TRUE))
 
 summary(bw)
 
-t <- t + system.time(mpi.bcast.cmd(model <- npcdens(bws=bw),
-                                   caller.execute=TRUE))
+t <- t + system.time(mpi.bcast.cmd(model <- npcdens(bws = bw),
+                                   caller.execute = TRUE))
 
 summary(model)
 
 cat("Elapsed time =", t[3], "\n")
 
-## Clean up properly then quit()
+## Stop the MPI workers cleanly.
 
 mpi.bcast.cmd(mpi.quit(),
-              caller.execute=TRUE)
+              caller.execute = TRUE)

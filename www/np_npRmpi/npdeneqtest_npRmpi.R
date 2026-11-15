@@ -1,46 +1,40 @@
-## Make sure you have the .Rprofile file from npRmpi/inst/ in your
-## current directory or home directory. It is necessary.
-
-## To run this on systems with OPENMPI installed and working, try
-## mpirun -np 2 R CMD BATCH npdeneqtest_npRmpi. Check the time in the
-## output file foo.Rout (the name of this file with extension .Rout),
-## then try with, say, 4 processors and compare run time.
+## Manual-broadcast counterpart to npdeneqtest_serial.R.
+## Place npRmpi's installed Rprofile in the working or home directory.
+## Example: mpirun -np 2 R CMD BATCH npdeneqtest_npRmpi.R
 
 ## Initialize master and slaves.
 
 mpi.bcast.cmd(np.mpi.initialize(),
-              caller.execute=TRUE)
+              caller.execute = TRUE)
 
-## Turn off progress i/o as this clutters the output file (if you want
-## to see search progress you can comment out this command)
+## Suppress progress messages in batch output; remove this line to retain them.
 
-mpi.bcast.cmd(options(np.messages=FALSE),
-              caller.execute=TRUE)
+mpi.bcast.cmd(options(np.messages = FALSE),
+              caller.execute = TRUE)
 
-## Generate some data and broadcast it to all slaves (it will be known
-## to the master node)
+## Draw two samples from the same reference density, then broadcast them.
 
 mpi.bcast.cmd(set.seed(42),
-              caller.execute=TRUE)
+              caller.execute = TRUE)
 
 n <- 1000
 
-sample.A <- data.frame(x=rnorm(n))
-sample.B <- data.frame(x=rnorm(n))
+sample.A <- data.frame(x = rnorm(n))
+sample.B <- data.frame(x = rnorm(n))
 
 mpi.bcast.Robj2slave(sample.A)
 mpi.bcast.Robj2slave(sample.B)
 
-## A consistent density equality test example
+## Test whether the two samples have the same density.
 
-t <- system.time(mpi.bcast.cmd(output <- npdeneqtest(sample.A,sample.B,B=99),
-                               caller.execute=TRUE))
+t <- system.time(mpi.bcast.cmd(output <- npdeneqtest(sample.A, sample.B, B = 99),
+                               caller.execute = TRUE))
 
 output
 
 cat("Elapsed time =", t[3], "\n")
 
-## Clean up properly then quit()
+## Stop the MPI workers cleanly.
 
 mpi.bcast.cmd(mpi.quit(),
-              caller.execute=TRUE)
+              caller.execute = TRUE)

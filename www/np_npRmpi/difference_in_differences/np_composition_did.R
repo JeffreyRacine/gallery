@@ -9,8 +9,9 @@
 
 did_results <- local({
   if (!requireNamespace("np", quietly = TRUE) ||
-      utils::packageVersion("np") < "0.80.1")
+      utils::packageVersion("np") < "0.80.1") {
     stop("Install np 0.80-1 or later before running this example.")
+  }
   old_options <- options(np.messages = FALSE)
   on.exit(options(old_options))
   started <- proc.time()[["elapsed"]]
@@ -106,11 +107,11 @@ did_results <- local({
   fit_outcome <- function(i) {
     x <- make_x(i)
     y <- dat[[outcomes[i]]]
-    train <- lapply(1:4, function(g) which(cells[, g] == 1))
+    train <- lapply(seq_len(4), function(g) which(cells[, g] == 1))
     loo_fit <- function(theta, return_fit = FALSE) {
       predicted <- numeric(n)
       bandwidths <- vector("list", 4)
-      for (g in 1:4) {
+      for (g in seq_len(4)) {
         tr <- train[[g]]
         bw <- shared_bw(x[tr, , drop = FALSE], y[tr], theta)
         predicted[tr] <- as.numeric(np::npreghat(bws = bw,
@@ -118,33 +119,41 @@ did_results <- local({
         bandwidths[[g]] <- bw
       }
       stopifnot(all(is.finite(predicted)))
-      if (return_fit) list(loo = predicted, bws = bandwidths)
-      else mean((y - predicted)^2)
+      if (return_fit) {
+        list(loo = predicted, bws = bandwidths)
+      } else {
+        mean((y - predicted)^2)
+      }
     }
     decode <- function(z) c(exp(z[1]), plogis(z[2]))
-    evaluations <- list()
+    evaluation_log <- new.env(parent = emptyenv())
+    evaluation_log$values <- list()
     objective <- function(z) {
       theta <- decode(z)
-      condition <- ""
-      value <- tryCatch(loo_fit(theta), error = function(e) {
-        condition <<- conditionMessage(e)
-        NA_real_
-      })
+      result <- tryCatch(
+        list(value = loo_fit(theta), error = ""),
+        error = function(e) list(value = NA_real_, error = conditionMessage(e)))
+      value <- result$value
       feasible <- length(value) == 1L && is.finite(value)
-      evaluations[[length(evaluations) + 1L]] <<-
-        list(theta = theta, value = value, feasible = feasible, error = condition)
-      if (length(evaluations) %% 25L == 0L)
-        message("  outcome CV evaluations ", length(evaluations), ": ", signif(value, 6))
+      evaluation_log$values[[length(evaluation_log$values) + 1L]] <-
+        list(theta = theta, value = value, feasible = feasible, error = result$error)
+      if (length(evaluation_log$values) %% 25L == 0L) {
+        message("  outcome CV evaluations ", length(evaluation_log$values),
+          ": ", signif(value, 6))
+      }
       # Undefined search points are explicitly recorded and assigned the declared
       # infeasibility value. A failed final fit is never replaced or suppressed.
       if (feasible) value else 1e8
     }
     message("Outcome ", i, "/4 (", outcomes[i], "): pooled bandwidth selection")
     starts <- list(c(.8, .8), c(.35, .25))
-    runs <- lapply(starts, function(s) optim(c(log(s[1]), qlogis(s[2])), objective,
-      method = "Nelder-Mead", control = list(maxit = 250, reltol = 1e-7)))
-    eligible <- vapply(runs, function(r)
-      r$convergence == 0L && is.finite(r$value) && r$value < 1e8, logical(1))
+    runs <- lapply(starts, function(s) {
+      optim(c(log(s[1]), qlogis(s[2])), objective,
+        method = "Nelder-Mead", control = list(maxit = 250, reltol = 1e-7))
+    })
+    eligible <- vapply(runs, function(r) {
+      r$convergence == 0L && is.finite(r$value) && r$value < 1e8
+    }, logical(1))
     if (!any(eligible)) stop("No converged finite shared-bandwidth search for ", outcomes[i])
     j <- which(eligible)[which.min(vapply(runs[eligible], `[[`, numeric(1), "value"))]
     selected <- list(theta = decode(runs[[j]]$par), value = runs[[j]]$value,
@@ -159,11 +168,12 @@ did_results <- local({
       mu[te, g] <- as.numeric(fitted(np::npreg(bws = fit$bws[[g]],
         txdat = x[tr, , drop = FALSE], tydat = y[tr],
         exdat = x[te, , drop = FALSE], se = FALSE)))
-      if (any(!is.finite(mu[c(tr, te), g])))
+      if (any(!is.finite(mu[c(tr, te), g]))) {
         stop("Undefined required outcome prediction for ", outcomes[i], ", cell ", g)
+      }
     }
     list(mu = mu, bws = fit$bws, selection = selected, loo = fit$loo,
-         searches = runs, evaluations = evaluations)
+         searches = runs, evaluations = evaluation_log$values)
   }
 
   # D. Normalized composition-robust ATT and influence function, coded in R.
@@ -192,7 +202,7 @@ did_results <- local({
   # The first two outcomes use the same predictors and therefore the same PS fit.
   propensities <- list()
   fits <- vector("list", 4)
-  for (i in 1:4) {
+  for (i in seq_len(4)) {
     design <- if (i == 2L) 1L else i
     key <- as.character(design)
     if (is.null(propensities[[key]])) propensities[[key]] <- fit_propensity(design)
@@ -210,7 +220,7 @@ did_results <- local({
   B <- 9999L
   set.seed(1234)
   standard_error <- numeric(4)
-  for (i in 1:4) {
+  for (i in seq_len(4)) {
     lo <- (1 - sqrt(5)) / 2
     hi <- (1 + sqrt(5)) / 2
     multipliers <- matrix(ifelse(rbinom(max(cluster) * B, 1, hi / sqrt(5)) == 1,

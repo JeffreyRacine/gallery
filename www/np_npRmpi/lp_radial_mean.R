@@ -1,55 +1,30 @@
-## $Id: lp_radial_mean.R,v 1.4 2013/12/03 23:06:42 jracine Exp jracine $
-
-## We illustrate constrained kernel estimation using the local
-## polynomial estimator where the constraints are l(x) <= \hat g(x) <=
-## u(x) (see Du, P. and C. Parmeter and J.S. Racine (2013),
-## "Nonparametric Kernel Regression with Multiple Predictors and
-## Multiple Shape Constraints," Statistica Sinica, Volume 23, Number
-## 3, 1343-1372).
-
-## Load required packages, set options.
+## Constrain the conditional mean l(x) <= g(x) <= u(x) using the
+## weighting method of Du, Parmeter, and Racine (2013, Statistica Sinica).
 
 library(np)
 library(quadprog)
-options(np.tree="auto",np.messages=FALSE)
+options(np.tree = "auto", np.messages = FALSE)
 ## Current releases use "auto" to enable trees for Epanechnikov/uniform kernels.
 ## Use TRUE/FALSE only when assessing the impact for this problem.
 
-## Set the kernel function.
-
 ckertype <- "epanechnikov"
-
-## Set the order of the local polynomial
-
 p <- 1
 
-## Simulate a sample of data. We can control signal/noise ratio by
-## multiplying epsilon by sd(dgp), so rnorm(n,sd=...) can be set to
-## sd=(.25,.5,1,2) which would yield an R-squared for the Oracle model
-## of (.95,.8,.5,and .2).
-
+## Simulate a noisy radial conditional mean.
 n <- 2500
-x1 <- runif(n,-5,5)
-x2 <- runif(n,-5,5)
-y <- sin(sqrt(x1^2+x2^2))/sqrt(x1^2+x2^2) + rnorm(n,sd=.1)
+x1 <- runif(n, -5, 5)
+x2 <- runif(n, -5, 5)
+y <- sin(sqrt(x1^2 + x2^2)) / sqrt(x1^2 + x2^2) + rnorm(n, sd = .1)
 
-## X (data frame of regressors) and y are passed below, so if you add
-## extra regressors simply add them to X here and be done.
-
-X <- data.frame(x1,x2)
-formula.glp <- formula(y~x1+x2)
+X <- data.frame(x1, x2)
+formula.glp <- formula(y ~ x1 + x2)
 lp.data <- data.frame(y = y, X)
 
-## Set up bounds for the quadratic program. We are going to require
-## the lower and upper constraints l(x) and u(x) for g(x). Here they
-## are constant, but in general can depend on x.
+## These bounds are constant here, but l(x) and u(x) may vary with x.
+lower <- rep(-0.5, n)
+upper <- rep(0.5, n)
 
-lower <- rep(-0.5,n)
-upper <- rep(0.5,n)
-
-## Generate the cross-validated bandwidths optimal for the order of
-## the local polynomial at hand.
-
+## Select bandwidths for the specified local-polynomial degree.
 lp.bw <- npregbw(formula.glp,
   data = lp.data,
   regtype = "lp",
@@ -58,38 +33,29 @@ lp.bw <- npregbw(formula.glp,
   bernstein.basis = TRUE,
   ckertype = ckertype)
 
-## Use the helper to obtain the QP matrix t(H) * y directly.
-
+## npreghat() supplies A = t(H) * y for the constraint system.
 A <- npreghat(bws = lp.bw,
   txdat = X,
   y = y,
   output = "constraint")
-p.u <- rep(1,n)
+p.u <- rep(1, n)
 
-## Solve the quadratic program. The function solve.QP in the quadprog
-## package solves the problem min (p-p.u)'(p-p.u) subject to the
-## constraints Amat^T p >= bvec. Note that we construct Amat to
-## contain the constraints a) the weights sum to n (rep(1,n)), b) A^T
-## p >= lower, and c) -A^Tp >= -upper (here A^T = \hat g(x|p)). Note
-## that the argument meq=1 indicates that there is one equality
-## constraint which occurs in the first row of Amat.
+## Find weights nearest one subject to sum(p) = n and l <= A^T p <= u.
+p.hat <- solve.QP(Dmat = diag(n),
+                  dvec = p.u,
+                  Amat = cbind(p.u, A, -A),
+                  bvec = c(n, lower, -upper),
+                  meq = 1)$solution
 
-p.hat <- solve.QP(Dmat=diag(n),
-                  dvec=p.u,
-                  Amat=cbind(p.u,A,-A),
-                  bvec=c(n,lower,-upper),
-                  meq=1)$solution
+if (isTRUE(all.equal(p.u, p.hat))) warning("constraints not binding")
 
-if(!is.na(as.logical(all.equal(p.u,p.hat)))) warning(" constraints not binding")
-
-## Create plots - require evaluation data
-
+## Evaluate the unrestricted and constrained conditional means on a grid.
 n.eval <- 50
 
-x1.seq <- seq(min(x1),max(x1),length=n.eval)
-x2.seq <- seq(min(x2),max(x2),length=n.eval)
+x1.seq <- seq(min(x1), max(x1), length.out = n.eval)
+x2.seq <- seq(min(x2), max(x2), length.out = n.eval)
 
-X.eval <- expand.grid(x1=x2.seq,x2=x2.seq)
+X.eval <- expand.grid(x1 = x1.seq, x2 = x2.seq)
 
 H.eval <- npreghat(bws = lp.bw,
   txdat = X,
@@ -99,23 +65,21 @@ H.eval <- npreghat(bws = lp.bw,
 fit.unres <- drop(H.eval %*% y)
 fit.res <- drop(H.eval %*% (y * p.hat))
 
-## Plot the unrestricted and restricted fits
-
 fitted.unres <- matrix(fit.unres, n.eval, n.eval)
 fitted.res <- matrix(fit.res, n.eval, n.eval)
 
-## Next, create a 3D perspective plot of the PDF f
+zlim.res.unres <- c(min(fit.unres, fit.res), max(fit.unres, fit.res))
 
-zlim.unres <- c(min(fit.unres),max(fit.unres))
-zlim.res <- c(min(fit.res),max(fit.res))
-zlim.res.unres <- c(min(fit.unres,fit.res),max(fit.unres,fit.res))
-
-pdf(file="lp_radial_mean_unres.pdf")
-persp(x1.seq, x2.seq, fitted.unres, col="lightgrey", ticktype="detailed",
-           ylab="X2", xlab="X1", zlim=zlim.res.unres, zlab="Conditional Expectation", theta=300, phi=30)
+pdf(file = "lp_radial_mean_unres.pdf")
+persp(x1.seq, x2.seq, fitted.unres,
+  col = "lightgrey", ticktype = "detailed", xlab = "X1", ylab = "X2",
+  zlab = "Conditional expectation", zlim = zlim.res.unres,
+  theta = 300, phi = 30)
 dev.off()
 
-pdf(file="lp_radial_mean_res.pdf")
-persp(x1.seq, x2.seq, fitted.res, col="lightgrey", ticktype="detailed",
-           ylab="X2", xlab="X1", zlim=zlim.res.unres, zlab="Conditional Expectation", theta=300, phi=30)
+pdf(file = "lp_radial_mean_res.pdf")
+persp(x1.seq, x2.seq, fitted.res,
+  col = "lightgrey", ticktype = "detailed", xlab = "X1", ylab = "X2",
+  zlab = "Conditional expectation", zlim = zlim.res.unres,
+  theta = 300, phi = 30)
 dev.off()

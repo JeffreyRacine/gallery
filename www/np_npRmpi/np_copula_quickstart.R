@@ -1,7 +1,4 @@
-## Minimal np copula example.
-##
-## This uses the direct formula interface and lets npcopula() build
-## the corresponding marginal distribution bandwidth object internally.
+## Estimate a bivariate copula C(u1, u2) through the formula interface.
 
 library(np)
 library(MASS)

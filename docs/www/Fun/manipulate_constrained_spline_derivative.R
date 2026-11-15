@@ -1,190 +1,165 @@
-## $Id: manipulate_constrained_spline_derivative.R,v 1.13 2014/01/12 12:15:44 jracine Exp jracine $
+## Explore derivative-constrained regression splines while varying degree,
+## segments, derivative order, sample size, and constraint bounds.
+## The constraints follow Du, Parmeter and Racine (2013), Statistica Sinica.
 
-## This file uses the `manipulate' package to create a dynamic plot
-## with `sliders' where the user can set the spline degree, number of
-## segments frequency of the underlying DGP, number of observations,
-## and lower and upper bounds for the constrained estimator outlined
-## in Du, Parmeter and Racine (2013) "Nonparametric Kernel Regression
-## with Multiple Predictors and Multiple Shape Constraints"
-## (Statistica Sinica)
+library(manipulate)
+library(crs)
+library(quadprog)
 
-require(manipulate)
-require(crs)
-require(quadprog)
+## Refit and redraw the constrained spline after a control changes.
 
-## Call the manipulate function on a plot object
+manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lower, upper, deriv.order, which.plot, cv) {
 
-manipulate.plot <- function(n,spline.degree,spline.segments,dgp.frequency,lower,upper,deriv.order,which.plot,cv) {
-
-  if(lower > upper) {
+  if (lower > upper) {
     lower <- upper - 0.01
   }
 
-  if(identical(lower,upper)) {
-    lower <- upper -0.01
+  if (identical(lower, upper)) {
+    lower <- upper - 0.01
   }
 
   set.seed(42)
 
   x <- sort(runif(n))
-  dgp <- function(x) {sin(dgp.frequency*pi*x)}
-  dgp.partial.1 <- function(x) {dgp.frequency*pi*cos(dgp.frequency*pi*x)}
-  dgp.partial.2 <- function(x) {-dgp.frequency^2*pi^2*sin(dgp.frequency*pi*x)}    
-  y <- dgp(x) + rnorm(n,sd=.5*sd(dgp(x)))
+  dgp <- function(x) sin(dgp.frequency * pi * x)
+  dgp.partial.1 <- function(x) dgp.frequency * pi * cos(dgp.frequency * pi * x)
+  dgp.partial.2 <- function(x) -dgp.frequency^2 * pi^2 * sin(dgp.frequency * pi * x)
+  y <- dgp(x) + rnorm(n, sd = .5 * sd(dgp(x)))
 
-  ## For below y must be in the first column
+  data.train <- data.frame(y, x)
 
-  data.train <- data.frame(y,x)
+  rm(x, y)
 
-  rm(x,y)
+  ## Select or retain the spline degree and segment count.
+  if (cv) {
 
-  ## Estimate the unrestricted model.
-
-  if(cv) {
-
-    model.unres <- crs(y~x,
-                       degree=spline.degree,
-                       segments=spline.segments,
-                       nmulti=2,
-                       basis="tensor",
-                       data=data.train)
+    model.unres <- crs(y ~ x,
+                       degree = spline.degree,
+                       segments = spline.segments,
+                       nmulti = 2,
+                       basis = "tensor",
+                       data = data.train)
 
     spline.degree <- model.unres$degree
     spline.segments <- model.unres$segments
 
   } else {
 
-    model.unres <- crs(y~x,
-                       cv="none",
-                       degree=spline.degree,
-                       segments=spline.segments,
-                       basis="tensor",
-                       data=data.train)
+    model.unres <- crs(y ~ x,
+                       cv = "none",
+                       degree = spline.degree,
+                       segments = spline.segments,
+                       basis = "tensor",
+                       data = data.train)
   }
 
-  if(which.plot=="Conditional mean and Partial derivative") {
-    par(mfrow=c(2,1))
+  if (which.plot == "Conditional mean and Partial derivative") {
+    par(mfrow = c(2, 1))
   } else {
-    par(mfrow=c(1,1))
+    par(mfrow = c(1, 1))
   }
 
-  ## Estimate the unrestricted model
+  ## Refit once with the requested derivative operator.
+  model.unres <- crs(y ~ x,
+                     cv = "none",
+                     deriv = deriv.order,
+                     degree = spline.degree,
+                     segments = spline.segments,
+                     basis = "tensor",
+                     data = data.train)
 
-  model.unres <- crs(y~x,
-                     cv="none",
-                     deriv=deriv.order,
-                     degree=spline.degree,
-                     segments=spline.segments,
-                     basis="tensor",
-                     data=data.train)
+  ## crshat() returns t(H_s) * y for the derivative constraints.
+  Aymat <- crshat(model.unres, y = data.train$y, output = "constraint",
+                  deriv = deriv.order, deriv.index = 1)
 
-  ## Grab the derivative
-
-  model.gradient.unres <- model.unres$deriv.mat
-
-  ## Get the response-scaled derivative constraint operator directly.
-  
-  Aymat <- crshat(model.unres, y=data.train$y, output="constraint",
-                  deriv=deriv.order, deriv.index=1)
-  
-  ## Solve the quadratic programming problem
-
-  QP.output <- solve.QP(Dmat=diag(n),
-                        dvec=rep(1,n),
-                        Amat=cbind(Aymat,-Aymat),
-                        bvec=c(rep(lower,n),-rep(upper,n)))
-
-  ## Get the solution and update the uniform weights
+  ## Find response weights satisfying lower <= g^(s)(x) <= upper.
+  QP.output <- solve.QP(Dmat = diag(n),
+                        dvec = rep(1, n),
+                        Amat = cbind(Aymat, -Aymat),
+                        bvec = c(rep(lower, n), -rep(upper, n)))
 
   p.hat <- QP.output$solution
 
-  ## Estimate the restricted model
+  ## Refit with the constrained response weights.
+  data.trans <- data.frame(y = p.hat * data.train$y, data.train[, 2:ncol(data.train), drop = FALSE])
 
-  data.trans <- data.frame(y=p.hat*data.train$y,data.train[,2:ncol(data.train),drop=FALSE])
+  model.res <- crs(y ~ x, cv = "none",
+                   deriv = deriv.order,
+                   degree = model.unres$degree,
+                   segments = model.unres$segments,
+                   basis = model.unres$basis,
+                   data = data.trans)
 
-  model.res <- crs(y~x,cv="none",
-                   deriv=deriv.order,
-                   degree=model.unres$degree,
-                   segments=model.unres$segments,
-                   basis=model.unres$basis,                                  
-                   data=data.trans)
-  
-  ## Plot the dgp, restricted, and unrestricted models
-  
-  if(which.plot=="Conditional mean" || which.plot=="Conditional mean and Partial derivative") {
+  ## Compare the true, unrestricted, and constrained objects.
+  if (which.plot == "Conditional mean" || which.plot == "Conditional mean and Partial derivative") {
 
-    ylim <- with(data.train,c(min(y,dgp(x),fitted(model.unres),fitted(model.res)),
-                              max(y,dgp(x),fitted(model.unres),fitted(model.res))))
-    
-    with(data.train,plot(x,y,
-                         cex=0.25,
-                         col="lightgrey",
-                         ylab="Y",
-                         xlab="X",
-                         ylim=ylim,
-                         main="Constrained B-spline Regression",
-                         sub=paste("Spline degree = ",spline.degree,", spline segments = ",spline.segments,", n = ",n,", upper = ",formatC(upper,format="f",digits=1),", lower = ",formatC(lower,format="f",digits=1),sep="")))
-    
-    with(data.train,lines(x,dgp(x),lty=1,col=1))
-    
+    ylim <- with(data.train, c(min(y, dgp(x), fitted(model.unres), fitted(model.res)),
+                              max(y, dgp(x), fitted(model.unres), fitted(model.res))))
+
+    with(data.train, plot(x, y,
+                         cex = 0.25,
+                         col = "lightgrey",
+                         ylab = "Y",
+                         xlab = "X",
+                         ylim = ylim,
+                         main = "Constrained B-spline Regression",
+                         sub = paste("Spline degree = ", spline.degree, ", spline segments = ", spline.segments, ", n = ", n, ", upper = ", formatC(upper, format = "f", digits = 1), ", lower = ", formatC(lower, format = "f", digits = 1), sep = "")))
+
+    with(data.train, lines(x, dgp(x), lty = 1, col = 1))
+
     legend("topleft",
-           c(paste("DGP: sin(",dgp.frequency,"*pi*x)",sep=""),"Unconstrained Estimate","Constrained Estimate"),
-           col=c(1,2,4),
-           lwd=c(1,2,2),
-           lty=c(1,2,4),
-           cex=0.75,
-           bty="n")
-    
-    with(data.train,lines(x,fitted(model.unres),lty=2,col=2,lwd=2))
-    with(data.train,lines(x,fitted(model.res),col=4,lty=4,lwd=2))
-         
+           c(paste("DGP: sin(", dgp.frequency, "*pi*x)", sep = ""), "Unconstrained Estimate", "Constrained Estimate"),
+           col = c(1, 2, 4),
+           lwd = c(1, 2, 2),
+           lty = c(1, 2, 4),
+           cex = 0.75,
+           bty = "n")
+
+    with(data.train, lines(x, fitted(model.unres), lty = 2, col = 2, lwd = 2))
+    with(data.train, lines(x, fitted(model.res), col = 4, lty = 4, lwd = 2))
+
   }
 
-  if(which.plot=="Partial derivative" || which.plot=="Conditional mean and Partial derivative") {
+  if (which.plot == "Partial derivative" || which.plot == "Conditional mean and Partial derivative") {
 
-    if(deriv.order==1) {
-      deriv.vec <- with(data.train,dgp.partial.1(x))
+    if (deriv.order == 1) {
+      deriv.vec <- with(data.train, dgp.partial.1(x))
     } else {
-      deriv.vec <- with(data.train,dgp.partial.2(x))
+      deriv.vec <- with(data.train, dgp.partial.2(x))
     }
 
-    ylim=c(min(deriv.vec,model.unres$deriv.mat[,1],model.res$deriv.mat[,1]),
-      max(deriv.vec,model.unres$deriv.mat[,1],model.res$deriv.mat[,1]))
-    
-    with(data.train,plot(x,deriv.vec,
-                         ylab="Derivative",
-                         xlab="X",
-                         ylim=ylim,
-                         main="Constrained B-spline Derivative",
-                         sub=paste("Spline degree = ",spline.degree,", spline segments = ",spline.segments,", n = ",n,", upper = ",formatC(upper,format="f",digits=2),", lower = ",formatC(lower,format="f",digits=2),sep=""),type="l",lty=1,col=1))
-    
-    with(data.train,lines(x,model.unres$deriv.mat[,1],lty=2,col=2),lwd=2)
-    with(data.train,lines(x,model.res$deriv.mat[,1],lty=4,col=4),lwd=2)    
+    ylim <- c(min(deriv.vec, model.unres$deriv.mat[, 1], model.res$deriv.mat[, 1]),
+      max(deriv.vec, model.unres$deriv.mat[, 1], model.res$deriv.mat[, 1]))
 
-    if(deriv.order==0) {
-      abline(h=lower,lty=2,col=1)
-      abline(h=upper,lty=2,col=1)
-    }
-    
+    with(data.train, plot(x, deriv.vec,
+                         ylab = "Derivative",
+                         xlab = "X",
+                         ylim = ylim,
+                         main = "Constrained B-spline Derivative",
+                         sub = paste("Spline degree = ", spline.degree, ", spline segments = ", spline.segments, ", n = ", n, ", upper = ", formatC(upper, format = "f", digits = 2), ", lower = ", formatC(lower, format = "f", digits = 2), sep = ""), type = "l", lty = 1, col = 1))
+
+    with(data.train, lines(x, model.unres$deriv.mat[, 1], lty = 2, col = 2, lwd = 2))
+    with(data.train, lines(x, model.res$deriv.mat[, 1], lty = 4, col = 4, lwd = 2))
+
     legend("topleft",
-           c(paste("True Derivative (order ",deriv.order,")",sep=""),"Unconstrained Derivative","Constrained Derivative"),
-           col=c(1,2,4),
-           lwd=c(1,2,2),
-           lty=c(1,2,4),
-           cex=0.75,
-           bty="n")
+           c(paste("True Derivative (order ", deriv.order, ")", sep = ""), "Unconstrained Derivative", "Constrained Derivative"),
+           col = c(1, 2, 4),
+           lwd = c(1, 2, 2),
+           lty = c(1, 2, 4),
+           cex = 0.75,
+           bty = "n")
 
   }
 
 }
 
-manipulate(manipulate.plot(n,spline.degree,spline.segments,dgp.frequency,lower,upper,deriv.order,which.plot,cv),
-           n=slider(100,1000,500,step=100,label="Number of observations"),
-           deriv.order=picker(1,2,label="Order of derivative"),
-           which.plot=picker("Conditional mean","Partial derivative","Conditional mean and Partial derivative",label="Function to plot"),           
-           dgp.frequency=slider(1,4,2,label="DGP frequency (a*pi*x)",step=1,ticks=TRUE),
-           spline.degree=slider(0,10,5,label="B-spline degree",step=1,ticks=TRUE),
-           spline.segments=slider(1,10,2,label="B-spline segments",step=1,ticks=TRUE),
-           lower=slider(-150,150,-10,step=1,label="Lower bound"),
-           upper=slider(-150,150,10,step=1,label="Upper bound"),
-           cv=checkbox(FALSE, "Cross-validate smoothing parameters"))
+manipulate(manipulate.plot(n, spline.degree, spline.segments, dgp.frequency, lower, upper, deriv.order, which.plot, cv),
+           n = slider(100, 1000, 500, step = 100, label = "Number of observations"),
+           deriv.order = picker(1, 2, label = "Order of derivative"),
+           which.plot = picker("Conditional mean", "Partial derivative", "Conditional mean and Partial derivative", label = "Function to plot"),
+           dgp.frequency = slider(1, 4, 2, label = "DGP frequency (a*pi*x)", step = 1, ticks = TRUE),
+           spline.degree = slider(0, 10, 5, label = "B-spline degree", step = 1, ticks = TRUE),
+           spline.segments = slider(1, 10, 2, label = "B-spline segments", step = 1, ticks = TRUE),
+           lower = slider(-150, 150, -10, step = 1, label = "Lower bound"),
+           upper = slider(-150, 150, 10, step = 1, label = "Upper bound"),
+           cv = checkbox(FALSE, "Cross-validate smoothing parameters"))

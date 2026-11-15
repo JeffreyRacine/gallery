@@ -14,7 +14,7 @@ options(np.messages = FALSE)
 d <- read.csv(paste0(
   "https://raw.githubusercontent.com/nppackages/nprobust/",
   "dfcb562d34822c75528c1c2d8a5a153be6b3a683/R/nprobust_data.csv"))
-stopifnot(all(complete.cases(d[c("t", "chol1", "cholf")])) , all(d$t %in% 0:1))
+stopifnot(all(complete.cases(d[c("t", "chol1", "cholf")])), all(d$t %in% 0:1))
 grid <- seq(250, 350, by = 5) # Fixed 21-point target; no continuum-coverage claim.
 
 # A. Author-package fits and their full robust covariance across the grid.
@@ -25,8 +25,10 @@ author <- lapply(0:1, function(arm) {
 })
 author_tau <- author[[2]]$Estimate[, "tau.bc"] - author[[1]]$Estimate[, "tau.bc"]
 author_V <- author[[1]]$cov.rb + author[[2]]$cov.rb # independent randomized arms
-bandwidths <- do.call(rbind, lapply(0:1, function(arm) data.frame(arm,
-  x = grid, h = author[[arm + 1]]$Estimate[, "h"], b = author[[arm + 1]]$Estimate[, "b"])))
+bandwidths <- do.call(rbind, lapply(0:1, function(arm) {
+  data.frame(arm,
+    x = grid, h = author[[arm + 1]]$Estimate[, "h"], b = author[[arm + 1]]$Estimate[, "b"])
+}))
 
 # B. Public npreg calls for point and pilot fits; explicit CCF HC0 covariance.
 # Helpers are included so this script has no local-file dependencies.
@@ -88,8 +90,10 @@ checks <- list()
 for (arm in 0:1) {
   use <- d$t == arm
   ref <- author[[arm + 1]]$Estimate
-  fits <- lapply(seq_along(grid), function(j) np_rbc_hc0(
-    d$chol1[use], d$cholf[use], grid[j], h = ref[j, "h"], b = ref[j, "b"]))
+  fits <- lapply(seq_along(grid), function(j) {
+    np_rbc_hc0(
+      d$chol1[use], d$cholf[use], grid[j], h = ref[j, "h"], b = ref[j, "b"])
+  })
   np_fits[[arm + 1]] <- t(vapply(fits, function(z) c(z$estimate, z$corrected, z$se, z$se_rb), numeric(4)))
   colnames(np_fits[[arm + 1]]) <- c("tau.us", "tau.bc", "se.us", "se.rb")
   np_cov[[arm + 1]] <- tcrossprod(do.call(rbind, lapply(fits, `[[`, "influence")))
@@ -110,10 +114,12 @@ np_cal <- grid_max_t(np_V, np_tau)
 stopifnot(abs(author_cal$critical - np_cal$critical) < 1e-7,
           abs(author_cal$statistic - np_cal$statistic) < 1e-7,
           author_cal$p == np_cal$p)
-band <- function(tau, cal) data.frame(x = grid, estimate = tau, se = cal$se,
-  point_lower = tau - qnorm(.975) * cal$se, point_upper = tau + qnorm(.975) * cal$se,
-  simultaneous_lower = tau - cal$critical * cal$se,
-  simultaneous_upper = tau + cal$critical * cal$se)
+band <- function(tau, cal) {
+  data.frame(x = grid, estimate = tau, se = cal$se,
+    point_lower = tau - qnorm(.975) * cal$se, point_upper = tau + qnorm(.975) * cal$se,
+    simultaneous_lower = tau - cal$critical * cal$se,
+    simultaneous_upper = tau + cal$critical * cal$se)
+}
 author_band <- band(author_tau, author_cal)
 np_band <- band(np_tau, np_cal)
 stopifnot(max(abs(as.matrix(author_band - np_band))) < 1e-7)
@@ -130,30 +136,34 @@ cholesterol_results <- list(data = d, author = author, bandwidths = bandwidths,
   author_band = author_band, np_band = np_band, checks = checks, joint_test = test,
   session_info = sessionInfo())
 
-if (interactive() || dev.cur() > 1L) local({
-  old_par <- par(no.readonly = TRUE)
-  on.exit(par(old_par))
-  par(mfrow = c(1, 2), mar = c(5.1, 5.0, 3.4, 1.0), oma = c(2.7, 0, 0, 0))
-  limits <- range(author_band[c("simultaneous_lower", "simultaneous_upper")], 0)
-  for (s in 1:2) {
-    tab <- list(author_band, np_band)[[s]]
-    plot(grid, tab$estimate, type = "n", ylim = limits,
-         xlab = "Pre-treatment cholesterol", ylab = "Treatment minus control (cholesterol points)",
-         main = c("nprobust + joint calibration", "npreg + explicit covariance")[s])
-    polygon(c(grid, rev(grid)), c(tab$simultaneous_lower, rev(tab$simultaneous_upper)),
-            col = adjustcolor("#2667A5", .16), border = NA)
-    abline(h = 0, col = "grey50", lty = 3)
-    lines(grid, tab$point_lower, col = "#2667A5", lty = 2)
-    lines(grid, tab$point_upper, col = "#2667A5", lty = 2)
-    lines(grid, tab$estimate, col = "#174970", lwd = 2.5)
-    points(grid, tab$estimate, col = "#174970", pch = 16, cex = .45)
-    legend("topright", c("Bias-corrected effect", "95% pointwise intervals", "95% simultaneous on grid"),
-           col = c("#174970", "#2667A5", adjustcolor("#2667A5", .25)),
-           lty = c(1, 2, 1), lwd = c(2.5, 1, 9), bty = "n", cex = .8)
-  }
-  mtext(sprintf("21 fixed points, 250 to 350; joint critical value %.3f (pointwise: 1.960)", np_cal$critical),
-        side = 1, outer = TRUE, line = .15, cex = .85)
-  mtext("Shading joins grid intervals for display; coverage between grid points is not asserted.",
-        side = 1, outer = TRUE, line = 1.25, cex = .82)
-}) else message('Run source("cholesterol_simultaneous.R") in R or RStudio to display the figure.')
+if (interactive() || dev.cur() > 1L) {
+  local({
+    old_par <- par(no.readonly = TRUE)
+    on.exit(par(old_par))
+    par(mfrow = c(1, 2), mar = c(5.1, 5.0, 3.4, 1.0), oma = c(2.7, 0, 0, 0))
+    limits <- range(author_band[c("simultaneous_lower", "simultaneous_upper")], 0)
+    for (s in seq_len(2)) {
+      tab <- list(author_band, np_band)[[s]]
+      plot(grid, tab$estimate, type = "n", ylim = limits,
+        xlab = "Pre-treatment cholesterol", ylab = "Treatment minus control (cholesterol points)",
+        main = c("nprobust + joint calibration", "npreg + explicit covariance")[s])
+      polygon(c(grid, rev(grid)), c(tab$simultaneous_lower, rev(tab$simultaneous_upper)),
+        col = adjustcolor("#2667A5", .16), border = NA)
+      abline(h = 0, col = "grey50", lty = 3)
+      lines(grid, tab$point_lower, col = "#2667A5", lty = 2)
+      lines(grid, tab$point_upper, col = "#2667A5", lty = 2)
+      lines(grid, tab$estimate, col = "#174970", lwd = 2.5)
+      points(grid, tab$estimate, col = "#174970", pch = 16, cex = .45)
+      legend("topright", c("Bias-corrected effect", "95% pointwise intervals", "95% simultaneous on grid"),
+        col = c("#174970", "#2667A5", adjustcolor("#2667A5", .25)),
+        lty = c(1, 2, 1), lwd = c(2.5, 1, 9), bty = "n", cex = .8)
+    }
+    mtext(sprintf("21 fixed points, 250 to 350; joint critical value %.3f (pointwise: 1.960)", np_cal$critical),
+      side = 1, outer = TRUE, line = .15, cex = .85)
+    mtext("Shading joins grid intervals for display; coverage between grid points is not asserted.",
+      side = 1, outer = TRUE, line = 1.25, cex = .82)
+  })
+} else {
+  message('Run source("cholesterol_simultaneous.R") in R or RStudio to display the figure.')
+}
 invisible(cholesterol_results)

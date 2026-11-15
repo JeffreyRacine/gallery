@@ -113,6 +113,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -434,6 +463,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#why-kernel-methods" id="toc-why-kernel-methods" class="nav-link active" data-scroll-target="#why-kernel-methods">Why kernel methods?</a></li>
+  <li><a href="#begin-with-the-statistical-object" id="toc-begin-with-the-statistical-object" class="nav-link" data-scroll-target="#begin-with-the-statistical-object">Begin with the statistical object</a></li>
   <li><a href="#why-np-is-different-from-a-basic-kernel-smoother" id="toc-why-np-is-different-from-a-basic-kernel-smoother" class="nav-link" data-scroll-target="#why-np-is-different-from-a-basic-kernel-smoother">Why <code>np</code> is different from a basic kernel smoother</a></li>
   <li><a href="#the-primacy-of-the-bandwidth" id="toc-the-primacy-of-the-bandwidth" class="nav-link" data-scroll-target="#the-primacy-of-the-bandwidth">The primacy of the bandwidth</a></li>
   <li><a href="#why-inspect-the-bandwidth-object" id="toc-why-inspect-the-bandwidth-object" class="nav-link" data-scroll-target="#why-inspect-the-bandwidth-object">Why inspect the bandwidth object?</a></li>
@@ -481,11 +511,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This primer focuses on what makes the <code>np</code> approach distinctive, how its workflow is organized, and what to keep in mind when working with mixed data.</p>
+<p>This primer introduces mixed-data kernels, bandwidth selection, and the fitted objects used throughout <code>np</code>.</p>
 <section id="why-kernel-methods" class="level2">
 <h2 class="anchored" data-anchor-id="why-kernel-methods">Why kernel methods?</h2>
 <p>Kernel methods are attractive because they can reveal structure that a rigid parametric model may miss. The cost, of course, is that they are often computationally more demanding than the parametric alternative.</p>
 <p>For <code>np</code>, the important point is not just that the methods are nonparametric, but that they are built to handle the mix of continuous, unordered, and ordered data that often appears in applied work.</p>
+</section>
+<section id="begin-with-the-statistical-object" class="level2">
+<h2 class="anchored" data-anchor-id="begin-with-the-statistical-object">Begin with the statistical object</h2>
+<p>The main functions differ by the population object they estimate:</p>
+<p><span class="math display">\[
+g(x)=E(Y\mid X=x), \qquad f(y\mid x), \qquad
+F(y\mid x), \qquad Q_\tau(x)=F^{-1}(\tau\mid x).
+\]</span></p>
+<p>Here <code>npreg()</code> estimates the conditional mean, <code>npcdens()</code> the conditional density, <code>npcdist()</code> the conditional distribution, and <code>npqreg()</code> a conditional quantile. Their bandwidth objects record how the corresponding unknown function is smoothed.</p>
 </section>
 <section id="why-np-is-different-from-a-basic-kernel-smoother" class="level2">
 <h2 class="anchored" data-anchor-id="why-np-is-different-from-a-basic-kernel-smoother">Why <code>np</code> is different from a basic kernel smoother</h2>
@@ -546,11 +585,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Build and fit the mixed-data regression using those classes</span></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>bw <span class="ot">&lt;-</span> <span class="fu">npregbw</span>(y <span class="sc">~</span> x_cont <span class="sc">+</span> x_unordered <span class="sc">+</span> x_ordered, <span class="at">data =</span> mydat)</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">npreg</span>(<span class="at">bws =</span> bw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The same formula syntax is used, but the estimator is not fitting a linear-additive model in the parametric sense. The formula is simply the interface for specifying which variable is the response and which are the covariates.</p>
+<p>The formula identifies the response and covariates; it does not impose a linear-additive parametric model.</p>
 </section>
 <section id="formula-interface-versus-data-frame-interface" class="level2">
 <h2 class="anchored" data-anchor-id="formula-interface-versus-data-frame-interface">Formula interface versus data-frame interface</h2>
-<p><code>np</code> supports both. The formula interface is often the easiest to read:</p>
+<p><code>np</code> supports both. The formula interface is often the more concise:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## The same modeling interface works directly through a formula and data frame</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>bw <span class="ot">&lt;-</span> <span class="fu">npregbw</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3, <span class="at">data =</span> mydat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The data-frame interface is also available and can feel more natural in some workflows:</p>
@@ -618,6 +657,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For a numeric predictor <span class="math inline">\(x_j\)</span>, a first-order regression gradient is <span class="math inline">\(\beta_j(x)=\partial g(x)/\partial x_j\)</span>. For an unordered factor it is the contrast with the first retained level; for an ordered factor it is an adjacent-level difference. These categorical effects are denoted <span class="math inline">\(\Delta_j g(x)\)</span> rather than derivatives.</p>
 </section>
 <section id="what-to-read-next" class="level2">
 <h2 class="anchored" data-anchor-id="what-to-read-next">What to read next</h2>

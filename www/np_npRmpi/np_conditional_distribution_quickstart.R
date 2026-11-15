@@ -1,12 +1,9 @@
-## Minimal np conditional-distribution example.
-##
-## This uses a small first run so the standard two-step workflow stays
-## copyable and practical.
+## Estimate the conditional distribution F(y | x).
 
 library(np)
 options(np.messages = FALSE)
 
-## Work on a smaller slice so the first run stays easy to inspect.
+## Use a smaller slice to keep the first bandwidth search brief.
 data(faithful, package = "datasets")
 dat <- faithful[seq_len(120), c("eruptions", "waiting")]
 

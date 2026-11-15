@@ -8,11 +8,13 @@ keywords:
   - lower-level np
 ---
 
-One of the more underappreciated pieces of the `np` package is `npksum`. It is not just another user-facing estimator. It is a lower-level kernel-sum engine that lets you build custom estimators, tests, and related quantities without dropping immediately into C.
+`npksum()` evaluates kernel-weighted sums that can be combined into custom
+estimators and test statistics without dropping immediately into C.
 
 ## Why `npksum` matters
 
-The higher-level functions in `np` are convenient, but sometimes you want to construct something more specialized. `npksum` exists for that purpose.
+Use it when the required object is not already exposed by a higher-level
+estimator.
 
 In practice, it can be used to:
 
@@ -23,7 +25,14 @@ In practice, it can be used to:
 
 ## A simple local-constant example
 
-A concise illustration recovers a local-constant estimator directly from kernel sums.
+A concise illustration recovers the local-constant conditional-mean estimator
+
+$$
+\widehat g(x)=
+\frac{\sum_i K_h(x-X_i)Y_i}{\sum_i K_h(x-X_i)}
+$$
+
+from two kernel sums.
 
 ```r
 ## Recover a local-constant fit directly from the underlying kernel sums
@@ -39,7 +48,8 @@ plot(cps71$age, cps71$logwage, xlab = "Age", ylab = "log(wage)", cex = 0.1)
 lines(cps71$age, fit_lc, col = "blue")
 ```
 
-This is useful because it makes the estimator construction visible rather than hiding everything inside a higher-level call.
+The numerator is a response-weighted kernel sum; the denominator normalizes the
+weights at each evaluation point.
 
 Numeric `bws` input is materialized against the supplied data before dispatch.
 This matters for custom mixed-data calculations: continuous, unordered, and
@@ -48,9 +58,8 @@ as a default all-continuous bandwidth object.
 
 ## What to keep in mind
 
-`npksum` is flexible, but that flexibility comes with responsibility. Once you leave the higher-level wrappers, you are taking on more of the estimator design yourself.
-
-That means:
+`npksum()` supplies kernel sums rather than a complete estimator. A custom
+construction should therefore:
 
 - check your variable classes,
 - check your bandwidth choices,
@@ -61,19 +70,12 @@ That means:
 
 Use it when:
 
-- the packaged high-level functions already do what you need, but you want to understand the kernel-sum structure more directly,
 - you are prototyping a custom estimator or test,
-- you want to teach the mechanics of kernel methods,
-- you need a building block rather than a full canned procedure.
+- you need direct access to weighted kernel sums,
+- you want to expose the mechanics of a standard kernel estimator.
 
-Do not use it just to make a standard workflow harder than it needs to be. If `npreg`, `npudens`, `npcdens`, and the other higher-level functions already solve your problem cleanly, use them.
-
-## A good mental model
-
-Think of `npksum` as the “toolbox function” rather than the “applied workflow function”.
-
-- `npreg`, `npudens`, `npqreg`, `npplreg`, and so forth are what most users should start with.
-- `npksum` is what you reach for when you want to build something yourself.
+For standard estimation, prefer higher-level functions such as `npreg()`,
+`npudens()`, `npcdens()`, and `npqreg()`.
 
 ## Related material
 

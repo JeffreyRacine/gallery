@@ -1,7 +1,4 @@
-## Minimal np smooth-resampling example.
-##
-## This draws a smooth resample from a fitted unconditional density by
-## resampling observations and then drawing from the associated kernel.
+## Draw a smooth resample from a fitted unconditional density f(y).
 
 library(np)
 options(np.messages = FALSE)
@@ -11,7 +8,7 @@ data(faithful, package = "datasets")
 dat <- faithful[seq_len(120), "waiting", drop = FALSE]
 
 ## Fit the original density on a compact sample.
-bw <- npudensbw(~ waiting, data = dat, bwmethod = "cv.ml")
+bw <- npudensbw(~waiting, data = dat, bwmethod = "cv.ml")
 fit <- npudens(bws = bw, data = dat)
 
 n <- nrow(dat)

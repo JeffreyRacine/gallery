@@ -8,10 +8,8 @@ data(Italy, package = "np")
 class(Italy$year)
 
 # Re-express the same displayed years as numeric for comparison.
-italy_numeric <- transform(
-  Italy,
-  year = as.numeric(as.character(year))
-)
+italy_numeric <- transform(Italy,
+  year = as.numeric(as.character(year)))
 class(italy_numeric$year)
 
 fit_ordered <- npreg(gdp ~ year, data = Italy)

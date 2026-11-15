@@ -113,6 +113,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -481,7 +510,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This page collects the practical tuning advice for <code>crs</code>: what to do when search is expensive, when the chosen spline is rougher than you expected, and how to impose a narrower search when that is scientifically warranted.</p>
+<p>This page describes the principal <code>crs</code> controls for search cost, smoothness, degree, and knot placement. Narrow the search only when the resulting spline class remains appropriate for the statistical problem.</p>
 <section id="why-can-the-search-take-time" class="level2">
 <h2 class="anchored" data-anchor-id="why-can-the-search-take-time">Why can the search take time?</h2>
 <p><code>crs</code> is often searching over:</p>
@@ -491,7 +520,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>basis type,</li>
 <li>categorical handling.</li>
 </ul>
-<p>So if a run feels slow, the first question is not “is something broken?” but rather “how large is the search space I asked for?”</p>
+<p>Runtime therefore depends on the size of the requested search space as well as the sample and basis dimensions.</p>
 </section>
 <section id="if-the-search-still-feels-long" class="level2">
 <h2 class="anchored" data-anchor-id="if-the-search-still-feels-long">If the search still feels long</h2>
@@ -510,9 +539,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="memory-control-during-search" class="level2">
 <h2 class="anchored" data-anchor-id="memory-control-during-search">Memory control during search</h2>
-<p>If the spline basis can become very large, one practical control is to restrict the minimum degrees of freedom the search is allowed to approach.</p>
-<p>In <code>crs</code>, that means looking at <code>cv.df.min</code>.</p>
-<p>The practical interpretation is simple: if the unrestricted search can wander into absurdly large bases, use <code>cv.df.min</code> to keep the search in a region that is computationally defensible.</p>
+<p>If the spline basis can become very large, <code>cv.df.min</code> can restrict the search to a computationally defensible region by imposing a minimum residual degrees of freedom.</p>
 </section>
 <section id="reduce-the-search-space-deliberately" class="level2">
 <h2 class="anchored" data-anchor-id="reduce-the-search-space-deliberately">Reduce the search space deliberately</h2>
@@ -523,27 +550,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>use <code>complexity = "degree"</code> or another narrower search,</li>
 <li>use <code>basis = "additive"</code> when additivity is a defensible restriction.</li>
 </ul>
-<p>That last option can reduce the combinatorics materially, but of course it changes the model class, so it should be a modeling decision and not just a computational trick.</p>
+<p>The additive basis can reduce the combinatorics materially, but it changes the model class and should be used only when additivity is defensible.</p>
 </section>
 <section id="what-if-the-fitted-spline-is-not-smooth-enough" class="level2">
 <h2 class="anchored" data-anchor-id="what-if-the-fitted-spline-is-not-smooth-enough">What if the fitted spline is not smooth enough?</h2>
-<p>Cross-validation can legitimately choose a rougher spline than you expected. That is not a bug. It is the optimizer doing what the criterion asked for.</p>
-<p>If you want a smoother object, one honest way to do it is to impose a minimum degree:</p>
+<p>Cross-validation may select a rougher spline than anticipated because that candidate minimizes the chosen criterion over the stated search space.</p>
+<p>Impose a minimum degree when the scientific problem requires a smoother spline:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Impose a minimum spline degree when you want a smoother fitted object</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">crs</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">degree.min =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>That is cleaner than pretending the cross-validated solution was wrong while silently using a different one.</p>
+<p>This makes the smoothness restriction explicit in the fitted model.</p>
 </section>
 <section id="can-crs-mimic-a-cubic-smoothing-spline-style-search" class="level2">
 <h2 class="anchored" data-anchor-id="can-crs-mimic-a-cubic-smoothing-spline-style-search">Can <code>crs</code> mimic a cubic smoothing-spline style search?</h2>
-<p>Yes. If you want to hold degree fixed and optimize knot structure instead, a practical route is:</p>
+<p>Hold degree fixed and optimize knot structure with:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Hold the degree fixed and let the knot search do the work</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">crs</span>(y <span class="sc">~</span> x1, <span class="at">complexity =</span> <span class="st">"knots"</span>, <span class="at">degree =</span> <span class="dv">3</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>That is not identical to every smoothing-spline implementation, but it is the natural <code>crs</code> analogue when you want to hold degree fixed and let the knot search do the work.</p>
+<p>This is the <code>crs</code> analogue of fixing the polynomial degree while selecting the knot structure; it is not identical to every smoothing-spline estimator.</p>
 </section>
 <section id="can-crs-recover-linear-regression" class="level2">
 <h2 class="anchored" data-anchor-id="can-crs-recover-linear-regression">Can <code>crs</code> recover linear regression?</h2>
-<p>Yes. This is worth remembering because it clarifies the model family.</p>
+<p>The model family includes a linear-regression-style special case.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Recover the linear-regression-style special case inside crs</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model_crs <span class="ot">&lt;-</span> <span class="fu">crs</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> z1 <span class="sc">+</span> z2,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">cv =</span> <span class="st">"none"</span>,</span>
@@ -554,7 +581,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="quantile-regression-splines" class="level2">
 <h2 class="anchored" data-anchor-id="quantile-regression-splines">Quantile regression splines</h2>
-<p>If you want a conditional quantile rather than a conditional mean, use <code>tau</code>.</p>
+<p>Set <code>tau</code> to estimate the conditional quantile <span class="math inline">\(q_\tau(x)\)</span> rather than the conditional mean <span class="math inline">\(E(Y\mid X=x)\)</span>.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Use tau to target a conditional quantile rather than a conditional mean</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>model_q <span class="ot">&lt;-</span> <span class="fu">crs</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">tau =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>That gives the conditional median when <code>tau = 0.5</code>, or any other conditional quantile for <code>tau</code> in <code>(0, 1)</code>.</p>
@@ -564,16 +591,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Once a model is fit, the practical route to the knot locations depends on whether uniform or quantile knots were used. The key quantity to inspect is the selected number of segments for each predictor.</p>
 <p>For a single predictor <code>x1</code>, use this knot-retrieval pattern:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Recover uniform knot locations from the selected segment count</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="fu">min</span>(x1), <span class="fu">max</span>(x1), <span class="at">length =</span> model<span class="sc">$</span>segments[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="fu">min</span>(x1), <span class="fu">max</span>(x1), <span class="at">length.out =</span> model<span class="sc">$</span>segments[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>for uniform spacing, or</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Recover quantile knot locations from the selected segment count</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(x1, <span class="at">probs =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length =</span> model<span class="sc">$</span>segments[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(x1, <span class="at">probs =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> model<span class="sc">$</span>segments[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>for quantile spacing.</p>
 </section>
 <section id="compare-against-a-parametric-baseline-when-useful" class="level2">
 <h2 class="anchored" data-anchor-id="compare-against-a-parametric-baseline-when-useful">Compare against a parametric baseline when useful</h2>
-<p>If you want to compare a parametric model and a spline model on a common predictive criterion, compare the cross-validation score rather than only the fitted curves.</p>
-<p>That is often a more honest question than “which summary table looks nicer?”</p>
+<p>To compare a parametric model and a spline model on a common predictive criterion, compare their cross-validation scores rather than only their fitted curves or summary tables.</p>
 </section>
 <section id="where-to-go-next" class="level2">
 <h2 class="anchored" data-anchor-id="where-to-go-next">Where to go next</h2>

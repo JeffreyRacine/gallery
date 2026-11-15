@@ -65,7 +65,7 @@ np_rbc_hc0 <- function(x, y, at, h, b) {
 
 
 sides <- list(d$margin < 0, d$margin >= 0)
-fits <- lapply(1:2, function(s) {
+fits <- lapply(seq_len(2), function(s) {
   use <- sides[[s]]
   np_rbc_hc0(d$margin[use], d$vote[use], at = 0, h = h[s], b = b[s])
 })
@@ -88,34 +88,40 @@ rd_results <- list(data = d, author = author, bandwidths = bandwidths,
 
 # Display conventional np curves and the two identical RBC effect intervals.
 gx <- list(seq(-25, 0, length.out = 151), seq(0, 25, length.out = 151))
-gy <- lapply(1:2, function(s) as.numeric(fitted(npreg(
-  txdat = d$margin[sides[[s]]], tydat = d$vote[sides[[s]]], exdat = gx[[s]],
-  bws = h[s] / sqrt(5), regtype = "ll", ckertype = "epanechnikov",
-  ckerorder = 2, bwtype = "fixed", bwscaling = FALSE, se = FALSE))))
-if (interactive() || dev.cur() > 1L) local({
-  old_par <- par(no.readonly = TRUE)
-  on.exit(par(old_par))
-  par(mfrow = c(1, 2), mar = c(5.7, 5.1, 3.4, 1.0), oma = c(2.0, 0, 0, 0))
-  cols <- c("#2667A5", "#B24A35")
-  plot(d$margin, d$vote, xlim = c(-25, 25), ylim = c(20, 80),
-       pch = 16, cex = .5, col = adjustcolor("grey40", .25),
-       xlab = "Previous Democratic victory margin", ylab = "Subsequent Democratic vote share (%)",
-       main = "Senate elections: one-sided npreg fits")
-  abline(v = 0, lty = 3, col = "grey50")
-  for (s in 1:2) {
-    lines(gx[[s]], gy[[s]], lwd = 3, col = cols[s])
-    points(0, fits[[s]]$estimate, pch = 21, bg = "white", col = cols[s], cex = 1.2, lwd = 2)
-  }
-  legend("topleft", c("Previous loss", "Previous win"), col = cols, lty = 1, lwd = 3, bty = "n", cex = .85)
-  plot(NA, xlim = range(0, ci) + c(-.8, .8), ylim = c(.4, 2.8), yaxt = "n",
-       xlab = "Effect on vote share (percentage points)", ylab = "",
-       main = "Robust bias-corrected 95% intervals")
-  abline(v = 0, col = "grey50", lty = 3)
-  axis(2, at = c(1, 2), labels = c("np + HC0", "rdrobust"), las = 1, cex.axis = .85)
-  segments(author$ci["Robust", 1], 2, author$ci["Robust", 2], 2, lwd = 3, col = cols[1])
-  segments(ci[1], 1, ci[2], 1, lwd = 3, col = cols[2])
-  points(c(author$Estimate[1, "tau.bc"], corrected), c(2, 1), pch = 19, col = cols, cex = 1.3)
-  mtext(sprintf("Estimate %.3f; 95%% CI [%.3f, %.3f]; two-sided p = %.3g", corrected, ci[1], ci[2], p_value),
-        side = 1, outer = TRUE, line = .5, cex = .85)
-}) else message('Run source("sharp_rd_inference.R") in R or RStudio to display the figure.')
+gy <- lapply(seq_len(2), function(s) {
+  as.numeric(fitted(npreg(
+    txdat = d$margin[sides[[s]]], tydat = d$vote[sides[[s]]], exdat = gx[[s]],
+    bws = h[s] / sqrt(5), regtype = "ll", ckertype = "epanechnikov",
+    ckerorder = 2, bwtype = "fixed", bwscaling = FALSE, se = FALSE)))
+})
+if (interactive() || dev.cur() > 1L) {
+  local({
+    old_par <- par(no.readonly = TRUE)
+    on.exit(par(old_par))
+    par(mfrow = c(1, 2), mar = c(5.7, 5.1, 3.4, 1.0), oma = c(2.0, 0, 0, 0))
+    cols <- c("#2667A5", "#B24A35")
+    plot(d$margin, d$vote, xlim = c(-25, 25), ylim = c(20, 80),
+      pch = 16, cex = .5, col = adjustcolor("grey40", .25),
+      xlab = "Previous Democratic victory margin", ylab = "Subsequent Democratic vote share (%)",
+      main = "Senate elections: one-sided npreg fits")
+    abline(v = 0, lty = 3, col = "grey50")
+    for (s in seq_len(2)) {
+      lines(gx[[s]], gy[[s]], lwd = 3, col = cols[s])
+      points(0, fits[[s]]$estimate, pch = 21, bg = "white", col = cols[s], cex = 1.2, lwd = 2)
+    }
+    legend("topleft", c("Previous loss", "Previous win"), col = cols, lty = 1, lwd = 3, bty = "n", cex = .85)
+    plot(NA, xlim = range(0, ci) + c(-.8, .8), ylim = c(.4, 2.8), yaxt = "n",
+      xlab = "Effect on vote share (percentage points)", ylab = "",
+      main = "Robust bias-corrected 95% intervals")
+    abline(v = 0, col = "grey50", lty = 3)
+    axis(2, at = c(1, 2), labels = c("np + HC0", "rdrobust"), las = 1, cex.axis = .85)
+    segments(author$ci["Robust", 1], 2, author$ci["Robust", 2], 2, lwd = 3, col = cols[1])
+    segments(ci[1], 1, ci[2], 1, lwd = 3, col = cols[2])
+    points(c(author$Estimate[1, "tau.bc"], corrected), c(2, 1), pch = 19, col = cols, cex = 1.3)
+    mtext(sprintf("Estimate %.3f; 95%% CI [%.3f, %.3f]; two-sided p = %.3g", corrected, ci[1], ci[2], p_value),
+      side = 1, outer = TRUE, line = .5, cex = .85)
+  })
+} else {
+  message('Run source("sharp_rd_inference.R") in R or RStudio to display the figure.')
+}
 invisible(rd_results)

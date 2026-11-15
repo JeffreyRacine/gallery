@@ -1,7 +1,4 @@
-## Minimal np distribution example.
-##
-## This mirrors the usual density workflow but targets the
-## unconditional distribution function instead.
+## Estimate the unconditional distribution F(y).
 
 library(np)
 options(np.messages = FALSE)
@@ -11,7 +8,7 @@ data(faithful, package = "datasets")
 dat <- data.frame(waiting = faithful$waiting)
 
 ## Select the bandwidth, then fit the unconditional distribution.
-bw <- npudistbw(~ waiting, data = dat, nmulti = 1)
+bw <- npudistbw(~waiting, data = dat, nmulti = 1)
 Fhat <- npudist(bws = bw, data = dat)
 
 ## Review the smoothing choice and the fitted distribution object.

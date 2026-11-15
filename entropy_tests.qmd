@@ -12,10 +12,9 @@ keywords:
 
 If you want a minimal downloadable script for the quickest first run on this page, start with [np_entropy_quickstart.R](www/np_npRmpi/np_entropy_quickstart.R).
 
-The `np` package includes entropy-based procedures for testing density
-equality, asymmetry, and dependence. These are powerful tools, but they are
-often more computationally demanding than basic regression or density
-workflows, so it helps to know what each function is for before jumping in.
+The entropy-based procedures compare probability laws rather than only moments.
+They test equality of densities, symmetry, pairwise dependence, or serial
+dependence and can be more computationally demanding than estimation alone.
 
 ## The main functions
 
@@ -27,7 +26,8 @@ workflows, so it helps to know what each function is for before jumping in.
 | `npdeptest` | nonlinear pairwise dependence |
 | `npsdeptest` | nonlinear serial dependence |
 
-These functions are specialized, but they fit naturally with the broader `np` philosophy: kernel-based estimation, mixed-data support where appropriate, and bootstrap-based inference when needed.
+Each procedure builds its test statistic from nonparametric probability
+estimates and obtains inference from the corresponding bootstrap scheme.
 
 The public bootstrap-count argument is consistently named `B`
 throughout this family. The former `boot.num` input is retired; the examples

@@ -11,13 +11,15 @@ keywords:
   - npRmpi
 ---
 
-This page collects the practical data-preparation advice that tends to matter most for `np` and `npRmpi`. The short version is simple: in these packages, variable classes are part of the estimator definition, not just housekeeping.
+In `np` and `npRmpi`, variable classes are part of the estimator definition.
+This page shows how to preserve numeric, unordered, and ordered roles when
+preparing mixed data.
 
 ## Classes matter
 
 For mixed-data kernel methods, `numeric`, `factor`, and `ordered` do not mean the same thing. They determine which kernel component is used.
 
-A quick habit worth keeping is:
+Inspect the classes before fitting:
 
 ```r
 ## Check the current class before fitting a mixed-data model
@@ -34,8 +36,6 @@ mydat$year_group <- ordered(mydat$year_group)
 ```
 
 ## Do not pass one-hot blocks as if this were a linear model
-
-This is one of the most common sources of confusion.
 
 If the underlying variable is really one categorical variable such as year, region, or education group, do not expand it into a full set of 0/1 dummies and then pass those dummies as separate regressors. In `np`, that changes the problem.
 
@@ -59,13 +59,14 @@ mydat$female <- factor(mydat$female)
 In these packages,
 
 ```r
-## Formula syntax still just names the response and covariates
+## Formula syntax identifies the response and covariates
 y ~ x1 + x2 + x3
 ```
 
 is the interface for telling the function what the response and regressors are. It is not a commitment to an ordinary linear-additive specification.
 
-This point matters because many users see a familiar formula and then assume the usual linear-model interpretation. That is not what is happening here.
+The formula identifies variables; the selected kernels and estimator determine
+the functional form.
 
 ## Prefer `data =` and data frames to `attach()`
 
@@ -137,7 +138,7 @@ A sensible rule is:
 
 Many high-level `np` functions do not directly expose sample weights in the way users from other modeling frameworks might expect. If weighting is central to the workflow, the lower-level route to inspect is `npksum`, or else a direct reweighting/data-construction approach depending on the application.
 
-For most users, this is an advanced path rather than the first place to start.
+This is a lower-level route for workflows in which weighting is essential.
 
 ## Quick checklist
 

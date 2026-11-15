@@ -1,7 +1,4 @@
-## Minimal np plotting and interval example.
-##
-## This fits a simple local-linear model and then shows the
-## modern bootstrap plotting route with all interval/band types.
+## Plot a local-linear conditional mean with bootstrap uncertainty bands.
 
 library(np)
 options(np.messages = FALSE)

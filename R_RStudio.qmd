@@ -10,7 +10,8 @@ keywords:
   - MPI
 ---
 
-This page is intentionally short. The goal is to get you from installation to a first successful run without making you read a general introduction to R first.
+Install the required package, verify that it loads, and run one small fitted
+example before moving to the longer guides.
 
 ## Step 1: install R and an editor
 

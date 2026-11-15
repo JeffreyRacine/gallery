@@ -9,9 +9,9 @@ keywords:
   - crs
 ---
 
-This primer introduces the ideas most useful for understanding what the `crs`
-package is doing and how spline regression differs from the kernel methods in
-`np`.
+This primer describes how `crs` approximates a regression function
+$g(x)=E(Y\mid X=x)$ with spline basis functions, and how that construction
+differs from kernel smoothing.
 
 ## Why splines?
 
@@ -74,7 +74,7 @@ The older primer included recursive code showing how a B-spline basis can be bui
 ## Build and plot a small cubic B-spline basis directly
 library(crs)
 
-x <- seq(0, 1, length = 1000)
+x <- seq(0, 1, length.out = 1000)
 B <- gsl.bs(x, degree = 3, nbreak = 5, intercept = TRUE)
 matplot(x, B, type = "l", lwd = 2)
 ```
@@ -83,12 +83,12 @@ This produces the basis functions for a cubic spline with interior knots implied
 
 ## From basis functions to regression
 
-Once the basis is built, spline regression is just least squares on that basis expansion.
+Once the basis is built, spline regression reduces to least squares on that basis expansion.
 
 ```r
 ## Regress on the spline basis, then overlay the fitted curve
 set.seed(42)
-x <- seq(0, 1, length = 500)
+x <- seq(0, 1, length.out = 500)
 y <- sin(2 * pi * x) + rnorm(length(x), sd = 0.1)
 
 B <- gsl.bs(x, degree = 3, nbreak = 5, intercept = TRUE)

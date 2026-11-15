@@ -9,13 +9,7 @@ keywords:
   - np tests
 ---
 
-The `np` package includes more than estimators. It also provides nonparametric testing tools for questions that applied users ask all the time:
-
-- is a regressor important,
-- does a parametric model look misspecified,
-- is a simpler model being rejected by the data?
-
-This page focuses on two especially useful functions:
+This page covers two regression tests:
 
 - `npsigtest` for nonparametric regression significance testing,
 - `npcmstest` for consistent model specification testing.
@@ -32,7 +26,8 @@ still overrides that automatic policy.
 
 ## Significance testing: `npsigtest`
 
-Once a nonparametric regression model has been fitted, `npsigtest` provides a nonparametric counterpart to the familiar significance-testing mindset from parametric regression.
+For a fitted regression $g(x)=E(Y\mid X=x)$, `npsigtest()` tests whether a
+selected predictor contributes to $g(x)$.
 
 ```r
 ## Fit a local-linear regression before calling the nonparametric significance test
@@ -48,11 +43,13 @@ fit <- npreg(logwage ~ age,
 npsigtest(fit, B = 99)
 ```
 
-This is useful when you want to know whether a regressor matters without collapsing immediately back to a parametric linear model.
+The test retains the nonparametric regression specification rather than
+replacing it with a linear model.
 
 ## Model specification testing: `npcmstest`
 
-`npcmstest` is useful when you have a parametric regression model in hand and want to test whether it looks correctly specified against a nonparametric alternative.
+`npcmstest()` tests a parametric conditional-mean specification against a
+consistent nonparametric alternative.
 
 The `wage1` example starts with a simple linear specification and then asks
 whether that specification is too restrictive.
@@ -88,9 +85,9 @@ These tests can be computationally demanding because they may involve both bandw
 
 Practical advice:
 
-- begin with a small or illustrative problem,
-- do not assume that testing is cheap just because estimation already ran,
-- avoid overriding search tolerances casually unless you are deliberately doing a quick exploratory run.
+- begin with a small problem when exploring a specification,
+- budget separately for estimation and testing,
+- preserve the default search tolerances unless a deliberate exploratory run requires otherwise.
 
 ## When should I use these?
 
@@ -104,5 +101,3 @@ Practical advice:
 - Start with [Kernel Primer](kernel_primer.qmd) if you are new to the main estimation workflow.
 - See [Entropy and Testing](entropy_tests.qmd) for the entropy-based test family.
 - See [Plotting and Intervals](plotting_and_intervals.qmd) if you want uncertainty summaries and graphical output.
-
-Together, these pages cover the main ways in which `np` moves beyond “just fit a regression curve”.

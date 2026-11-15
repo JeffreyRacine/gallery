@@ -52,14 +52,13 @@ keywords:
 </style>
 ```
 
-This page maps the main `np` and `npRmpi` function families to the statistical
-object being estimated, the Gallery examples that are most useful to start
-with, and the book chapters where the method is developed or discussed.
+This page maps the main `np` and `npRmpi` function families to their statistical
+targets, Gallery examples, and the book chapters where the methods are
+developed or discussed.
 
-It is not a replacement for the package help pages. Use `?npreg`,
-`?npcdens`, `?npconmode`, and related help pages for argument-level details.
-This page is meant to answer a different question: "What method am I using,
-where is it explained, and how does it connect to the package implementation?"
+Use `?npreg`, `?npcdens`, `?npconmode`, and related help pages for
+argument-level details. Use this crosswalk to identify the statistical target,
+its theoretical source, and its connection to the package implementation.
 
 The Princeton book [@book-li_2007] is the foundational theory reference for many of the core
 mixed-data kernel estimators. The Cambridge book [@book-racine_cambridge_2019] is later and more

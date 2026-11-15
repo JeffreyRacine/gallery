@@ -1,6 +1,4 @@
-## Minimal crs instrumental-regression example.
-##
-## This is a compact first run for spline-based IV estimation.
+## Estimate a spline structural function g(z) with one instrument w.
 
 library(crs)
 

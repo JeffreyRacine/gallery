@@ -1,7 +1,4 @@
-## Minimal np classification / conditional-mode example.
-##
-## This keeps the first run compact while still showing the basic
-## nonparametric classification route.
+## Estimate class probabilities p_y(x) and the conditional mode m(x).
 
 library(np)
 data(birthwt, package = "MASS")

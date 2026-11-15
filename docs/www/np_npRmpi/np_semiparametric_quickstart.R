@@ -1,7 +1,4 @@
-## Minimal np semiparametric example.
-##
-## This uses a partially linear model because it is the clearest
-## lightweight entry point into the semiparametric family.
+## Estimate E(Y | X, Z) = X^T beta + g(Z).
 
 library(np)
 options(np.messages = FALSE)

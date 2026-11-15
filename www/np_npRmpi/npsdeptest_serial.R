@@ -1,39 +1,32 @@
-## This is the serial version of npsdeptest_npRmpi.R for comparison
-## purposes (bandwidth ought to be identical, timing may
-## differ). Study the differences between this file and its MPI
-## counterpart for insight about your own problems.
+## Serial counterpart to npsdeptest_npRmpi.R.
+## The test results should agree; elapsed times may differ.
 
 library(np)
-options(np.messages=FALSE)
-
-## Generate some data
+options(np.messages = FALSE)
 
 set.seed(42)
 
-## A function to create a time series
-
-ar.series <- function(phi,epsilon) {
+## Generate a stationary AR(1) series from supplied innovations.
+ar.series <- function(phi, epsilon) {
   n <- length(epsilon)
   series <- numeric(n)
-  series[1] <- epsilon[1]/(1-phi)
-  for(i in 2:n) {
-    series[i] <- phi*series[i-1] + epsilon[i]
+  series[1] <- epsilon[1] / (1 - phi)
+  for (i in seq_len(n)[-1]) {
+    series[i] <- phi * series[i - 1] + epsilon[i]
   }
-  return(series)
+  series
 }
 
 n <- 500
 
-## Stationary persistent time-series
+yt <- ar.series(0.95, rnorm(n))
 
-yt <- ar.series(0.95,rnorm(n))
-
-## A simple example of a test for serial dependence
+## Test the simulated series for serial dependence.
 
 t <- system.time(output <- npsdeptest(yt,
-                                      lag.num=2,
-                                      B=399,
-                                      method="summation"))
+                                      lag.num = 2,
+                                      B = 399,
+                                      method = "summation"))
 
 output
 

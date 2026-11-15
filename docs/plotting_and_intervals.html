@@ -113,6 +113,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -485,7 +514,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Plotting is one of the places where <code>np</code> becomes especially useful, because the fitted object often carries much more than a point estimate. The package also supports asymptotic and bootstrap-based uncertainty summaries, but those come with real computational cost.</p>
+<p>Plot methods display a fitted statistical object and, where supported, its derivatives or finite differences and uncertainty summaries. These operations can require additional fitting, influence calculations, or bootstrap work.</p>
 <p>If you want a minimal downloadable script for this route, start with <a href="www/np_npRmpi/np_plotting_quickstart.R">np_plotting_quickstart.R</a>.</p>
 <p>The code blocks are Gallery-authored teaching examples built on two datasets bundled with <code>np</code>; they do not reproduce published empirical estimates. <code>cps71</code> is the 1971 Canadian Census wage sample supplied by Aman Ullah and documented by Pagan and Ullah (1999). <code>wage1</code> is the 1976 U.S. Current Population Survey wage sample supplied by Jeffrey M. Wooldridge and documented by Wooldridge (2000).</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -563,7 +592,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="gradients" class="level2">
 <h2 class="anchored" data-anchor-id="gradients">Gradients</h2>
-<p>For derivative views, request gradients in the plot call.</p>
+<p>For a regression function <span class="math inline">\(g(x)=E(Y\mid X=x)\)</span>, numeric-predictor panels show <span class="math inline">\(\beta_j(x)=\partial g(x)/\partial x_j\)</span> (or the requested higher-order derivative). Unordered factors compare each level with the first retained level; ordered factors use adjacent-level differences. The categorical panels therefore show <span class="math inline">\(\Delta_j g(x)\)</span>, not a derivative with respect to an artificial numeric coding.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Request derivative plots from the same fitted object</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.ll, <span class="at">gradients =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>And again with asymptotic intervals:</p>
@@ -572,7 +601,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="bootstrap-intervals" class="level2">
 <h2 class="anchored" data-anchor-id="bootstrap-intervals">Bootstrap intervals</h2>
-<p>Bootstrap-based intervals are often appealing because they are less tied to asymptotic formulas, but they can be slow.</p>
+<p>Bootstrap intervals use simulated sampling variation and can be substantially more expensive than asymptotic intervals.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Use the bootstrap route when you want simulation-based intervals</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.ll, <span class="at">errors =</span> <span class="st">"bootstrap"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Current <code>np</code> and <code>npRmpi</code> releases also support bias-corrected bootstrap centering on the supported fixed-bandwidth plot families. Unsupported routes fail explicitly rather than silently drawing a different interval.</p>

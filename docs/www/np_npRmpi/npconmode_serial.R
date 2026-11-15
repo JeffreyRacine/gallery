@@ -1,9 +1,8 @@
-## This is the serial version of npconmode_npRmpi.R for comparison
-## purposes. Study the differences between this file and its MPI
-## counterpart for insight about your own problems.
+## Serial counterpart to npconmode_npRmpi.R.
+## The fitted objects should agree; elapsed times may differ.
 
 library(np)
-options(np.messages=FALSE)
+options(np.messages = FALSE)
 
 library(MASS)
 data(birthwt)

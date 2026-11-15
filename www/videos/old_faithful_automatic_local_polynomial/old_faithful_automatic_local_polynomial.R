@@ -20,4 +20,3 @@ plot(fit_npreg,
 plot(fit_npreg,
      errors = "bootstrap", band = "all", B = 9999,
      gradients = TRUE, gradient_order = 3)
-

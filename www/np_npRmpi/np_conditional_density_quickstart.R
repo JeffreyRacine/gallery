@@ -1,9 +1,4 @@
-## Minimal np conditional-density example.
-##
-## This keeps the first run small enough to be practical while still
-## showing the standard two-step workflow:
-## 1. compute a bandwidth object,
-## 2. fit the conditional-density estimator.
+## Estimate the conditional density f(y | x).
 
 library(np)
 options(np.messages = FALSE)

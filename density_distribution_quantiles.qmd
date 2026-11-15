@@ -19,7 +19,10 @@ keywords:
 source("site_helpers.R", local = knitr::knit_global())
 ```
 
-The `np` package is useful not only for regression but also for unconditional and conditional density estimation, distribution estimation, and nonparametric quantile regression. This page collects those workflows in one place.
+This page covers the unconditional density $f(y)$ and distribution $F(y)$,
+their conditional counterparts $f(y\mid x)$ and $F(y\mid x)$, and the
+conditional quantile $q_\tau(x)$. The corresponding high-level estimators are
+`npudens()`, `npudist()`, `npcdens()`, `npcdist()`, and `npqreg()`.
 
 If you want a minimal downloadable script for the simplest density workflow, start with [np_density_quickstart.R](www/np_npRmpi/np_density_quickstart.R).
 
@@ -78,7 +81,8 @@ asymptotic plots request the uncertainty they need.
 
 ## Unconditional density and distribution: `npudens` and `npudist`
 
-Use these when the object of interest is the joint or marginal distribution itself rather than a regression function.
+Use these when the object of interest is a joint or marginal density or
+distribution rather than a regression function.
 
 The Old Faithful data remain a simple and informative illustration because the shape is not well summarized by a simple parametric family.
 
@@ -94,7 +98,7 @@ summary(f_faithful)
 summary(F_faithful)
 ```
 
-If you want to visualize the estimated surface, you can then plot the objects.
+Plot the fitted objects to inspect their estimated shape.
 
 ```r
 ## Plot the fitted unconditional objects to inspect their shape
@@ -102,7 +106,8 @@ plot(f_faithful, view = "fixed", main = "")
 plot(F_faithful, view = "fixed", main = "")
 ```
 
-This is a good example of why nonparametric methods can matter: a bimodal or otherwise irregular structure is much easier to reveal when you do not force a simple parametric family on the data.
+The Old Faithful estimates reveal the bimodal structure without imposing a
+parametric density family.
 
 ### Distribution bandwidth-selection support
 
@@ -120,7 +125,8 @@ coordinates receive zero smoothing under that rule.
 
 ## Conditional density and distribution: `npcdens` and `npcdist`
 
-Use these when the full conditional distribution matters, not just the conditional mean.
+Use these when the full conditional law of $Y$ given $X=x$ matters, not only
+the conditional mean.
 
 The GDP panel example remains helpful because the conditional distribution changes shape over time.
 
@@ -136,7 +142,8 @@ summary(fhat)
 summary(Fhat)
 ```
 
-Plots can then be used to inspect the evolving conditional density and conditional distribution.
+Plot the fitted objects to inspect how the conditional density and distribution
+change with the covariate.
 
 ```r
 ## Plot the evolving conditional density and distribution surfaces
@@ -144,7 +151,8 @@ plot(fhat, view = "fixed", main = "")
 plot(Fhat, view = "fixed", main = "")
 ```
 
-This route is especially useful when the question is not simply whether the mean changes, but whether the entire distribution changes.
+These estimators describe changes in the full conditional distribution, which
+may include location, scale, and shape changes that a conditional mean omits.
 
 ## Choosing support bounds {#choosing-support-bounds}
 
@@ -418,9 +426,8 @@ polynomial bases because large uncentred values can make their local systems
 severely ill-conditioned; `proper = TRUE` enforces probability shape, not
 numerical conditioning.
 
-This is a good example of the intended progression: start with the direct
-high-level route, then reuse the retained bandwidth object only when you
-specifically want to avoid recomputing it.
+Start with the direct high-level route. Reuse the retained bandwidth object
+when a later fit should avoid repeating the same search.
 
 Conditional quantile inversion requires a monotone dependent-variable CDF.
 Accordingly, `npqreg` supports `cykerorder = 2` for this route and rejects
@@ -431,7 +438,7 @@ higher-order dependent-variable CDF kernels, which can be nonmonotone.
 Use `nplsqreg` when you want a location-scale conditional quantile route rather
 than direct inversion of a fitted conditional distribution.
 
-The user-facing workflow is meant to feel just as natural as `npqreg`. When
+The user-facing workflow follows the same object-oriented pattern as `npqreg`. When
 `bws` is omitted, `nplsqreg()` calls `nplsqregbw()` internally to select the
 underlying bandwidths and location-scale shift state. You still retain the
 selected bandwidth object for exact reuse, but the normal first stop is the

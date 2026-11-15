@@ -1,7 +1,4 @@
-## Minimal np significance-testing example.
-##
-## The idea is to fit a model with one irrelevant regressor and then
-## ask whether the nonparametric significance test detects that.
+## Test whether an irrelevant factor contributes to g(x).
 
 library(np)
 options(np.messages = FALSE)

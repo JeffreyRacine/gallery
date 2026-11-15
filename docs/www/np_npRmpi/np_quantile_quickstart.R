@@ -1,7 +1,4 @@
-## Minimal np quantile-regression example.
-##
-## The key idea is to compute/select the conditional distribution once
-## and then extract one or more quantiles from it.
+## Estimate several conditional quantiles Q_tau(x) from one F(y | x).
 
 library(np)
 options(np.messages = FALSE)

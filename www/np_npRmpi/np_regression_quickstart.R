@@ -1,9 +1,4 @@
-## Minimal np regression example.
-##
-## The intended workflow is:
-## 1. compute a bandwidth object,
-## 2. fit the regression estimator,
-## 3. inspect the result and a simple fitted curve.
+## Estimate the conditional mean g(x) = E(Y | X = x).
 
 library(np)
 options(np.messages = FALSE)

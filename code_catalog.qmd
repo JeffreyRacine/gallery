@@ -16,7 +16,9 @@ source("site_helpers.R", local = knitr::knit_global())
 quickstarts <- read_quickstarts_manifest()
 ```
 
-This page is meant to be the quickest route to working scripts. It groups the existing code by package, task, and runtime mode so that you can scan, copy, and then drill down only if you need more context.
+This catalog groups runnable scripts by package, statistical task, and runtime
+mode. Use the quickstarts for minimal calls and the longer scripts when the
+calculation or source provenance needs more context.
 
 ## How to use this page
 

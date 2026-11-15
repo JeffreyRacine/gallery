@@ -10,18 +10,18 @@ keywords:
   - single index
 ---
 
-The `np` package is not limited to fully nonparametric regression and density estimation. It also includes a useful set of semiparametric models that are often a good compromise when a fully parametric model feels too restrictive but a fully nonparametric model feels too expensive or too unconstrained.
+Semiparametric models combine a finite-dimensional parameter with an unknown
+function. The three principal `np` families differ in where that structure is
+placed:
 
-This page highlights three important families:
-
-- partially linear models via `npplreg`,
-- single-index models via `npindex`,
-- varying coefficient models via `npscoef`.
+- `npplreg()` estimates $E(Y\mid X=x,Z=z)=x^\mathsf{T}\beta+g(z)$;
+- `npindex()` estimates a link $g(x^\mathsf{T}\beta)$;
+- `npscoef()` estimates $E(Y\mid X=x,Z=z)=\sum_j x_j\beta_j(z)$.
 
 If you want a minimal downloadable script for the semiparametric route, start with [np_semiparametric_quickstart.R](www/np_npRmpi/np_semiparametric_quickstart.R).
 
-For LP-capable semiparametric families, there is now also a modern convenience
-route via `nomad = "auto"`. The simplest example is partially linear regression:
+LP-capable semiparametric families support joint degree-bandwidth search through
+`nomad = "auto"`. For example:
 
 ```r
 ## Simulate a small partially linear example, then use the automatic LP shortcut.
@@ -38,26 +38,17 @@ dat <- data.frame(y, x1, z)
 fit_pl_lp <- npplreg(y ~ x1 | z, data = dat, nomad = "auto", degree.max = 2L, nmulti = 1)
 ```
 
-The same shortcut is available for `npindex` and `npscoef` on their supported
-LP-capable routes. As with the regression and conditional-density families, it
-requires the `crs` package because NOMAD degree search is provided there.
+The same shortcut is available for supported `npindex()` and `npscoef()`
+routes. It requires `crs`, which supplies the NOMAD runtime; `"auto"` uses
+exhaustive search when there is one degree coordinate and NOMAD otherwise.
 
-The current release line also uses the native `crs` NOMAD runtime directly, so
-the semiparametric `nomad = "auto"` route now sits on the same modern search
-engine as the rest of the LP-capable conditional family.
-
-## Why use a semiparametric model?
-
-A semiparametric model is often attractive when:
-
-- you want some structure for interpretability,
-- one part of the relationship is clearly nonlinear,
-- a full nonparametric model is more flexible than you need,
-- or the computational burden of the full model is too high for the problem at hand.
+Use a semiparametric model when scientific structure supports one of these
+restrictions and the remaining component should stay nonparametric.
 
 ## Partially linear models: `npplreg`
 
-The partially linear model is useful when some regressors can reasonably enter linearly while another part of the relationship is left nonparametric.
+The partially linear model keeps the effect of $X$ linear while estimating
+$g(z)$ nonparametrically.
 
 In the `wage1` example, the idea is to treat some regressors parametrically while allowing experience to enter nonparametrically.
 
@@ -71,11 +62,8 @@ model_pl <- npplreg(lwage ~ female + married + educ + tenure | exper, data = wag
 summary(model_pl)
 ```
 
-### Practical warning
-
-Bandwidth selection for partially linear models can be much more expensive than users expect. The model looks simpler than a fully nonparametric regression, but the bandwidth selection problem can be substantially more burdensome because several cross-validated regressions are involved under the hood.
-
-So the practical rule is: do not assume that “partially linear” means “cheap”.
+Bandwidth selection for a partially linear model may be costly because its
+criterion evaluates several cross-validated regressions.
 
 `npplreg()` defaults to `se = FALSE`. Request `se = TRUE` when you need
 `coef(model, se = TRUE)` or `vcov(model)`; the retained coefficient covariance
@@ -84,7 +72,8 @@ request their required uncertainty separately.
 
 ## Single-index models: `npindex`
 
-Single-index models reduce the dimension of the problem by letting the response depend on a low-dimensional index rather than on the regressors directly.
+Single-index models reduce the nonparametric dimension from $x$ to the scalar
+index $x^\mathsf{T}\beta$.
 
 Two important routes are available in `np`:
 
@@ -133,7 +122,8 @@ model_index_continuous <- npindex(lwage ~ female + married + educ + exper + tenu
 summary(model_index_continuous)
 ```
 
-The single-index route can be appealing when you want more flexibility than a parametric model but less curse-of-dimensionality pressure than a fully nonparametric multivariate fit.
+The single-index restriction reduces the dimension of the unknown link while
+retaining a nonparametric response to the index.
 
 ### Interpreting and tuning the single index
 
@@ -174,7 +164,8 @@ runtime alone.
 
 ## Varying coefficient models: `npscoef`
 
-A varying coefficient model lets the effective coefficients change with another variable. This is useful when you believe the regression effect itself varies systematically across a conditioning variable.
+A varying-coefficient model lets each coefficient $\beta_j(z)$ change with the
+conditioning variable $z$.
 
 In the `wage1` illustration, coefficients are allowed to vary with sex.
 
@@ -236,13 +227,6 @@ show the practical `npreghat()` workflow.
 | Dimension reduction through an unknown index | `npindex` |
 | Coefficients that vary with another variable | `npscoef` |
 | Maximum flexibility with fewer structural assumptions | `npreg` |
-
-## Practical advice
-
-- Start with a smaller version of the problem first.
-- Be explicit about bandwidth selection when the run is expensive.
-- Inspect summaries carefully.
-- Compare in-sample fit and, where possible, hold-out predictive performance.
 
 ## What to read next
 

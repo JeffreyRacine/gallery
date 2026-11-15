@@ -1,24 +1,22 @@
-## This is the serial version of npudensml_npRmpi.R for comparison
-## purposes (bandwidth ought to be identical, timing may
-## differ). Study the differences between this file and its MPI
-## counterpart for insight about your own problems.
+## Serial counterpart to npudensml_npRmpi.R.
+## The bandwidths should agree; elapsed times may differ.
 
 library(np)
-options(np.messages=FALSE)
+options(np.messages = FALSE)
 
-## Generate some data
+## Draw a sample from a standard normal density.
 
 set.seed(42)
 
 n <- 2500
 
-mydat <- data.frame(x=rnorm(n))
+mydat <- data.frame(x = rnorm(n))
 
-## A simple example with likelihood cross-validation
+## Select the bandwidth for f(x) by likelihood cross-validation.
 
 t <- system.time(bw <- npudensbw(~x,
-                                 bwmethod="cv.ml",
-                                 data=mydat))
+                                 bwmethod = "cv.ml",
+                                 data = mydat))
 
 summary(bw)
 

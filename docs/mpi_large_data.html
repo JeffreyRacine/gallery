@@ -508,7 +508,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This page is for users who want the <code>np</code> workflow but need MPI. The short version is simple: do not start with old wrapper-heavy <code>mpi.*</code> patterns unless you truly need manual control. Start with <code>npRmpi.init()</code> and ordinary <code>np</code>-style calls.</p>
+<p><code>npRmpi</code> retains the ordinary <code>np</code> estimator interface after MPI initialization. Start with <code>npRmpi.init()</code> and ordinary <code>np</code>-style calls; use the older explicit <code>mpi.*</code> controls only when the execution environment requires manual startup or broadcast control.</p>
 <p>If you want the smallest runnable examples first, go to <a href="./quickstarts.html">Quickstarts</a>. If you want the broader example catalog, go to <a href="./code_catalog.html">Code Catalog</a>.</p>
 <section id="short-version" class="level2">
 <h2 class="anchored" data-anchor-id="short-version">Short version</h2>

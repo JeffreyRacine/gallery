@@ -15,7 +15,10 @@ keywords:
   - macOS
 ---
 
-This page is for users who want the `np` workflow but need MPI. The short version is simple: do not start with old wrapper-heavy `mpi.*` patterns unless you truly need manual control. Start with `npRmpi.init()` and ordinary `np`-style calls.
+`npRmpi` retains the ordinary `np` estimator interface after MPI
+initialization. Start with `npRmpi.init()` and ordinary `np`-style calls; use
+the older explicit `mpi.*` controls only when the execution environment
+requires manual startup or broadcast control.
 
 If you want the smallest runnable examples first, go to [Quickstarts](quickstarts.qmd). If you want the broader example catalog, go to [Code Catalog](code_catalog.qmd).
 

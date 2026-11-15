@@ -1,7 +1,4 @@
-## Minimal np location-scale quantile example.
-##
-## Fit several location-scale quantiles in one call, then inspect the
-## selected bandwidth state and compare the fitted curves.
+## Estimate several location-scale conditional quantiles Q_tau(x).
 
 library(np)
 options(np.messages = FALSE)

@@ -113,6 +113,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -437,7 +466,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#a-simple-local-constant-example" id="toc-a-simple-local-constant-example" class="nav-link" data-scroll-target="#a-simple-local-constant-example">A simple local-constant example</a></li>
   <li><a href="#what-to-keep-in-mind" id="toc-what-to-keep-in-mind" class="nav-link" data-scroll-target="#what-to-keep-in-mind">What to keep in mind</a></li>
   <li><a href="#when-should-i-use-npksum" id="toc-when-should-i-use-npksum" class="nav-link" data-scroll-target="#when-should-i-use-npksum">When should I use <code>npksum</code>?</a></li>
-  <li><a href="#a-good-mental-model" id="toc-a-good-mental-model" class="nav-link" data-scroll-target="#a-good-mental-model">A good mental model</a></li>
   <li><a href="#related-material" id="toc-related-material" class="nav-link" data-scroll-target="#related-material">Related material</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/JeffreyRacine/gallery/blob/main/npksum_custom.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
@@ -475,10 +503,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>One of the more underappreciated pieces of the <code>np</code> package is <code>npksum</code>. It is not just another user-facing estimator. It is a lower-level kernel-sum engine that lets you build custom estimators, tests, and related quantities without dropping immediately into C.</p>
+<p><code>npksum()</code> evaluates kernel-weighted sums that can be combined into custom estimators and test statistics without dropping immediately into C.</p>
 <section id="why-npksum-matters" class="level2">
 <h2 class="anchored" data-anchor-id="why-npksum-matters">Why <code>npksum</code> matters</h2>
-<p>The higher-level functions in <code>np</code> are convenient, but sometimes you want to construct something more specialized. <code>npksum</code> exists for that purpose.</p>
+<p>Use it when the required object is not already exposed by a higher-level estimator.</p>
 <p>In practice, it can be used to:</p>
 <ul>
 <li>build custom kernel estimators,</li>
@@ -489,7 +517,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="a-simple-local-constant-example" class="level2">
 <h2 class="anchored" data-anchor-id="a-simple-local-constant-example">A simple local-constant example</h2>
-<p>A concise illustration recovers a local-constant estimator directly from kernel sums.</p>
+<p>A concise illustration recovers the local-constant conditional-mean estimator</p>
+<p><span class="math display">\[
+\widehat g(x)=
+\frac{\sum_i K_h(x-X_i)Y_i}{\sum_i K_h(x-X_i)}
+\]</span></p>
+<p>from two kernel sums.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Recover a local-constant fit directly from the underlying kernel sums</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(cps71, <span class="at">package =</span> <span class="st">"np"</span>)</span>
@@ -501,13 +534,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cps71<span class="sc">$</span>age, cps71<span class="sc">$</span>logwage, <span class="at">xlab =</span> <span class="st">"Age"</span>, <span class="at">ylab =</span> <span class="st">"log(wage)"</span>, <span class="at">cex =</span> <span class="fl">0.1</span>)</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(cps71<span class="sc">$</span>age, fit_lc, <span class="at">col =</span> <span class="st">"blue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This is useful because it makes the estimator construction visible rather than hiding everything inside a higher-level call.</p>
+<p>The numerator is a response-weighted kernel sum; the denominator normalizes the weights at each evaluation point.</p>
 <p>Numeric <code>bws</code> input is materialized against the supplied data before dispatch. This matters for custom mixed-data calculations: continuous, unordered, and ordered columns retain their data-aware kernel types rather than being treated as a default all-continuous bandwidth object.</p>
 </section>
 <section id="what-to-keep-in-mind" class="level2">
 <h2 class="anchored" data-anchor-id="what-to-keep-in-mind">What to keep in mind</h2>
-<p><code>npksum</code> is flexible, but that flexibility comes with responsibility. Once you leave the higher-level wrappers, you are taking on more of the estimator design yourself.</p>
-<p>That means:</p>
+<p><code>npksum()</code> supplies kernel sums rather than a complete estimator. A custom construction should therefore:</p>
 <ul>
 <li>check your variable classes,</li>
 <li>check your bandwidth choices,</li>
@@ -519,20 +551,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="when-should-i-use-npksum">When should I use <code>npksum</code>?</h2>
 <p>Use it when:</p>
 <ul>
-<li>the packaged high-level functions already do what you need, but you want to understand the kernel-sum structure more directly,</li>
 <li>you are prototyping a custom estimator or test,</li>
-<li>you want to teach the mechanics of kernel methods,</li>
-<li>you need a building block rather than a full canned procedure.</li>
+<li>you need direct access to weighted kernel sums,</li>
+<li>you want to expose the mechanics of a standard kernel estimator.</li>
 </ul>
-<p>Do not use it just to make a standard workflow harder than it needs to be. If <code>npreg</code>, <code>npudens</code>, <code>npcdens</code>, and the other higher-level functions already solve your problem cleanly, use them.</p>
-</section>
-<section id="a-good-mental-model" class="level2">
-<h2 class="anchored" data-anchor-id="a-good-mental-model">A good mental model</h2>
-<p>Think of <code>npksum</code> as the “toolbox function” rather than the “applied workflow function”.</p>
-<ul>
-<li><code>npreg</code>, <code>npudens</code>, <code>npqreg</code>, <code>npplreg</code>, and so forth are what most users should start with.</li>
-<li><code>npksum</code> is what you reach for when you want to build something yourself.</li>
-</ul>
+<p>For standard estimation, prefer higher-level functions such as <code>npreg()</code>, <code>npudens()</code>, <code>npcdens()</code>, and <code>npqreg()</code>.</p>
 </section>
 <section id="related-material" class="level2">
 <h2 class="anchored" data-anchor-id="related-material">Related material</h2>

@@ -1,9 +1,4 @@
-## Minimal crs spline-regression example.
-##
-## This is the smallest useful workflow:
-## 1. fit a spline model,
-## 2. inspect the summary,
-## 3. optionally move on to plotting or tighter search control.
+## Estimate a bivariate conditional mean g(x1, x2) with splines.
 
 library(crs)
 options(crs.messages = FALSE)

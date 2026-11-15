@@ -1,16 +1,13 @@
-## This is the serial version of npcmstest_npRmpi.R for comparison
-## purposes (bandwidth ought to be identical, timing may
-## differ). Study the differences between this file and its MPI
-## counterpart for insight about your own problems.
+## Serial counterpart to npcmstest_npRmpi.R.
+## The test results should agree; elapsed times may differ.
 
 library(np)
-options(np.messages=FALSE)
+options(np.messages = FALSE)
 
 data("oecdpanel")
-attach(oecdpanel)
-
-oecd <- factor(oecd)
-year <- factor(year)
+model_data <- transform(oecdpanel,
+  oecd = factor(oecd),
+  year = factor(year))
 
 model <- lm(growth ~ oecd +
             year +
@@ -22,21 +19,23 @@ model <- lm(growth ~ oecd +
             inv +
             humancap +
             I(humancap^2) +
-            I(humancap^3) - 1, 
-            x=TRUE, 
-            y=TRUE)
+            I(humancap^3) - 1,
+            data = model_data,
+            x = TRUE,
+            y = TRUE)
 
-X <- data.frame(oecd, year, initgdp, popgro, inv, humancap)
+X <- model_data[c("oecd", "year", "initgdp", "popgro", "inv", "humancap")]
+y <- model_data$growth
 
-## Consistent model specification test (we override defaults for
-## demonstration purposes - don't do this for real problems).
+## Loose search tolerances keep this comparison brief; use the defaults
+## for substantive work.
 
 t <- system.time(output <- npcmstest(model = model,
                                      xdat = X,
-                                     ydat = growth,
-                                     nmulti=1,
-                                     ftol=.01,
-                                     tol=.01))
+                                     ydat = y,
+                                     nmulti = 1,
+                                     ftol = 0.01,
+                                     tol = 0.01))
 
 output
 

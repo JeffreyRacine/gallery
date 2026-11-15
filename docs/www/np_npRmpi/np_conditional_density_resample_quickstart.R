@@ -1,8 +1,4 @@
-## Minimal np conditional-density resampling example.
-##
-## This draws a smooth resample from a fitted conditional density by
-## resampling with x-kernel weights and then drawing from the
-## corresponding Gaussian kernels.
+## Draw a smooth resample from a fitted conditional density f(y | x).
 
 library(np)
 options(np.messages = FALSE)

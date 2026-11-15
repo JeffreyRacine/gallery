@@ -1,54 +1,34 @@
-## This illustration considers the `radial function' and plots the
-## results by constructing a 3D real-time rendering plot using OpenGL.
-## Best viewed in RStudio: the interactive surface appears in the
-## Viewer pane rather than the Plot pane.
+## Estimate a radial conditional mean g(x1, x2) and display the fitted
+## spline as an interactive OpenGL surface in the RStudio Viewer.
 
-require(crs)
+library(crs)
 options(rgl.useNULL = TRUE)
 options(rgl.printRglwidget = TRUE)
-require(rgl)
+library(rgl)
 
 set.seed(42)
-
-## Set the number of observations and number of multistarts.
 
 n <- 1000
 nmulti <- 1
 
-x1 <- runif(n,-5,5)
-x2 <- runif(n,-5,5)
+x1 <- runif(n, -5, 5)
+x2 <- runif(n, -5, 5)
 
-dgp <- sin(sqrt(x1^2+x2^2))/sqrt(x1^2+x2^2)
+dgp <- sin(sqrt(x1^2 + x2^2)) / sqrt(x1^2 + x2^2)
 
-y <- dgp + rnorm(n,sd=.1)
+y <- dgp + rnorm(n, sd = .1)
 
-model <- crs(y~x1+x2,
-             complexity="degree-knots",
-             knots="uniform",
-             cv.func="cv.aic",
-             nmulti=nmulti)
+model <- crs(y ~ x1 + x2,
+             complexity = "degree-knots",
+             knots = "uniform",
+             cv.func = "cv.aic",
+             nmulti = nmulti)
 
 summary(model)
 
-## Let plot.crs() construct the interactive rgl surface and support rug.
+## Draw the fitted surface and the observed support.
+plot(model, perspective = TRUE, renderer = "rgl", data_rug = TRUE)
 
-plot(model,perspective=TRUE,renderer="rgl",data_rug=TRUE)
-
-## You could animate the results for 15 seconds using the line
-## play3d(spin3d(axis=c(0,0,1), rpm=5), duration=15)
-## By default you can manually rotate the figure by dragging the plot
-## via your mouse/keypad
-
-## Note - to plot an rgl figure first get it oriented how you want
-## (i.e. resize, rotate etc.) and then call rgl.postscript to create,
-## i.e., a PDF of your graphic as in
-## rgl.postscript("foo.pdf","pdf"). Or better still,
-## rgl.snapshot("foo.png") for a png that can be called directly in
-## LaTeX via \includegraphics[scale=.6]{foo.png}
-
-## For Quarto or R Markdown, place the call in a regular R chunk such
-## as the following illustration:
-## ```{r}
-## x <- rnorm(100); y <- rnorm(100); z <- rnorm(100)
-## plot3d(x, y, z)
-## ```
+## Drag to rotate, scroll to zoom, or animate for 15 seconds with:
+## play3d(spin3d(axis = c(0, 0, 1), rpm = 5), duration = 15)
+## After choosing a view, rgl.snapshot("radial.png") saves a raster image.

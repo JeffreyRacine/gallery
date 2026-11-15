@@ -1,61 +1,50 @@
-## Make sure you have the .Rprofile file from npRmpi/inst/ in your
-## current directory or home directory. It is necessary.
-
-## To run this on systems with OPENMPI installed and working, try
-## mpirun -np 2 R CMD BATCH npsdeptest_npRmpi. Check the time in the
-## output file foo.Rout (the name of this file with extension .Rout),
-## then try with, say, 4 processors and compare run time.
+## Manual-broadcast counterpart to npsdeptest_serial.R.
+## Place npRmpi's installed Rprofile in the working or home directory.
+## Example: mpirun -np 2 R CMD BATCH npsdeptest_npRmpi.R
 
 ## Initialize master and slaves.
 
 mpi.bcast.cmd(np.mpi.initialize(),
-              caller.execute=TRUE)
+              caller.execute = TRUE)
 
-## Turn off progress i/o as this clutters the output file (if you want
-## to see search progress you can comment out this command)
+## Suppress progress messages in batch output; remove this line to retain them.
 
-mpi.bcast.cmd(options(np.messages=FALSE),
-              caller.execute=TRUE)
-
-## Generate some data and broadcast it to all slaves (it will be known
-## to the master node)
+mpi.bcast.cmd(options(np.messages = FALSE),
+              caller.execute = TRUE)
 
 mpi.bcast.cmd(set.seed(42),
-              caller.execute=TRUE)
+              caller.execute = TRUE)
 
-## A function to create a time series
-
-ar.series <- function(phi,epsilon) {
+## Generate a stationary AR(1) series from supplied innovations.
+ar.series <- function(phi, epsilon) {
   n <- length(epsilon)
   series <- numeric(n)
-  series[1] <- epsilon[1]/(1-phi)
-  for(i in 2:n) {
-    series[i] <- phi*series[i-1] + epsilon[i]
+  series[1] <- epsilon[1] / (1 - phi)
+  for (i in seq_len(n)[-1]) {
+    series[i] <- phi * series[i - 1] + epsilon[i]
   }
-  return(series)
+  series
 }
 
 n <- 2000
 
-## Stationary persistent time-series
-
-yt <- ar.series(0.95,rnorm(n))
+yt <- ar.series(0.95, rnorm(n))
 
 mpi.bcast.Robj2slave(yt)
 
-## A simple example of a test for serial dependence
+## Test the simulated series for serial dependence.
 
 t <- system.time(mpi.bcast.cmd(output <- npsdeptest(yt,
-                                                    lag.num=2,
-                                                    B=399,
-                                                    method="summation"),
-                               caller.execute=TRUE))
+                                                    lag.num = 2,
+                                                    B = 399,
+                                                    method = "summation"),
+                               caller.execute = TRUE))
 
 output
 
 cat("Elapsed time =", t[3], "\n")
 
-## Clean up properly then quit()
+## Stop the MPI workers cleanly.
 
 mpi.bcast.cmd(mpi.quit(),
-              caller.execute=TRUE)
+              caller.execute = TRUE)

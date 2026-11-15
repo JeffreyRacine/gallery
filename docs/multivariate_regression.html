@@ -113,6 +113,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -437,7 +466,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#why-this-differs-from-a-linear-model" id="toc-why-this-differs-from-a-linear-model" class="nav-link" data-scroll-target="#why-this-differs-from-a-linear-model">Why this differs from a linear model</a></li>
   <li><a href="#partial-regression-plots" id="toc-partial-regression-plots" class="nav-link" data-scroll-target="#partial-regression-plots">Partial regression plots</a></li>
   <li><a href="#prediction" id="toc-prediction" class="nav-link" data-scroll-target="#prediction">Prediction</a></li>
-  <li><a href="#a-practical-workflow" id="toc-a-practical-workflow" class="nav-link" data-scroll-target="#a-practical-workflow">A practical workflow</a></li>
   <li><a href="#where-to-go-next" id="toc-where-to-go-next" class="nav-link" data-scroll-target="#where-to-go-next">Where to go next</a></li>
   <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference">Reference</a></li>
   </ul>
@@ -476,10 +504,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This page covers the common case where a model has more than one regressor and you want a practical route to fitting, plotting, and predicting. It streamlines the retained <a href="www/Regression/regression_multivar_a.R"><code>regression_multivar_a.R</code></a> teaching script rather than reproducing a published empirical estimate.</p>
+<p>For regressors <span class="math inline">\(X=x\)</span>, <code>npreg()</code> estimates the conditional mean <span class="math inline">\(g(x)=E(Y\mid X=x)\)</span>. This page covers fitting, partial-regression plots, and prediction when <span class="math inline">\(x\)</span> contains several numeric and categorical predictors. It streamlines the <a href="www/Regression/regression_multivar_a.R"><code>regression_multivar_a.R</code></a> teaching script rather than reproducing a published empirical estimate.</p>
 <section id="a-small-mixed-data-regression" class="level2">
 <h2 class="anchored" data-anchor-id="a-small-mixed-data-regression">A small mixed-data regression</h2>
-<p>The bundled <code>wage1</code> data are a random sample of 526 observations from the 1976 U.S. Current Population Survey, supplied by Jeffrey M. Wooldridge. They remain a useful first example because they combine numeric and categorical predictors in a way that mirrors applied work.</p>
+<p>The bundled <code>wage1</code> data contain 526 observations from the 1976 U.S. Current Population Survey, supplied by Jeffrey M. Wooldridge. The response is log wage; the predictors combine numeric and categorical variables.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit a small mixed-data regression with one factor and two numeric regressors</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wage1, <span class="at">package =</span> <span class="st">"np"</span>)</span>
@@ -496,14 +524,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The formula looks familiar:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## The familiar formula syntax still identifies response and regressors</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>lwage <span class="sc">~</span> female <span class="sc">+</span> educ <span class="sc">+</span> exper</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>But the estimator is not fitting an ordinary linear-additive model. The formula is simply the interface for telling <code>np</code> which variable is the response and which are the regressors.</p>
+<p>The formula identifies the response and regressors; it does not impose an ordinary linear-additive model.</p>
 </section>
 <section id="partial-regression-plots" class="level2">
 <h2 class="anchored" data-anchor-id="partial-regression-plots">Partial regression plots</h2>
-<p>For multivariate fits, <code>plot()</code> is often the quickest way to see what the model is doing.</p>
+<p>For multivariate fits, <code>plot()</code> displays one coordinate of <span class="math inline">\(g(x)\)</span> at a time.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Start with asymptotic partial-regression plots for a quick read</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_multi, <span class="at">errors =</span> <span class="st">"asymptotic"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>These are partial-regression plots. One covariate is allowed to vary while the others are held fixed at representative values such as medians or modes. That is why the resulting plots are usually easier to interpret than a raw scatterplot against one regressor at a time.</p>
+<p>Each partial-regression plot varies one covariate while holding the others at representative values such as medians or modes. It is a slice through the fitted multivariate surface, not a bivariate regression fitted in isolation.</p>
 <p>If you want bootstrap-based intervals instead, the workflow is the same but the computation can be much heavier.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Switch to bootstrap intervals only when you need the heavier route</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_multi, <span class="at">errors =</span> <span class="st">"bootstrap"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -515,17 +543,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(fit_multi,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">newdata =</span> wage1[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"educ"</span>, <span class="st">"exper"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This is often the safest pattern because it preserves the factor structure from the original data.</p>
-</section>
-<section id="a-practical-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="a-practical-workflow">A practical workflow</h2>
-<p>One practical sequence is:</p>
-<ol type="1">
-<li>fit a small model first,</li>
-<li>inspect <code>summary(fit_multi)</code>,</li>
-<li>look at the partial-regression plots,</li>
-<li>only then move on to heavier plotting or bootstrap intervals,</li>
-<li>move to <code>npRmpi</code> only after the serial workflow is the right one but too slow for the job at hand.</li>
-</ol>
+<p>Inspect the fitted object and asymptotic partial plots before requesting the more expensive bootstrap route. Move to <code>npRmpi</code> when the serial specification is established and runtime, rather than model definition, is the bottleneck.</p>
 </section>
 <section id="where-to-go-next" class="level2">
 <h2 class="anchored" data-anchor-id="where-to-go-next">Where to go next</h2>

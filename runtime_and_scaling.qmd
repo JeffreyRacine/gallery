@@ -12,7 +12,9 @@ keywords:
   - bootstrap
 ---
 
-This page collects the practical advice that matters once the method is right but the run becomes slow, memory-hungry, or otherwise awkward. The goal is not to promise that every job will be cheap. The goal is to help you decide what to simplify, what to tune, and when to change execution mode.
+This page describes the main computational costs in `np`, `npRmpi`, and `crs`,
+the controls that can reduce them, and the point at which an MPI workflow may
+be preferable to serial execution.
 
 ## What changed in 0.80-2
 
@@ -65,7 +67,8 @@ Common reasons a run is slow:
 - large categorical search spaces,
 - spline search over degree and knot structure.
 
-That is normal behavior, not necessarily a sign that something is broken.
+These operations can be computationally substantial even when the fit is
+proceeding normally.
 
 ## A good default workflow
 
@@ -192,7 +195,7 @@ If you have a large number of variables and the formula interface starts failing
 
 ## `np`: repeated interruptions and memory
 
-If you repeatedly interrupt large jobs, R may hold on to memory that would otherwise have been released at normal completion. When that starts to bite, the practical fix is often just to restart R and begin a fresh session.
+If you repeatedly interrupt large jobs, R may retain memory that would otherwise have been released at normal completion. Restart R before beginning the next large run.
 
 ## `np`: turn off status messages in batch work
 
@@ -314,7 +317,8 @@ If search feels too large:
 
 If the basis can become very large, restricting the minimum degrees of freedom can help keep the search from wandering into impractical models.
 
-A common practical control is `cv.df.min`, which lets you stop the search from considering bases that are simply too large to be sensible for the problem.
+A common practical control is `cv.df.min`, which excludes basis dimensions
+that are too large for the problem.
 
 ## `crs`: progress and long searches
 

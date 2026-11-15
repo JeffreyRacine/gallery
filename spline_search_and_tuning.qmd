@@ -11,7 +11,9 @@ keywords:
   - smoothness
 ---
 
-This page collects the practical tuning advice for `crs`: what to do when search is expensive, when the chosen spline is rougher than you expected, and how to impose a narrower search when that is scientifically warranted.
+This page describes the principal `crs` controls for search cost, smoothness,
+degree, and knot placement. Narrow the search only when the resulting spline
+class remains appropriate for the statistical problem.
 
 ## Why can the search take time?
 
@@ -22,7 +24,8 @@ This page collects the practical tuning advice for `crs`: what to do when search
 - basis type,
 - categorical handling.
 
-So if a run feels slow, the first question is not “is something broken?” but rather “how large is the search space I asked for?”
+Runtime therefore depends on the size of the requested search space as well as
+the sample and basis dimensions.
 
 ## If the search still feels long
 
@@ -56,11 +59,9 @@ loosening a search globally.
 
 ## Memory control during search
 
-If the spline basis can become very large, one practical control is to restrict the minimum degrees of freedom the search is allowed to approach.
-
-In `crs`, that means looking at `cv.df.min`.
-
-The practical interpretation is simple: if the unrestricted search can wander into absurdly large bases, use `cv.df.min` to keep the search in a region that is computationally defensible.
+If the spline basis can become very large, `cv.df.min` can restrict the search
+to a computationally defensible region by imposing a minimum residual degrees
+of freedom.
 
 ## Reduce the search space deliberately
 
@@ -71,24 +72,26 @@ If you need a smaller problem first, the usual levers are:
 - use `complexity = "degree"` or another narrower search,
 - use `basis = "additive"` when additivity is a defensible restriction.
 
-That last option can reduce the combinatorics materially, but of course it changes the model class, so it should be a modeling decision and not just a computational trick.
+The additive basis can reduce the combinatorics materially, but it changes the
+model class and should be used only when additivity is defensible.
 
 ## What if the fitted spline is not smooth enough?
 
-Cross-validation can legitimately choose a rougher spline than you expected. That is not a bug. It is the optimizer doing what the criterion asked for.
+Cross-validation may select a rougher spline than anticipated because that
+candidate minimizes the chosen criterion over the stated search space.
 
-If you want a smoother object, one honest way to do it is to impose a minimum degree:
+Impose a minimum degree when the scientific problem requires a smoother spline:
 
 ```r
 ## Impose a minimum spline degree when you want a smoother fitted object
 model <- crs(y ~ x1 + x2, degree.min = 3)
 ```
 
-That is cleaner than pretending the cross-validated solution was wrong while silently using a different one.
+This makes the smoothness restriction explicit in the fitted model.
 
 ## Can `crs` mimic a cubic smoothing-spline style search?
 
-Yes. If you want to hold degree fixed and optimize knot structure instead, a practical route is:
+Hold degree fixed and optimize knot structure with:
 
 ```r
 ## Hold the degree fixed and let the knot search do the work
@@ -96,11 +99,12 @@ model <- crs(y ~ x1, complexity = "knots", degree = 3)
 summary(model)
 ```
 
-That is not identical to every smoothing-spline implementation, but it is the natural `crs` analogue when you want to hold degree fixed and let the knot search do the work.
+This is the `crs` analogue of fixing the polynomial degree while selecting the
+knot structure; it is not identical to every smoothing-spline estimator.
 
 ## Can `crs` recover linear regression?
 
-Yes. This is worth remembering because it clarifies the model family.
+The model family includes a linear-regression-style special case.
 
 ```r
 ## Recover the linear-regression-style special case inside crs
@@ -115,7 +119,8 @@ This is the simple linear-regression-style special case already highlighted on [
 
 ## Quantile regression splines
 
-If you want a conditional quantile rather than a conditional mean, use `tau`.
+Set `tau` to estimate the conditional quantile $q_\tau(x)$ rather than the
+conditional mean $E(Y\mid X=x)$.
 
 ```r
 ## Use tau to target a conditional quantile rather than a conditional mean
@@ -132,23 +137,23 @@ For a single predictor `x1`, use this knot-retrieval pattern:
 
 ```r
 ## Recover uniform knot locations from the selected segment count
-seq(min(x1), max(x1), length = model$segments[1] + 1)
+seq(min(x1), max(x1), length.out = model$segments[1] + 1)
 ```
 
 for uniform spacing, or
 
 ```r
 ## Recover quantile knot locations from the selected segment count
-quantile(x1, probs = seq(0, 1, length = model$segments[1] + 1))
+quantile(x1, probs = seq(0, 1, length.out = model$segments[1] + 1))
 ```
 
 for quantile spacing.
 
 ## Compare against a parametric baseline when useful
 
-If you want to compare a parametric model and a spline model on a common predictive criterion, compare the cross-validation score rather than only the fitted curves.
-
-That is often a more honest question than “which summary table looks nicer?”
+To compare a parametric model and a spline model on a common predictive
+criterion, compare their cross-validation scores rather than only their fitted
+curves or summary tables.
 
 ## Where to go next
 

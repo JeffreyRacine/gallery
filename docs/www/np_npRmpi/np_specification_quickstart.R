@@ -1,7 +1,4 @@
-## Minimal np model-specification test example.
-##
-## The idea is to fit a simple linear model to nonlinear data and then
-## ask whether the parametric specification looks too restrictive.
+## Test a linear conditional-mean model against a nonparametric alternative.
 
 library(np)
 options(np.messages = FALSE)

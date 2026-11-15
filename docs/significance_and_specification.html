@@ -113,6 +113,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -474,13 +503,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>The <code>np</code> package includes more than estimators. It also provides nonparametric testing tools for questions that applied users ask all the time:</p>
-<ul>
-<li>is a regressor important,</li>
-<li>does a parametric model look misspecified,</li>
-<li>is a simpler model being rejected by the data?</li>
-</ul>
-<p>This page focuses on two especially useful functions:</p>
+<p>This page covers two regression tests:</p>
 <ul>
 <li><code>npsigtest</code> for nonparametric regression significance testing,</li>
 <li><code>npcmstest</code> for consistent model specification testing.</li>
@@ -493,7 +516,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Current releases use <code>B</code> consistently for public bootstrap counts. <code>npsigtest()</code> also chooses pivotal statistics for continuous predictors and unstandardized statistics for categorical predictors by default; an explicit <code>pivot</code> choice still overrides that automatic policy.</p>
 <section id="significance-testing-npsigtest" class="level2">
 <h2 class="anchored" data-anchor-id="significance-testing-npsigtest">Significance testing: <code>npsigtest</code></h2>
-<p>Once a nonparametric regression model has been fitted, <code>npsigtest</code> provides a nonparametric counterpart to the familiar significance-testing mindset from parametric regression.</p>
+<p>For a fitted regression <span class="math inline">\(g(x)=E(Y\mid X=x)\)</span>, <code>npsigtest()</code> tests whether a selected predictor contributes to <span class="math inline">\(g(x)\)</span>.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit a local-linear regression before calling the nonparametric significance test</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(cps71, <span class="at">package =</span> <span class="st">"np"</span>)</span>
@@ -505,11 +528,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cps71)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">npsigtest</span>(fit, <span class="at">B =</span> <span class="dv">99</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This is useful when you want to know whether a regressor matters without collapsing immediately back to a parametric linear model.</p>
+<p>The test retains the nonparametric regression specification rather than replacing it with a linear model.</p>
 </section>
 <section id="model-specification-testing-npcmstest" class="level2">
 <h2 class="anchored" data-anchor-id="model-specification-testing-npcmstest">Model specification testing: <code>npcmstest</code></h2>
-<p><code>npcmstest</code> is useful when you have a parametric regression model in hand and want to test whether it looks correctly specified against a nonparametric alternative.</p>
+<p><code>npcmstest()</code> tests a parametric conditional-mean specification against a consistent nonparametric alternative.</p>
 <p>The <code>wage1</code> example starts with a simple linear specification and then asks whether that specification is too restrictive.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Compare a simple linear model to a nonparametric alternative</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
@@ -539,9 +562,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>These tests can be computationally demanding because they may involve both bandwidth selection and bootstrap procedures.</p>
 <p>Practical advice:</p>
 <ul>
-<li>begin with a small or illustrative problem,</li>
-<li>do not assume that testing is cheap just because estimation already ran,</li>
-<li>avoid overriding search tolerances casually unless you are deliberately doing a quick exploratory run.</li>
+<li>begin with a small problem when exploring a specification,</li>
+<li>budget separately for estimation and testing,</li>
+<li>preserve the default search tolerances unless a deliberate exploratory run requires otherwise.</li>
 </ul>
 </section>
 <section id="when-should-i-use-these" class="level2">
@@ -576,7 +599,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>See <a href="./entropy_tests.html">Entropy and Testing</a> for the entropy-based test family.</li>
 <li>See <a href="./plotting_and_intervals.html">Plotting and Intervals</a> if you want uncertainty summaries and graphical output.</li>
 </ul>
-<p>Together, these pages cover the main ways in which <code>np</code> moves beyond “just fit a regression curve”.</p>
 
 
 </section>

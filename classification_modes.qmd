@@ -9,21 +9,24 @@ keywords:
   - birthwt
 ---
 
-The `np` package can also be used for nonparametric classification problems by estimating the conditional density or conditional probability structure and then working with the conditional mode. This is a useful route when a simple parametric classification model feels too rigid.
+For a categorical response, `npconmode()` estimates the class probabilities
+$p_y(x)=P(Y=y\mid X=x)$ and predicts the conditional mode
+
+$$
+m(x)=\underset{y}{\operatorname{arg\,max}}\;p_y(x).
+$$
+
+This provides a nonparametric classifier without imposing a link function or
+linear index.
 
 If you want a minimal downloadable script for the classification route, start with [np_classification_quickstart.R](www/np_npRmpi/np_classification_quickstart.R).
 
 ## The basic idea
 
-For binary, multinomial, or ordered outcomes, one practical route is to estimate a nonparametric conditional density and then classify using the conditional mode. In `np`, the function most directly associated with this workflow is `npconmode`.
-
-This is especially useful when the covariates include a mixture of continuous and categorical variables.
-
-In statistical terms, the fitted class is the outcome value with the largest
-estimated conditional probability at the conditioning point. For a discrete
-response support, this is the conditional mode. The bandwidths and any
-local-polynomial degree search are inherited from the conditional-density
-bandwidth route used by `npcdensbw`.
+The response may be binary, multinomial, or ordered, and the covariates may mix
+continuous, unordered, and ordered variables. Bandwidths and any
+local-polynomial degree search are inherited from the `npcdensbw()`
+conditional-density route.
 
 ## A simple binary-outcome example
 
@@ -115,29 +118,20 @@ model_np$CCR.overall
 model_np_nomad$CCR.overall
 ```
 
-The exact comparison will of course depend on the data and the tuning, but this is the right general workflow when you want to compare a flexible nonparametric classifier to a familiar parametric benchmark.
-
-## Why this route is useful
-
-- it handles mixed data naturally,
-- it avoids forcing a specific link and linear index structure from the outset,
-- it can uncover classification structure that a simple parametric model misses.
+This compares a flexible conditional-mode classifier with a familiar
+parametric benchmark on the same response and covariates.
 
 ## Practical notes
 
-- Make sure categorical variables are properly classed before fitting.
-- Start with a modest problem size first.
-- Do not casually override search tolerances just because an older example did so for convenience.
-- Treat the confusion matrix as one useful summary, not the whole story.
+- Class categorical variables before fitting.
+- Start with a modest problem size when exploring a specification.
+- Preserve the default search tolerances unless a deliberate exploratory run requires otherwise.
+- Examine fitted probabilities as well as the confusion matrix.
 
-## What `npconmode` is really doing
-
-Conceptually, the model is building a nonparametric representation of the conditional distribution and then using the most likely outcome category at each conditioning point. That is why the function is useful for classification and modal regression problems.
-
-The underlying conditional-density machinery is the same mixed-data kernel
-framework used elsewhere in `np`. The package help pages carry the argument
-details; this Gallery page is meant to show the classification workflow and
-where the fitted summaries come from.
+The fitted mode, class-probability matrix, and probability effects all use the
+same mixed-data conditional-density fit. The mode reports the most likely
+class; the probabilities show how strongly the fitted distribution supports
+that choice.
 
 ## Related material
 

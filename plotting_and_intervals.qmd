@@ -9,7 +9,9 @@ keywords:
   - gradients
 ---
 
-Plotting is one of the places where `np` becomes especially useful, because the fitted object often carries much more than a point estimate. The package also supports asymptotic and bootstrap-based uncertainty summaries, but those come with real computational cost.
+Plot methods display a fitted statistical object and, where supported, its
+derivatives or finite differences and uncertainty summaries. These operations
+can require additional fitting, influence calculations, or bootstrap work.
 
 If you want a minimal downloadable script for this route, start with [np_plotting_quickstart.R](www/np_npRmpi/np_plotting_quickstart.R).
 
@@ -137,7 +139,12 @@ ordinary no-error plots are not redefined by these opt-in interval routes.
 
 ## Gradients
 
-For derivative views, request gradients in the plot call.
+For a regression function $g(x)=E(Y\mid X=x)$, numeric-predictor panels show
+$\beta_j(x)=\partial g(x)/\partial x_j$ (or the requested higher-order
+derivative). Unordered factors compare each level with the first retained
+level; ordered factors use adjacent-level differences. The categorical panels
+therefore show $\Delta_j g(x)$, not a derivative with respect to an artificial
+numeric coding.
 
 ```r
 ## Request derivative plots from the same fitted object
@@ -153,7 +160,8 @@ plot(model.ll, gradients = TRUE, errors = "asymptotic")
 
 ## Bootstrap intervals
 
-Bootstrap-based intervals are often appealing because they are less tied to asymptotic formulas, but they can be slow.
+Bootstrap intervals use simulated sampling variation and can be substantially
+more expensive than asymptotic intervals.
 
 ```r
 ## Use the bootstrap route when you want simulation-based intervals

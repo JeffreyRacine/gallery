@@ -10,14 +10,28 @@ keywords:
   - kernel primer
 ---
 
-This primer focuses on what makes the `np` approach distinctive, how its
-workflow is organized, and what to keep in mind when working with mixed data.
+This primer introduces mixed-data kernels, bandwidth selection, and the fitted
+objects used throughout `np`.
 
 ## Why kernel methods?
 
 Kernel methods are attractive because they can reveal structure that a rigid parametric model may miss. The cost, of course, is that they are often computationally more demanding than the parametric alternative.
 
 For `np`, the important point is not just that the methods are nonparametric, but that they are built to handle the mix of continuous, unordered, and ordered data that often appears in applied work.
+
+## Begin with the statistical object
+
+The main functions differ by the population object they estimate:
+
+$$
+g(x)=E(Y\mid X=x), \qquad f(y\mid x), \qquad
+F(y\mid x), \qquad Q_\tau(x)=F^{-1}(\tau\mid x).
+$$
+
+Here `npreg()` estimates the conditional mean, `npcdens()` the conditional
+density, `npcdist()` the conditional distribution, and `npqreg()` a
+conditional quantile. Their bandwidth objects record how the corresponding
+unknown function is smoothed.
 
 ## Why `np` is different from a basic kernel smoother
 
@@ -98,11 +112,12 @@ bw <- npregbw(y ~ x_cont + x_unordered + x_ordered, data = mydat)
 fit <- npreg(bws = bw)
 ```
 
-The same formula syntax is used, but the estimator is not fitting a linear-additive model in the parametric sense. The formula is simply the interface for specifying which variable is the response and which are the covariates.
+The formula identifies the response and covariates; it does not impose a
+linear-additive parametric model.
 
 ## Formula interface versus data-frame interface
 
-`np` supports both. The formula interface is often the easiest to read:
+`np` supports both. The formula interface is often the more concise:
 
 ```r
 ## The same modeling interface works directly through a formula and data frame
@@ -207,6 +222,12 @@ legend("topleft",
   col = c(1, 2),
   bty = "n")
 ```
+
+For a numeric predictor $x_j$, a first-order regression gradient is
+$\beta_j(x)=\partial g(x)/\partial x_j$. For an unordered factor it is the
+contrast with the first retained level; for an ordered factor it is an
+adjacent-level difference. These categorical effects are denoted
+$\Delta_j g(x)$ rather than derivatives.
 
 ## What to read next
 

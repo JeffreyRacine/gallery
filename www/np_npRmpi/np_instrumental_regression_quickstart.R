@@ -1,7 +1,4 @@
-## Minimal np instrumental-regression example.
-##
-## This mirrors the basic one-endogenous-regressor setup used in the
-## package demos while keeping the first run compact.
+## Estimate a structural function g(z) with one instrument w.
 
 library(np)
 

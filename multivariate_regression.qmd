@@ -10,18 +10,18 @@ keywords:
   - np
 ---
 
-This page covers the common case where a model has more than one regressor and
-you want a practical route to fitting, plotting, and predicting. It streamlines
-the retained
+For regressors $X=x$, `npreg()` estimates the conditional mean
+$g(x)=E(Y\mid X=x)$. This page covers fitting, partial-regression plots, and
+prediction when $x$ contains several numeric and categorical predictors. It
+streamlines the
 [`regression_multivar_a.R`](www/Regression/regression_multivar_a.R) teaching
 script rather than reproducing a published empirical estimate.
 
 ## A small mixed-data regression
 
-The bundled `wage1` data are a random sample of 526 observations from the 1976
-U.S. Current Population Survey, supplied by Jeffrey M. Wooldridge. They remain
-a useful first example because they combine numeric and categorical predictors
-in a way that mirrors applied work.
+The bundled `wage1` data contain 526 observations from the 1976 U.S. Current
+Population Survey, supplied by Jeffrey M. Wooldridge. The response is log wage;
+the predictors combine numeric and categorical variables.
 
 ```r
 ## Fit a small mixed-data regression with one factor and two numeric regressors
@@ -46,18 +46,21 @@ The formula looks familiar:
 lwage ~ female + educ + exper
 ```
 
-But the estimator is not fitting an ordinary linear-additive model. The formula is simply the interface for telling `np` which variable is the response and which are the regressors.
+The formula identifies the response and regressors; it does not impose an
+ordinary linear-additive model.
 
 ## Partial regression plots
 
-For multivariate fits, `plot()` is often the quickest way to see what the model is doing.
+For multivariate fits, `plot()` displays one coordinate of $g(x)$ at a time.
 
 ```r
 ## Start with asymptotic partial-regression plots for a quick read
 plot(fit_multi, errors = "asymptotic")
 ```
 
-These are partial-regression plots. One covariate is allowed to vary while the others are held fixed at representative values such as medians or modes. That is why the resulting plots are usually easier to interpret than a raw scatterplot against one regressor at a time.
+Each partial-regression plot varies one covariate while holding the others at
+representative values such as medians or modes. It is a slice through the
+fitted multivariate surface, not a bivariate regression fitted in isolation.
 
 If you want bootstrap-based intervals instead, the workflow is the same but the computation can be much heavier.
 
@@ -78,15 +81,9 @@ predict(fit_multi,
 
 This is often the safest pattern because it preserves the factor structure from the original data.
 
-## A practical workflow
-
-One practical sequence is:
-
-1. fit a small model first,
-2. inspect `summary(fit_multi)`,
-3. look at the partial-regression plots,
-4. only then move on to heavier plotting or bootstrap intervals,
-5. move to `npRmpi` only after the serial workflow is the right one but too slow for the job at hand.
+Inspect the fitted object and asymptotic partial plots before requesting the
+more expensive bootstrap route. Move to `npRmpi` when the serial specification
+is established and runtime, rather than model definition, is the bottleneck.
 
 ## Where to go next
 

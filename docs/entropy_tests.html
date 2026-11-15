@@ -508,7 +508,7 @@ window.Quarto = {
 
 
 <p>If you want a minimal downloadable script for the quickest first run on this page, start with <a href="www/np_npRmpi/np_entropy_quickstart.R">np_entropy_quickstart.R</a>.</p>
-<p>The <code>np</code> package includes entropy-based procedures for testing density equality, asymmetry, and dependence. These are powerful tools, but they are often more computationally demanding than basic regression or density workflows, so it helps to know what each function is for before jumping in.</p>
+<p>The entropy-based procedures compare probability laws rather than only moments. They test equality of densities, symmetry, pairwise dependence, or serial dependence and can be more computationally demanding than estimation alone.</p>
 <section id="the-main-functions" class="level2">
 <h2 class="anchored" data-anchor-id="the-main-functions">The main functions</h2>
 <table class="caption-top table">
@@ -541,7 +541,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>These functions are specialized, but they fit naturally with the broader <code>np</code> philosophy: kernel-based estimation, mixed-data support where appropriate, and bootstrap-based inference when needed.</p>
+<p>Each procedure builds its test statistic from nonparametric probability estimates and obtains inference from the corresponding bootstrap scheme.</p>
 <p>The public bootstrap-count argument is consistently named <code>B</code> throughout this family. The former <code>boot.num</code> input is retired; the examples below already use the current spelling.</p>
 <p>Default fixed-Gaussian integration uses bounded deterministic corrected-trapezoid quadrature and no longer depends on <code>cubature</code>. Eligible summation and bootstrap work uses bounded native batches rather than retaining an <span class="math inline">\(n \times n\)</span> pair cache. Long-running phases report completed work, elapsed time, and an ETA once enough progress has been observed, then clear the transient display on completion or failure.</p>
 </section>

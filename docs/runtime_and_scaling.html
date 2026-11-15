@@ -490,7 +490,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This page collects the practical advice that matters once the method is right but the run becomes slow, memory-hungry, or otherwise awkward. The goal is not to promise that every job will be cheap. The goal is to help you decide what to simplify, what to tune, and when to change execution mode.</p>
+<p>This page describes the main computational costs in <code>np</code>, <code>npRmpi</code>, and <code>crs</code>, the controls that can reduce them, and the point at which an MPI workflow may be preferable to serial execution.</p>
 <section id="what-changed-in-0.80-2" class="level2">
 <h2 class="anchored" data-anchor-id="what-changed-in-0.80-2">What changed in 0.80-2</h2>
 <p>The <code>np</code> and <code>npRmpi</code> 0.80-2 release focuses on a clearer plotting contract, broader bounded-density diagnostics, and stricter validation of calls that previously could be ambiguous.</p>
@@ -519,7 +519,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>large categorical search spaces,</li>
 <li>spline search over degree and knot structure.</li>
 </ul>
-<p>That is normal behavior, not necessarily a sign that something is broken.</p>
+<p>These operations can be computationally substantial even when the fit is proceeding normally.</p>
 </section>
 <section id="a-good-default-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="a-good-default-workflow">A good default workflow</h2>
@@ -604,7 +604,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="np-repeated-interruptions-and-memory" class="level2">
 <h2 class="anchored" data-anchor-id="np-repeated-interruptions-and-memory"><code>np</code>: repeated interruptions and memory</h2>
-<p>If you repeatedly interrupt large jobs, R may hold on to memory that would otherwise have been released at normal completion. When that starts to bite, the practical fix is often just to restart R and begin a fresh session.</p>
+<p>If you repeatedly interrupt large jobs, R may retain memory that would otherwise have been released at normal completion. Restart R before beginning the next large run.</p>
 </section>
 <section id="np-turn-off-status-messages-in-batch-work" class="level2">
 <h2 class="anchored" data-anchor-id="np-turn-off-status-messages-in-batch-work"><code>np</code>: turn off status messages in batch work</h2>
@@ -685,7 +685,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="crs-watch-memory-during-search" class="level2">
 <h2 class="anchored" data-anchor-id="crs-watch-memory-during-search"><code>crs</code>: watch memory during search</h2>
 <p>If the basis can become very large, restricting the minimum degrees of freedom can help keep the search from wandering into impractical models.</p>
-<p>A common practical control is <code>cv.df.min</code>, which lets you stop the search from considering bases that are simply too large to be sensible for the problem.</p>
+<p>A common practical control is <code>cv.df.min</code>, which excludes basis dimensions that are too large for the problem.</p>
 </section>
 <section id="crs-progress-and-long-searches" class="level2">
 <h2 class="anchored" data-anchor-id="crs-progress-and-long-searches"><code>crs</code>: progress and long searches</h2>
