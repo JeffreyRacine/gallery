@@ -19,7 +19,7 @@ underlying papers, not a substitute for them.
 
 ::: {.callout-tip}
 **New to `np`?** Watch [Your first `np` result](video_demos.qmd#first-np-result),
-a 24-second RStudio walkthrough, then continue with the copyable script.
+a half-minute RStudio demonstration, then continue with the copyable script.
 :::
 
 ::: {.callout-note}
