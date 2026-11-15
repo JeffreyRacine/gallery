@@ -117,6 +117,111 @@ rgl::rglwidget()
 :::
 :::
 
+::: {.gallery-code-disclosure}
+::: {.callout-note collapse="true"}
+## Compare cell-based and joint estimates
+
+The first panel below estimates each year's CDF separately, including a
+separate GDP bandwidth. The second remains cell-based by fixing the ordered
+year bandwidth at `lambda = 0`, but selects one common GDP bandwidth across
+years. The final `npcdist()` fit also borrows strength across the ordered year
+axis. Comparing all three separates the effect of a common bandwidth from the
+additional smoothing supplied by neighboring years. With only 20 regions per
+year, the joint fit produces a markedly steadier year-to-year CDF and median
+path than independent annual fits in this example.
+
+```r
+## Load the data and define a common evaluation grid
+library(np)
+# This comparison requires the suggested rgl package: install.packages("rgl")
+data("Italy_Updated")
+set.seed(20261114)
+
+years <- levels(Italy_Updated$year)
+year_num <- as.numeric(years)
+gdp_grid <- seq(0, ceiling(max(Italy_Updated$gdp) * 1.05),
+  length.out = 121)
+tau <- 0.5
+
+## Estimate each year's CDF and median using its own selected bandwidth
+annual_fit <- lapply(years, function(yr) {
+  annual_data <- droplevels(
+    Italy_Updated[Italy_Updated$year == yr, , drop = FALSE])
+  bw <- npudistbw(~gdp, data = annual_data, nmulti = 1)
+  Fhat <- npudist(bws = bw, newdata = data.frame(gdp = gdp_grid))
+  list(
+    cdf = fitted(Fhat),
+    quantile = npquantile(annual_data$gdp, tau = tau, bws = bw))
+})
+cdf_separate <- do.call(rbind, lapply(annual_fit, `[[`, "cdf"))
+quantile_separate <- vapply(annual_fit,
+  function(fit) unname(fit$quantile), numeric(1))
+
+## Assemble a common year-by-GDP evaluation grid
+eval_grid <- expand.grid(
+  year = ordered(years, levels = years),
+  gdp = gdp_grid,
+  KEEP.OUT.ATTRS = FALSE)
+year_grid <- data.frame(year = ordered(years, levels = years))
+
+evaluate_conditional_fit <- function(bws) {
+  Fhat <- npcdist(bws = bws, newdata = eval_grid)
+  Qhat <- npqreg(bws = bws, tau = tau, data = Italy_Updated)
+  list(
+    cdf = matrix(fitted(Fhat), nrow = length(years)),
+    quantile = drop(predict(Qhat, newdata = year_grid)))
+}
+
+## Select one GDP bandwidth while retaining cell-based year estimates
+bw_common <- npcdistbw(gdp ~ year, data = Italy_Updated, nmulti = 1,
+  lbd.dir = 0, hbd.dir = 0, dfac.dir = 0, initd.dir = 0,
+  lbd.init = 0, hbd.init = 0, dfac.init = 0)
+stopifnot(as.numeric(bw_common$xbw) == 0)
+common_fit <- evaluate_conditional_fit(bw_common)
+
+## Jointly select the GDP and ordered-year bandwidths
+joint_model <- npcdist(gdp ~ year, data = Italy_Updated)
+joint_fit <- evaluate_conditional_fit(joint_model$bws)
+
+## Use np's viridis surface palette and its small RGL boundary clearance
+palette <- grDevices::hcl.colors(1000, palette = "viridis")
+cdf_limits <- grDevices::extendrange(c(0, 1), f = 0.001)
+surface_colors <- function(cdf) {
+  index <- 1 + floor(999 * pmax(0, pmin(1, cdf)))
+  matrix(palette[index], nrow = nrow(cdf), ncol = ncol(cdf))
+}
+
+draw_panel <- function(cdf, quantile, title) {
+  rgl::persp3d(year_num, gdp_grid, cdf, zlim = cdf_limits,
+    xlab = "year",
+    ylab = "real GDP per capita (thousands of 2020 euros)",
+    zlab = "F(gdp|year)", main = title, ticktype = "detailed",
+    color = surface_colors(cdf), alpha = 0.6, back = "lines",
+    border = palette[32], lit = FALSE)
+  rgl::points3d(as.numeric(as.character(Italy_Updated$year)),
+    Italy_Updated$gdp, 0, color = "grey55", alpha = 0.35, size = 2)
+  rgl::lines3d(year_num, quantile, tau, color = "grey30", lwd = 1)
+  rgl::lines3d(year_num, quantile, 0, color = "grey30", lwd = 1.5)
+  rgl::grid3d(c("x", "y+", "z"), col = "grey", lwd = 1)
+  rgl::view3d(theta = 300, phi = 10, fov = 55)
+}
+
+## Draw synchronized panels that rotate and zoom together
+rgl::open3d(useNULL = TRUE, silent = TRUE)
+rgl::mfrow3d(1, 3, sharedMouse = TRUE)
+draw_panel(cdf_separate, quantile_separate,
+  "Separate bandwidth per year")
+rgl::next3d()
+draw_panel(common_fit$cdf, common_fit$quantile,
+  "Common GDP bandwidth, lambda = 0")
+rgl::next3d()
+draw_panel(joint_fit$cdf, joint_fit$quantile,
+  "Ordered-year-smoothed npcdist")
+rgl::rglwidget(width = 2100, height = 720)
+```
+:::
+:::
+
 ## Current Capabilities
 
 - [0.80-2 update and migration notes](runtime_and_scaling.qmd): `np` and `npRmpi` `0.80-2` use snake_case compound plot controls and a common `np_plot_data` return schema; enforce numeric responses across the regression family; refine plot-grid semantics; extend bounded-density plotting and interval support; and strengthen formula evaluation, RNG replay, and MPI startup and ownership checks.
