@@ -12,9 +12,9 @@ keywords:
   - MPI
 ---
 
-This page keeps the useful question-and-answer material and drops the old habit of duplicating changelog text inside the FAQ.
+Use this page for practical answers and routes to the current package guidance.
 
-Two support pages now carry the more detailed practical guidance:
+For more detailed guidance, see:
 
 - [Data Preparation and Variable Types](data_preparation.qmd)
 - [Runtime, Memory, and Scaling](runtime_and_scaling.qmd)
@@ -163,7 +163,7 @@ example(crs)
 demo(package = "crs")
 ```
 
-For website-first routing:
+For worked examples and topic guides:
 
 - [Quickstarts](quickstarts.qmd)
 - [Code Catalog](code_catalog.qmd)
@@ -232,9 +232,8 @@ For the broader runtime side of this issue, see [Runtime, Memory, and Scaling](r
 
 ## Where do I find the changelog?
 
-The FAQ should not duplicate changelog text.
-
-Use the package page on CRAN and the package repo `NEWS.md` / release notes instead. The point is to keep one canonical record of changes rather than two or three drifting copies.
+Use the package page on CRAN and the package repository `NEWS.md` or release
+notes as the canonical release history.
 
 ## Some older examples use `attach()`. Should I?
 
@@ -339,9 +338,9 @@ See [Spline Search and Tuning](spline_search_and_tuning.qmd) for:
 - retrieving knot locations from the fitted model,
 - and the linear-regression special case.
 
-## Legacy FAQ PDFs
+## Older FAQ PDFs
 
-The old FAQs still contain useful material, but they also contain obsolete changelog duplication and older presentation choices.
-
-- Legacy `np` FAQ PDF: no longer hosted in the current CRAN vignette set; use the current [`np` vignettes on CRAN](https://cran.r-project.org/web/packages/np/vignettes/).
-- Legacy `crs` FAQ PDF: no longer hosted in the current CRAN vignette set; use the current [`crs` vignettes on CRAN](https://cran.r-project.org/web/packages/crs/vignettes/).
+The final archived `np` and `crs` FAQ PDFs remain available under
+[Older Documents and Current Guides](legacy_materials.qmd). Treat them as
+historical references; use this FAQ and the current package manuals for current
+interfaces.

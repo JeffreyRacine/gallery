@@ -99,7 +99,7 @@ website:
           - href: books_papers.qmd
             text: "Books, Papers, and Citation"
           - href: legacy_materials.qmd
-            text: "Legacy Materials"
+            text: "Older Documents"
           - href: about.qmd
             text: "About"
   page-footer:

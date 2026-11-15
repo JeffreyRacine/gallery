@@ -78,7 +78,8 @@ summary(fit)
 - Plotting fitted objects and intervals: [regression_intro_c.R](www/Regression/regression_intro_c.R)
 - Multivariate regression: [regression_multivar_a.R](www/Regression/regression_multivar_a.R)
 
-For a website-first route to the multivariate example, see [Multivariate Regression and Prediction](multivariate_regression.qmd).
+For a fuller multivariate workflow, see
+[Multivariate Regression and Prediction](multivariate_regression.qmd).
 
 ## Causal inference examples
 
@@ -90,10 +91,12 @@ simultaneous band over a fixed evaluation grid.
 
 ## Notes
 
-- The script links remain useful because they are more heavily commented than the short code blocks on this page.
+- Use the full scripts when you want more commentary than the short code blocks
+  provide.
 - Some examples call for additional packages. Where that is the case, the script itself says so.
 - The older `npglpreg` route is deprecated. For a functional replacement, use `npreg(..., nomad = "auto")` in `np` or `npRmpi`.
-- The `wage1` multivariate route now has its own page at [Multivariate Regression and Prediction](multivariate_regression.qmd).
+- The `wage1` multivariate example is available under
+  [Multivariate Regression and Prediction](multivariate_regression.qmd).
 - For plotting objects, gradients, and uncertainty summaries, see [Plotting and Intervals](plotting_and_intervals.qmd).
 
 ## Reference

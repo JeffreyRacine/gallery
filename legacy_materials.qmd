@@ -1,31 +1,51 @@
 ---
-title: "Legacy Materials"
+title: "Older Documents and Current Guides"
+description: "Archived np and crs documents with links to current guides and package documentation."
 ---
 
-This page keeps the older long-form documents visible without requiring the live website to preserve their original structure or style.
+These PDFs preserve the final long-form documents shipped before the current
+vignette set. They contain useful exposition and practical FAQs, but some
+commands, defaults, and package-version details are historical.
 
-The basic rule is:
+::: {.callout-warning}
+Use the current Gallery pages and package manuals for present APIs. Consult the
+archived PDFs for background, extended discussion, and historical examples.
+:::
 
-- the newer website pages are the preferred first stop,
-- the older PDFs remain valuable as archival references,
-- changelog material should live in one canonical place, not be duplicated in FAQ documents.
+## Archived `np` documents
 
-## Legacy package material
+These copies come from the archived CRAN
+[`np` 0.60-20 package tarball](https://cran.r-project.org/src/contrib/Archive/np/np_0.60-20.tar.gz).
 
-### `np`
+| Document | Archived copy | Pages | PDF build date |
+|---|---|---:|---|
+| Package `np` FAQ | [PDF](www/legacy/np_faq_0.60-20.pdf) | 56 | February 16, 2026 |
+| *The np Package* | [PDF](www/legacy/np_vignette_0.60-20.pdf) | 34 | February 16, 2026 |
+| *Entropy-Based Inference using R and the np Package: A Primer* | [PDF](www/legacy/np_entropy_0.60-20.pdf) | 11 | February 16, 2026 |
 
-- Current CRAN vignettes: [`np` vignette index](https://cran.r-project.org/web/packages/np/vignettes/)
-- Current getting-started vignette: [`np_getting_started`](https://cran.r-project.org/web/packages/np/vignettes/np_getting_started.html)
-- Current entropy vignette: [`np_entropy_tests`](https://cran.r-project.org/web/packages/np/vignettes/np_entropy_tests.html)
-- Historical names such as `np.pdf`, `entropy_np.pdf`, and `np_faq.pdf` refer to older PDF-era materials and are no longer hosted in the current CRAN vignette set.
+Current package documentation:
 
-### `crs`
+- [`np` vignette index on CRAN](https://cran.r-project.org/web/packages/np/vignettes/)
+- [`np_getting_started`](https://cran.r-project.org/web/packages/np/vignettes/np_getting_started.html)
+- [`np_entropy_tests`](https://cran.r-project.org/web/packages/np/vignettes/np_entropy_tests.html)
 
-- Current CRAN vignettes: [`crs` vignette index](https://cran.r-project.org/web/packages/crs/vignettes/)
-- Current getting-started vignette: [`crs_getting_started`](https://cran.r-project.org/web/packages/crs/vignettes/crs_getting_started.html)
-- Historical names such as `crs.pdf`, `spline_primer.pdf`, and `crs_faq.pdf` refer to older PDF-era materials and are no longer hosted in the current CRAN vignette set.
+## Archived `crs` documents
 
-## Current website-first replacements
+These copies come from the archived CRAN
+[`crs` 0.15-39 package tarball](https://cran.r-project.org/src/contrib/Archive/crs/crs_0.15-39.tar.gz).
+
+| Document | Archived copy | Pages | PDF build date |
+|---|---|---:|---|
+| Package `crs` FAQ | [PDF](www/legacy/crs_faq_0.15-39.pdf) | 25 | March 25, 2026 |
+| *The crs Package* | [PDF](www/legacy/crs_vignette_0.15-39.pdf) | 13 | March 25, 2026 |
+| *A Primer on Regression Splines* | [PDF](www/legacy/crs_spline_primer_0.15-39.pdf) | 11 | March 25, 2026 |
+
+Current package documentation:
+
+- [`crs` vignette index on CRAN](https://cran.r-project.org/web/packages/crs/vignettes/)
+- [`crs_getting_started`](https://cran.r-project.org/web/packages/crs/vignettes/crs_getting_started.html)
+
+## Current Gallery guides
 
 ### For `np`
 
@@ -47,10 +67,7 @@ The basic rule is:
 
 - [MPI and Large Data](mpi_large_data.qmd)
 
-## Why keep the older documents at all?
+## Release history
 
-Because they still contain useful exposition, examples, and historical context, even when the presentation style is now dated. The aim of the redesign is not to erase that material. It is to give users a clearer first route through it.
-
-## What is not being carried forward
-
-The old FAQ habit of manually reproducing changelog material is not being preserved. Current change tracking should live in package release notes and `NEWS.md`, not in multiple hand-maintained PDFs.
+For changes since these archived releases, use the current CRAN package pages
+and package `NEWS.md` files.

@@ -42,8 +42,7 @@ If you want a small downloadable script rather than the package example harness,
 - example scripts for categorical regression splines,
 - constrained spline illustrations,
 - a short [Spline Primer](spline_primer.qmd),
-- links to the package vignette and related paper,
-- a clean split from the kernel material in `np` and `npRmpi`.
+- links to the package vignette and related paper.
 
 ## Example scripts
 

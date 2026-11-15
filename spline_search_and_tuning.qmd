@@ -128,7 +128,7 @@ That gives the conditional median when `tau = 0.5`, or any other conditional qua
 
 Once a model is fit, the practical route to the knot locations depends on whether uniform or quantile knots were used. The key quantity to inspect is the selected number of segments for each predictor.
 
-For a single predictor `x1`, the old FAQ’s practical rule was:
+For a single predictor `x1`, use this knot-retrieval pattern:
 
 ```r
 ## Recover uniform knot locations from the selected segment count

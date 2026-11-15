@@ -412,7 +412,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./legacy_materials.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Legacy Materials</span></a>
+ <span class="menu-text">Older Documents</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -448,7 +448,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#a-practical-rule-of-thumb" id="toc-a-practical-rule-of-thumb" class="nav-link" data-scroll-target="#a-practical-rule-of-thumb">A practical rule of thumb</a></li>
   <li><a href="#what-to-read-next" id="toc-what-to-read-next" class="nav-link" data-scroll-target="#what-to-read-next">What to read next</a></li>
-  <li><a href="#historical-note" id="toc-historical-note" class="nav-link" data-scroll-target="#historical-note">Historical note</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/JeffreyRacine/gallery/blob/main/spline_primer.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
     </div>
@@ -485,7 +484,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This page is a web-native rewrite of the old spline primer. The goal is not to reproduce the entire article verbatim, but to keep the ideas that are most useful when someone wants to understand what the <code>crs</code> package is doing and how spline regression differs from the more familiar kernel material in <code>np</code>.</p>
+<p>This primer introduces the ideas most useful for understanding what the <code>crs</code> package is doing and how spline regression differs from the kernel methods in <code>np</code>.</p>
 <section id="why-splines" class="level2">
 <h2 class="anchored" data-anchor-id="why-splines">Why splines?</h2>
 <p>A spline is a function built piecewise from polynomials. In regression work, this gives us a flexible function class without forcing one global polynomial to do all the work.</p>
@@ -598,10 +597,6 @@ g(x) = beta_1 B_1(x) + beta_2 B_2(x) + ... + beta_K B_K(x)</code></pre>
 <li><a href="./code_catalog.html">Code Catalog</a> for the full script list</li>
 <li><a href="https://cran.r-project.org/web/packages/crs/vignettes/crs_getting_started.html"><code>crs</code> getting started vignette on CRAN</a></li>
 </ul>
-</section>
-<section id="historical-note" class="level2">
-<h2 class="anchored" data-anchor-id="historical-note">Historical note</h2>
-<p>The older Sweave primer went deeper into B'ezier curves, the de Boor recursion, tensor-product notation, and appendix code. That material remains valuable, but for a website the better first step is a shorter conceptual and practical guide like this one.</p>
 
 
 </section>

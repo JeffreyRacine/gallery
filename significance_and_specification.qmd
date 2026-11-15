@@ -54,7 +54,8 @@ This is useful when you want to know whether a regressor matters without collaps
 
 `npcmstest` is useful when you have a parametric regression model in hand and want to test whether it looks correctly specified against a nonparametric alternative.
 
-The older `wage1` example remains instructive because it starts with a simple linear specification and then asks whether that specification is too restrictive.
+The `wage1` example starts with a simple linear specification and then asks
+whether that specification is too restrictive.
 
 ```r
 ## Compare a simple linear model to a nonparametric alternative

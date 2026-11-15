@@ -186,9 +186,8 @@ users.
 
 ## Book Source Key
 
-This section records the chapter-level map used above. It is intentionally
-chapter-first: if you own or can access the books, these are the places to
-start.
+The chapter-level map below provides starting points for readers who own or can
+access the books.
 
 ### Princeton
 
@@ -280,10 +279,8 @@ Public companion links:
 - [Oxford book page](https://global.oup.com/academic/product/reproducible-econometrics-using-r-9780190900663)
 - [Nonparametric Econometrics: A Primer](https://jeffreyracine.github.io/research/www/ECO0301.pdf)
 
-The Research site surfaces public PDFs, errata, and code archives. Local
-manuscript sources, teaching files, solution material, and administrative
-files are not public resources unless they are explicitly published on the
-Research site or by a publisher.
+The Research site provides the public PDFs, errata, and code archives linked
+above.
 
 ## References
 

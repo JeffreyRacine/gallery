@@ -128,7 +128,9 @@ render_quickstart_callouts(subset(quickstarts, section == "npRmpi"), prefix_pack
 
 ## `npRmpi`: serial and MPI comparison scripts
 
-These are older comparison scripts, but still useful if you want to see side-by-side serial and MPI routes. For new work, start with the `session` / `spawn` example above and then come back to these when you want route parity or legacy comparison.
+Use these scripts to compare serial and MPI routes side by side. For new work,
+start with the `session` / `spawn` example above, then use this table when you
+want route-parity comparisons.
 
 | Task | Serial | MPI | Start reading here |
 |---|---|---|---|
@@ -145,8 +147,8 @@ These are older comparison scripts, but still useful if you want to see side-by-
 
 ## `npRmpi`: local polynomial / constrained examples
 
-The older `npglpreg` route is deprecated. These retained local polynomial
-scripts use the current `npregbw()` + `npreghat()` route instead. For the
+The older `npglpreg` route is deprecated. These local-polynomial scripts use
+the current `npregbw()` + `npreghat()` route instead. For the
 automatic LP replacement path, use `npreg(..., nomad = "auto")` in `np` or
 `npRmpi`.
 
@@ -198,7 +200,9 @@ render_quickstart_callouts(subset(quickstarts, section == "crs"), prefix_package
 
 ## Notes
 
-- The Gallery retains the older teaching scripts, while the current pages route readers to them more directly and supply the missing source context.
-- The short blocks near the top are there so you can copy a minimal working pattern without downloading anything first.
+- Use the full teaching scripts when you want more detail and source context
+  than the quickstarts provide.
+- Use the short blocks near the top when you want a minimal working pattern
+  without downloading anything first.
 - For MPI-specific launch semantics, see [MPI and Large Data](mpi_large_data.qmd).
 - For short copyable code blocks rather than full scripts, start with [Worked Examples](regression.qmd).

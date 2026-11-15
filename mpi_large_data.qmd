@@ -420,9 +420,9 @@ Do the simple things first.
 3. confirm that the launch command matches the right mode contract,
 4. only then start experimenting with host-specific `FI_*` overrides.
 
-## Canonical source material for this page
+## Low-level MPI setup references
 
-The package markdown files remain the canonical low-level source material:
+For platform-specific setup and launch details, consult:
 
 - [`README.md` in the `npRmpi` branch](https://github.com/JeffreyRacine/R-Package-np/blob/npRmpi/README.md)
 - [`inst/MPI_SETUP.md`](https://github.com/JeffreyRacine/R-Package-np/blob/npRmpi/inst/MPI_SETUP.md)

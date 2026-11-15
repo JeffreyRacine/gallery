@@ -12,7 +12,10 @@ keywords:
 
 If you want a minimal downloadable script for the quickest first run on this page, start with [np_entropy_quickstart.R](www/np_npRmpi/np_entropy_quickstart.R).
 
-This page is a website-first rewrite of the old entropy vignette. The `np` package includes a useful group of entropy-based procedures for testing density equality, asymmetry, and dependence. These are powerful tools, but they are often more computationally demanding than the basic regression or density workflows, so it helps to know what each function is for before jumping in.
+The `np` package includes entropy-based procedures for testing density
+equality, asymmetry, and dependence. These are powerful tools, but they are
+often more computationally demanding than basic regression or density
+workflows, so it helps to know what each function is for before jumping in.
 
 ## The main functions
 
@@ -148,7 +151,9 @@ Again, the fast summation version is useful for illustration, but not the first 
 
 ## Rolling your own entropy measure
 
-One of the more interesting features of the old vignette was the reminder that these functions do not have to be treated as a closed box. If you can write down the quantity you want and evaluate the relevant densities, you can build your own entropy-style measure.
+These functions do not have to be treated as a closed box. If you can write
+down the quantity you want and evaluate the relevant densities, you can build
+your own entropy-style measure.
 
 Here is a short example comparing a kernel density estimate to a Gaussian benchmark:
 
@@ -179,7 +184,3 @@ That is not meant to replace the packaged procedures. It is meant to show that t
 - [Kernel Primer](kernel_primer.qmd) for the broader `np` workflow
 - [Kernel Methods](np_npRmpi.qmd) for the main landing page
 - `vignette("np_entropy_tests", package = "np")` for the installed package vignette
-
-## Historical note
-
-The old Sweave entropy vignette went function by function and carried more of the formal presentation. For the website, the better first move is to separate the topic into a compact article like this one, with the heavier formal details left to the original vignette and the underlying papers.

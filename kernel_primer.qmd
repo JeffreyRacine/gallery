@@ -10,7 +10,8 @@ keywords:
   - kernel primer
 ---
 
-This page is a website-first rewrite of the old `np` vignette material. The emphasis here is practical: what makes the `np` approach distinctive, how the workflow is organized, and what to keep in mind when working with mixed data.
+This primer focuses on what makes the `np` approach distinctive, how its
+workflow is organized, and what to keep in mind when working with mixed data.
 
 ## Why kernel methods?
 
@@ -213,7 +214,3 @@ legend("topleft",
 - [MPI and Large Data](mpi_large_data.qmd) if the same workflow needs MPI
 - [Code Catalog](code_catalog.qmd) for the current script library
 - `vignette("np_getting_started", package = "np")` for the installed package vignette
-
-## Historical note
-
-The original Sweave vignette went much deeper into estimator families, function inventories, and a long series of applications. For a website, the cleaner first move is a shorter primer focused on mixed-data kernels, bandwidth workflow, and practical use. The more specialized material can then be split into separate pages rather than preserved as one large article.

@@ -14,7 +14,7 @@ keywords:
 source("site_helpers.R", local = knitr::knit_global())
 ```
 
-These retained examples are primarily pedagogical. Most use the `manipulate`
+These examples are primarily pedagogical. Most use the `manipulate`
 package and are intended to be run inside RStudio so that you can move sliders,
 change kernels, alter smoothing parameters, and immediately see the effect on
 the estimate.

@@ -441,7 +441,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./legacy_materials.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Legacy Materials</span></a>
+ <span class="menu-text">Older Documents</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -471,7 +471,6 @@ window.Quarto = {
   <li><a href="#nonlinear-serial-dependence-npsdeptest" id="toc-nonlinear-serial-dependence-npsdeptest" class="nav-link" data-scroll-target="#nonlinear-serial-dependence-npsdeptest">Nonlinear serial dependence: <code>npsdeptest</code></a></li>
   <li><a href="#rolling-your-own-entropy-measure" id="toc-rolling-your-own-entropy-measure" class="nav-link" data-scroll-target="#rolling-your-own-entropy-measure">Rolling your own entropy measure</a></li>
   <li><a href="#what-to-read-next" id="toc-what-to-read-next" class="nav-link" data-scroll-target="#what-to-read-next">What to read next</a></li>
-  <li><a href="#historical-note" id="toc-historical-note" class="nav-link" data-scroll-target="#historical-note">Historical note</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/JeffreyRacine/gallery/blob/main/entropy_tests.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
     </div>
@@ -509,7 +508,7 @@ window.Quarto = {
 
 
 <p>If you want a minimal downloadable script for the quickest first run on this page, start with <a href="www/np_npRmpi/np_entropy_quickstart.R">np_entropy_quickstart.R</a>.</p>
-<p>This page is a website-first rewrite of the old entropy vignette. The <code>np</code> package includes a useful group of entropy-based procedures for testing density equality, asymmetry, and dependence. These are powerful tools, but they are often more computationally demanding than the basic regression or density workflows, so it helps to know what each function is for before jumping in.</p>
+<p>The <code>np</code> package includes entropy-based procedures for testing density equality, asymmetry, and dependence. These are powerful tools, but they are often more computationally demanding than basic regression or density workflows, so it helps to know what each function is for before jumping in.</p>
 <section id="the-main-functions" class="level2">
 <h2 class="anchored" data-anchor-id="the-main-functions">The main functions</h2>
 <table class="caption-top table">
@@ -637,7 +636,7 @@ window.Quarto = {
 </section>
 <section id="rolling-your-own-entropy-measure" class="level2">
 <h2 class="anchored" data-anchor-id="rolling-your-own-entropy-measure">Rolling your own entropy measure</h2>
-<p>One of the more interesting features of the old vignette was the reminder that these functions do not have to be treated as a closed box. If you can write down the quantity you want and evaluate the relevant densities, you can build your own entropy-style measure.</p>
+<p>These functions do not have to be treated as a closed box. If you can write down the quantity you want and evaluate the relevant densities, you can build your own entropy-style measure.</p>
 <p>Here is a short example comparing a kernel density estimate to a Gaussian benchmark:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Build a custom entropy-style comparison against a Gaussian benchmark</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
@@ -665,10 +664,6 @@ window.Quarto = {
 <li><a href="./np_npRmpi.html">Kernel Methods</a> for the main landing page</li>
 <li><code>vignette("np_entropy_tests", package = "np")</code> for the installed package vignette</li>
 </ul>
-</section>
-<section id="historical-note" class="level2">
-<h2 class="anchored" data-anchor-id="historical-note">Historical note</h2>
-<p>The old Sweave entropy vignette went function by function and carried more of the formal presentation. For the website, the better first move is to separate the topic into a compact article like this one, with the heavier formal details left to the original vignette and the underlying papers.</p>
 
 
 </section>

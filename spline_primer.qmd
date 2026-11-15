@@ -9,7 +9,9 @@ keywords:
   - crs
 ---
 
-This page is a web-native rewrite of the old spline primer. The goal is not to reproduce the entire article verbatim, but to keep the ideas that are most useful when someone wants to understand what the `crs` package is doing and how spline regression differs from the more familiar kernel material in `np`.
+This primer introduces the ideas most useful for understanding what the `crs`
+package is doing and how spline regression differs from the kernel methods in
+`np`.
 
 ## Why splines?
 
@@ -135,7 +137,3 @@ See:
 - [Splines](crs.qmd) for the main `crs` landing page
 - [Code Catalog](code_catalog.qmd) for the full script list
 - [`crs` getting started vignette on CRAN](https://cran.r-project.org/web/packages/crs/vignettes/crs_getting_started.html)
-
-## Historical note
-
-The older Sweave primer went deeper into B\'ezier curves, the de Boor recursion, tensor-product notation, and appendix code. That material remains valuable, but for a website the better first step is a shorter conceptual and practical guide like this one.

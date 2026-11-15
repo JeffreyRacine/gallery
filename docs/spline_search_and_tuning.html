@@ -412,7 +412,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./legacy_materials.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Legacy Materials</span></a>
+ <span class="menu-text">Older Documents</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -562,7 +562,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="retrieving-knots" class="level2">
 <h2 class="anchored" data-anchor-id="retrieving-knots">Retrieving knots</h2>
 <p>Once a model is fit, the practical route to the knot locations depends on whether uniform or quantile knots were used. The key quantity to inspect is the selected number of segments for each predictor.</p>
-<p>For a single predictor <code>x1</code>, the old FAQ’s practical rule was:</p>
+<p>For a single predictor <code>x1</code>, use this knot-retrieval pattern:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Recover uniform knot locations from the selected segment count</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="fu">min</span>(x1), <span class="fu">max</span>(x1), <span class="at">length =</span> model<span class="sc">$</span>segments[<span class="dv">1</span>] <span class="sc">+</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>for uniform spacing, or</p>
