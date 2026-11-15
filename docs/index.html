@@ -618,92 +618,93 @@ Tip
 <div class="callout-body-container callout-body">
 <p>The first panel below estimates each year’s CDF separately, including a separate GDP bandwidth. The second remains cell-based by fixing the ordered year bandwidth at <code>lambda = 0</code>, but selects one common GDP bandwidth across years. The final <code>npcdist()</code> fit also borrows strength across the ordered year axis. Comparing all three separates the effect of a common bandwidth from the additional smoothing supplied by neighboring years. With only 20 regions per year, the joint fit produces a markedly steadier year-to-year CDF and median path than independent annual fits in this example.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Load the data and define a common evaluation grid</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This comparison requires the suggested rgl package: install.packages("rgl")</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"Italy_Updated"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20261114</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="fu">levels</span>(Italy_Updated<span class="sc">$</span>year)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>year_num <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(years)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>gdp_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">ceiling</span>(<span class="fu">max</span>(Italy_Updated<span class="sc">$</span>gdp) <span class="sc">*</span> <span class="fl">1.05</span>),</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">length.out =</span> <span class="dv">121</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimate each year's CDF and median using its own selected bandwidth</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>annual_fit <span class="ot">&lt;-</span> <span class="fu">lapply</span>(years, <span class="cf">function</span>(yr) {</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  annual_data <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    Italy_Updated[Italy_Updated<span class="sc">$</span>year <span class="sc">==</span> yr, , <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  bw <span class="ot">&lt;-</span> <span class="fu">npudistbw</span>(<span class="sc">~</span>gdp, <span class="at">data =</span> annual_data, <span class="at">nmulti =</span> <span class="dv">1</span>)</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  Fhat <span class="ot">&lt;-</span> <span class="fu">npudist</span>(<span class="at">bws =</span> bw, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">gdp =</span> gdp_grid))</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">cdf =</span> <span class="fu">fitted</span>(Fhat),</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">quantile =</span> <span class="fu">npquantile</span>(annual_data<span class="sc">$</span>gdp, <span class="at">tau =</span> tau, <span class="at">bws =</span> bw))</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>cdf_separate <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(annual_fit, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">"cdf"</span>))</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>quantile_separate <span class="ot">&lt;-</span> <span class="fu">vapply</span>(annual_fit,</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(fit) <span class="fu">unname</span>(fit<span class="sc">$</span>quantile), <span class="fu">numeric</span>(<span class="dv">1</span>))</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="do">## Assemble a common year-by-GDP evaluation grid</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>eval_grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="fu">ordered</span>(years, <span class="at">levels =</span> years),</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">gdp =</span> gdp_grid,</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">KEEP.OUT.ATTRS =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>year_grid <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">year =</span> <span class="fu">ordered</span>(years, <span class="at">levels =</span> years))</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>evaluate_conditional_fit <span class="ot">&lt;-</span> <span class="cf">function</span>(bws) {</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  Fhat <span class="ot">&lt;-</span> <span class="fu">npcdist</span>(<span class="at">bws =</span> bws, <span class="at">newdata =</span> eval_grid)</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  Qhat <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(<span class="at">bws =</span> bws, <span class="at">tau =</span> tau, <span class="at">data =</span> Italy_Updated)</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">cdf =</span> <span class="fu">matrix</span>(<span class="fu">fitted</span>(Fhat), <span class="at">nrow =</span> <span class="fu">length</span>(years)),</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">quantile =</span> <span class="fu">drop</span>(<span class="fu">predict</span>(Qhat, <span class="at">newdata =</span> year_grid)))</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="do">## Select one GDP bandwidth while retaining cell-based year estimates</span></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>bw_common <span class="ot">&lt;-</span> <span class="fu">npcdistbw</span>(gdp <span class="sc">~</span> year, <span class="at">data =</span> Italy_Updated, <span class="at">nmulti =</span> <span class="dv">1</span>,</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">lbd.dir =</span> <span class="dv">0</span>, <span class="at">hbd.dir =</span> <span class="dv">0</span>, <span class="at">dfac.dir =</span> <span class="dv">0</span>, <span class="at">initd.dir =</span> <span class="dv">0</span>,</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">lbd.init =</span> <span class="dv">0</span>, <span class="at">hbd.init =</span> <span class="dv">0</span>, <span class="at">dfac.init =</span> <span class="dv">0</span>)</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">as.numeric</span>(bw_common<span class="sc">$</span>xbw) <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>common_fit <span class="ot">&lt;-</span> <span class="fu">evaluate_conditional_fit</span>(bw_common)</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="do">## Jointly select the GDP and ordered-year bandwidths</span></span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>joint_model <span class="ot">&lt;-</span> <span class="fu">npcdist</span>(gdp <span class="sc">~</span> year, <span class="at">data =</span> Italy_Updated)</span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>joint_fit <span class="ot">&lt;-</span> <span class="fu">evaluate_conditional_fit</span>(joint_model<span class="sc">$</span>bws)</span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="do">## Use np's viridis surface palette and its small RGL boundary clearance</span></span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>palette <span class="ot">&lt;-</span> grDevices<span class="sc">::</span><span class="fu">hcl.colors</span>(<span class="dv">1000</span>, <span class="at">palette =</span> <span class="st">"viridis"</span>)</span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>cdf_limits <span class="ot">&lt;-</span> grDevices<span class="sc">::</span><span class="fu">extendrange</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">f =</span> <span class="fl">0.001</span>)</span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>surface_colors <span class="ot">&lt;-</span> <span class="cf">function</span>(cdf) {</span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>  index <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fu">floor</span>(<span class="dv">999</span> <span class="sc">*</span> <span class="fu">pmax</span>(<span class="dv">0</span>, <span class="fu">pmin</span>(<span class="dv">1</span>, cdf)))</span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">matrix</span>(palette[index], <span class="at">nrow =</span> <span class="fu">nrow</span>(cdf), <span class="at">ncol =</span> <span class="fu">ncol</span>(cdf))</span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>draw_panel <span class="ot">&lt;-</span> <span class="cf">function</span>(cdf, quantile, title) {</span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  rgl<span class="sc">::</span><span class="fu">persp3d</span>(year_num, gdp_grid, cdf, <span class="at">zlim =</span> cdf_limits,</span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"year"</span>,</span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"real GDP per capita (thousands of 2020 euros)"</span>,</span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">zlab =</span> <span class="st">"F(gdp|year)"</span>, <span class="at">main =</span> title, <span class="at">ticktype =</span> <span class="st">"detailed"</span>,</span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="fu">surface_colors</span>(cdf), <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">back =</span> <span class="st">"lines"</span>,</span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">border =</span> palette[<span class="dv">32</span>], <span class="at">lit =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>  rgl<span class="sc">::</span><span class="fu">points3d</span>(<span class="fu">as.numeric</span>(<span class="fu">as.character</span>(Italy_Updated<span class="sc">$</span>year)),</span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>    Italy_Updated<span class="sc">$</span>gdp, <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"grey55"</span>, <span class="at">alpha =</span> <span class="fl">0.35</span>, <span class="at">size =</span> <span class="dv">2</span>)</span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>  rgl<span class="sc">::</span><span class="fu">lines3d</span>(year_num, quantile, tau, <span class="at">color =</span> <span class="st">"grey30"</span>, <span class="at">lwd =</span> <span class="dv">1</span>)</span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>  rgl<span class="sc">::</span><span class="fu">lines3d</span>(year_num, quantile, <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"grey30"</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>  rgl<span class="sc">::</span><span class="fu">grid3d</span>(<span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y+"</span>, <span class="st">"z"</span>), <span class="at">col =</span> <span class="st">"grey"</span>, <span class="at">lwd =</span> <span class="dv">1</span>)</span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>  rgl<span class="sc">::</span><span class="fu">view3d</span>(<span class="at">theta =</span> <span class="dv">300</span>, <span class="at">phi =</span> <span class="dv">10</span>, <span class="at">fov =</span> <span class="dv">55</span>)</span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a><span class="do">## Draw synchronized panels that rotate and zoom together</span></span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">open3d</span>(<span class="at">useNULL =</span> <span class="cn">TRUE</span>, <span class="at">silent =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">mfrow3d</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="at">sharedMouse =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_panel</span>(cdf_separate, quantile_separate,</span>
-<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Separate bandwidth per year"</span>)</span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">next3d</span>()</span>
-<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_panel</span>(common_fit<span class="sc">$</span>cdf, common_fit<span class="sc">$</span>quantile,</span>
-<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Common GDP bandwidth, lambda = 0"</span>)</span>
-<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">next3d</span>()</span>
-<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_panel</span>(joint_fit<span class="sc">$</span>cdf, joint_fit<span class="sc">$</span>quantile,</span>
-<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Ordered-year-smoothed npcdist"</span>)</span>
-<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">rglwidget</span>(<span class="at">width =</span> <span class="dv">2100</span>, <span class="at">height =</span> <span class="dv">720</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This comparison requires the suggested rgl package: install.packages("rgl")</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">rgl.useNULL =</span> <span class="cn">TRUE</span>) <span class="co"># Avoid native OpenGL warnings for HTML widgets.</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"Italy_Updated"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20261114</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="fu">levels</span>(Italy_Updated<span class="sc">$</span>year)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>year_num <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(years)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>gdp_grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">ceiling</span>(<span class="fu">max</span>(Italy_Updated<span class="sc">$</span>gdp) <span class="sc">*</span> <span class="fl">1.05</span>),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">length.out =</span> <span class="dv">121</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimate each year's CDF and median using its own selected bandwidth</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>annual_fit <span class="ot">&lt;-</span> <span class="fu">lapply</span>(years, <span class="cf">function</span>(yr) {</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  annual_data <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    Italy_Updated[Italy_Updated<span class="sc">$</span>year <span class="sc">==</span> yr, , <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  bw <span class="ot">&lt;-</span> <span class="fu">npudistbw</span>(<span class="sc">~</span>gdp, <span class="at">data =</span> annual_data, <span class="at">nmulti =</span> <span class="dv">1</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  Fhat <span class="ot">&lt;-</span> <span class="fu">npudist</span>(<span class="at">bws =</span> bw, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">gdp =</span> gdp_grid))</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">cdf =</span> <span class="fu">fitted</span>(Fhat),</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">quantile =</span> <span class="fu">npquantile</span>(annual_data<span class="sc">$</span>gdp, <span class="at">tau =</span> tau, <span class="at">bws =</span> bw))</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>cdf_separate <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(annual_fit, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">"cdf"</span>))</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>quantile_separate <span class="ot">&lt;-</span> <span class="fu">vapply</span>(annual_fit,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(fit) <span class="fu">unname</span>(fit<span class="sc">$</span>quantile), <span class="fu">numeric</span>(<span class="dv">1</span>))</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="do">## Assemble a common year-by-GDP evaluation grid</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>eval_grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="fu">ordered</span>(years, <span class="at">levels =</span> years),</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">gdp =</span> gdp_grid,</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">KEEP.OUT.ATTRS =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>year_grid <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">year =</span> <span class="fu">ordered</span>(years, <span class="at">levels =</span> years))</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>evaluate_conditional_fit <span class="ot">&lt;-</span> <span class="cf">function</span>(bws) {</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  Fhat <span class="ot">&lt;-</span> <span class="fu">npcdist</span>(<span class="at">bws =</span> bws, <span class="at">newdata =</span> eval_grid)</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  Qhat <span class="ot">&lt;-</span> <span class="fu">npqreg</span>(<span class="at">bws =</span> bws, <span class="at">tau =</span> tau, <span class="at">data =</span> Italy_Updated)</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">cdf =</span> <span class="fu">matrix</span>(<span class="fu">fitted</span>(Fhat), <span class="at">nrow =</span> <span class="fu">length</span>(years)),</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">quantile =</span> <span class="fu">drop</span>(<span class="fu">predict</span>(Qhat, <span class="at">newdata =</span> year_grid)))</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="do">## Select one GDP bandwidth while retaining cell-based year estimates</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>bw_common <span class="ot">&lt;-</span> <span class="fu">npcdistbw</span>(gdp <span class="sc">~</span> year, <span class="at">data =</span> Italy_Updated, <span class="at">nmulti =</span> <span class="dv">1</span>,</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">lbd.dir =</span> <span class="dv">0</span>, <span class="at">hbd.dir =</span> <span class="dv">0</span>, <span class="at">dfac.dir =</span> <span class="dv">0</span>, <span class="at">initd.dir =</span> <span class="dv">0</span>,</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">lbd.init =</span> <span class="dv">0</span>, <span class="at">hbd.init =</span> <span class="dv">0</span>, <span class="at">dfac.init =</span> <span class="dv">0</span>)</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">as.numeric</span>(bw_common<span class="sc">$</span>xbw) <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>common_fit <span class="ot">&lt;-</span> <span class="fu">evaluate_conditional_fit</span>(bw_common)</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="do">## Jointly select the GDP and ordered-year bandwidths</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>joint_model <span class="ot">&lt;-</span> <span class="fu">npcdist</span>(gdp <span class="sc">~</span> year, <span class="at">data =</span> Italy_Updated)</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>joint_fit <span class="ot">&lt;-</span> <span class="fu">evaluate_conditional_fit</span>(joint_model<span class="sc">$</span>bws)</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="do">## Use np's viridis surface palette and its small RGL boundary clearance</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>palette <span class="ot">&lt;-</span> grDevices<span class="sc">::</span><span class="fu">hcl.colors</span>(<span class="dv">1000</span>, <span class="at">palette =</span> <span class="st">"viridis"</span>)</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>cdf_limits <span class="ot">&lt;-</span> grDevices<span class="sc">::</span><span class="fu">extendrange</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">f =</span> <span class="fl">0.001</span>)</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>surface_colors <span class="ot">&lt;-</span> <span class="cf">function</span>(cdf) {</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>  index <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fu">floor</span>(<span class="dv">999</span> <span class="sc">*</span> <span class="fu">pmax</span>(<span class="dv">0</span>, <span class="fu">pmin</span>(<span class="dv">1</span>, cdf)))</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">matrix</span>(palette[index], <span class="at">nrow =</span> <span class="fu">nrow</span>(cdf), <span class="at">ncol =</span> <span class="fu">ncol</span>(cdf))</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>draw_panel <span class="ot">&lt;-</span> <span class="cf">function</span>(cdf, quantile, title) {</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>  rgl<span class="sc">::</span><span class="fu">persp3d</span>(year_num, gdp_grid, cdf, <span class="at">zlim =</span> cdf_limits,</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"year"</span>,</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"real GDP per capita (thousands of 2020 euros)"</span>,</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">zlab =</span> <span class="st">"F(gdp|year)"</span>, <span class="at">main =</span> title, <span class="at">ticktype =</span> <span class="st">"detailed"</span>,</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="fu">surface_colors</span>(cdf), <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">back =</span> <span class="st">"lines"</span>,</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">border =</span> palette[<span class="dv">32</span>], <span class="at">lit =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>  rgl<span class="sc">::</span><span class="fu">points3d</span>(<span class="fu">as.numeric</span>(<span class="fu">as.character</span>(Italy_Updated<span class="sc">$</span>year)),</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>    Italy_Updated<span class="sc">$</span>gdp, <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"grey55"</span>, <span class="at">alpha =</span> <span class="fl">0.35</span>, <span class="at">size =</span> <span class="dv">2</span>)</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>  rgl<span class="sc">::</span><span class="fu">lines3d</span>(year_num, quantile, tau, <span class="at">color =</span> <span class="st">"grey30"</span>, <span class="at">lwd =</span> <span class="dv">1</span>)</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>  rgl<span class="sc">::</span><span class="fu">lines3d</span>(year_num, quantile, <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"grey30"</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>  rgl<span class="sc">::</span><span class="fu">grid3d</span>(<span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y+"</span>, <span class="st">"z"</span>), <span class="at">col =</span> <span class="st">"grey"</span>, <span class="at">lwd =</span> <span class="dv">1</span>)</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>  rgl<span class="sc">::</span><span class="fu">view3d</span>(<span class="at">theta =</span> <span class="dv">300</span>, <span class="at">phi =</span> <span class="dv">10</span>, <span class="at">fov =</span> <span class="dv">55</span>)</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="do">## Draw synchronized panels that rotate and zoom together</span></span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">open3d</span>(<span class="at">useNULL =</span> <span class="cn">TRUE</span>, <span class="at">silent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">mfrow3d</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="at">sharedMouse =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_panel</span>(cdf_separate, quantile_separate,</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Separate bandwidth per year"</span>)</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">next3d</span>()</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_panel</span>(common_fit<span class="sc">$</span>cdf, common_fit<span class="sc">$</span>quantile,</span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Common GDP bandwidth, lambda = 0"</span>)</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">next3d</span>()</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a><span class="fu">draw_panel</span>(joint_fit<span class="sc">$</span>cdf, joint_fit<span class="sc">$</span>quantile,</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Ordered-year-smoothed npcdist"</span>)</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">rglwidget</span>(<span class="at">width =</span> <span class="dv">2100</span>, <span class="at">height =</span> <span class="dv">720</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>

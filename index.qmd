@@ -132,8 +132,9 @@ path than independent annual fits in this example.
 
 ```r
 ## Load the data and define a common evaluation grid
-library(np)
 # This comparison requires the suggested rgl package: install.packages("rgl")
+options(rgl.useNULL = TRUE) # Avoid native OpenGL warnings for HTML widgets.
+library(np)
 data("Italy_Updated")
 set.seed(20261114)
 
