@@ -1,5 +1,4 @@
 ## Old Faithful automatic local-polynomial regression and bootstrap bands.
-## Verified with the public CRAN np 0.70-5 build.
 
 library(np)
 data(faithful, package = "datasets")

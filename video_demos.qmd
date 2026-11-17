@@ -68,10 +68,9 @@ Then run the exact demonstrated analysis:
 
 [Download the R script](www/videos/first_np_result/first_np_result.R).
 
-The example uses public CRAN `np` 0.70-5 and the 205 observations in the bundled
-`cps71` data. No seed is needed because the example neither simulates nor
-resamples data. Least-squares cross-validation selects an age bandwidth of
-`1.892158` in the verified installed build.
+The example uses the 205 observations in the bundled `cps71` data. No seed is
+needed because the example neither simulates nor resamples data. Least-squares
+cross-validation selects the age bandwidth automatically.
 
 ### Transcript
 
@@ -126,9 +125,8 @@ corresponding descriptively to the wealthier North and less wealthy South.
 
 [Download the R script](www/videos/italy_conditional_density/italy_conditional_density.R).
 
-The verified public CRAN `np` 0.70-5 build selected an ordered-year smoothing
-parameter of `0.613508` and a GDP bandwidth of `0.570879`. No seed is needed.
-These values are selected for the conditional-density target.
+The ordered-year smoothing parameter and GDP bandwidth are selected for the
+conditional-density target. No seed is needed.
 
 ### Transcript
 
@@ -168,11 +166,8 @@ preceding video's density estimate.
 
 [Download the R script](www/videos/italy_conditional_distribution/italy_conditional_distribution.R).
 
-The verified public build selected an ordered-year smoothing parameter of
-`0.687927` and a GDP bandwidth of `0.307366` for the
-conditional-distribution target. Five fresh installed runs were exactly
-identical for the selected bandwidth object and fitted result. No seed is
-needed.
+The ordered-year smoothing parameter and GDP bandwidth are selected for the
+conditional-distribution target. No seed is needed.
 
 ### Transcript
 
@@ -214,9 +209,10 @@ the observed per-year distributions.
 `npqreg()` first computes bandwidths optimized for the
 conditional-distribution target, estimates that distribution, and then inverts
 it at the requested $\tau\in(0,1)$ values. With the same data and selection
-settings, the verified bandwidth values match the preceding `npcdist()`
-example. This is a distribution-based quantile route. `nplsqreg()` is a
-separate, regression-based location-scale method. No seed is needed.
+settings, its bandwidths match the preceding `npcdist()` example because both
+use the conditional-distribution target. This is a distribution-based quantile
+route. `nplsqreg()` is a separate, regression-based location-scale method. No
+seed is needed.
 
 ### Transcript
 
@@ -260,13 +256,12 @@ the predictor differs.
 No kernel or gradient switch is required in either `npreg()` call. The variable
 class determines the appropriate route automatically:
 
-- **Ordered factor:** the verified fit uses the Li–Racine ordered kernel,
-  cross-validates the categorical smoothing parameter
-  `lambda = 0.7046792`, plots level-specific fitted values, and reports Delta
-  as an adjacent-ordered-level finite difference.
-- **Numeric:** the verified fit uses a second-order Gaussian kernel,
-  cross-validates the continuous bandwidth `h = 3.337488`, plots a smooth
-  fitted curve, and reports the analytic derivative with respect to year.
+- **Ordered factor:** the fit uses the Li–Racine ordered kernel, cross-validates
+  its categorical smoothing parameter, plots level-specific fitted values, and
+  reports Delta as an adjacent-ordered-level finite difference.
+- **Numeric:** the fit uses a second-order Gaussian kernel, cross-validates its
+  continuous bandwidth, plots a smooth fitted curve, and reports the analytic
+  derivative with respect to year.
 
 The categorical smoothing parameter and continuous bandwidth have different
 meanings and scales; their numerical magnitudes should not be compared. The
@@ -277,9 +272,7 @@ unordered, or ordered. See [Data Preparation](data_preparation.qmd) for the
 mixed-data workflow and [Plotting and Intervals](plotting_and_intervals.qmd)
 for the broader gradient interface.
 
-Five seedless installed runs produced exactly identical bandwidths, fitted
-values, gradients, and four-panel graphics without warnings or messages. No
-seed is needed for this deterministic example.
+No seed is needed for this deterministic example.
 
 ### Transcript
 
@@ -323,11 +316,9 @@ followed by longer waits.
 
 [Download the R script](www/videos/old_faithful_joint_density/old_faithful_joint_density.R).
 
-The verified public CRAN `np` 0.70-5 build selected bandwidths of
-`0.146981` for `eruptions` and `2.925689` for `waiting`, optimized for the
-joint-density target. No seed is needed. With `renderer = "rgl"`, the fitted
-surface opens in RStudio's Viewer, where it can be rotated, zoomed, and
-resized.
+The two bandwidths are selected for the joint-density target. No seed is
+needed. With `renderer = "rgl"`, the fitted surface opens in RStudio's Viewer,
+where it can be rotated, zoomed, and resized.
 
 ### Transcript
 
@@ -367,10 +358,8 @@ joint-density object from the preceding video.
 
 [Download the R script](www/videos/old_faithful_joint_distribution/old_faithful_joint_distribution.R).
 
-The verified public build selected bandwidths of `0.0576794` for `eruptions`
-and `0.186285` for `waiting`, optimized for the joint-distribution target.
-Five fresh installed runs were exactly identical for each estimator's selected
-bandwidth object and fitted result. No seed is needed.
+The two bandwidths are selected for the joint-distribution target. No seed is
+needed.
 
 ### Transcript
 
@@ -390,8 +379,8 @@ equivalent to polynomial degree 0. Here, the recent and recommended
 `nomad = "auto"` convenience route selects the local-polynomial degree and
 bandwidth together for the Old Faithful waiting-time relationship. In this
 inexpensive one-predictor search, the automatic policy uses exhaustive degree
-search with Powell bandwidth optimization; the verified public build selects
-degree 4 and a fixed bandwidth of `556.863008`.
+search with Powell bandwidth optimization and selects degree 4 with a large
+fixed bandwidth.
 
 ```{=html}
 <video class="gallery-video" controls preload="metadata"
@@ -429,10 +418,7 @@ confidence-band interpretation requires the usual negligible-bias or
 bias-correction conditions. See [Plotting and Intervals](plotting_and_intervals.qmd)
 for the broader plotting interface and bias-corrected centering options.
 
-Five seedless installed runs with `B = 9999` selected the same degree,
-bandwidth, and objective and produced byte-identical four-panel graphics
-without warnings or messages. No seed is needed for this example. The
-automatic routing policy is described in
+No seed is needed for this example. The automatic routing policy is described in
 [Runtime and Scaling](runtime_and_scaling.qmd#np-nomad-auto-chooses-the-lightest-reliable-lp-degree-search),
 and the recommended convenience workflow appears in the
 [Kernel Primer](kernel_primer.qmd#modern-lp-shortcut-nomad-auto). The
@@ -444,7 +430,3 @@ Regression*.
 
 {{< include www/videos/old_faithful_automatic_local_polynomial/old_faithful_automatic_local_polynomial_transcript.txt >}}
 ::::
-
-The next reviewed analytical episodes will continue balancing estimator
-families, tests, interval routes, and plotting capabilities before the serial
-to `npRmpi` session-mode comparison.

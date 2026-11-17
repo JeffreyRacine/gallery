@@ -1,5 +1,4 @@
 ## Your first np result.
-## Last verified with the public CRAN np 0.70-5 build.
 
 library(np)
 data(cps71, package = "np")

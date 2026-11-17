@@ -1,5 +1,4 @@
 ## Italy conditional-distribution short.
-## Last verified with the public CRAN np 0.70-5 build.
 
 library(np)
 data(Italy, package = "np")
