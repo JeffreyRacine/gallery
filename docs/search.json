@@ -3540,5 +3540,16 @@
       "Methods",
       "Spline Search and Tuning"
     ]
+  },
+  {
+    "objectID": "gallery_usage.html#package-reach",
+    "href": "gallery_usage.html#package-reach",
+    "title": "Gallery Usage",
+    "section": "Package reach",
+    "text": "Package reach\nThese complementary indicators summarize use of np, npRmpi, and crs beyond the Gallery. They update daily without rebuilding the website.\n\n\nLoading the current package summary...\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPackage\nDownloads\n30 days\nDownloads\n365 days\nLatest daily\nCRAN position\nReverse dependencies\nrequired / all\nProfiles\n\n\n\n\n\n\n\n\n\n\n\nThe current package summary requires JavaScript. Package profiles remain\navailable from CRAN, R Observatory, and R-universe.\n\n\n\nDownload counts are requests recorded by the cloud.r-project.org mirror, via cranlogs; they are not total CRAN downloads, installations, or users. The daily percentile uses packageRank and reports the share of packages with fewer downloads in the latest available daily log. The reverse-dependency figures are direct CRAN relationships: required covers Depends, Imports, and LinkingTo, while all also includes Suggests and Enhances. These indicators describe reach, not software quality.",
+    "crumbs": [
+      "Support",
+      "Gallery Usage"
+    ]
   }
 ]

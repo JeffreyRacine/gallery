@@ -1,8 +1,11 @@
 import { buildSummary, validateSummary } from "./schema.js";
+import { validatePackageReach } from "./package-reach-schema.js";
 
 const GRAPHQL_ENDPOINT = "https://api.cloudflare.com/client/v4/graphql";
 const SNAPSHOT_KEY = "gallery-analytics:summary:v1";
+const PACKAGE_REACH_KEY = "gallery-analytics:package-reach:v1";
 const REQUEST_TIMEOUT_MS = 15000;
+const MAX_INGEST_BYTES = 20000;
 
 export const GALLERY_ANALYTICS_QUERY = `
 query GalleryAnalytics(
@@ -150,6 +153,11 @@ function staleAfterMilliseconds(env) {
   return (Number.isInteger(hours) && hours >= 6 && hours <= 168 ? hours : 12) * 60 * 60 * 1000;
 }
 
+function packageStaleAfterMilliseconds(env) {
+  const hours = Number.parseInt(env.PACKAGE_STALE_AFTER_HOURS || "48", 10);
+  return (Number.isInteger(hours) && hours >= 24 && hours <= 168 ? hours : 48) * 60 * 60 * 1000;
+}
+
 function publicSnapshot(snapshot, env, now) {
   const checked = validateSummary(snapshot);
   const age = now.getTime() - Date.parse(checked.generatedAt);
@@ -157,6 +165,49 @@ function publicSnapshot(snapshot, env, now) {
     ...checked,
     status: age > staleAfterMilliseconds(env) ? "stale" : "current"
   });
+}
+
+function publicPackageReach(snapshot, env, now) {
+  const checked = validatePackageReach(snapshot);
+  const age = now.getTime() - Date.parse(checked.generatedAt);
+  return validatePackageReach({
+    ...checked,
+    status: age > packageStaleAfterMilliseconds(env) ? "stale" : "current"
+  });
+}
+
+async function matchingSecret(candidate, expected) {
+  if (typeof candidate !== "string" || typeof expected !== "string"
+      || candidate.length < 32 || expected.length < 32) {
+    return false;
+  }
+  const encoder = new TextEncoder();
+  const [candidateHash, expectedHash] = await Promise.all([
+    crypto.subtle.digest("SHA-256", encoder.encode(candidate)),
+    crypto.subtle.digest("SHA-256", encoder.encode(expected))
+  ]);
+  const left = new Uint8Array(candidateHash);
+  const right = new Uint8Array(expectedHash);
+  let difference = left.length ^ right.length;
+  for (let index = 0; index < Math.min(left.length, right.length); index += 1) {
+    difference |= left[index] ^ right[index];
+  }
+  return difference === 0;
+}
+
+async function ingestAuthorized(request, env) {
+  const authorization = request.headers.get("Authorization") || "";
+  const candidate = authorization.startsWith("Bearer ") ? authorization.slice(7) : "";
+  return matchingSecret(candidate, env.PACKAGE_REACH_INGEST_TOKEN || "");
+}
+
+function validateIngestFreshness(snapshot, now) {
+  const age = now.getTime() - Date.parse(snapshot.generatedAt);
+  const maximumAge = 24 * 60 * 60 * 1000;
+  const maximumClockSkew = 10 * 60 * 1000;
+  if (age > maximumAge || age < -maximumClockSkew) {
+    throw new TypeError("package reach snapshot is not fresh");
+  }
 }
 
 export async function queryCloudflare(env, now = new Date(), fetchImplementation = fetch) {
@@ -227,6 +278,42 @@ export async function loadSnapshot(env) {
   return validateSummary(JSON.parse(stored));
 }
 
+export async function loadPackageReach(env) {
+  if (!env.GALLERY_ANALYTICS_CACHE || typeof env.GALLERY_ANALYTICS_CACHE.get !== "function") {
+    throw new TypeError("GALLERY_ANALYTICS_CACHE binding is required");
+  }
+  const stored = await env.GALLERY_ANALYTICS_CACHE.get(PACKAGE_REACH_KEY);
+  if (stored === null || stored === undefined) {
+    return null;
+  }
+  return validatePackageReach(JSON.parse(stored));
+}
+
+export async function ingestPackageReach(request, env, now = new Date()) {
+  if (!await ingestAuthorized(request, env)) {
+    return jsonResponse(request, env, { error: "Not authorized" }, 401, "no-store");
+  }
+  if (!env.GALLERY_ANALYTICS_CACHE || typeof env.GALLERY_ANALYTICS_CACHE.put !== "function") {
+    return jsonResponse(request, env, { error: "Package reach storage is unavailable" }, 503, "no-store");
+  }
+  const body = await request.text();
+  if (body.length > MAX_INGEST_BYTES) {
+    return jsonResponse(request, env, { error: "Payload too large" }, 413, "no-store");
+  }
+
+  try {
+    const snapshot = validatePackageReach(JSON.parse(body));
+    validateIngestFreshness(snapshot, now);
+    await env.GALLERY_ANALYTICS_CACHE.put(PACKAGE_REACH_KEY, JSON.stringify(snapshot));
+    return jsonResponse(request, env, {
+      stored: true,
+      generatedAt: snapshot.generatedAt
+    }, 200, "no-store");
+  } catch {
+    return jsonResponse(request, env, { error: "Package reach snapshot is invalid" }, 400, "no-store");
+  }
+}
+
 export async function handleRequest(request, env, now = new Date()) {
   const url = new URL(request.url);
 
@@ -238,14 +325,25 @@ export async function handleRequest(request, env, now = new Date()) {
     return new Response(null, { status: 204, headers: responseHeaders(request, env, "no-store") });
   }
 
-  if (url.pathname !== "/v1/summary") {
+  const knownPath = url.pathname === "/v1/summary" || url.pathname === "/v1/package-reach";
+  if (!knownPath) {
     return jsonResponse(request, env, { error: "Not found" }, 404, "no-store");
+  }
+  if (url.pathname === "/v1/package-reach" && request.method === "PUT") {
+    return ingestPackageReach(request, env, now);
   }
   if (request.method !== "GET") {
     return jsonResponse(request, env, { error: "Method not allowed" }, 405, "no-store");
   }
 
   try {
+    if (url.pathname === "/v1/package-reach") {
+      const packageReach = await loadPackageReach(env);
+      if (!packageReach) {
+        return jsonResponse(request, env, { error: "Package reach summary is not available yet" }, 503, "no-store");
+      }
+      return jsonResponse(request, env, publicPackageReach(packageReach, env, now));
+    }
     const snapshot = await loadSnapshot(env);
     if (!snapshot) {
       return jsonResponse(request, env, { error: "Usage summary is not available yet" }, 503, "no-store");

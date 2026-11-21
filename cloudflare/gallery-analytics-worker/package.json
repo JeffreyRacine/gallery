@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node --check src/index.js && node --check src/schema.js && node --test",
+    "check": "node --check src/index.js && node --check src/schema.js && node --check src/package-reach-schema.js && node --test",
     "deploy": "wrangler deploy",
     "dev": "wrangler dev",
     "test": "node --test"

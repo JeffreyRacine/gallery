@@ -77,6 +77,54 @@ material remain available without it.
 </div>
 ```
 
+## Package reach
+
+These complementary indicators summarize use of `np`, `npRmpi`, and `crs`
+beyond the Gallery. They update daily without rebuilding the website.
+
+```{=html}
+<div class="gallery-package-reach" data-package-reach
+     data-endpoint="https://gallery-analytics.gallery-analytics-worker.workers.dev/v1/package-reach">
+<p class="gallery-usage__status" data-package-status role="status" aria-live="polite">
+Loading the current package summary...
+</p>
+
+<div data-package-content hidden>
+<div class="gallery-scroll-table gallery-scroll-table-wide gallery-package-reach__table">
+<table>
+<thead>
+<tr>
+<th scope="col">Package</th>
+<th scope="col">Downloads<br>30 days</th>
+<th scope="col">Downloads<br>365 days</th>
+<th scope="col">Latest daily<br>CRAN position</th>
+<th scope="col">Reverse dependencies<br>required / all</th>
+<th scope="col">Profiles</th>
+</tr>
+</thead>
+<tbody data-package-table></tbody>
+</table>
+</div>
+</div>
+
+<noscript>
+<p class="gallery-usage__status gallery-usage__status--unavailable">
+The current package summary requires JavaScript. Package profiles remain
+available from CRAN, R Observatory, and R-universe.
+</p>
+</noscript>
+</div>
+```
+
+Download counts are requests recorded by the `cloud.r-project.org` mirror,
+via [cranlogs](https://r-hub.github.io/cranlogs/); they are not total CRAN
+downloads, installations, or users. The daily percentile uses
+[`packageRank`](https://CRAN.R-project.org/package=packageRank) and reports the
+share of packages with fewer downloads in the latest available daily log. The
+reverse-dependency figures are direct CRAN relationships: **required** covers
+`Depends`, `Imports`, and `LinkingTo`, while **all** also includes `Suggests`
+and `Enhances`. These indicators describe reach, not software quality.
+
 ## How to interpret the counts
 
 A **page view** records a successfully loaded Gallery page. A **visit** begins

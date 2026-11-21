@@ -3,6 +3,11 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
   dateStyle: "medium",
   timeStyle: "short"
 });
+const dateOnlyFormatter = new Intl.DateTimeFormat(undefined, {
+  dateStyle: "medium",
+  timeZone: "UTC"
+});
+const trackedPackages = ["np", "npRmpi", "crs"];
 
 function requireObject(value, label) {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
@@ -44,6 +49,65 @@ function validateSummary(value) {
       || sampling.sampleInterval < 1) {
     throw new TypeError("summary sampling is invalid");
   }
+  return summary;
+}
+
+function requireInteger(value, label) {
+  const count = requireCount(value, label);
+  if (!Number.isSafeInteger(count)) {
+    throw new TypeError(`${label} is invalid`);
+  }
+  return count;
+}
+
+function requireDate(value, label) {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/u.test(value)) {
+    throw new TypeError(`${label} is invalid`);
+  }
+  const parsed = new Date(`${value}T00:00:00Z`);
+  if (!Number.isFinite(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== value) {
+    throw new TypeError(`${label} is invalid`);
+  }
+  return value;
+}
+
+function validatePackageReach(value) {
+  const summary = requireObject(value, "package reach summary");
+  if (summary.schemaVersion !== 1 || !Number.isFinite(Date.parse(summary.generatedAt))) {
+    throw new TypeError("package reach metadata is invalid");
+  }
+  if (summary.status !== "current" && summary.status !== "stale") {
+    throw new TypeError("package reach status is invalid");
+  }
+  requireDate(summary.sourceThrough, "source-through date");
+  requireDate(summary.rankDate, "rank date");
+  if (summary.sourceThrough !== summary.rankDate || !Array.isArray(summary.packages)) {
+    throw new TypeError("package reach dates or rows are invalid");
+  }
+  if (summary.packages.length !== trackedPackages.length) {
+    throw new TypeError("package reach rows are incomplete");
+  }
+  summary.packages.forEach((item, index) => {
+    const row = requireObject(item, `package row ${index}`);
+    if (row.package !== trackedPackages[index]) {
+      throw new TypeError("package reach rows are unsupported or out of order");
+    }
+    ["downloads30", "downloads365", "downloadsOnRankDate", "dailyRank", "dailyRankTotal"]
+      .forEach((field) => requireInteger(row[field], `${row.package} ${field}`));
+    if (row.dailyRank < 1 || row.dailyRank > row.dailyRankTotal
+        || typeof row.dailyPercentile !== "number"
+        || !Number.isFinite(row.dailyPercentile)
+        || row.dailyPercentile < 0
+        || row.dailyPercentile > 100) {
+      throw new TypeError(`${row.package} daily position is invalid`);
+    }
+    const reverse = requireObject(row.reverseDependencies, `${row.package} reverse dependencies`);
+    requireInteger(reverse.required, `${row.package} required reverse dependencies`);
+    requireInteger(reverse.all, `${row.package} all reverse dependencies`);
+    if (reverse.required > reverse.all) {
+      throw new TypeError(`${row.package} reverse dependencies are invalid`);
+    }
+  });
   return summary;
 }
 
@@ -149,6 +213,97 @@ async function renderUsage(root) {
   }
 }
 
+function appendProfileLink(cell, label, href) {
+  if (cell.childElementCount > 0) {
+    cell.append(document.createTextNode(" · "));
+  }
+  const link = document.createElement("a");
+  link.href = href;
+  link.textContent = label;
+  cell.append(link);
+}
+
+function fillPackageTable(root, summary) {
+  const body = root.querySelector("[data-package-table]");
+  if (!body) {
+    return;
+  }
+  body.replaceChildren();
+  summary.packages.forEach((item) => {
+    const row = document.createElement("tr");
+    const packageCell = document.createElement("th");
+    packageCell.scope = "row";
+    packageCell.textContent = item.package;
+
+    const downloads30 = document.createElement("td");
+    downloads30.className = "gallery-usage__number";
+    downloads30.textContent = numberFormatter.format(item.downloads30);
+
+    const downloads365 = document.createElement("td");
+    downloads365.className = "gallery-usage__number";
+    downloads365.textContent = numberFormatter.format(item.downloads365);
+
+    const position = document.createElement("td");
+    position.className = "gallery-package-reach__position";
+    const percentile = document.createElement("strong");
+    percentile.textContent = `${item.dailyPercentile.toFixed(1)}%`;
+    const rank = document.createElement("span");
+    rank.textContent = `${numberFormatter.format(item.dailyRank)} of ${numberFormatter.format(item.dailyRankTotal)}`;
+    position.append(percentile, rank);
+
+    const reverse = document.createElement("td");
+    reverse.className = "gallery-usage__number";
+    reverse.textContent = `${numberFormatter.format(item.reverseDependencies.required)} / ${numberFormatter.format(item.reverseDependencies.all)}`;
+
+    const profiles = document.createElement("td");
+    profiles.className = "gallery-package-reach__profiles";
+    appendProfileLink(profiles, "CRAN", `https://CRAN.R-project.org/package=${item.package}`);
+    appendProfileLink(profiles, "R Observatory", `https://observe.rstats.dev/cran/${item.package}`);
+    appendProfileLink(profiles, "R-universe", `https://jeffreyracine.r-universe.dev/${item.package}`);
+
+    row.append(packageCell, downloads30, downloads365, position, reverse, profiles);
+    body.append(row);
+  });
+}
+
+async function renderPackageReach(root) {
+  const status = root.querySelector("[data-package-status]");
+  const content = root.querySelector("[data-package-content]");
+  if (!status) {
+    return;
+  }
+
+  try {
+    const endpoint = root.dataset.endpoint;
+    if (!endpoint || !content) {
+      throw new TypeError("Package reach component is not configured");
+    }
+    const response = await fetch(endpoint, {
+      headers: { Accept: "application/json" },
+      cache: "no-cache"
+    });
+    if (!response.ok) {
+      throw new Error(`package reach endpoint returned ${response.status}`);
+    }
+    const summary = validatePackageReach(await response.json());
+    fillPackageTable(root, summary);
+
+    const through = dateOnlyFormatter.format(new Date(`${summary.sourceThrough}T00:00:00Z`));
+    status.textContent = summary.status === "stale"
+      ? `Figures through ${through}. The daily refresh is delayed.`
+      : `Figures through ${through}.`;
+    status.classList.toggle("gallery-usage__status--stale", summary.status === "stale");
+    content.hidden = false;
+  } catch {
+    status.textContent = "The package summary is temporarily unavailable. The Gallery and package profiles are unaffected.";
+    status.classList.add("gallery-usage__status--unavailable");
+  }
+}
+
 document.querySelectorAll("[data-gallery-usage]").forEach((root) => {
   renderUsage(root);
+});
+
+document.querySelectorAll("[data-package-reach]").forEach((root) => {
+  renderPackageReach(root);
 });
