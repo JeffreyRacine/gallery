@@ -27,4 +27,4 @@ jobs:
         run: |
           node --check cloudflare/gallery-analytics-worker/src/index.js
           node --check cloudflare/gallery-analytics-worker/src/schema.js
-          node --test cloudflare/gallery-analytics-worker/test
+          node --test cloudflare/gallery-analytics-worker/test/worker.test.js
