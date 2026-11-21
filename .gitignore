@@ -11,6 +11,12 @@
 www/**/.Rhistory
 .positai
 
+# Cloudflare Worker local state and credentials
+cloudflare/**/.dev.vars
+cloudflare/**/.wrangler/
+cloudflare/**/coverage/
+cloudflare/**/node_modules/
+
 # Reproducible video-production sources are tracked; generated frame and media
 # builds remain local until an approved public bundle is synchronized to www/.
 video-production/**/build/

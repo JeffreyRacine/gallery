@@ -1,0 +1,95 @@
+---
+title: "Gallery Usage"
+---
+
+This page summarizes how readers are finding and using the Gallery. Counts are
+aggregated by Cloudflare Web Analytics and refreshed automatically several times
+each day.
+
+```{=html}
+<div class="gallery-usage" data-gallery-usage
+     data-endpoint="https://gallery-analytics.gallery-analytics-worker.workers.dev/v1/summary">
+<p class="gallery-usage__status" data-usage-status role="status" aria-live="polite">
+Loading the current usage summary...
+</p>
+
+<div data-usage-content hidden>
+<div class="gallery-usage__metrics" aria-label="Gallery usage totals">
+<dl class="gallery-usage__metric">
+<dt>Visits, last 7 days</dt>
+<dd data-metric="visits-7">0</dd>
+</dl>
+<dl class="gallery-usage__metric">
+<dt>Page views, last 7 days</dt>
+<dd data-metric="pageviews-7">0</dd>
+</dl>
+<dl class="gallery-usage__metric">
+<dt>Visits, last 30 days</dt>
+<dd data-metric="visits-30">0</dd>
+</dl>
+<dl class="gallery-usage__metric">
+<dt>Page views, last 30 days</dt>
+<dd data-metric="pageviews-30">0</dd>
+</dl>
+</div>
+
+<h2>Most visited pages</h2>
+<div class="gallery-scroll-table gallery-usage__table">
+<table>
+<thead><tr><th scope="col">Gallery page</th><th scope="col">Page views</th></tr></thead>
+<tbody data-table="pages"></tbody>
+</table>
+</div>
+
+<div class="gallery-usage__columns">
+<section>
+<h2>Visitor countries</h2>
+<div class="gallery-usage__table">
+<table>
+<thead><tr><th scope="col">Country</th><th scope="col">Visits</th></tr></thead>
+<tbody data-table="countries"></tbody>
+</table>
+</div>
+</section>
+<section>
+<h2>Referring sites</h2>
+<div class="gallery-usage__table">
+<table>
+<thead><tr><th scope="col">Referrer</th><th scope="col">Visits</th></tr></thead>
+<tbody data-table="referrers"></tbody>
+</table>
+</div>
+</section>
+</div>
+
+<p class="gallery-usage__sampling" data-usage-sampling hidden>
+Cloudflare applied adaptive sampling to at least one displayed aggregate; the
+reported counts are sampling-adjusted estimates.
+</p>
+</div>
+
+<noscript>
+<p class="gallery-usage__status gallery-usage__status--unavailable">
+The current usage summary requires JavaScript. All examples and reference
+material remain available without it.
+</p>
+</noscript>
+</div>
+```
+
+## How to interpret the counts
+
+A **page view** records a successfully loaded Gallery page. A **visit** begins
+when a page view arrives from another website or a direct link; one visit may
+therefore include several page views. These are not labelled as unique visitors.
+
+Tracking began on November 21, 2026. Until 30 days have elapsed, the rolling
+totals cover only the shorter period since tracking began.
+
+Cloudflare Web Analytics is browser-based, so the figures can omit readers who
+block JavaScript or analytics requests. Recognized bots are excluded. Countries
+and referring sites with fewer than five visits are not displayed, and the
+public summary contains no raw IP addresses, query strings, or individual visit
+records.
+
+<script type="module" src="www/js/gallery-usage.js"></script>

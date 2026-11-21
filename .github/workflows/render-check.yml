@@ -20,3 +20,11 @@ jobs:
           test -f docs/search.json
           test -f docs/sitemap.xml
           test -f .nojekyll
+          test -f docs/gallery_usage.html
+          test -f docs/www/js/gallery-usage.js
+
+      - name: Test analytics Worker
+        run: |
+          node --check cloudflare/gallery-analytics-worker/src/index.js
+          node --check cloudflare/gallery-analytics-worker/src/schema.js
+          node --test cloudflare/gallery-analytics-worker/test

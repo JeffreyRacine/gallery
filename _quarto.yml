@@ -100,6 +100,8 @@ website:
             text: "Books, Papers, and Citation"
           - href: legacy_materials.qmd
             text: "Older Documents"
+          - href: gallery_usage.qmd
+            text: "Gallery Usage"
           - href: about.qmd
             text: "About"
   page-footer:
@@ -114,6 +116,7 @@ format:
   html:
     theme: cosmo
     css: styles.css
+    include-after-body: includes/cloudflare-web-analytics.html
     toc: true
     toc-depth: 3
     code-copy: true

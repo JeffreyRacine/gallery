@@ -79,7 +79,18 @@ printf 'Gallery root: %s\n' "$ROOT"
 require_file "$ROOT/quickstarts.qmd" "gallery quickstarts source present"
 require_file "$ROOT/code_catalog.qmd" "gallery code catalog source present"
 require_file "$ROOT/np_npRmpi.qmd" "gallery np/npRmpi source present"
+require_file "$ROOT/gallery_usage.qmd" "gallery usage source present"
+require_file "$ROOT/www/js/gallery-usage.js" "gallery usage client present"
+require_file "$ROOT/cloudflare/gallery-analytics-worker/src/index.js" "gallery analytics Worker present"
 require_file "$ROOT/www/np_npRmpi/nprmpi_session_quickstart.R" "gallery npRmpi session quickstart source present"
+
+forbid_regex_in_tree \
+  'CF_ANALYTICS_API_TOKEN|Authorization[^\n]{0,80}Bearer' \
+  "public Gallery surfaces contain no analytics API credential plumbing" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g 'www/**' \
+  -g 'docs/**'
 
 forbid_regex_in_tree \
   '^```\\{r([[:space:]]*,|[[:space:]]*})' \

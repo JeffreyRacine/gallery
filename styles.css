@@ -186,6 +186,87 @@ a:focus {
   box-shadow: var(--gallery-shadow);
 }
 
+.gallery-usage {
+  margin: 1.25rem 0 2rem;
+}
+
+.gallery-usage__status {
+  padding: 0.9rem 1rem;
+  color: var(--gallery-muted);
+  background: #edf5f1;
+  border: 1px solid var(--gallery-border);
+  border-radius: 0.8rem;
+}
+
+.gallery-usage__status--stale {
+  color: #654d1e;
+  background: #fbf3db;
+  border-color: #e7d39a;
+}
+
+.gallery-usage__status--unavailable {
+  color: #6d3f36;
+  background: #f8ebe7;
+  border-color: #e4c6bd;
+}
+
+.gallery-usage__metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin: 1.2rem 0 1.8rem;
+}
+
+.gallery-usage__metric {
+  margin: 0;
+  padding: 1rem;
+  background: var(--gallery-card);
+  border: 1px solid var(--gallery-border);
+  border-radius: 0.9rem;
+  box-shadow: 0 10px 24px rgba(24, 52, 63, 0.05);
+}
+
+.gallery-usage__metric dt {
+  color: var(--gallery-muted);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.gallery-usage__metric dd {
+  margin: 0.2rem 0 0;
+  color: var(--gallery-accent-strong);
+  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-size: clamp(1.7rem, 3vw, 2.35rem);
+  line-height: 1.15;
+}
+
+.gallery-usage__columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.gallery-usage__table table {
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+.gallery-usage__number {
+  width: 8rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.gallery-usage__empty,
+.gallery-usage__sampling {
+  color: var(--gallery-muted);
+}
+
+.gallery-usage__sampling {
+  margin-top: 1rem;
+  font-size: 0.92rem;
+}
+
 table {
   background: var(--gallery-card);
 }
@@ -227,6 +308,10 @@ code:not(pre code) {
   .home-card {
     margin-bottom: 1rem;
   }
+
+  .gallery-usage__metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 767.98px) {
@@ -261,5 +346,10 @@ code:not(pre code) {
 
   .gallery-scroll-table-wide table {
     min-width: 50rem;
+  }
+
+  .gallery-usage__metrics,
+  .gallery-usage__columns {
+    grid-template-columns: 1fr;
   }
 }
