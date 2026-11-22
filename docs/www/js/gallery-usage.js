@@ -214,9 +214,6 @@ async function renderUsage(root) {
 }
 
 function appendProfileLink(cell, label, href) {
-  if (cell.childElementCount > 0) {
-    cell.append(document.createTextNode(" · "));
-  }
   const link = document.createElement("a");
   link.href = href;
   link.textContent = label;
@@ -233,7 +230,15 @@ function fillPackageTable(root, summary) {
     const row = document.createElement("tr");
     const packageCell = document.createElement("th");
     packageCell.scope = "row";
-    packageCell.textContent = item.package;
+    const packageName = document.createElement("strong");
+    packageName.className = "gallery-package-reach__package-name";
+    packageName.textContent = item.package;
+    const profileLinks = document.createElement("div");
+    profileLinks.className = "gallery-package-reach__profile-links";
+    appendProfileLink(profileLinks, "CRAN", `https://CRAN.R-project.org/package=${item.package}`);
+    appendProfileLink(profileLinks, "R Observatory", `https://observe.rstats.dev/cran/${item.package}`);
+    appendProfileLink(profileLinks, "R-universe", `https://jeffreyracine.r-universe.dev/${item.package}`);
+    packageCell.append(packageName, profileLinks);
 
     const downloads30 = document.createElement("td");
     downloads30.className = "gallery-usage__number";
@@ -243,25 +248,24 @@ function fillPackageTable(root, summary) {
     downloads365.className = "gallery-usage__number";
     downloads365.textContent = numberFormatter.format(item.downloads365);
 
-    const position = document.createElement("td");
-    position.className = "gallery-package-reach__position";
-    const percentile = document.createElement("strong");
+    const percentile = document.createElement("td");
+    percentile.className = "gallery-usage__number";
     percentile.textContent = `${item.dailyPercentile.toFixed(1)}%`;
-    const rank = document.createElement("span");
+
+    const rank = document.createElement("td");
+    rank.className = "gallery-package-reach__rank-value";
     rank.textContent = `${numberFormatter.format(item.dailyRank)} of ${numberFormatter.format(item.dailyRankTotal)}`;
-    position.append(percentile, rank);
 
-    const reverse = document.createElement("td");
-    reverse.className = "gallery-usage__number";
-    reverse.textContent = `${numberFormatter.format(item.reverseDependencies.required)} / ${numberFormatter.format(item.reverseDependencies.all)}`;
+    const required = document.createElement("td");
+    required.className = "gallery-usage__number";
+    required.textContent = numberFormatter.format(item.reverseDependencies.required);
 
-    const profiles = document.createElement("td");
-    profiles.className = "gallery-package-reach__profiles";
-    appendProfileLink(profiles, "CRAN", `https://CRAN.R-project.org/package=${item.package}`);
-    appendProfileLink(profiles, "R Observatory", `https://observe.rstats.dev/cran/${item.package}`);
-    appendProfileLink(profiles, "R-universe", `https://jeffreyracine.r-universe.dev/${item.package}`);
+    const all = document.createElement("td");
+    all.className = "gallery-usage__number";
+    all.textContent = numberFormatter.format(item.reverseDependencies.all);
 
-    row.append(packageCell, downloads30, downloads365, position, reverse, profiles);
+    row.append(packageCell, downloads30, downloads365, percentile, rank,
+      required, all);
     body.append(row);
   });
 }

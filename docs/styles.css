@@ -271,24 +271,87 @@ a:focus {
   margin: 1rem 0 1.25rem;
 }
 
-.gallery-package-reach__table table {
-  min-width: 58rem;
+.gallery-package-reach__table {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.gallery-package-reach__position strong,
-.gallery-package-reach__position span {
-  display: block;
+.gallery-package-reach__table table {
+  min-width: 55rem;
+  table-layout: fixed;
+}
+
+.gallery-package-reach__table .gallery-usage__number {
+  width: auto;
+}
+
+.gallery-package-reach__table th,
+.gallery-package-reach__table td {
+  padding-right: 0.35rem;
+  padding-left: 0.35rem;
+}
+
+.gallery-package-reach__table thead tr:first-child th {
+  border-bottom-color: var(--gallery-border);
+  text-align: center;
+  vertical-align: bottom;
+}
+
+.gallery-package-reach__table thead tr:first-child th:first-child,
+.gallery-package-reach__table thead tr:first-child th:last-child {
+  text-align: left;
+}
+
+.gallery-package-reach__subhead th {
+  color: var(--gallery-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.gallery-package-reach__package {
+  width: 16rem;
+}
+
+.gallery-package-reach__downloads {
+  width: 7rem;
+}
+
+.gallery-package-reach__percentile {
+  width: 6rem;
+}
+
+.gallery-package-reach__rank {
+  width: 9.5rem;
+}
+
+.gallery-package-reach__dependencies {
+  width: 5rem;
+}
+
+.gallery-package-reach__rank-value {
+  color: var(--gallery-muted);
+  font-size: 0.86rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
   white-space: nowrap;
 }
 
-.gallery-package-reach__position span {
-  color: var(--gallery-muted);
-  font-size: 0.82rem;
-  font-variant-numeric: tabular-nums;
+.gallery-package-reach__profile-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.65rem;
+  margin-top: 0.15rem;
+  font-size: 0.8rem;
+  font-weight: 400;
 }
 
-.gallery-package-reach__profiles {
-  min-width: 10rem;
+.gallery-package-reach__profile-links a {
+  white-space: nowrap;
+}
+
+.gallery-package-reach__package-name {
+  display: block;
 }
 
 table {

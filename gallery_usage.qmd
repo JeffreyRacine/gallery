@@ -92,14 +92,29 @@ Loading the current package summary...
 <div data-package-content hidden>
 <div class="gallery-scroll-table gallery-scroll-table-wide gallery-package-reach__table">
 <table>
+<colgroup>
+<col class="gallery-package-reach__package">
+<col class="gallery-package-reach__downloads">
+<col class="gallery-package-reach__downloads">
+<col class="gallery-package-reach__percentile">
+<col class="gallery-package-reach__rank">
+<col class="gallery-package-reach__dependencies">
+<col class="gallery-package-reach__dependencies">
+</colgroup>
 <thead>
 <tr>
-<th scope="col">Package</th>
-<th scope="col">Downloads<br>30 days</th>
-<th scope="col">Downloads<br>365 days</th>
-<th scope="col">Latest daily<br>CRAN position</th>
-<th scope="col">Reverse dependencies<br>required / all</th>
-<th scope="col">Profiles</th>
+<th scope="col" rowspan="2">Package</th>
+<th scope="colgroup" colspan="2">CRAN mirror downloads</th>
+<th scope="colgroup" colspan="2">Latest daily CRAN position</th>
+<th scope="colgroup" colspan="2">Reverse dependencies</th>
+</tr>
+<tr class="gallery-package-reach__subhead">
+<th scope="col">30 days</th>
+<th scope="col">365 days</th>
+<th scope="col">Percentile</th>
+<th scope="col">Rank</th>
+<th scope="col">Required</th>
+<th scope="col">All</th>
 </tr>
 </thead>
 <tbody data-package-table></tbody>
