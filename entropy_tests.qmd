@@ -29,10 +29,6 @@ dependence and can be more computationally demanding than estimation alone.
 Each procedure builds its test statistic from nonparametric probability
 estimates and obtains inference from the corresponding bootstrap scheme.
 
-The public bootstrap-count argument is consistently named `B`
-throughout this family. The former `boot.num` input is retired; the examples
-below already use the current spelling.
-
 Default fixed-Gaussian integration uses bounded deterministic
 corrected-trapezoid quadrature and no longer depends on `cubature`. Eligible
 summation and bootstrap work uses bounded native batches rather than retaining
@@ -65,7 +61,7 @@ sample_A <- data.frame(a = rnorm(n),
 sample_B <- data.frame(a = rnorm(n),
   b = factor(rbinom(n, 2, 0.5)))
 
-npdeneqtest(sample_A, sample_B, B = 99)
+npdeneqtest(sample_A, sample_B)
 ```
 
 The two data frames should have matching variable names and compatible structure.
@@ -83,7 +79,7 @@ n <- 1000
 x <- rnorm(n)
 y <- rnorm(n)
 
-npunitest(x, y, B = 99)
+npunitest(x, y)
 ```
 
 It also works with discrete data, not just continuous data.
@@ -100,7 +96,7 @@ set.seed(1234)
 n <- 100
 y <- rnorm(n)
 
-npsymtest(y, B = 99)
+npsymtest(y)
 ```
 
 For bootstrap choice, `iid` is the simple resampling route, while block-based choices are relevant when serial dependence matters.
@@ -119,7 +115,7 @@ x <- rnorm(n)
 y <- 1 + x + rnorm(n)
 model <- lm(y ~ x)
 
-npdeptest(y, fitted(model), B = 99, method = "summation")
+npdeptest(y, fitted(model), method = "summation")
 ```
 
 For actual applications, the integration-based route remains the stronger default.
@@ -144,7 +140,7 @@ ar_series <- function(phi, epsilon) {
 }
 
 yt <- ar_series(0.95, rnorm(100))
-npsdeptest(yt, lag.num = 2, B = 99, method = "summation")
+npsdeptest(yt, lag.num = 2, method = "summation")
 ```
 
 Again, the fast summation version is useful for illustration, but not the first choice for serious empirical work.

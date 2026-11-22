@@ -28,7 +28,6 @@ rm(y, x1, x2)
 
 model.unres <- crs(y ~ x1 + x2,
                    data = data.train,
-                   nmulti = 5,
                    basis = "tensor")
 
 summary(model.unres)

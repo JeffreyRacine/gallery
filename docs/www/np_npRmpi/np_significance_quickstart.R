@@ -18,8 +18,8 @@ fit <- npreg(y ~ z + x1 + x2,
   bwmethod = "cv.aic",
   data = dat)
 
-## Use the current B argument for a compact bootstrap run.
-test_out <- npsigtest(fit, B = 99)
+## Test the fitted regression using the default bootstrap settings.
+test_out <- npsigtest(fit)
 
 summary(fit)
 summary(test_out)

@@ -519,7 +519,7 @@ window.Quarto = {
 <li><a href="www/np_npRmpi/np_significance_quickstart.R">np_significance_quickstart.R</a></li>
 <li><a href="www/np_npRmpi/np_specification_quickstart.R">np_specification_quickstart.R</a></li>
 </ul>
-<p>Current releases use <code>B</code> consistently for public bootstrap counts. <code>npsigtest()</code> also chooses pivotal statistics for continuous predictors and unstandardized statistics for categorical predictors by default; an explicit <code>pivot</code> choice still overrides that automatic policy.</p>
+<p><code>npsigtest()</code> chooses pivotal statistics for continuous predictors and unstandardized statistics for categorical predictors by default; an explicit <code>pivot</code> choice still overrides that automatic policy.</p>
 <section id="significance-testing-npsigtest" class="level2">
 <h2 class="anchored" data-anchor-id="significance-testing-npsigtest">Significance testing: <code>npsigtest</code></h2>
 <p>For a fitted regression <span class="math inline">\(g(x)=E(Y\mid X=x)\)</span>, <code>npsigtest()</code> tests whether a selected predictor contributes to <span class="math inline">\(g(x)\)</span>.</p>
@@ -533,7 +533,7 @@ window.Quarto = {
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">gradients =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cps71)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">npsigtest</span>(fit, <span class="at">B =</span> <span class="dv">99</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">npsigtest</span>(fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The test retains the nonparametric regression specification rather than replacing it with a linear model.</p>
 </section>
 <section id="model-specification-testing-npcmstest" class="level2">
@@ -557,11 +557,9 @@ window.Quarto = {
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>test_out <span class="ot">&lt;-</span> <span class="fu">npcmstest</span>(<span class="at">model =</span> model_ols,</span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">xdat =</span> X,</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">ydat =</span> wage1<span class="sc">$</span>lwage,</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">B =</span> <span class="dv">99</span>,</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">nmulti =</span> <span class="dv">1</span>)</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_out)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">ydat =</span> wage1<span class="sc">$</span>lwage)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_out)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="practical-warning" class="level2">
 <h2 class="anchored" data-anchor-id="practical-warning">Practical warning</h2>

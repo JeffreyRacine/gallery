@@ -230,6 +230,38 @@ forbid_regex_in_tree \
   -g '!docs/**'
 
 forbid_regex_in_tree \
+  'nmulti' \
+  "current public examples rely on the default multistart search" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g 'www/**/*.R' \
+  -g '!docs/**'
+
+forbid_multiline_regex_in_tree \
+  '(np[[:alnum:]_.]+|plot)[[:space:]]*\([^)]{0,1000}B[[:space:]]*=' \
+  "current public examples rely on default package bootstrap counts" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g 'www/**/*.R' \
+  -g '!docs/**'
+
+forbid_regex_in_tree \
+  '`B`' \
+  "current public guidance does not promote bootstrap-count overrides" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g 'www/**/*.R' \
+  -g '!docs/**'
+
+forbid_regex_in_tree \
+  "main[[:space:]]*=[[:space:]]*[\"']{2}" \
+  "current plot examples do not suppress obsolete default titles" \
+  "$ROOT" \
+  -g '*.qmd' \
+  -g 'www/**/*.R' \
+  -g '!docs/**'
+
+forbid_regex_in_tree \
   'errors[[:space:]]*=[[:space:]]*(TRUE|FALSE)' \
   "current gallery examples avoid retired Boolean estimator errors" \
   "$ROOT" \

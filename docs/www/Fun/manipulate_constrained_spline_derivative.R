@@ -36,7 +36,6 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lo
     model.unres <- crs(y ~ x,
                        degree = spline.degree,
                        segments = spline.segments,
-                       nmulti = 2,
                        basis = "tensor",
                        data = data.train)
 

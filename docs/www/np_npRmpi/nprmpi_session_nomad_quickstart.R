@@ -24,7 +24,7 @@ dat <- data.frame(y, x)
 
 ## Fit the LP shortcut and inspect the normalized metadata.
 ## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.
-fit <- npreg(y ~ x, data = dat, nomad = "auto", degree.max = 2L, nmulti = 1L)
+fit <- npreg(y ~ x, data = dat, nomad = "auto", degree.max = 2L)
 
 fit$bws$nomad.shortcut
 summary(fit)

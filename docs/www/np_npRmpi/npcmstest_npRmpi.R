@@ -47,7 +47,6 @@ mpi.bcast.Robj2slave(y)
 t <- system.time(mpi.bcast.cmd(output <- npcmstest(model = model,
                                                    xdat = X,
                                                    ydat = y,
-                                                   nmulti = 1,
                                                    ftol = 0.01,
                                                    tol = 0.01),
                                caller.execute = TRUE))

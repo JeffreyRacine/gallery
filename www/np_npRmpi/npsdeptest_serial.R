@@ -25,7 +25,6 @@ yt <- ar.series(0.95, rnorm(n))
 
 t <- system.time(output <- npsdeptest(yt,
                                       lag.num = 2,
-                                      B = 399,
                                       method = "summation"))
 
 output

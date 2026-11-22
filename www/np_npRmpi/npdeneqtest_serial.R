@@ -15,7 +15,7 @@ sample.B <- data.frame(x = rnorm(n))
 
 ## Test whether the two samples have the same density.
 
-t <- system.time(output <- npdeneqtest(sample.A, sample.B, B = 99))
+t <- system.time(output <- npdeneqtest(sample.A, sample.B))
 
 output
 

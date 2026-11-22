@@ -29,10 +29,10 @@ for (design in designs) {
     duration = rexp(n), gaussian = rnorm(n))
   set.seed(search_seed)
   npseed(search_seed)
-  b0 <- npudensbw(dat = data.frame(y), bwmethod = "cv.ml", nmulti = 5)
+  b0 <- npudensbw(dat = data.frame(y), bwmethod = "cv.ml")
   set.seed(search_seed)
   npseed(search_seed)
-  b1 <- npudensbw(dat = data.frame(y), bwmethod = "cv.ml", nmulti = 5,
+  b1 <- npudensbw(dat = data.frame(y), bwmethod = "cv.ml",
     ckerbound = "fixed", ckerlb = bounds[1], ckerub = bounds[2])
   u0 <- fitted(npudens(bws = b0, tdat = data.frame(y), edat = data.frame(y = yy)))
   ## Public evaluation is inside the declared support. Zero extension is
@@ -61,11 +61,11 @@ for (design in designs) {
   set.seed(search_seed)
   npseed(search_seed)
   b0c <- npcdensbw(xdat = data.frame(x), ydat = data.frame(y),
-    bwmethod = "cv.ml", nmulti = 5)
+    bwmethod = "cv.ml")
   set.seed(search_seed)
   npseed(search_seed)
   b1c <- npcdensbw(xdat = data.frame(x), ydat = data.frame(y),
-    bwmethod = "cv.ml", nmulti = 5,
+    bwmethod = "cv.ml",
     cxkerbound = "fixed", cxkerlb = bounds[1], cxkerub = bounds[2],
     cykerbound = "fixed", cykerlb = bounds[1], cykerub = bounds[2])
   c0 <- fitted(npcdens(bws = b0c, txdat = data.frame(x), tydat = data.frame(y),

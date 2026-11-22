@@ -33,7 +33,6 @@ y <- model_data$growth
 t <- system.time(output <- npcmstest(model = model,
                                      xdat = X,
                                      ydat = y,
-                                     nmulti = 1,
                                      ftol = 0.01,
                                      tol = 0.01))
 

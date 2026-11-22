@@ -9,7 +9,6 @@ library(rgl)
 set.seed(42)
 
 n <- 1000
-nmulti <- 1
 
 x1 <- runif(n, -5, 5)
 x2 <- runif(n, -5, 5)
@@ -21,8 +20,7 @@ y <- dgp + rnorm(n, sd = .1)
 model <- crs(y ~ x1 + x2,
              complexity = "degree-knots",
              knots = "uniform",
-             cv.func = "cv.aic",
-             nmulti = nmulti)
+             cv.func = "cv.aic")
 
 summary(model)
 

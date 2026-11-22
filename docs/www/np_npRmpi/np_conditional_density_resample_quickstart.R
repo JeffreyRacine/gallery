@@ -8,7 +8,7 @@ data(faithful, package = "datasets")
 dat <- faithful[seq_len(80), c("eruptions", "waiting")]
 
 ## Fit the original conditional density on a compact subsample.
-bw <- npcdensbw(eruptions ~ waiting, data = dat, nmulti = 1)
+bw <- npcdensbw(eruptions ~ waiting, data = dat)
 fit <- npcdens(bws = bw, data = dat)
 
 n <- nrow(dat)

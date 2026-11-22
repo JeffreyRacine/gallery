@@ -28,7 +28,7 @@ by Wooldridge (2000).
 This page reflects the `npRmpi` `0.80-2` and `np` `0.80-2` releases, both
 available on CRAN.
 
-- use `errors`, `bootstrap`, `band`, `alpha`, and `B` for the main interval controls
+- use `errors`, `bootstrap`, `band`, and `alpha` for the main interval controls
 - use snake_case names such as `data_rug`, `data_overlay`, `common_scale`, and `coef_index`
 - use `np_boot_control()`, `np_grid_control()`, and `np_render_control()` only for the remaining detailed control groups
 

@@ -16,8 +16,7 @@ iv_dat <- data.frame(y, z, w)
 ## Fit through the current formula/data interface.
 fit_iv <- npregiv(y ~ z | w,
   data = iv_dat,
-  method = "Tikhonov",
-  nmulti = 1)
+  method = "Tikhonov")
 
 ## Inspect the selected structural fit and its training residuals.
 summary(fit_iv)

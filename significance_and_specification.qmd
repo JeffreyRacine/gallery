@@ -19,8 +19,7 @@ If you want minimal downloadable scripts for the two main routes on this page, s
 - [np_significance_quickstart.R](www/np_npRmpi/np_significance_quickstart.R)
 - [np_specification_quickstart.R](www/np_npRmpi/np_specification_quickstart.R)
 
-Current releases use `B` consistently for public bootstrap counts. `npsigtest()` also
-chooses pivotal statistics for continuous predictors and unstandardized
+`npsigtest()` chooses pivotal statistics for continuous predictors and unstandardized
 statistics for categorical predictors by default; an explicit `pivot` choice
 still overrides that automatic policy.
 
@@ -40,7 +39,7 @@ fit <- npreg(logwage ~ age,
   gradients = TRUE,
   data = cps71)
 
-npsigtest(fit, B = 99)
+npsigtest(fit)
 ```
 
 The test retains the nonparametric regression specification rather than
@@ -72,9 +71,7 @@ X <- data.frame(female = wage1$female,
 
 test_out <- npcmstest(model = model_ols,
   xdat = X,
-  ydat = wage1$lwage,
-  B = 99,
-  nmulti = 1)
+  ydat = wage1$lwage)
 
 summary(test_out)
 ```

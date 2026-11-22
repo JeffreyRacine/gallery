@@ -102,8 +102,8 @@ Plot the fitted objects to inspect their estimated shape.
 
 ```r
 ## Plot the fitted unconditional objects to inspect their shape
-plot(f_faithful, view = "fixed", main = "")
-plot(F_faithful, view = "fixed", main = "")
+plot(f_faithful, view = "fixed")
+plot(F_faithful, view = "fixed")
 ```
 
 The Old Faithful estimates reveal the bimodal structure without imposing a
@@ -147,8 +147,8 @@ change with the covariate.
 
 ```r
 ## Plot the evolving conditional density and distribution surfaces
-plot(fhat, view = "fixed", main = "")
-plot(Fhat, view = "fixed", main = "")
+plot(fhat, view = "fixed")
+plot(Fhat, view = "fixed")
 ```
 
 These estimators describe changes in the full conditional distribution, which
@@ -331,8 +331,8 @@ For LP-capable conditional families, the same modern shortcut is now available:
 
 ```r
 ## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.
-fhat_lp <- npcdens(eruptions ~ waiting, data = dat, nomad = "auto", nmulti = 1)
-Fhat_lp <- npcdist(eruptions ~ waiting, data = dat, nomad = "auto", nmulti = 1)
+fhat_lp <- npcdens(eruptions ~ waiting, data = dat, nomad = "auto")
+Fhat_lp <- npcdist(eruptions ~ waiting, data = dat, nomad = "auto")
 ```
 
 That is the convenience route for automatic local-polynomial degree and

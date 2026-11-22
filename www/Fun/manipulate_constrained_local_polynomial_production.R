@@ -35,7 +35,7 @@ build_manual_lp_bw <- function(formula, data, degree, bw = NULL, ckertype, bandw
   do.call(npregbw, args)
 }
 
-build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.max, ckertype, nmulti) {
+build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.max, ckertype) {
   if (!requireNamespace("crs", quietly = TRUE)) {
     stop("Automatic LP degree search uses npregbw(..., nomad = \"auto\"), ",
       "which currently requires the 'crs' package.")
@@ -49,8 +49,7 @@ build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.ma
     nomad = "auto",
     degree.min = as.integer(degree.min),
     degree.max = as.integer(degree.max),
-    degree.start = as.integer(degree.start),
-    nmulti = as.integer(nmulti))
+    degree.start = as.integer(degree.start))
 }
 
 ## Expose the estimator and constraint controls in an interactive panel.
@@ -78,8 +77,7 @@ manipulate.plot <- function(n, p, bw, ckertype, constraints, weighted, unweighte
         degree.start = p,
         degree.min = 2L,
         degree.max = 7L,
-        ckertype = ckertype,
-        nmulti = 1L)
+        ckertype = ckertype)
     }
     bw <- lp.bw$bw[1L]
     p <- as.integer(lp.bw$degree[1L])

@@ -18,7 +18,6 @@ fit_iv <- crsiv(y ~ z | w,
   data = iv_dat,
   method = "Landweber-Fridman",
   cv = "exhaustive",
-  nmulti = 1,
   cv.threshold = 0)
 
 ## Inspect the selected structural fit and its training residuals.

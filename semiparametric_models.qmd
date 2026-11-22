@@ -35,7 +35,8 @@ z <- runif(n)
 y <- 1 + 2 * x1 + sin(2 * pi * z) + rnorm(n, sd = 0.2)
 dat <- data.frame(y, x1, z)
 
-fit_pl_lp <- npplreg(y ~ x1 | z, data = dat, nomad = "auto", degree.max = 2L, nmulti = 1)
+fit_pl_lp <- npplreg(y ~ x1 | z, data = dat,
+  nomad = "auto", degree.max = 2L)
 ```
 
 The same shortcut is available for supported `npindex()` and `npscoef()`
@@ -116,8 +117,7 @@ library(np)
 data(wage1, package = "np")
 
 model_index_continuous <- npindex(lwage ~ female + married + educ + exper + tenure,
-  data = wage1,
-  nmulti = 1)
+  data = wage1)
 
 summary(model_index_continuous)
 ```
@@ -130,9 +130,9 @@ retaining a nonparametric response to the index.
 `npindex()` is the one principal estimator that defaults to
 `se = TRUE, se.type = "asymptotic"`, providing asymptotic coefficient covariance
 and fitted-value standard errors. Set `se = FALSE` for a point-only fit when
-that extra work is not needed. Selecting `se.type = "bootstrap"` uses `B` for
-fitted-value, gradient, and average-gradient errors; coefficient covariance
-remains asymptotic in either mode.
+that extra work is not needed. Selecting `se.type = "bootstrap"` uses
+bootstrap resampling for fitted-value, gradient, and average-gradient errors;
+coefficient covariance remains asymptotic in either mode.
 
 With a local-constant uniform kernel, the link derivative is zero and cannot
 provide covariance for free index coefficients. Use `se = FALSE` when only the

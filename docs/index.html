@@ -533,7 +533,7 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <p><code>crs</code> <code>0.15-46</code> (published August 19, 2026), <code>npRmpi</code> <code>0.80-2</code>, and <code>np</code> <code>0.80-2</code> are available on CRAN. The <code>np</code> and <code>npRmpi</code> releases are dated November 13, 2026.</p>
-<p>The examples use current estimator controls such as <code>B</code>, <code>se</code>, <code>se.fit</code>, and <code>gradient.order</code>, together with plot controls such as <code>errors</code>, <code>bootstrap</code>, <code>band</code>, <code>data_rug</code>, and <code>data_overlay</code>. The <a href="./faq.html#what-should-i-check-when-moving-to-080-2">0.80-2 migration checklist</a> summarizes the argument changes most likely to affect older code.</p>
+<p>The examples use current estimator controls such as <code>se</code>, <code>se.fit</code>, and <code>gradient.order</code>, together with plot controls such as <code>errors</code>, <code>bootstrap</code>, <code>band</code>, <code>data_rug</code>, and <code>data_overlay</code>. The <a href="./faq.html#what-should-i-check-when-moving-to-080-2">0.80-2 migration checklist</a> summarizes the argument changes most likely to affect older code.</p>
 </div>
 </div>
 <section id="explore-a-conditional-distribution" class="level2">
@@ -640,7 +640,7 @@ Tip
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>annual_fit <span class="ot">&lt;-</span> <span class="fu">lapply</span>(years, <span class="cf">function</span>(yr) {</span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  annual_data <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(</span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    Italy_Updated[Italy_Updated<span class="sc">$</span>year <span class="sc">==</span> yr, , <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  bw <span class="ot">&lt;-</span> <span class="fu">npudistbw</span>(<span class="sc">~</span>gdp, <span class="at">data =</span> annual_data, <span class="at">nmulti =</span> <span class="dv">1</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  bw <span class="ot">&lt;-</span> <span class="fu">npudistbw</span>(<span class="sc">~</span>gdp, <span class="at">data =</span> annual_data)</span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  Fhat <span class="ot">&lt;-</span> <span class="fu">npudist</span>(<span class="at">bws =</span> bw, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">gdp =</span> gdp_grid))</span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">cdf =</span> <span class="fu">fitted</span>(Fhat),</span>
@@ -666,7 +666,7 @@ Tip
 <span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="do">## Select one GDP bandwidth while retaining cell-based year estimates</span></span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>bw_common <span class="ot">&lt;-</span> <span class="fu">npcdistbw</span>(gdp <span class="sc">~</span> year, <span class="at">data =</span> Italy_Updated, <span class="at">nmulti =</span> <span class="dv">1</span>,</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>bw_common <span class="ot">&lt;-</span> <span class="fu">npcdistbw</span>(gdp <span class="sc">~</span> year, <span class="at">data =</span> Italy_Updated,</span>
 <span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">lbd.dir =</span> <span class="dv">0</span>, <span class="at">hbd.dir =</span> <span class="dv">0</span>, <span class="at">dfac.dir =</span> <span class="dv">0</span>, <span class="at">initd.dir =</span> <span class="dv">0</span>,</span>
 <span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">lbd.init =</span> <span class="dv">0</span>, <span class="at">hbd.init =</span> <span class="dv">0</span>, <span class="at">dfac.init =</span> <span class="dv">0</span>)</span>
 <span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">as.numeric</span>(bw_common<span class="sc">$</span>xbw) <span class="sc">==</span> <span class="dv">0</span>)</span>

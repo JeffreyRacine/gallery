@@ -9,7 +9,7 @@ birthwt$smoke <- factor(birthwt$smoke)
 birthwt$race <- factor(birthwt$race)
 
 ## Fit the conditional-mode classifier on a small practical formula.
-fit <- npconmode(low ~ smoke + race + age + lwt, data = birthwt, nmulti = 1)
+fit <- npconmode(low ~ smoke + race + age + lwt, data = birthwt)
 
 ## Inspect the fitted object, then the implied confusion matrix.
 summary(fit)

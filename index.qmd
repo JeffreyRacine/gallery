@@ -29,7 +29,7 @@ a half-minute RStudio demonstration, then continue with the copyable script.
 `0.80-2` are available on CRAN. The `np` and `npRmpi` releases are dated
 November 13, 2026.
 
-The examples use current estimator controls such as `B`, `se`, `se.fit`, and
+The examples use current estimator controls such as `se`, `se.fit`, and
 `gradient.order`, together with plot controls such as `errors`, `bootstrap`,
 `band`, `data_rug`, and `data_overlay`. The [0.80-2 migration checklist](faq.qmd#what-should-i-check-when-moving-to-080-2)
 summarizes the argument changes most likely to affect older code.
@@ -151,7 +151,7 @@ tau <- 0.5
 annual_fit <- lapply(years, function(yr) {
   annual_data <- droplevels(
     Italy_Updated[Italy_Updated$year == yr, , drop = FALSE])
-  bw <- npudistbw(~gdp, data = annual_data, nmulti = 1)
+  bw <- npudistbw(~gdp, data = annual_data)
   Fhat <- npudist(bws = bw, newdata = data.frame(gdp = gdp_grid))
   list(
     cdf = fitted(Fhat),
@@ -177,7 +177,7 @@ evaluate_conditional_fit <- function(bws) {
 }
 
 ## Select one GDP bandwidth while retaining cell-based year estimates
-bw_common <- npcdistbw(gdp ~ year, data = Italy_Updated, nmulti = 1,
+bw_common <- npcdistbw(gdp ~ year, data = Italy_Updated,
   lbd.dir = 0, hbd.dir = 0, dfac.dir = 0, initd.dir = 0,
   lbd.init = 0, hbd.init = 0, dfac.init = 0)
 stopifnot(as.numeric(bw_common$xbw) == 0)

@@ -9,8 +9,7 @@ data(Italy, package = "np")
 ## Fit several conditional quantiles using the location-scale route.
 qfit <- nplsqreg(gdp ~ ordered(year),
                  data = Italy,
-                 tau = c(0.25, 0.50, 0.75),
-                 nmulti = 1)
+                 tau = c(0.25, 0.50, 0.75))
 
 ## Review the selected search state and fitted object.
 summary(qfit$bws)

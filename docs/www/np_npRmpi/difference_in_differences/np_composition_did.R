@@ -77,8 +77,7 @@ did_results <- local({
     set.seed(seed)
     message("Propensity design ", i, ": selecting Gaussian LC bandwidths")
     bw <- np::npcdensbw(xdat = x, ydat = y, regtype = "lc", bwmethod = "cv.ml",
-      cxkertype = "gaussian", uxkertype = "liracine", uykertype = "aitchisonaitken",
-      nmulti = 2L)
+      cxkertype = "gaussian", uxkertype = "liracine", uykertype = "aitchisonaitken")
     probability <- matrix(NA_real_, n, 4, dimnames = list(NULL, levels(y)))
     message("Propensity design ", i, ": leave-one-out class probabilities")
     for (j in seq_len(n)) {

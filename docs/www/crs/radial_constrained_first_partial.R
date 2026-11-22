@@ -29,7 +29,6 @@ rm(y, x1, x2)
 model.unres <- crs(y ~ x1 + x2,
                    deriv = 1,
                    data = data.train,
-                   nmulti = 5,
                    basis = "tensor")
 
 model.gradient.unres <- model.unres$deriv.mat

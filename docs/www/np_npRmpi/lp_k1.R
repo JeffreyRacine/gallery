@@ -17,7 +17,7 @@ build_manual_lp_bw <- function(formula, data, degree, ckertype) {
     ckertype = ckertype)
 }
 
-build_nomad_lp_bw <- function(formula, data, degree.max, ckertype, nmulti) {
+build_nomad_lp_bw <- function(formula, data, degree.max, ckertype) {
   if (!requireNamespace("crs", quietly = TRUE)) {
     stop("Automatic LP degree search uses npregbw(..., nomad = \"auto\"), ",
       "which currently requires the 'crs' package.")
@@ -29,8 +29,7 @@ build_nomad_lp_bw <- function(formula, data, degree.max, ckertype, nmulti) {
     ckertype = ckertype,
     ## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.
     nomad = "auto",
-    degree.max = as.integer(degree.max),
-    nmulti = as.integer(nmulti))
+    degree.max = as.integer(degree.max))
 }
 
 ckertype <- "epanechnikov"
@@ -69,8 +68,7 @@ lp.bw <- if (p >= 0) {
   build_nomad_lp_bw(formula = formula.glp,
     data = lp.data,
     degree.max = 10L,
-    ckertype = ckertype,
-    nmulti = min(NCOL(X), 5L))
+    ckertype = ckertype)
 }
 
 p <- as.integer(lp.bw$degree)

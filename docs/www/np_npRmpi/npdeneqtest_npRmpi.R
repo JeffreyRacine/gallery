@@ -27,7 +27,7 @@ mpi.bcast.Robj2slave(sample.B)
 
 ## Test whether the two samples have the same density.
 
-t <- system.time(mpi.bcast.cmd(output <- npdeneqtest(sample.A, sample.B, B = 99),
+t <- system.time(mpi.bcast.cmd(output <- npdeneqtest(sample.A, sample.B),
                                caller.execute = TRUE))
 
 output
