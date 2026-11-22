@@ -43,7 +43,7 @@ function cleanText(value, label, maximumLength) {
 function cleanPath(value, prefix) {
   const path = cleanText(value, "page path", 300);
   if (!path.startsWith(prefix) || path.includes("?") || path.includes("#")) {
-    throw new TypeError("page path is outside the Gallery scope");
+    throw new TypeError("page path is outside the requested site scope");
   }
   return path;
 }
@@ -96,6 +96,66 @@ function totalFrom(groups, label) {
     visits: groupMetric(row, "visits", `${label}[0]`),
     sampleInterval: groupSampleInterval(row, `${label}[0]`)
   };
+}
+
+function scopedGroups(groups, options) {
+  const rows = requireArray(groups, options.label);
+  const collected = [];
+  let maximumSampleInterval = 1;
+
+  rows.forEach((group, index) => {
+    const label = `${options.label}[${index}]`;
+    const current = requireObject(group, label);
+    const dimensions = requireObject(current.dimensions, `${label}.dimensions`);
+    const sampleInterval = groupSampleInterval(current, label);
+    try {
+      cleanPath(dimensions.requestPath, options.pathPrefix);
+      collected.push({ current, dimensions, label });
+      maximumSampleInterval = Math.max(maximumSampleInterval, sampleInterval);
+    } catch {
+      // Rows outside the requested site path are deliberately excluded.
+    }
+  });
+
+  return { rows: collected, sampleInterval: maximumSampleInterval };
+}
+
+function scopedTotal(groups, options) {
+  const scoped = scopedGroups(groups, options);
+  return {
+    pageViews: scoped.rows.reduce(
+      (total, row) => total + groupMetric(row.current, "pageViews", row.label),
+      0
+    ),
+    visits: scoped.rows.reduce(
+      (total, row) => total + groupMetric(row.current, "visits", row.label),
+      0
+    ),
+    sampleInterval: scoped.sampleInterval
+  };
+}
+
+function scopedTopRows(groups, options) {
+  const scoped = scopedGroups(groups, options);
+  const aggregated = new Map();
+
+  scoped.rows.forEach(({ current, dimensions, label }) => {
+    const count = groupMetric(current, options.metric, label);
+    try {
+      const value = options.clean(dimensions[options.dimension]);
+      aggregated.set(value, (aggregated.get(value) || 0) + count);
+    } catch {
+      // Invalid public labels are omitted without exposing the raw dimension.
+    }
+  });
+
+  const rows = [...aggregated.entries()]
+    .map(([value, count]) => ({ value, count }))
+    .filter((row) => row.count >= options.minimumCount)
+    .sort((left, right) => right.count - left.count || left.value.localeCompare(right.value))
+    .slice(0, options.limit);
+
+  return { rows, sampleInterval: scoped.sampleInterval };
 }
 
 function topRows(groups, options) {
@@ -203,6 +263,88 @@ export function buildSummary(payload, configuration, generatedAt = new Date()) {
   };
 
   return validateSummary(summary);
+}
+
+export function buildScopedSummary(payload, configuration, generatedAt = new Date()) {
+  const root = requireObject(payload, "GraphQL response");
+  const data = requireObject(root.data, "GraphQL response.data");
+  const viewer = requireObject(data.viewer, "GraphQL response.data.viewer");
+  const accounts = requireArray(viewer.accounts, "GraphQL response.data.viewer.accounts");
+  if (accounts.length !== 1) {
+    throw new TypeError("GraphQL response must contain exactly one account");
+  }
+
+  const account = requireObject(accounts[0], "GraphQL account");
+  const minimumCount = boundedInteger(configuration.minimumCount, 5, 2, 1000);
+  const limit = boundedInteger(configuration.limit, 10, 1, 25);
+  const pathPrefix = cleanText(configuration.pathPrefix, "site path prefix", 100);
+  const scope = { pathPrefix };
+  const last7Days = scopedTotal(account.pages7, {
+    ...scope,
+    label: "pages7"
+  });
+  const last30Days = scopedTotal(account.pages30, {
+    ...scope,
+    label: "pages30"
+  });
+  const pages = scopedTopRows(account.pages30, {
+    ...scope,
+    label: "pages30",
+    metric: "pageViews",
+    dimension: "requestPath",
+    minimumCount,
+    limit,
+    clean: (value) => cleanPath(value, pathPrefix)
+  });
+  const countries = scopedTopRows(account.countries30, {
+    ...scope,
+    label: "countries30",
+    metric: "visits",
+    dimension: "countryName",
+    minimumCount,
+    limit,
+    clean: (value) => cleanText(value, "country", 100)
+  });
+  const referrers = scopedTopRows(account.referrers30, {
+    ...scope,
+    label: "referrers30",
+    metric: "visits",
+    dimension: "refererHost",
+    minimumCount,
+    limit,
+    clean: cleanHost
+  });
+
+  const sampleInterval = Math.max(
+    last7Days.sampleInterval,
+    last30Days.sampleInterval,
+    pages.sampleInterval,
+    countries.sampleInterval,
+    referrers.sampleInterval
+  );
+
+  return validateSummary({
+    schemaVersion: SCHEMA_VERSION,
+    generatedAt: generatedAt.toISOString(),
+    status: "current",
+    totals: {
+      last7Days: {
+        visits: last7Days.visits,
+        pageViews: last7Days.pageViews
+      },
+      last30Days: {
+        visits: last30Days.visits,
+        pageViews: last30Days.pageViews
+      }
+    },
+    topPages: pages.rows.map(({ value, count }) => ({ path: value, pageViews: count })),
+    topCountries: countries.rows.map(({ value, count }) => ({ country: value, visits: count })),
+    topReferrers: referrers.rows.map(({ value, count }) => ({ host: value, visits: count })),
+    sampling: {
+      applied: sampleInterval > 1,
+      sampleInterval
+    }
+  });
 }
 
 function validateMetricPair(value, label) {

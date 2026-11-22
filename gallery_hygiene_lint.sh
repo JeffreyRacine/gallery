@@ -134,13 +134,13 @@ expect_fixed \
 
 expect_fixed \
   "$ROOT/index.qmd" \
-  '`0.80-2` are available on CRAN' \
-  "gallery overview identifies 0.80-2 as the current np release"
+  '{{< var current-releases.np.version >}}' \
+  "gallery overview uses shared current np release metadata"
 
 expect_fixed \
   "$ROOT/index.qmd" \
-  'November 13, 2026' \
-  "gallery overview records the 0.80-2 package date"
+  '{{< var current-releases.np.published >}}' \
+  "gallery overview uses shared current np publication metadata"
 
 expect_fixed \
   "$ROOT/plotting_and_intervals.qmd" \

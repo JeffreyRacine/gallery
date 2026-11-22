@@ -1,23 +1,28 @@
 # Gallery analytics Worker
 
-This Worker exposes privacy-preserving Gallery traffic and package-reach
-summaries. Cloudflare Web Analytics supplies the traffic data. A daily GitHub
-workflow uses `packageRank`, `cranlogs`, and current CRAN metadata to publish a
-separate package snapshot. Only validated aggregates are cached in Workers KV.
+This Worker exposes privacy-preserving Gallery and Research traffic summaries,
+plus a shared package-reach summary. Cloudflare Web Analytics supplies the
+traffic data. A daily GitHub workflow uses `packageRank`, `cranlogs`, and
+current CRAN metadata to publish a separate package snapshot. Only validated
+aggregates are cached in Workers KV.
 
 Public endpoints:
 
 ```text
 https://gallery-analytics.gallery-analytics-worker.workers.dev/v1/summary
+https://gallery-analytics.gallery-analytics-worker.workers.dev/v1/research-summary
 https://gallery-analytics.gallery-analytics-worker.workers.dev/v1/package-reach
 ```
 
 ## Safety contract
 
-- The public API has two read-only routes: `GET /v1/summary` and
-  `GET /v1/package-reach`.
+- The public API has three read-only routes: `GET /v1/summary`,
+  `GET /v1/research-summary`, and `GET /v1/package-reach`.
 - The GraphQL query and its 7- and 30-day windows are fixed in source.
-- Paths outside `/gallery/` and country/referrer counts below five are omitted.
+- Gallery and Research traffic are stored independently. The Research summary
+  is assembled only from paths below `/research/`; the Gallery summary retains
+  its established `/gallery/` contract.
+- Country/referrer counts below five are omitted.
 - Analytics and package-ingest credentials are secrets and must never enter
   this repository.
 - A failed refresh leaves the last valid KV snapshot unchanged.
@@ -71,10 +76,12 @@ credentials.
    ```
 
 The first traffic snapshot appears after the first successful scheduled Worker
-refresh. Package reach is refreshed by `.github/workflows/package-reach.yml`
+refresh. A shared site tag is valid because the two GitHub Pages sites have the
+same browser origin; the Worker separates their paths before publishing either
+summary. Package reach is refreshed by `.github/workflows/package-reach.yml`
 each day at 18:41 UTC, after the daily CRAN log is normally available, and can
-also be run manually. Neither update requires a
-Quarto render. Cron changes can take up to 15 minutes to propagate.
+also be run manually. Neither update requires a Quarto render. Cron changes can
+take up to 15 minutes to propagate.
 
 ## Verification
 
@@ -82,6 +89,7 @@ After the first scheduled event, check:
 
 ```sh
 curl -fsS https://gallery-analytics.gallery-analytics-worker.workers.dev/v1/summary
+curl -fsS https://gallery-analytics.gallery-analytics-worker.workers.dev/v1/research-summary
 curl -fsS https://gallery-analytics.gallery-analytics-worker.workers.dev/v1/package-reach
 ```
 

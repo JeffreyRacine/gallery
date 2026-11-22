@@ -128,7 +128,7 @@ function emptyRow(message) {
   return row;
 }
 
-function fillTable(root, selector, rows, labelKey, metricKey, paths = false) {
+function fillTable(root, selector, rows, labelKey, metricKey, pathPrefix = null) {
   const body = root.querySelector(selector);
   if (!body) {
     return;
@@ -147,15 +147,15 @@ function fillTable(root, selector, rows, labelKey, metricKey, paths = false) {
     if (typeof label !== "string" || !label.trim()) {
       throw new TypeError("summary label is invalid");
     }
-    if (paths && !label.startsWith("/gallery/")) {
-      throw new TypeError("summary path is outside the Gallery");
+    if (pathPrefix && !label.startsWith(pathPrefix)) {
+      throw new TypeError("summary path is outside the requested site");
     }
     const count = requireCount(item[metricKey], `${label} count`);
 
-    if (paths) {
+    if (pathPrefix) {
       const link = document.createElement("a");
       link.href = label;
-      link.textContent = label.replace(/^\/gallery\//u, "");
+      link.textContent = label.slice(pathPrefix.length);
       labelCell.append(link);
     } else {
       labelCell.textContent = label;
@@ -176,8 +176,12 @@ async function renderUsage(root) {
 
   try {
     const endpoint = root.dataset.endpoint;
+    const pathPrefix = root.dataset.pathPrefix || "/gallery/";
     if (!endpoint || !content) {
-      throw new TypeError("Gallery usage component is not configured");
+      throw new TypeError("Site usage component is not configured");
+    }
+    if (!/^\/[a-z0-9_-]+\/$/u.test(pathPrefix)) {
+      throw new TypeError("Site path prefix is invalid");
     }
     const response = await fetch(endpoint, {
       headers: { Accept: "application/json" },
@@ -192,7 +196,7 @@ async function renderUsage(root) {
     setMetric(root, "pageviews-7", summary.totals.last7Days.pageViews);
     setMetric(root, "visits-30", summary.totals.last30Days.visits);
     setMetric(root, "pageviews-30", summary.totals.last30Days.pageViews);
-    fillTable(root, "[data-table='pages']", summary.topPages, "path", "pageViews", true);
+    fillTable(root, "[data-table='pages']", summary.topPages, "path", "pageViews", pathPrefix);
     fillTable(root, "[data-table='countries']", summary.topCountries, "country", "visits");
     fillTable(root, "[data-table='referrers']", summary.topReferrers, "host", "visits");
 
@@ -208,7 +212,7 @@ async function renderUsage(root) {
     }
     content.hidden = false;
   } catch {
-    status.textContent = "The usage summary is temporarily unavailable. The rest of the Gallery is unaffected.";
+    status.textContent = "The usage summary is temporarily unavailable. The rest of the site is unaffected.";
     status.classList.add("gallery-usage__status--unavailable");
   }
 }
@@ -304,7 +308,7 @@ async function renderPackageReach(root) {
   }
 }
 
-document.querySelectorAll("[data-gallery-usage]").forEach((root) => {
+document.querySelectorAll("[data-gallery-usage], [data-research-usage]").forEach((root) => {
   renderUsage(root);
 });
 

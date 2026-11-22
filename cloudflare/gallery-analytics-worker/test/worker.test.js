@@ -4,11 +4,13 @@ import test from "node:test";
 import {
   handleRequest,
   loadPackageReach,
+  loadResearchSnapshot,
   loadSnapshot,
+  refreshResearchSnapshot,
   refreshSnapshot
 } from "../src/index.js";
 import { validatePackageReach } from "../src/package-reach-schema.js";
-import { buildSummary, validateSummary } from "../src/schema.js";
+import { buildScopedSummary, buildSummary, validateSummary } from "../src/schema.js";
 
 const generatedAt = new Date("2026-11-21T18:00:00Z");
 const ingestToken = "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc";
@@ -60,6 +62,79 @@ function emptyGraphQLPayload() {
           pages30: [],
           countries30: [],
           referrers30: []
+        }]
+      }
+    }
+  };
+}
+
+function scopedGraphQLPayload() {
+  const researchHome = group({
+    count: 80,
+    visits: 42,
+    dimensions: { requestPath: "/research/index.html" }
+  });
+  const researchSoftware = group({
+    count: 35,
+    visits: 18,
+    dimensions: { requestPath: "/research/software.html" },
+    sampleInterval: 2
+  });
+  const galleryHome = group({
+    count: 900,
+    visits: 500,
+    dimensions: { requestPath: "/gallery/index.html" }
+  });
+  return {
+    data: {
+      viewer: {
+        accounts: [{
+          pages7: [researchHome, galleryHome],
+          pages30: [researchHome, researchSoftware, galleryHome],
+          countries30: [
+            group({
+              count: 60,
+              visits: 32,
+              dimensions: { requestPath: "/research/index.html", countryName: "Canada" }
+            }),
+            group({
+              count: 15,
+              visits: 8,
+              dimensions: { requestPath: "/research/software.html", countryName: "Canada" }
+            }),
+            group({
+              count: 8,
+              visits: 4,
+              dimensions: { requestPath: "/research/index.html", countryName: "France" }
+            }),
+            group({
+              count: 700,
+              visits: 390,
+              dimensions: { requestPath: "/gallery/index.html", countryName: "United States" }
+            })
+          ],
+          referrers30: [
+            group({
+              count: 40,
+              visits: 21,
+              dimensions: { requestPath: "/research/index.html", refererHost: "google.com" }
+            }),
+            group({
+              count: 20,
+              visits: 11,
+              dimensions: { requestPath: "/research/software.html", refererHost: "google.com" }
+            }),
+            group({
+              count: 12,
+              visits: 6,
+              dimensions: { requestPath: "/research/index.html", refererHost: "" }
+            }),
+            group({
+              count: 600,
+              visits: 340,
+              dimensions: { requestPath: "/gallery/index.html", refererHost: "cran.r-project.org" }
+            })
+          ]
         }]
       }
     }
@@ -135,6 +210,7 @@ function environment(kv = new MemoryKV()) {
     CF_ANALYTICS_API_TOKEN: "private-test-token",
     GALLERY_HOST: "jeffreyracine.github.io",
     GALLERY_PATH_PREFIX: "/gallery/",
+    RESEARCH_PATH_PREFIX: "/research/",
     GALLERY_ORIGIN: "https://jeffreyracine.github.io",
     LOCAL_ORIGINS: "http://127.0.0.1:8765,http://localhost:8765",
     MIN_PUBLIC_COUNT: "5",
@@ -196,6 +272,37 @@ test("buildSummary rejects an invalid multi-row aggregate", () => {
   }, generatedAt), /at most one aggregate row/u);
 });
 
+test("buildScopedSummary isolates and aggregates the Research path", () => {
+  const summary = buildScopedSummary(scopedGraphQLPayload(), {
+    minimumCount: "5",
+    limit: "10",
+    pathPrefix: "/research/"
+  }, generatedAt);
+
+  assert.deepEqual(summary.totals.last7Days, { visits: 42, pageViews: 80 });
+  assert.deepEqual(summary.totals.last30Days, { visits: 60, pageViews: 115 });
+  assert.deepEqual(summary.topPages, [
+    { path: "/research/index.html", pageViews: 80 },
+    { path: "/research/software.html", pageViews: 35 }
+  ]);
+  assert.deepEqual(summary.topCountries, [{ country: "Canada", visits: 40 }]);
+  assert.deepEqual(summary.topReferrers, [
+    { host: "google.com", visits: 32 },
+    { host: "Direct or unavailable", visits: 6 }
+  ]);
+  assert.deepEqual(summary.sampling, { applied: true, sampleInterval: 2 });
+});
+
+test("buildScopedSummary rejects malformed metrics inside the Research path", () => {
+  const payload = scopedGraphQLPayload();
+  payload.data.viewer.accounts[0].pages30[0].count = -1;
+  assert.throws(() => buildScopedSummary(payload, {
+    minimumCount: "5",
+    limit: "10",
+    pathPrefix: "/research/"
+  }, generatedAt), /non-negative finite number/u);
+});
+
 test("refreshSnapshot writes only a complete validated response", async () => {
   const kv = new MemoryKV();
   const env = environment(kv);
@@ -232,6 +339,24 @@ test("refreshSnapshot preserves the previous snapshot after a GraphQL error", as
   assert.deepEqual(await loadSnapshot(env), previous);
 });
 
+test("refreshResearchSnapshot writes an independent Research snapshot", async () => {
+  const kv = new MemoryKV();
+  const env = environment(kv);
+  const fetchImplementation = async (_url, options) => {
+    const body = JSON.parse(options.body);
+    assert.match(body.query, /query ResearchAnalytics/u);
+    return new Response(JSON.stringify(scopedGraphQLPayload()), {
+      status: 200,
+      headers: { "Content-Type": "application/json" }
+    });
+  };
+
+  const summary = await refreshResearchSnapshot(env, generatedAt, fetchImplementation);
+  assert.equal(kv.putCount, 1);
+  assert.deepEqual(await loadResearchSnapshot(env), summary);
+  assert.equal(await loadSnapshot(env), null);
+});
+
 test("handleRequest returns a stale last-known-good snapshot", async () => {
   const summary = buildSummary(graphQLPayload(), {
     minimumCount: "5",
@@ -250,6 +375,26 @@ test("handleRequest returns a stale last-known-good snapshot", async () => {
   assert.equal(payload.status, "stale");
   assert.equal(response.headers.get("Access-Control-Allow-Origin"), "https://jeffreyracine.github.io");
   assert.equal(response.headers.get("X-Content-Type-Options"), "nosniff");
+});
+
+test("handleRequest returns the independent Research usage snapshot", async () => {
+  const summary = buildScopedSummary(scopedGraphQLPayload(), {
+    minimumCount: "5",
+    limit: "10",
+    pathPrefix: "/research/"
+  }, generatedAt);
+  const kv = new MemoryKV({ "research-analytics:summary:v1": JSON.stringify(summary) });
+  const env = environment(kv);
+  const request = new Request(
+    "https://gallery-analytics.example.workers.dev/v1/research-summary",
+    { headers: { Origin: "https://jeffreyracine.github.io" } }
+  );
+
+  const response = await handleRequest(request, env, generatedAt);
+  const payload = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(payload.status, "current");
+  assert.deepEqual(payload.totals.last30Days, { visits: 60, pageViews: 115 });
 });
 
 test("handleRequest fails closed for missing data and unapproved origins", async () => {

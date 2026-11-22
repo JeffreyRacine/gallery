@@ -8,6 +8,7 @@ each day.
 
 ```{=html}
 <div class="gallery-usage" data-gallery-usage
+     data-path-prefix="/gallery/"
      data-endpoint="https://gallery-analytics.gallery-analytics-worker.workers.dev/v1/summary">
 <p class="gallery-usage__status" data-usage-status role="status" aria-live="polite">
 Loading the current usage summary...

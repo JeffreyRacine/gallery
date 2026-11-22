@@ -25,9 +25,11 @@ a half-minute RStudio demonstration, then continue with the copyable script.
 ::: {.callout-note}
 ## Current package status
 
-`crs` `0.15-46` (published August 19, 2026), `npRmpi` `0.80-2`, and `np`
-`0.80-2` are available on CRAN. The `np` and `npRmpi` releases are dated
-November 13, 2026.
+`crs` `{{< var current-releases.crs.version >}}` (published
+{{< var current-releases.crs.published >}}), `npRmpi`
+`{{< var current-releases.npRmpi.version >}}`, and `np`
+`{{< var current-releases.np.version >}}` are available on CRAN. The `np` and
+`npRmpi` releases are dated {{< var current-releases.np.published >}}.
 
 The examples use current estimator controls such as `se`, `se.fit`, and
 `gradient.order`, together with plot controls such as `errors`, `bootstrap`,

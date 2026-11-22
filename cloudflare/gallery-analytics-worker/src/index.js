@@ -1,8 +1,9 @@
-import { buildSummary, validateSummary } from "./schema.js";
+import { buildScopedSummary, buildSummary, validateSummary } from "./schema.js";
 import { validatePackageReach } from "./package-reach-schema.js";
 
 const GRAPHQL_ENDPOINT = "https://api.cloudflare.com/client/v4/graphql";
 const SNAPSHOT_KEY = "gallery-analytics:summary:v1";
+const RESEARCH_SNAPSHOT_KEY = "research-analytics:summary:v1";
 const PACKAGE_REACH_KEY = "gallery-analytics:package-reach:v1";
 const REQUEST_TIMEOUT_MS = 15000;
 const MAX_INGEST_BYTES = 20000;
@@ -91,6 +92,81 @@ query GalleryAnalytics(
       ) {
         count
         dimensions { refererHost }
+        sum { visits }
+        avg { sampleInterval }
+      }
+    }
+  }
+}`;
+
+export const RESEARCH_ANALYTICS_QUERY = `
+query ResearchAnalytics(
+  $accountTag: string!
+  $siteTag: string!
+  $requestHost: string!
+  $since7: Time!
+  $since30: Time!
+  $until: Time!
+) {
+  viewer {
+    accounts(filter: { accountTag: $accountTag }) {
+      pages7: rumPageloadEventsAdaptiveGroups(
+        limit: 5000
+        filter: {
+          siteTag: $siteTag
+          requestHost: $requestHost
+          bot: 0
+          datetime_geq: $since7
+          datetime_lt: $until
+        }
+      ) {
+        count
+        dimensions { requestPath }
+        sum { visits }
+        avg { sampleInterval }
+      }
+      pages30: rumPageloadEventsAdaptiveGroups(
+        limit: 5000
+        filter: {
+          siteTag: $siteTag
+          requestHost: $requestHost
+          bot: 0
+          datetime_geq: $since30
+          datetime_lt: $until
+        }
+      ) {
+        count
+        dimensions { requestPath }
+        sum { visits }
+        avg { sampleInterval }
+      }
+      countries30: rumPageloadEventsAdaptiveGroups(
+        limit: 5000
+        filter: {
+          siteTag: $siteTag
+          requestHost: $requestHost
+          bot: 0
+          datetime_geq: $since30
+          datetime_lt: $until
+        }
+      ) {
+        count
+        dimensions { requestPath countryName }
+        sum { visits }
+        avg { sampleInterval }
+      }
+      referrers30: rumPageloadEventsAdaptiveGroups(
+        limit: 5000
+        filter: {
+          siteTag: $siteTag
+          requestHost: $requestHost
+          bot: 0
+          datetime_geq: $since30
+          datetime_lt: $until
+        }
+      ) {
+        count
+        dimensions { requestPath refererHost }
         sum { visits }
         avg { sampleInterval }
       }
@@ -210,7 +286,7 @@ function validateIngestFreshness(snapshot, now) {
   }
 }
 
-export async function queryCloudflare(env, now = new Date(), fetchImplementation = fetch) {
+async function queryCloudflareWith(query, env, now, fetchImplementation) {
   const accountTag = requiredTag(env.CF_ACCOUNT_TAG, "CF_ACCOUNT_TAG");
   const siteTag = requiredTag(env.CF_SITE_TAG, "CF_SITE_TAG");
   const requestHost = requiredText(env.GALLERY_HOST, "GALLERY_HOST");
@@ -226,7 +302,7 @@ export async function queryCloudflare(env, now = new Date(), fetchImplementation
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        query: GALLERY_ANALYTICS_QUERY,
+        query,
         variables: {
           accountTag,
           siteTag,
@@ -253,6 +329,14 @@ export async function queryCloudflare(env, now = new Date(), fetchImplementation
   }
 }
 
+export async function queryCloudflare(env, now = new Date(), fetchImplementation = fetch) {
+  return queryCloudflareWith(GALLERY_ANALYTICS_QUERY, env, now, fetchImplementation);
+}
+
+export async function queryResearchCloudflare(env, now = new Date(), fetchImplementation = fetch) {
+  return queryCloudflareWith(RESEARCH_ANALYTICS_QUERY, env, now, fetchImplementation);
+}
+
 export async function refreshSnapshot(env, now = new Date(), fetchImplementation = fetch) {
   if (!env.GALLERY_ANALYTICS_CACHE || typeof env.GALLERY_ANALYTICS_CACHE.put !== "function") {
     throw new TypeError("GALLERY_ANALYTICS_CACHE binding is required");
@@ -267,11 +351,36 @@ export async function refreshSnapshot(env, now = new Date(), fetchImplementation
   return summary;
 }
 
+export async function refreshResearchSnapshot(env, now = new Date(), fetchImplementation = fetch) {
+  if (!env.GALLERY_ANALYTICS_CACHE || typeof env.GALLERY_ANALYTICS_CACHE.put !== "function") {
+    throw new TypeError("GALLERY_ANALYTICS_CACHE binding is required");
+  }
+  const payload = await queryResearchCloudflare(env, now, fetchImplementation);
+  const summary = buildScopedSummary(payload, {
+    minimumCount: env.MIN_PUBLIC_COUNT,
+    limit: env.TOP_LIMIT,
+    pathPrefix: env.RESEARCH_PATH_PREFIX || "/research/"
+  }, now);
+  await env.GALLERY_ANALYTICS_CACHE.put(RESEARCH_SNAPSHOT_KEY, JSON.stringify(summary));
+  return summary;
+}
+
 export async function loadSnapshot(env) {
   if (!env.GALLERY_ANALYTICS_CACHE || typeof env.GALLERY_ANALYTICS_CACHE.get !== "function") {
     throw new TypeError("GALLERY_ANALYTICS_CACHE binding is required");
   }
   const stored = await env.GALLERY_ANALYTICS_CACHE.get(SNAPSHOT_KEY);
+  if (stored === null || stored === undefined) {
+    return null;
+  }
+  return validateSummary(JSON.parse(stored));
+}
+
+export async function loadResearchSnapshot(env) {
+  if (!env.GALLERY_ANALYTICS_CACHE || typeof env.GALLERY_ANALYTICS_CACHE.get !== "function") {
+    throw new TypeError("GALLERY_ANALYTICS_CACHE binding is required");
+  }
+  const stored = await env.GALLERY_ANALYTICS_CACHE.get(RESEARCH_SNAPSHOT_KEY);
   if (stored === null || stored === undefined) {
     return null;
   }
@@ -325,7 +434,9 @@ export async function handleRequest(request, env, now = new Date()) {
     return new Response(null, { status: 204, headers: responseHeaders(request, env, "no-store") });
   }
 
-  const knownPath = url.pathname === "/v1/summary" || url.pathname === "/v1/package-reach";
+  const knownPath = url.pathname === "/v1/summary"
+    || url.pathname === "/v1/research-summary"
+    || url.pathname === "/v1/package-reach";
   if (!knownPath) {
     return jsonResponse(request, env, { error: "Not found" }, 404, "no-store");
   }
@@ -344,6 +455,13 @@ export async function handleRequest(request, env, now = new Date()) {
       }
       return jsonResponse(request, env, publicPackageReach(packageReach, env, now));
     }
+    if (url.pathname === "/v1/research-summary") {
+      const researchSnapshot = await loadResearchSnapshot(env);
+      if (!researchSnapshot) {
+        return jsonResponse(request, env, { error: "Research usage summary is not available yet" }, 503, "no-store");
+      }
+      return jsonResponse(request, env, publicSnapshot(researchSnapshot, env, now));
+    }
     const snapshot = await loadSnapshot(env);
     if (!snapshot) {
       return jsonResponse(request, env, { error: "Usage summary is not available yet" }, 503, "no-store");
@@ -359,11 +477,22 @@ export default {
     return handleRequest(request, env);
   },
   async scheduled(_controller, env) {
-    try {
-      await refreshSnapshot(env);
-    } catch (error) {
-      console.error("Gallery analytics refresh failed", error instanceof Error ? error.message : "unknown error");
-      throw error;
+    const results = await Promise.allSettled([
+      refreshSnapshot(env),
+      refreshResearchSnapshot(env)
+    ]);
+    const labels = ["Gallery", "Research"];
+    let failed = false;
+    results.forEach((result, index) => {
+      if (result.status === "rejected") {
+        failed = true;
+        const error = result.reason;
+        console.error(`${labels[index]} analytics refresh failed`,
+          error instanceof Error ? error.message : "unknown error");
+      }
+    });
+    if (failed) {
+      throw new Error("One or more analytics refreshes failed");
     }
   }
 };

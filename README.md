@@ -38,6 +38,22 @@ cd /Users/jracine/Development/Gallery_website
 
 ## Maintenance notes
 
+### Cross-site synchronization contract
+
+The Gallery and the [Research site](../Research_website/README.md) are companion
+public surfaces. Any change to current `np`, `npRmpi`, or `crs` release versions
+or dates, canonical package and repository links, package interface guidance,
+package-reach labels, or shared analytics/privacy wording must be reviewed in
+both repositories in the same maintenance tranche. Record an explicit
+no-change finding when the companion site does not require an edit.
+
+The canonical current-release values live in `_variables.yml` in both
+repositories. Keep those files byte-for-byte identical. Historical release and
+migration references remain fixed to the version they describe and are not
+current-release metadata. The root sync audit enforces this contract.
+
+### Gallery maintenance
+
 - keep the sidebar and top-level pages organized by user task, not by historical document names
 - preserve `www/` assets unless they are intentionally retired
 - prefer source-backed copyable code blocks on pages rather than duplicating code manually
