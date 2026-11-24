@@ -9,7 +9,7 @@ options(np.tree = "auto")
 ## Use TRUE/FALSE only when assessing the impact for this problem.
 library(quadprog)
 
-build_fixed_degree_bw <- function(formula, data, degree, bw, ckertype) {
+build_fixed_degree_bw <- function(formula, data, degree, sf, ckertype) {
   npregbw(formula,
     data = data,
     regtype = "lp",
@@ -17,8 +17,10 @@ build_fixed_degree_bw <- function(formula, data, degree, bw, ckertype) {
     degree.select = "manual",
     bernstein.basis = TRUE,
     ckertype = ckertype,
-    bandwidth.compute = is.null(bw),
-    bws = bw)
+    ## A manual scale factor is converted to h using the spread of x and n^(-1/5).
+    bandwidth.compute = is.null(sf),
+    bwscaling = !is.null(sf),
+    bws = sf)
 }
 
 build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.max, ckertype) {
@@ -39,7 +41,7 @@ build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.ma
 }
 
 ## Expose the estimator and constraint controls in an interactive panel.
-manipulate.plot <- function(n, dgp.frequency, p, gradient, bw, ckertype, lower, upper, weighted, smoothing, distance = "weights") {
+manipulate.plot <- function(n, dgp.frequency, p, gradient, sf, ckertype, lower, upper, weighted, smoothing, distance = "weights") {
 
   if (smoothing != "joint" && gradient > p)
     stop("Choose a polynomial degree at least as large as the derivative order.")
@@ -73,11 +75,11 @@ manipulate.plot <- function(n, dgp.frequency, p, gradient, bw, ckertype, lower, 
     lp.bw <- build_fixed_degree_bw(formula = y ~ x,
       data = lp.data,
       degree = p,
-      bw = if (smoothing == "manual") bw else NULL,
+      sf = if (smoothing == "manual") sf else NULL,
       ckertype = ckertype)
   }
 
-  bw <- lp.bw$bw[1L]
+  bw <- lp.bw$bandwidth$x[1L]
   p <- as.integer(lp.bw$degree[1L])
 
   plot(x, y,
@@ -148,13 +150,13 @@ manipulate.plot <- function(n, dgp.frequency, p, gradient, bw, ckertype, lower, 
 
 }
 
-manipulate(manipulate.plot(n, dgp.frequency, p, gradient, bw, ckertype, lower, upper, weighted, smoothing, distance),
+manipulate(manipulate.plot(n, dgp.frequency, p, gradient, sf, ckertype, lower, upper, weighted, smoothing, distance),
            n = slider(100, 1000, 500, step = 100, label = "Number of observations"),
            dgp.frequency = slider(1, 4, 2, label = "DGP frequency (a*pi*x)", step = 1, ticks = TRUE),
            p = slider(0, 5, 1, label = "Local Polynomial Order", step = 1, ticks = TRUE),
            gradient = picker(0, 1, 2, label = "s (order of derivative)"),
            ckertype = picker("gaussian", "epanechnikov", "uniform", label = "Kernel function"),
-           bw = slider(0.01, 0.1, 0.04, step = 0.01, label = "Bandwidth"),
+           sf = slider(0.1, 2.5, 0.5, step = 0.1, label = "Manual bandwidth scale factor (x)"),
            lower = slider(-10, 10, -1.5, step = 0.5, label = "Lower bound"),
            upper = slider(-10, 10, 1.5, step = 0.5, label = "Upper bound"),
            distance = picker("Weight deviation" = "weights",

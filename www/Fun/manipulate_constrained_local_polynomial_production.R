@@ -17,7 +17,7 @@ options(np.tree = "auto", np.messages = FALSE)
 ## Use TRUE/FALSE only when assessing the impact for this problem.
 library(quadprog)
 
-build_fixed_degree_bw <- function(formula, data, degree, bw, ckertype) {
+build_fixed_degree_bw <- function(formula, data, degree, sf, ckertype) {
   npregbw(formula,
     data = data,
     regtype = "lp",
@@ -25,8 +25,10 @@ build_fixed_degree_bw <- function(formula, data, degree, bw, ckertype) {
     degree.select = "manual",
     bernstein.basis = TRUE,
     ckertype = ckertype,
-    bandwidth.compute = is.null(bw),
-    bws = bw)
+    ## A manual scale factor is converted to h using the spread of x and n^(-1/5).
+    bandwidth.compute = is.null(sf),
+    bwscaling = !is.null(sf),
+    bws = sf)
 }
 
 build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.max, ckertype) {
@@ -47,7 +49,7 @@ build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.ma
 }
 
 ## Expose the estimator and constraint controls in an interactive panel.
-manipulate.plot <- function(n, p, bw, ckertype, constraints, weighted, unweighted, smoothing, distance) {
+manipulate.plot <- function(n, p, sf, ckertype, constraints, weighted, unweighted, smoothing, distance) {
 
   set.seed(42)
   npseed(42)
@@ -63,9 +65,9 @@ manipulate.plot <- function(n, p, bw, ckertype, constraints, weighted, unweighte
       degree.min = 2L, degree.max = 7L, ckertype = ckertype)
   } else {
     lp.bw <- build_fixed_degree_bw(y ~ x, data = lp.data, degree = p,
-      bw = if (smoothing == "manual") bw else NULL, ckertype = ckertype)
+      sf = if (smoothing == "manual") sf else NULL, ckertype = ckertype)
   }
-  bw <- lp.bw$bw[1L]
+  bw <- lp.bw$bandwidth$x[1L]
   p <- as.integer(lp.bw$degree[1L])
 
   plot(x, dgp(x),
@@ -146,10 +148,10 @@ manipulate.plot <- function(n, p, bw, ckertype, constraints, weighted, unweighte
 
 }
 
-manipulate(manipulate.plot(n, p, bw, ckertype, constraints, weighted, unweighted, smoothing, distance),
+manipulate(manipulate.plot(n, p, sf, ckertype, constraints, weighted, unweighted, smoothing, distance),
            n = slider(100, 1000, 500, step = 100, label = "Number of observations"),
            p = slider(2, 5, 2, label = "Local Polynomial Order", step = 1, ticks = TRUE),
-           bw = slider(0.01, 0.1, 0.04, step = 0.01, label = "Bandwidth"),
+           sf = slider(0.1, 2.5, 0.5, step = 0.1, label = "Manual bandwidth scale factor (x)"),
            constraints = picker("none", "g'(x)>=0, g''(x)<=0, y<=g(x)", "g''(x)<=0, y<=g(x)", "g'(x)>=0, y<=g(x)", "y<=g(x)", "g'(x)>=0, g''(x)<=0", "g''(x)<=0", "g'(x)>=0"),
            ckertype = picker("gaussian", "epanechnikov", "uniform", label = "Kernel function"),
            distance = picker("Weight deviation" = "weights",

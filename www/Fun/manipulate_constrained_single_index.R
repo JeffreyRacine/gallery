@@ -10,7 +10,7 @@ library(np)
 library(quadprog)
 
 isotonic_index_demo <- function(n, noise, n.grid, distance, view, weighted,
-                                kernel = "gaussian", degree = 0L, bandwidth = .3,
+                                kernel = "gaussian", degree = 0L, sf = .5,
                                 smoothing = "manual") {
   set.seed(42)
   X <- data.frame(x1 = runif(n), x2 = runif(n))
@@ -18,8 +18,9 @@ isotonic_index_demo <- function(n, noise, n.grid, distance, view, weighted,
   mu <- 100 * t.true / (1 + t.true)
   y <- mu + rnorm(n, sd = noise * sd(mu))
 
-  ## All three modes estimate beta. In manual mode the last entry of bws
-  ## fixes h; the two zero entries ask np to initialize the index coefficients.
+  ## All three modes estimate beta. In manual mode np converts the scale factor
+  ## to h using the spread of the normalized OLS starting index and n^(-1/5),
+  ## then holds that bandwidth fixed while estimating the index coefficients.
   dat <- data.frame(y, X)
   spec <- if (smoothing == "joint") {
     list(nomad = "auto", degree.min = 0L, degree.max = 5L)
@@ -27,7 +28,7 @@ isotonic_index_demo <- function(n, noise, n.grid, distance, view, weighted,
     list(regtype = "lp", degree = as.integer(degree), bernstein.basis = TRUE)
   }
   if (smoothing == "manual") {
-    spec$bws <- c(0, 0, bandwidth)
+    spec$scale.factor.init <- sf
     spec$only.optimize.beta <- TRUE
   }
   bw <- tryCatch(
@@ -119,12 +120,12 @@ isotonic_index_demo <- function(n, noise, n.grid, distance, view, weighted,
 }
 
 manipulate(
-  isotonic_index_demo(n, noise, n.grid, distance, view, weighted, kernel, degree, bandwidth, smoothing),
-  n = slider(100, 1000, initial = 500, step = 100, label = "Observations"),
+  isotonic_index_demo(n, noise, n.grid, distance, view, weighted, kernel, degree, sf, smoothing),
+  n = slider(100, 1000, initial = 100, step = 100, label = "Observations"),
   noise = slider(.25, 1.5, initial = 1, step = .25, label = "Noise SD relative to signal SD"),
   kernel = picker("gaussian", "epanechnikov", "uniform", label = "Kernel function"),
   degree = slider(0, 5, initial = 0, step = 1, label = "Local polynomial degree"),
-  bandwidth = slider(.05, 1, initial = .3, step = .05, label = "Manual bandwidth (index units)"),
+  sf = slider(.1, 2.5, initial = .5, step = .1, label = "Manual bandwidth scale factor (starting index)"),
   n.grid = slider(0, 1000, initial = 1000, step = 100, label = "Grid points in addition to observed indices"),
   distance = picker("Fit deviation (regularized)" = "fits", "Weight deviation" = "weights",
                     label = "Objective"),
