@@ -49,7 +49,7 @@ build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.ma
 }
 
 ## Expose the estimator and constraint controls in an interactive panel.
-manipulate.plot <- function(n, p, sf, ckertype, constraints, weighted, unweighted, smoothing, distance, view = "frontier") {
+manipulate.plot <- function(n, p, sf, ckertype, constraints, weighted, unweighted, smoothing, distance, view = "frontier", population = TRUE) {
 
   ramp <- grDevices::hcl.colors(256L, "viridis")
   free.col <- ramp[35L]
@@ -151,23 +151,24 @@ manipulate.plot <- function(n, p, sf, ckertype, constraints, weighted, unweighte
   show.weighted <- view == "frontier" && weighted
   if (show.y) points(x, y, col = "grey60", cex = .35)
   if (show.weighted) points(x, y * p.hat, col = weighted.col, cex = .45)
-  lines(x, truth)
+  if (population) lines(x, truth)
   lines(x, unrestricted, col = free.col, lty = 2, lwd = 2)
   lines(x, restricted, col = fit.col, lty = 4, lwd = 2)
-  if (any(truth < limits[1] | truth > limits[2]))
+  if (population && any(truth < limits[1] | truth > limits[2]))
     mtext("True derivative extends beyond the vertical scale near zero", side = 3, line = .1, cex = .7)
+  entries <- c(population, TRUE, TRUE, show.y, show.weighted)
   legend(if (view == "curvature") "bottomright" else "topright",
          c(paste("True", tolower(quantity)), "Unrestricted", "Constrained",
-           if (show.y) "Observed Y", if (show.weighted) "Weighted Y"),
-         col = c("black", free.col, fit.col, if (show.y) "grey60", if (show.weighted) weighted.col),
-         lty = c(1, 2, 4, if (show.y) NA, if (show.weighted) NA),
-         lwd = c(1, 2, 2, if (show.y) NA, if (show.weighted) NA),
-         pch = c(NA_integer_, NA_integer_, NA_integer_, if (show.y) 1L, if (show.weighted) 1L),
+           "Observed Y", "Weighted Y")[entries],
+         col = c("black", free.col, fit.col, "grey60", weighted.col)[entries],
+         lty = c(1, 2, 4, NA, NA)[entries],
+         lwd = c(1, 2, 2, NA, NA)[entries],
+         pch = c(NA_integer_, NA_integer_, NA_integer_, 1L, 1L)[entries],
          cex = .75, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA)
 
 }
 
-manipulate(manipulate.plot(n, p, sf, ckertype, constraints, weighted, unweighted, smoothing, distance, view),
+manipulate(manipulate.plot(n, p, sf, ckertype, constraints, weighted, unweighted, smoothing, distance, view, population),
            n = slider(100, 1000, 500, step = 100, label = "Number of observations"),
            p = slider(2, 5, 2, label = "Local Polynomial Order", step = 1, ticks = TRUE),
            sf = slider(0.1, 2.5, 0.5, step = 0.1, label = "Manual bandwidth scale factor (x)"),
@@ -182,5 +183,6 @@ manipulate(manipulate.plot(n, p, sf, ckertype, constraints, weighted, unweighted
                               label = "Smoothing parameter selection"),
            view = picker("Frontier" = "frontier", "Frontier slope" = "slope",
                          "Frontier curvature" = "curvature", label = "Display"),
+           population = checkbox(TRUE, "Show population curve"),
            unweighted = checkbox(TRUE, "Show unweighted Y"),
            weighted = checkbox(FALSE, "Show weighted Y"))

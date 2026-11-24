@@ -5,7 +5,7 @@ library(crs)
 library(quadprog)
 
 manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency,
-                            deriv.order, lower, upper, weighted, smoothing, distance) {
+                            deriv.order, lower, upper, weighted, smoothing, distance, population = TRUE) {
   if (lower > upper)
     stop("Set the lower bound at or below the upper bound.")
   if (smoothing != "joint" && spline.degree < deriv.order)
@@ -75,23 +75,25 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency,
        ylim = range(y, truth, fit.free, fit, if (weighted) y * p, if (deriv.order == 0L) guides))
   if (deriv.order == 0L) abline(h = guides, lty = 3, col = "grey50")
   if (weighted) points(x, y * p, pch = 1, col = weighted.col, cex = .45)
-  lines(x, truth)
+  if (population) lines(x, truth)
   lines(x, fit.free, col = free.col, lty = 2, lwd = 2)
   lines(x, fit, col = fit.col, lty = 4, lwd = 2)
-  legend("topleft", c("Population", "Unrestricted", "Constrained", if (weighted) "Weighted Y"),
-         col = c("black", free.col, fit.col, if (weighted) weighted.col),
-         lty = c(1, 2, 4, if (weighted) NA), lwd = c(1, 2, 2, if (weighted) NA),
-         pch = c(NA_integer_, NA_integer_, NA_integer_, if (weighted) 1L), cex = .7, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA)
+  entries <- c(population, TRUE, TRUE, weighted)
+  legend("topleft", c("Population", "Unrestricted", "Constrained", "Weighted Y")[entries],
+         col = c("black", free.col, fit.col, weighted.col)[entries],
+         lty = c(1, 2, 4, NA)[entries], lwd = c(1, 2, 2, NA)[entries],
+         pch = c(NA_integer_, NA_integer_, NA_integer_, 1L)[entries], cex = .7, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA)
 
   if (deriv.order > 0L) {
     deriv.truth <- if (deriv.order == 1L) omega * cos(omega * x) / scale else -omega^2 * truth
-    plot(x, deriv.truth, type = "l", xlab = "X", ylab = quantity, main = paste(quantity, "bounds"),
+    plot(x, deriv.truth, type = if (population) "l" else "n", xlab = "X", ylab = quantity, main = paste(quantity, "bounds"),
          ylim = range(deriv.truth, unrestricted, restricted, guides))
     abline(h = guides, lty = 3, col = "grey50")
     lines(x, unrestricted, col = free.col, lty = 2, lwd = 2)
     lines(x, restricted, col = fit.col, lty = 4, lwd = 2)
-    legend("topright", c(paste("True", tolower(quantity)), "Unrestricted", "Constrained"),
-           col = c("black", free.col, fit.col), lty = c(1, 2, 4), lwd = c(1, 2, 2),
+    entries <- c(population, TRUE, TRUE)
+    legend("topright", c(paste("True", tolower(quantity)), "Unrestricted", "Constrained")[entries],
+           col = c("black", free.col, fit.col)[entries], lty = c(1, 2, 4)[entries], lwd = c(1, 2, 2)[entries],
            cex = .7, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA)
   }
   mtext(sprintf("%s bounds [%g, %g] at observed x  |  Degree %d, segments %d, n = %d",
@@ -102,7 +104,7 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency,
 
 manipulate(
   manipulate.plot(n, spline.degree, spline.segments, dgp.frequency, deriv.order,
-                  lower, upper, weighted, smoothing, distance),
+                  lower, upper, weighted, smoothing, distance, population),
   n = slider(100, 1000, 500, step = 100, label = "Number of observations"),
   dgp.frequency = slider(1, 4, 2, step = 1, label = "DGP frequency (a*pi*x)"),
   spline.degree = slider(0, 10, 5, step = 1, label = "B-spline degree"),
@@ -116,4 +118,5 @@ manipulate(
   smoothing = picker("Manual" = "manual", "Cross-validate segments" = "segments",
                      "Cross-validate segments and degree" = "joint",
                      label = "Smoothing parameter selection"),
+  population = checkbox(TRUE, "Show population curve"),
   weighted = checkbox(FALSE, "Show weighted Y"))

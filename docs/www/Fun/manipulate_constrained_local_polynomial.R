@@ -41,7 +41,7 @@ build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.ma
 }
 
 ## Expose the estimator and constraint controls in an interactive panel.
-manipulate.plot <- function(n, dgp.frequency, p, gradient, sf, ckertype, lower, upper, weighted, smoothing, distance = "weights") {
+manipulate.plot <- function(n, dgp.frequency, p, gradient, sf, ckertype, lower, upper, weighted, smoothing, distance = "weights", population = TRUE) {
 
   if (smoothing != "joint" && gradient > p)
     stop("Choose a polynomial degree at least as large as the derivative order.")
@@ -128,33 +128,35 @@ manipulate.plot <- function(n, dgp.frequency, p, gradient, sf, ckertype, lower, 
                     if (gradient == 0) guides))
   if (gradient == 0) abline(h = guides, lty = 3, col = "grey50")
   if (weighted) points(x, y * p.hat, col = weighted.col, cex = .45)
-  lines(x, truth)
+  if (population) lines(x, truth)
   lines(x, fitted.unres, lty = 2, col = free.col, lwd = 2)
   lines(x, fitted.res, lty = 4, col = fit.col, lwd = 2)
-  legend("topleft", c("True mean", "Unrestricted", "Constrained", if (weighted) "Weighted Y"),
-         col = c("black", free.col, fit.col, if (weighted) weighted.col),
-         lty = c(1, 2, 4, if (weighted) NA), lwd = c(1, 2, 2, if (weighted) NA),
-         pch = c(NA_integer_, NA_integer_, NA_integer_, if (weighted) 1L), cex = .7, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA)
+  entries <- c(population, TRUE, TRUE, weighted)
+  legend("topleft", c("True mean", "Unrestricted", "Constrained", "Weighted Y")[entries],
+         col = c("black", free.col, fit.col, weighted.col)[entries],
+         lty = c(1, 2, 4, NA)[entries], lwd = c(1, 2, 2, NA)[entries],
+         pch = c(NA_integer_, NA_integer_, NA_integer_, 1L)[entries], cex = .7, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA)
 
   if (gradient > 0) {
     quantity <- if (gradient == 1) "Slope" else "Curvature"
     deriv.truth <- if (gradient == 1) omega * cos(omega * x) / signal.sd else -omega^2 * truth
     deriv.res <- drop(crossprod(A, p.hat))
-    plot(x, deriv.truth, type = "l", xlab = "X", ylab = quantity,
+    plot(x, deriv.truth, type = if (population) "l" else "n", xlab = "X", ylab = quantity,
          main = paste(quantity, "bounds"), ylim = range(deriv.truth, object.unres, deriv.res, guides))
     abline(h = guides, lty = 3, col = "grey50")
     lines(x, object.unres, col = free.col, lty = 2, lwd = 2)
     lines(x, deriv.res, col = fit.col, lty = 4, lwd = 2)
-    legend("topright", c(paste("True", tolower(quantity)), "Unrestricted", "Constrained"),
-           col = c("black", free.col, fit.col), lty = c(1, 2, 4),
-           lwd = c(1, 2, 2), cex = .7, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA)
+    entries <- c(population, TRUE, TRUE)
+    legend("topright", c(paste("True", tolower(quantity)), "Unrestricted", "Constrained")[entries],
+           col = c("black", free.col, fit.col)[entries], lty = c(1, 2, 4)[entries],
+           lwd = c(1, 2, 2)[entries], cex = .7, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA)
   }
   mtext(sprintf("h = %.3g, degree = %d, n = %d, bounds [%g, %g]", bw, p, n, lower, upper),
         side = 1, outer = TRUE, line = .3, cex = .8)
 
 }
 
-manipulate(manipulate.plot(n, dgp.frequency, p, gradient, sf, ckertype, lower, upper, weighted, smoothing, distance),
+manipulate(manipulate.plot(n, dgp.frequency, p, gradient, sf, ckertype, lower, upper, weighted, smoothing, distance, population),
            n = slider(100, 1000, 500, step = 100, label = "Number of observations"),
            dgp.frequency = slider(1, 4, 2, label = "DGP frequency (a*pi*x)", step = 1, ticks = TRUE),
            p = slider(0, 5, 1, label = "Local Polynomial Order", step = 1, ticks = TRUE),
@@ -170,4 +172,5 @@ manipulate(manipulate.plot(n, dgp.frequency, p, gradient, sf, ckertype, lower, u
                               "Cross-validate bandwidth" = "bandwidth",
                               "Cross-validate bandwidth and degree" = "joint",
                               label = "Smoothing parameter selection"),
+           population = checkbox(TRUE, "Show population curve"),
            weighted = checkbox(FALSE, "Show weighted Y"))

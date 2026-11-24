@@ -483,7 +483,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>These examples are primarily pedagogical. Most use the <code>manipulate</code> package and are intended to be run inside RStudio so that you can move sliders, change kernels, alter smoothing parameters, and immediately see the effect on the estimate.</p>
+<p>These examples are primarily pedagogical. Most use the <code>manipulate</code> package and are intended to be run inside RStudio so that you can move sliders, change kernels, alter smoothing parameters, and immediately see the effect on the estimate. In simulations with line plots, clear <strong>Show population curve</strong> to hide the known function and its derivatives.</p>
 <section id="a-quick-way-to-run-one" class="level2">
 <h2 class="anchored" data-anchor-id="a-quick-way-to-run-one">A quick way to run one</h2>
 <p>Download or open one of the scripts below in RStudio, then source it. Once the plot appears, click the small tool icon in the plot pane if the control panel is not already visible.</p>
@@ -586,7 +586,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Refit and redraw the density, truth, and optional sample overlays.</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>manipulate.plot <span class="ot">&lt;-</span> <span class="cf">function</span>(n, df, sf, nn, bwtype, ckertype, ckerorder, hist, rug, cv, cv.type) {</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>manipulate.plot <span class="ot">&lt;-</span> <span class="cf">function</span>(n, df, sf, nn, bwtype, ckertype, ckerorder, hist, rug, cv, cv.type, <span class="at">population =</span> <span class="cn">TRUE</span>) {</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (nn <span class="sc">&gt;=</span> n) {</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">warning</span>(<span class="fu">paste</span>(<span class="st">"Knn bandwidth must be less than"</span>, n))</span>
@@ -630,12 +630,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="dv">1</span>,</span>
 <span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">"#3E3375"</span>)</span>
 <span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(x.eval, f.dgp, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"black"</span>)</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (population) <span class="fu">lines</span>(x.eval, f.dgp, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"black"</span>)</span>
 <span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>         <span class="fu">c</span>(<span class="st">"Kernel Estimate"</span>, <span class="fu">paste</span>(<span class="st">"Chi-square (df = "</span>, df, <span class="st">")"</span>, <span class="at">sep =</span> <span class="st">""</span>)),</span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>         <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>         <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#3E3375"</span>, <span class="st">"black"</span>),</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>         <span class="fu">c</span>(<span class="st">"Kernel Estimate"</span>, <span class="cf">if</span> (population) <span class="fu">paste</span>(<span class="st">"Chi-square (df = "</span>, df, <span class="st">")"</span>, <span class="at">sep =</span> <span class="st">""</span>)),</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>         <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="cf">if</span> (population) <span class="dv">2</span>),</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>         <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#3E3375"</span>, <span class="cf">if</span> (population) <span class="st">"black"</span>),</span>
 <span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>         <span class="at">bty =</span> <span class="st">"n"</span>,</span>
 <span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>         <span class="at">cex =</span> <span class="fl">0.75</span>)</span>
 <span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
@@ -646,7 +646,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="do">## Expose the estimator controls in an interactive panel.</span></span>
 <span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="fu">manipulate</span>(<span class="fu">manipulate.plot</span>(n, df, sf, nn, bwtype, ckertype, ckerorder, hist, rug, cv, cv.type),</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="fu">manipulate</span>(<span class="fu">manipulate.plot</span>(n, df, sf, nn, bwtype, ckertype, ckerorder, hist, rug, cv, cv.type, population),</span>
 <span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>           <span class="at">n =</span> <span class="fu">slider</span>(<span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">500</span>, <span class="at">step =</span> <span class="dv">100</span>, <span class="at">label =</span> <span class="st">"Number of observations"</span>),</span>
 <span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>           <span class="at">df =</span> <span class="fu">slider</span>(<span class="dv">10</span>, <span class="dv">120</span>, <span class="dv">10</span>, <span class="at">step =</span> <span class="dv">10</span>, <span class="at">label =</span> <span class="st">"Chi-square degrees of freedom"</span>),</span>
 <span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>           <span class="at">ckertype =</span> <span class="fu">picker</span>(<span class="st">"gaussian"</span>, <span class="st">"epanechnikov"</span>, <span class="st">"uniform"</span>, <span class="at">label =</span> <span class="st">"Kernel function"</span>),</span>
@@ -654,10 +654,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>           <span class="at">bwtype =</span> <span class="fu">picker</span>(<span class="st">"fixed"</span>, <span class="st">"adaptive_nn"</span>, <span class="st">"generalized_nn"</span>, <span class="at">label =</span> <span class="st">"Bandwidth type"</span>),</span>
 <span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>           <span class="at">sf =</span> <span class="fu">slider</span>(<span class="fl">0.1</span>, <span class="fl">2.5</span>, <span class="dv">1</span>, <span class="at">label =</span> <span class="st">"Scale factor (bwtype=</span><span class="sc">\"</span><span class="st">fixed</span><span class="sc">\"</span><span class="st">)"</span>, <span class="at">step =</span> <span class="fl">0.1</span>, <span class="at">ticks =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>           <span class="at">nn =</span> <span class="fu">slider</span>(<span class="dv">2</span>, <span class="dv">1000</span>, <span class="dv">50</span>, <span class="at">label =</span> <span class="st">"Kth nn (bwtype=*_nn)"</span>, <span class="at">step =</span> <span class="dv">1</span>, <span class="at">ticks =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>           <span class="at">hist =</span> <span class="fu">checkbox</span>(<span class="cn">FALSE</span>, <span class="st">"Show histogram"</span>),</span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>           <span class="at">rug =</span> <span class="fu">checkbox</span>(<span class="cn">FALSE</span>, <span class="st">"Show rug"</span>),</span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>           <span class="at">cv =</span> <span class="fu">checkbox</span>(<span class="cn">FALSE</span>, <span class="st">"Cross-validate smoothing parameters"</span>),</span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>           <span class="at">cv.type =</span> <span class="fu">picker</span>(<span class="st">"cv.ml"</span>, <span class="st">"cv.ls"</span>, <span class="at">label =</span> <span class="st">"CV method"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>           <span class="at">population =</span> <span class="fu">checkbox</span>(<span class="cn">TRUE</span>, <span class="st">"Show population curve"</span>),</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>           <span class="at">hist =</span> <span class="fu">checkbox</span>(<span class="cn">FALSE</span>, <span class="st">"Show histogram"</span>),</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>           <span class="at">rug =</span> <span class="fu">checkbox</span>(<span class="cn">FALSE</span>, <span class="st">"Show rug"</span>),</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>           <span class="at">cv =</span> <span class="fu">checkbox</span>(<span class="cn">FALSE</span>, <span class="st">"Cross-validate smoothing parameters"</span>),</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>           <span class="at">cv.type =</span> <span class="fu">picker</span>(<span class="st">"cv.ml"</span>, <span class="st">"cv.ls"</span>, <span class="at">label =</span> <span class="st">"CV method"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>

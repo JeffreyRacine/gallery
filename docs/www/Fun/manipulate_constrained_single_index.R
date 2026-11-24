@@ -11,7 +11,7 @@ library(quadprog)
 
 isotonic_index_demo <- function(n, noise, n.grid, distance, view, weighted,
                                 kernel = "gaussian", degree = 0L, sf = .5,
-                                smoothing = "manual") {
+                                smoothing = "manual", population = TRUE) {
   ramp <- grDevices::hcl.colors(256L, "viridis")
   free.col <- ramp[35L]
   fit.col <- ramp[130L]
@@ -107,24 +107,26 @@ isotonic_index_demo <- function(n, noise, n.grid, distance, view, weighted,
          xlim = index.limits, ylim = range(y, fit, free, y.weighted, link.population), main = "Single-index link",
          xlab = "Index t (points use fitted index)", ylab = "Response")
     if (weighted) points(index, y.weighted, col = weighted.col, cex = .55)
-    lines(t.population, link.population, col = "black", lwd = 2)
+    if (population) lines(t.population, link.population, col = "black", lwd = 2)
     lines(grid, free, col = free.col, lty = 2, lwd = 2)
     lines(grid, fit, col = fit.col, lty = 4, lwd = 2)
-    legend("topleft", c("True link", "Unrestricted", "Constrained", if (weighted) "Weighted Y"),
-           col = c("black", free.col, fit.col, if (weighted) weighted.col),
-           lty = c(1, 2, 4, if (weighted) NA), pch = c(NA_integer_, NA_integer_, NA_integer_, if (weighted) 1L),
+    entries <- c(population, TRUE, TRUE, weighted)
+    legend("topleft", c("True link", "Unrestricted", "Constrained", "Weighted Y")[entries],
+           col = c("black", free.col, fit.col, weighted.col)[entries],
+           lty = c(1, 2, 4, NA)[entries], pch = c(NA_integer_, NA_integer_, NA_integer_, 1L)[entries],
            lwd = 2, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA, cex = .75)
   }
   if (view != "link") {
-    plot(t.population, slope.population, type = "l", lwd = 2, xlim = index.limits,
+    plot(t.population, slope.population, type = if (population) "l" else "n", lwd = 2, xlim = index.limits,
          ylim = range(0, slope, slope.free, slope.population),
          main = if (kernel == "uniform" && degree == 0L) "Slope within steps" else "Estimated link slope",
          xlab = "Index value (t)", ylab = "Slope")
     abline(h = 0, lty = 3, col = "grey45")
     lines(grid, slope.free, col = free.col, lty = 2, lwd = 2)
     lines(grid, slope, col = fit.col, lty = 4, lwd = 2)
-    legend("topright", c("True slope", "Unrestricted", "Constrained"), col = c("black", free.col, fit.col),
-           lty = c(1, 2, 4), lwd = 2, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA, cex = .75)
+    entries <- c(population, TRUE, TRUE)
+    legend("topright", c("True slope", "Unrestricted", "Constrained")[entries], col = c("black", free.col, fit.col)[entries],
+           lty = c(1, 2, 4)[entries], lwd = 2, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA, cex = .75)
   }
   subtitle <- sprintf("%s kernel, degree %d, h = %.3g, beta = (1, %.3f)",
                       kernel, degree, bw$bw[1L], coef(model)[2L])
@@ -135,7 +137,7 @@ isotonic_index_demo <- function(n, noise, n.grid, distance, view, weighted,
 }
 
 manipulate(
-  isotonic_index_demo(n, noise, n.grid, distance, view, weighted, kernel, degree, sf, smoothing),
+  isotonic_index_demo(n, noise, n.grid, distance, view, weighted, kernel, degree, sf, smoothing, population),
   n = slider(100, 1000, initial = 100, step = 100, label = "Observations"),
   noise = slider(.25, 1.5, initial = 1, step = .25, label = "Noise SD relative to signal SD"),
   kernel = picker("gaussian", "epanechnikov", "uniform", label = "Kernel function"),
@@ -149,4 +151,5 @@ manipulate(
                      label = "Smoothing parameter selection"),
   view = picker("Link and derivative" = "both", "Link" = "link", "Derivative" = "slope",
                 label = "Display"),
+  population = checkbox(TRUE, "Show population curve"),
   weighted = checkbox(FALSE, "Show weighted Y"))

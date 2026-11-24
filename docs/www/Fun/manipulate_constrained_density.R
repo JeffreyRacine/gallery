@@ -5,7 +5,7 @@ library(manipulate)
 library(np)
 
 constrained_density_demo <- function(example, n, smoothing, scale, distance,
-                                     lower, upper, extra, extend, match.mass, view, show.rug) {
+                                     lower, upper, extra, extend, match.mass, view, show.rug, population = TRUE) {
   ramp <- grDevices::hcl.colors(256L, "viridis")
   free.col <- ramp[35L]
   fit.col <- ramp[130L]
@@ -68,22 +68,23 @@ constrained_density_demo <- function(example, n, smoothing, scale, distance,
   draw <- function(raw, restricted, title, ylabel, reference = NULL, guides = NULL, interior = FALSE) {
     ## Beta curvature diverges at the endpoints. Keep the fits visible and
     ## indicate when the population curve runs beyond the displayed range.
+    show.reference <- population && length(reference) > 0L
     ref.range <- if (interior) reference[x >= .1 & x <= .9] else reference
     values <- c(raw, if (solved) restricted, ref.range, guides)
     plot(x, raw, type = "n", main = title, xlab = "x", ylab = ylabel, ylim = range(values))
     if (length(guides)) abline(h = guides, lty = 3, col = "grey55")
-    if (length(reference)) lines(x, reference, col = "black")
+    if (show.reference) lines(x, reference, col = "black")
     if (solved) lines(x, restricted, col = fit.col, lwd = 2)
     ## Draw the dashed line last so both colours remain visible on overlap.
     lines(x, raw, col = free.col, lty = 2, lwd = 2)
-    if (interior && any(reference > max(values) | reference < min(values)))
+    if (show.reference && interior && any(reference > max(values) | reference < min(values)))
       mtext("Population curve extends beyond the vertical scale", side = 3, line = .1, cex = .65)
     if (show.rug) rug(x, col = "grey65")
     legend(if (example == "mono.incr") "topleft" else "topright",
-           c("Unrestricted", if (solved) "Constrained", if (length(reference)) "Population"),
-           col = c(free.col, if (solved) fit.col, if (length(reference)) "black"),
-           lty = c(2, if (solved) 1, if (length(reference)) 1),
-           lwd = c(2, if (solved) 2, if (length(reference)) 1), bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA, cex = .75)
+           c("Unrestricted", if (solved) "Constrained", if (show.reference) "Population"),
+           col = c(free.col, if (solved) fit.col, if (show.reference) "black"),
+           lty = c(2, if (solved) 1, if (show.reference) 1),
+           lwd = c(2, if (solved) 2, if (show.reference) 1), bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA, cex = .75)
   }
   if (bounded || view != "restriction")
     draw(fit$f, fit$f.sc, if (bounded) "Density bounds on the constraint grid" else "Density",
@@ -116,7 +117,7 @@ constrained_density_demo <- function(example, n, smoothing, scale, distance,
 
 manipulate(
   constrained_density_demo(example, n, smoothing, scale, distance, lower, upper,
-                           extra, extend, match.mass, view, show.rug),
+                           extra, extend, match.mass, view, show.rug, population),
   example = picker("Normal — density bounds" = "density",
                    "Beta(5, 1) — increasing" = "mono.incr",
                    "Beta(1, 5) — decreasing" = "mono.decr",
@@ -136,4 +137,5 @@ manipulate(
   match.mass = checkbox(FALSE, "Match unrestricted mass over the sampled range"),
   view = picker("Density and restriction" = "both", "Density" = "density",
                 "Restriction only" = "restriction", label = "Display"),
+  population = checkbox(TRUE, "Show population curve"),
   show.rug = checkbox(FALSE, "Show sample rug"))

@@ -9,7 +9,7 @@ options(np.tree = "auto")
 
 ## Refit and redraw the distribution, truth, and optional sample overlays.
 
-manipulate.plot <- function(n, df, sf, nn, bwtype, ckertype, ckerorder, ecdf, rug, cv) {
+manipulate.plot <- function(n, df, sf, nn, bwtype, ckertype, ckerorder, ecdf, rug, cv, population = TRUE) {
 
   if (nn >= n) {
     warning(paste("Knn bandwidth must be less than", n))
@@ -47,12 +47,12 @@ manipulate.plot <- function(n, df, sf, nn, bwtype, ckertype, ckerorder, ecdf, ru
        lty = 1,
        col = "#3E3375")
 
-  lines(x.eval, F.dgp, lty = 2, col = "black")
+  if (population) lines(x.eval, F.dgp, lty = 2, col = "black")
 
   legend("topleft",
-         c("Kernel Estimate", paste("Chi-square (df = ", df, ")", sep = "")),
-         lty = c(1, 2),
-         col = c("#3E3375", "black"),
+         c("Kernel Estimate", if (population) paste("Chi-square (df = ", df, ")", sep = "")),
+         lty = c(1, if (population) 2),
+         col = c("#3E3375", if (population) "black"),
          bty = "n",
          cex = 0.75)
 
@@ -66,7 +66,7 @@ manipulate.plot <- function(n, df, sf, nn, bwtype, ckertype, ckerorder, ecdf, ru
 
 ## Expose the estimator controls in an interactive panel.
 
-manipulate(manipulate.plot(n, df, sf, nn, bwtype, ckertype, ckerorder, ecdf, rug, cv),
+manipulate(manipulate.plot(n, df, sf, nn, bwtype, ckertype, ckerorder, ecdf, rug, cv, population),
            n = slider(100, 1000, 500, step = 100, label = "Number of observations"),
            df = slider(10, 120, 10, step = 10, label = "Chi-square degrees of freedom"),
            ckertype = picker("gaussian", "epanechnikov", "uniform", label = "Kernel function"),
@@ -74,6 +74,7 @@ manipulate(manipulate.plot(n, df, sf, nn, bwtype, ckertype, ckerorder, ecdf, rug
            bwtype = picker("fixed", "adaptive_nn", "generalized_nn", label = "Bandwidth type"),
            sf = slider(0.1, 2.5, 1, label = "Scale factor (bwtype=\"fixed\")", step = 0.1, ticks = TRUE),
            nn = slider(2, 1000, 50, label = "Kth nn (bwtype=*_nn)", step = 1, ticks = TRUE),
+           population = checkbox(TRUE, "Show population curve"),
            ecdf = checkbox(FALSE, "Show empirical distribution function"),
            rug = checkbox(FALSE, "Show rug"),
            cv = checkbox(FALSE, "Cross-validate smoothing parameters"))

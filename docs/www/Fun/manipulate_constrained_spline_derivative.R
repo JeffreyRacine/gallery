@@ -8,7 +8,7 @@ library(quadprog)
 
 ## Refit and redraw the constrained spline after a control changes.
 
-manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lower, upper, deriv.order, which.plot, weighted, smoothing, distance) {
+manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lower, upper, deriv.order, which.plot, weighted, smoothing, distance, population = TRUE) {
 
   if (lower > upper) {
     lower <- upper - 0.01
@@ -94,20 +94,21 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lo
                          main = "Constrained B-spline Regression",
                          sub = paste("Spline degree = ", spline.degree, ", spline segments = ", spline.segments, ", n = ", n, ", upper = ", formatC(upper, format = "f", digits = 1), ", lower = ", formatC(lower, format = "f", digits = 1), sep = "")))
 
-    with(data.train, lines(x, dgp(x), lty = 1, col = 1))
+    if (population) with(data.train, lines(x, dgp(x), lty = 1, col = 1))
 
     with(data.train, lines(x, fitted(model.unres), lty = 2, col = free.col, lwd = 2))
     with(data.train, lines(x, fitted(model.res), col = fit.col, lty = 4, lwd = 2))
     ## Weighted responses are observations on the mean panel.
     if (weighted) with(data.train, points(x, y * p.hat, col = weighted.col, cex = 0.35))
 
+    entries <- c(population, TRUE, TRUE, weighted)
     legend("topleft",
            c(paste("DGP: sin(", dgp.frequency, "*pi*x)", sep = ""), "Unconstrained Estimate",
-             "Constrained Estimate", if (weighted) "Weighted Y"),
-           col = c("black", free.col, fit.col, if (weighted) weighted.col),
-           lwd = c(1, 2, 2, if (weighted) NA),
-           lty = c(1, 2, 4, if (weighted) NA),
-           pch = c(NA_integer_, NA_integer_, NA_integer_, if (weighted) 1L),
+             "Constrained Estimate", "Weighted Y")[entries],
+           col = c("black", free.col, fit.col, weighted.col)[entries],
+           lwd = c(1, 2, 2, NA)[entries],
+           lty = c(1, 2, 4, NA)[entries],
+           pch = c(NA_integer_, NA_integer_, NA_integer_, 1L)[entries],
            cex = 0.75, bty = "n")
   }
 
@@ -127,16 +128,18 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lo
                          xlab = "X",
                          ylim = ylim,
                          main = "Constrained B-spline Derivative",
-                         sub = paste("Spline degree = ", spline.degree, ", spline segments = ", spline.segments, ", n = ", n, ", upper = ", formatC(upper, format = "f", digits = 2), ", lower = ", formatC(lower, format = "f", digits = 2), sep = ""), type = "l", lty = 1, col = 1))
+                         sub = paste("Spline degree = ", spline.degree, ", spline segments = ", spline.segments, ", n = ", n, ", upper = ", formatC(upper, format = "f", digits = 2), ", lower = ", formatC(lower, format = "f", digits = 2), sep = ""),
+                         type = if (population) "l" else "n", lty = 1, col = 1))
 
     with(data.train, lines(x, model.unres$deriv.mat[, 1], lty = 2, col = free.col, lwd = 2))
     with(data.train, lines(x, model.res$deriv.mat[, 1], lty = 4, col = fit.col, lwd = 2))
 
+    entries <- c(population, TRUE, TRUE)
     legend("topleft",
-           c(paste("True Derivative (order ", deriv.order, ")", sep = ""), "Unconstrained Derivative", "Constrained Derivative"),
-           col = c("black", free.col, fit.col),
-           lwd = c(1, 2, 2),
-           lty = c(1, 2, 4),
+           c(paste("True Derivative (order ", deriv.order, ")", sep = ""), "Unconstrained Derivative", "Constrained Derivative")[entries],
+           col = c("black", free.col, fit.col)[entries],
+           lwd = c(1, 2, 2)[entries],
+           lty = c(1, 2, 4)[entries],
            cex = 0.75,
            bty = "n")
 
@@ -144,7 +147,7 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lo
 
 }
 
-manipulate(manipulate.plot(n, spline.degree, spline.segments, dgp.frequency, lower, upper, deriv.order, which.plot, weighted, smoothing, distance),
+manipulate(manipulate.plot(n, spline.degree, spline.segments, dgp.frequency, lower, upper, deriv.order, which.plot, weighted, smoothing, distance, population),
            n = slider(100, 1000, 500, step = 100, label = "Number of observations"),
            deriv.order = picker(1, 2, label = "Order of derivative"),
            which.plot = picker("Conditional mean", "Partial derivative", "Conditional mean and Partial derivative", label = "Function to plot"),
@@ -160,4 +163,5 @@ manipulate(manipulate.plot(n, spline.degree, spline.segments, dgp.frequency, low
                               "Cross-validate segments" = "segments",
                               "Cross-validate segments and degree" = "joint",
                               label = "Smoothing parameter selection"),
+           population = checkbox(TRUE, "Show population curve"),
            weighted = checkbox(FALSE, "Show weighted Y"))
