@@ -21,6 +21,11 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lo
   if (smoothing != "joint" && spline.degree < deriv.order && (lower > 0 || upper < 0))
     stop("This spline degree gives a zero derivative. Increase the degree or include zero in the bounds.")
 
+  ramp <- grDevices::hcl.colors(256L, "viridis")
+  free.col <- ramp[35L]
+  fit.col <- ramp[130L]
+  weighted.col <- ramp[178L]
+
   set.seed(42)
 
   x <- sort(runif(n))
@@ -91,15 +96,15 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lo
 
     with(data.train, lines(x, dgp(x), lty = 1, col = 1))
 
-    with(data.train, lines(x, fitted(model.unres), lty = 2, col = 2, lwd = 2))
-    with(data.train, lines(x, fitted(model.res), col = 4, lty = 4, lwd = 2))
+    with(data.train, lines(x, fitted(model.unres), lty = 2, col = free.col, lwd = 2))
+    with(data.train, lines(x, fitted(model.res), col = fit.col, lty = 4, lwd = 2))
     ## Weighted responses are observations on the mean panel.
-    if (weighted) with(data.train, points(x, y * p.hat, col = "orange", cex = 0.35))
+    if (weighted) with(data.train, points(x, y * p.hat, col = weighted.col, cex = 0.35))
 
     legend("topleft",
            c(paste("DGP: sin(", dgp.frequency, "*pi*x)", sep = ""), "Unconstrained Estimate",
              "Constrained Estimate", if (weighted) "Weighted Y"),
-           col = c(1, 2, 4, if (weighted) "orange"),
+           col = c("black", free.col, fit.col, if (weighted) weighted.col),
            lwd = c(1, 2, 2, if (weighted) NA),
            lty = c(1, 2, 4, if (weighted) NA),
            pch = c(NA_integer_, NA_integer_, NA_integer_, if (weighted) 1L),
@@ -124,12 +129,12 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lo
                          main = "Constrained B-spline Derivative",
                          sub = paste("Spline degree = ", spline.degree, ", spline segments = ", spline.segments, ", n = ", n, ", upper = ", formatC(upper, format = "f", digits = 2), ", lower = ", formatC(lower, format = "f", digits = 2), sep = ""), type = "l", lty = 1, col = 1))
 
-    with(data.train, lines(x, model.unres$deriv.mat[, 1], lty = 2, col = 2, lwd = 2))
-    with(data.train, lines(x, model.res$deriv.mat[, 1], lty = 4, col = 4, lwd = 2))
+    with(data.train, lines(x, model.unres$deriv.mat[, 1], lty = 2, col = free.col, lwd = 2))
+    with(data.train, lines(x, model.res$deriv.mat[, 1], lty = 4, col = fit.col, lwd = 2))
 
     legend("topleft",
            c(paste("True Derivative (order ", deriv.order, ")", sep = ""), "Unconstrained Derivative", "Constrained Derivative"),
-           col = c(1, 2, 4),
+           col = c("black", free.col, fit.col),
            lwd = c(1, 2, 2),
            lty = c(1, 2, 4),
            cex = 0.75,

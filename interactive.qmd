@@ -41,6 +41,8 @@ Download or open one of the scripts below in RStudio, then source it. Once the p
 - Old Faithful bivariate density: [manipulate_faithful_density.R](www/Fun/manipulate_faithful_density.R)
 - Bivariate kernel distribution with a Gaussian population CDF: [manipulate_bivariate_distribution.R](www/Fun/manipulate_bivariate_distribution.R)
 
+In the simulated bivariate density, distribution, and copula demos, select **Show population surface** to overlay the population on the estimate. **Evaluation points per axis** sets the grid for both.
+
 ## Regression and shape-restriction demos
 
 - Multivariate regression partial plots: [manipulate_wage1.R](www/Fun/manipulate_wage1.R)

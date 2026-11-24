@@ -45,14 +45,14 @@ manipulate.plot <- function(n, df, sf, nn, bwtype, ckertype, ckerorder, ecdf, ru
        xlab = "Data",
        sub = paste("Bandwidth = ", ifelse(bwtype == "fixed", formatC(bw$bw[1] * sd(x) * n^(-1 / (ckerorder + 1)), format = "f", digits = 2), bw$bw[1]), ", n = ", n, sep = ""),
        lty = 1,
-       col = 1)
+       col = "#3E3375")
 
-  lines(x.eval, F.dgp, lty = 2, col = 2)
+  lines(x.eval, F.dgp, lty = 2, col = "black")
 
   legend("topleft",
          c("Kernel Estimate", paste("Chi-square (df = ", df, ")", sep = "")),
          lty = c(1, 2),
-         col = c(1, 2),
+         col = c("#3E3375", "black"),
          bty = "n",
          cex = 0.75)
 

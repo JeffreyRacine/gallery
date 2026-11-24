@@ -54,6 +54,11 @@ manipulate.plot <- function(n, dgp.frequency, p, gradient, sf, ckertype, lower, 
     lower <- upper - 0.01
   }
 
+  ramp <- grDevices::hcl.colors(256L, "viridis")
+  free.col <- ramp[35L]
+  fit.col <- ramp[130L]
+  weighted.col <- ramp[178L]
+
   set.seed(42)
 
   x <- sort(runif(n))
@@ -122,12 +127,12 @@ manipulate.plot <- function(n, dgp.frequency, p, gradient, sf, ckertype, lower, 
        ylim = range(y, truth, fitted.res, fitted.unres, if (weighted) y * p.hat,
                     if (gradient == 0) guides))
   if (gradient == 0) abline(h = guides, lty = 3, col = "grey50")
-  if (weighted) points(x, y * p.hat, col = "darkorange2", cex = .45)
+  if (weighted) points(x, y * p.hat, col = weighted.col, cex = .45)
   lines(x, truth)
-  lines(x, fitted.unres, lty = 2, col = "steelblue4", lwd = 2)
-  lines(x, fitted.res, lty = 4, col = "firebrick3", lwd = 2)
+  lines(x, fitted.unres, lty = 2, col = free.col, lwd = 2)
+  lines(x, fitted.res, lty = 4, col = fit.col, lwd = 2)
   legend("topleft", c("True mean", "Unrestricted", "Constrained", if (weighted) "Weighted Y"),
-         col = c("black", "steelblue4", "firebrick3", if (weighted) "darkorange2"),
+         col = c("black", free.col, fit.col, if (weighted) weighted.col),
          lty = c(1, 2, 4, if (weighted) NA), lwd = c(1, 2, 2, if (weighted) NA),
          pch = c(NA_integer_, NA_integer_, NA_integer_, if (weighted) 1L), cex = .7, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA)
 
@@ -138,10 +143,10 @@ manipulate.plot <- function(n, dgp.frequency, p, gradient, sf, ckertype, lower, 
     plot(x, deriv.truth, type = "l", xlab = "X", ylab = quantity,
          main = paste(quantity, "bounds"), ylim = range(deriv.truth, object.unres, deriv.res, guides))
     abline(h = guides, lty = 3, col = "grey50")
-    lines(x, object.unres, col = "steelblue4", lty = 2, lwd = 2)
-    lines(x, deriv.res, col = "firebrick3", lty = 4, lwd = 2)
+    lines(x, object.unres, col = free.col, lty = 2, lwd = 2)
+    lines(x, deriv.res, col = fit.col, lty = 4, lwd = 2)
     legend("topright", c(paste("True", tolower(quantity)), "Unrestricted", "Constrained"),
-           col = c("black", "steelblue4", "firebrick3"), lty = c(1, 2, 4),
+           col = c("black", free.col, fit.col), lty = c(1, 2, 4),
            lwd = c(1, 2, 2), cex = .7, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA)
   }
   mtext(sprintf("h = %.3g, degree = %d, n = %d, bounds [%g, %g]", bw, p, n, lower, upper),

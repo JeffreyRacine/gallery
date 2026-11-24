@@ -6,6 +6,10 @@ library(np)
 
 constrained_density_demo <- function(example, n, smoothing, scale, distance,
                                      lower, upper, extra, extend, match.mass, view, show.rug) {
+  ramp <- grDevices::hcl.colors(256L, "viridis")
+  free.col <- ramp[35L]
+  fit.col <- ramp[130L]
+
   set.seed(42)
   shape <- switch(example, mono.incr = c(5, 1), mono.decr = c(1, 5),
                   convex = c(.75, .75), `log-convex` = c(.75, .75))
@@ -68,16 +72,16 @@ constrained_density_demo <- function(example, n, smoothing, scale, distance,
     values <- c(raw, if (solved) restricted, ref.range, guides)
     plot(x, raw, type = "n", main = title, xlab = "x", ylab = ylabel, ylim = range(values))
     if (length(guides)) abline(h = guides, lty = 3, col = "grey55")
-    if (length(reference)) lines(x, reference, col = "grey35")
-    if (solved) lines(x, restricted, col = "firebrick3", lwd = 2)
+    if (length(reference)) lines(x, reference, col = "black")
+    if (solved) lines(x, restricted, col = fit.col, lwd = 2)
     ## Draw the dashed line last so both colours remain visible on overlap.
-    lines(x, raw, col = "steelblue4", lty = 2, lwd = 2)
+    lines(x, raw, col = free.col, lty = 2, lwd = 2)
     if (interior && any(reference > max(values) | reference < min(values)))
       mtext("Population curve extends beyond the vertical scale", side = 3, line = .1, cex = .65)
     if (show.rug) rug(x, col = "grey65")
     legend(if (example == "mono.incr") "topleft" else "topright",
            c("Unrestricted", if (solved) "Constrained", if (length(reference)) "Population"),
-           col = c("steelblue4", if (solved) "firebrick3", if (length(reference)) "grey35"),
+           col = c(free.col, if (solved) fit.col, if (length(reference)) "black"),
            lty = c(2, if (solved) 1, if (length(reference)) 1),
            lwd = c(2, if (solved) 2, if (length(reference)) 1), bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA, cex = .75)
   }

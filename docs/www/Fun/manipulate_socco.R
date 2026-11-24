@@ -122,7 +122,7 @@ manipulate.plot <- function(sf.co2f, sf.chl, sf.sal, sf.temp, sf.mld,
     xlim = xlim,
     main = foo.name,
     sub = paste("(", dim(foo.data)[1], " observations)", sep = ""),
-    lty = 1, col = 1, lwd = 2))
+    lty = 1, col = "#3E3375", lwd = 2))
 
   with(foo.data, rug(CO2f_sst, col = "lightgrey", quiet = TRUE))
 
@@ -147,7 +147,7 @@ manipulate.plot <- function(sf.co2f, sf.chl, sf.sal, sf.temp, sf.mld,
     ylim = ylim,
     xlim = xlim,
     sub = paste("(", dim(foo.data)[1], " observations)", sep = ""),
-    lty = 1, col = 1, lwd = 2))
+    lty = 1, col = "#3E3375", lwd = 2))
 
   with(foo.data, rug(CO2f_sst, col = "lightgrey", quiet = TRUE))
 

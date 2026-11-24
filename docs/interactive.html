@@ -528,6 +528,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Old Faithful bivariate density: <a href="www/Fun/manipulate_faithful_density.R">manipulate_faithful_density.R</a></li>
 <li>Bivariate kernel distribution with a Gaussian population CDF: <a href="www/Fun/manipulate_bivariate_distribution.R">manipulate_bivariate_distribution.R</a></li>
 </ul>
+<p>In the simulated bivariate density, distribution, and copula demos, select <strong>Show population surface</strong> to overlay the population on the estimate. <strong>Evaluation points per axis</strong> sets the grid for both.</p>
 </section>
 <section id="regression-and-shape-restriction-demos" class="level2">
 <h2 class="anchored" data-anchor-id="regression-and-shape-restriction-demos">Regression and shape-restriction demos</h2>
@@ -627,14 +628,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">"Data"</span>,</span>
 <span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>       <span class="at">sub =</span> <span class="fu">paste</span>(<span class="fu">ifelse</span>(bwtype <span class="sc">==</span> <span class="st">"fixed"</span>, <span class="fu">paste</span>(<span class="st">"Bandwidth = "</span>, <span class="fu">formatC</span>(bw<span class="sc">$</span>bw[<span class="dv">1</span>] <span class="sc">*</span> <span class="fu">sd</span>(x) <span class="sc">*</span> n<span class="sc">^</span>(<span class="sc">-</span><span class="dv">1</span> <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> ckerorder <span class="sc">+</span> <span class="dv">1</span>)), <span class="at">format =</span> <span class="st">"f"</span>, <span class="at">digits =</span> <span class="dv">2</span>), <span class="at">sep =</span> <span class="st">""</span>), <span class="fu">paste</span>(<span class="st">"Kth nearest neighbor = "</span>, bw<span class="sc">$</span>bw[<span class="dv">1</span>], <span class="at">sep =</span> <span class="st">""</span>)), <span class="st">", n = "</span>, n, <span class="at">sep =</span> <span class="st">""</span>),</span>
 <span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="dv">1</span>,</span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="dv">1</span>)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">"#3E3375"</span>)</span>
 <span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(x.eval, f.dgp, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="dv">2</span>)</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(x.eval, f.dgp, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"black"</span>)</span>
 <span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
 <span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>         <span class="fu">c</span>(<span class="st">"Kernel Estimate"</span>, <span class="fu">paste</span>(<span class="st">"Chi-square (df = "</span>, df, <span class="st">")"</span>, <span class="at">sep =</span> <span class="st">""</span>)),</span>
 <span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>         <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>         <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>         <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#3E3375"</span>, <span class="st">"black"</span>),</span>
 <span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>         <span class="at">bty =</span> <span class="st">"n"</span>,</span>
 <span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>         <span class="at">cex =</span> <span class="fl">0.75</span>)</span>
 <span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>

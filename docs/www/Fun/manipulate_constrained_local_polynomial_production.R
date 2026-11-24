@@ -51,6 +51,11 @@ build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.ma
 ## Expose the estimator and constraint controls in an interactive panel.
 manipulate.plot <- function(n, p, sf, ckertype, constraints, weighted, unweighted, smoothing, distance, view = "frontier") {
 
+  ramp <- grDevices::hcl.colors(256L, "viridis")
+  free.col <- ramp[35L]
+  fit.col <- ramp[130L]
+  weighted.col <- ramp[178L]
+
   set.seed(42)
   npseed(42)
 
@@ -145,16 +150,16 @@ manipulate.plot <- function(n, p, sf, ckertype, constraints, weighted, unweighte
   show.y <- view == "frontier" && unweighted
   show.weighted <- view == "frontier" && weighted
   if (show.y) points(x, y, col = "grey60", cex = .35)
-  if (show.weighted) points(x, y * p.hat, col = "darkorange2", cex = .45)
+  if (show.weighted) points(x, y * p.hat, col = weighted.col, cex = .45)
   lines(x, truth)
-  lines(x, unrestricted, col = "steelblue4", lty = 2, lwd = 2)
-  lines(x, restricted, col = "firebrick3", lty = 4, lwd = 2)
+  lines(x, unrestricted, col = free.col, lty = 2, lwd = 2)
+  lines(x, restricted, col = fit.col, lty = 4, lwd = 2)
   if (any(truth < limits[1] | truth > limits[2]))
     mtext("True derivative extends beyond the vertical scale near zero", side = 3, line = .1, cex = .7)
   legend(if (view == "curvature") "bottomright" else "topright",
          c(paste("True", tolower(quantity)), "Unrestricted", "Constrained",
            if (show.y) "Observed Y", if (show.weighted) "Weighted Y"),
-         col = c("black", "steelblue4", "firebrick3", if (show.y) "grey60", if (show.weighted) "darkorange2"),
+         col = c("black", free.col, fit.col, if (show.y) "grey60", if (show.weighted) weighted.col),
          lty = c(1, 2, 4, if (show.y) NA, if (show.weighted) NA),
          lwd = c(1, 2, 2, if (show.y) NA, if (show.weighted) NA),
          pch = c(NA_integer_, NA_integer_, NA_integer_, if (show.y) 1L, if (show.weighted) 1L),

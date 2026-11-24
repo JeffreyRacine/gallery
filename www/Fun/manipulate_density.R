@@ -51,14 +51,14 @@ manipulate.plot <- function(n, df, sf, nn, bwtype, ckertype, ckerorder, hist, ru
        xlab = "Data",
        sub = paste(ifelse(bwtype == "fixed", paste("Bandwidth = ", formatC(bw$bw[1] * sd(x) * n^(-1 / (2 * ckerorder + 1)), format = "f", digits = 2), sep = ""), paste("Kth nearest neighbor = ", bw$bw[1], sep = "")), ", n = ", n, sep = ""),
        lty = 1,
-       col = 1)
+       col = "#3E3375")
 
-  lines(x.eval, f.dgp, lty = 2, col = 2)
+  lines(x.eval, f.dgp, lty = 2, col = "black")
 
   legend("topright",
          c("Kernel Estimate", paste("Chi-square (df = ", df, ")", sep = "")),
          lty = c(1, 2),
-         col = c(1, 2),
+         col = c("#3E3375", "black"),
          bty = "n",
          cex = 0.75)
 

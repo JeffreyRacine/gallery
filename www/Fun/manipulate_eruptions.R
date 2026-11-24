@@ -51,7 +51,7 @@ manipulate.plot <- function(sf, nn, bwtype, ckertype, ckerorder, hist, rug, cv, 
        xlab = "Eruption length (minutes)",
        sub = paste(ifelse(bwtype == "fixed", paste("Bandwidth = ", formatC(ifelse(cv, bw$bw[1], sf * sd(x) * n^(-1 / (2 * ckerorder + 1))), format = "f", digits = 3), sep = ""), paste("Kth nearest neighbor = ", ifelse(cv, bw$bw[1], nn), sep = "")), ", n = ", n, sep = ""),
        lty = 1,
-       col = 1)
+       col = "#3E3375")
 
   if (hist) hist(x, breaks = 20, freq = FALSE, add = TRUE, col = NA, lty = 3)
 

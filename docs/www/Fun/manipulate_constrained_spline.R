@@ -11,6 +11,11 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency,
   if (smoothing != "joint" && spline.degree < deriv.order)
     stop("Choose a spline degree at least as large as the derivative order.")
 
+  ramp <- grDevices::hcl.colors(256L, "viridis")
+  free.col <- ramp[35L]
+  fit.col <- ramp[130L]
+  weighted.col <- ramp[178L]
+
   set.seed(42)
   x <- sort(runif(n))
   omega <- dgp.frequency * pi
@@ -69,12 +74,12 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency,
        main = "B-spline regression",
        ylim = range(y, truth, fit.free, fit, if (weighted) y * p, if (deriv.order == 0L) guides))
   if (deriv.order == 0L) abline(h = guides, lty = 3, col = "grey50")
-  if (weighted) points(x, y * p, pch = 1, col = "darkorange2", cex = .45)
+  if (weighted) points(x, y * p, pch = 1, col = weighted.col, cex = .45)
   lines(x, truth)
-  lines(x, fit.free, col = "steelblue4", lty = 2, lwd = 2)
-  lines(x, fit, col = "firebrick3", lty = 4, lwd = 2)
+  lines(x, fit.free, col = free.col, lty = 2, lwd = 2)
+  lines(x, fit, col = fit.col, lty = 4, lwd = 2)
   legend("topleft", c("Population", "Unrestricted", "Constrained", if (weighted) "Weighted Y"),
-         col = c("black", "steelblue4", "firebrick3", if (weighted) "darkorange2"),
+         col = c("black", free.col, fit.col, if (weighted) weighted.col),
          lty = c(1, 2, 4, if (weighted) NA), lwd = c(1, 2, 2, if (weighted) NA),
          pch = c(NA_integer_, NA_integer_, NA_integer_, if (weighted) 1L), cex = .7, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA)
 
@@ -83,10 +88,10 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency,
     plot(x, deriv.truth, type = "l", xlab = "X", ylab = quantity, main = paste(quantity, "bounds"),
          ylim = range(deriv.truth, unrestricted, restricted, guides))
     abline(h = guides, lty = 3, col = "grey50")
-    lines(x, unrestricted, col = "steelblue4", lty = 2, lwd = 2)
-    lines(x, restricted, col = "firebrick3", lty = 4, lwd = 2)
+    lines(x, unrestricted, col = free.col, lty = 2, lwd = 2)
+    lines(x, restricted, col = fit.col, lty = 4, lwd = 2)
     legend("topright", c(paste("True", tolower(quantity)), "Unrestricted", "Constrained"),
-           col = c("black", "steelblue4", "firebrick3"), lty = c(1, 2, 4), lwd = c(1, 2, 2),
+           col = c("black", free.col, fit.col), lty = c(1, 2, 4), lwd = c(1, 2, 2),
            cex = .7, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA)
   }
   mtext(sprintf("%s bounds [%g, %g] at observed x  |  Degree %d, segments %d, n = %d",

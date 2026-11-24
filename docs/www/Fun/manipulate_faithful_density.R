@@ -8,6 +8,19 @@ options(np.tree = "auto")
 ## Use TRUE/FALSE only when assessing the impact for this problem.
 data(faithful)
 
+## Colour each facet by its mean height, with the base np surface opacity.
+surface_colours <- function(z) {
+  ramp <- grDevices::hcl.colors(1000L, "viridis")
+  limits <- range(z, finite = TRUE)
+  if (diff(limits) == 0)
+    return(grDevices::adjustcolor(ramp[1L], alpha.f = 0.5))
+  nr <- nrow(z)
+  nc <- ncol(z)
+  height <- (z[-1L, -1L] + z[-nr, -1L] + z[-1L, -nc] + z[-nr, -nc]) / 4
+  index <- 1L + floor((length(ramp) - 1L) * (height - limits[1L]) / diff(limits))
+  grDevices::adjustcolor(ramp[as.vector(index)], alpha.f = 0.5)
+}
+
 ## Refit and redraw the density after a control changes.
 
 manipulate.plot <- function(neval, sf.x, sf.y, ckertype, ckerorder, theta, cv) {
@@ -51,14 +64,15 @@ manipulate.plot <- function(neval, sf.x, sf.y, ckertype, ckerorder, theta, cv) {
         xlab = "eruptions",
         zlab = "Joint PDF",
         ticktype = "detailed",
-        col = "lightblue")
+        col = surface_colours(f.grid),
+        border = grDevices::adjustcolor("#3E3375", alpha.f = .24))
 
 }
 
 ## Expose the estimator controls in an interactive panel.
 
 manipulate(manipulate.plot(neval, sf.x, sf.y, ckertype, ckerorder, theta, cv),
-           neval = slider(25, 150, 50, step = 25, label = "Number of evaluation obs"),
+           neval = slider(25, 150, 50, step = 25, label = "Evaluation points per axis"),
            ckertype = picker("gaussian", "epanechnikov", "uniform", label = "Kernel function"),
            ckerorder = picker(2, 4, 6, 8, label = "Kernel order"),
            sf.x = slider(0.1, 2.5, 1, label = "Scale factor for x", step = 0.1, ticks = TRUE),

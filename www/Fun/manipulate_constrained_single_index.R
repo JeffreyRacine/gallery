@@ -12,6 +12,11 @@ library(quadprog)
 isotonic_index_demo <- function(n, noise, n.grid, distance, view, weighted,
                                 kernel = "gaussian", degree = 0L, sf = .5,
                                 smoothing = "manual") {
+  ramp <- grDevices::hcl.colors(256L, "viridis")
+  free.col <- ramp[35L]
+  fit.col <- ramp[130L]
+  weighted.col <- ramp[178L]
+
   set.seed(42)
   X <- data.frame(x1 = runif(n), x2 = runif(n))
   t.true <- X$x1 + X$x2
@@ -101,12 +106,12 @@ isotonic_index_demo <- function(n, noise, n.grid, distance, view, weighted,
     plot(index, y, pch = 16, cex = .45, col = "grey65",
          xlim = index.limits, ylim = range(y, fit, free, y.weighted, link.population), main = "Single-index link",
          xlab = "Index t (points use fitted index)", ylab = "Response")
-    if (weighted) points(index, y.weighted, col = "darkorange2", cex = .55)
+    if (weighted) points(index, y.weighted, col = weighted.col, cex = .55)
     lines(t.population, link.population, col = "black", lwd = 2)
-    lines(grid, free, col = "steelblue4", lty = 2, lwd = 2)
-    lines(grid, fit, col = "firebrick3", lty = 4, lwd = 2)
+    lines(grid, free, col = free.col, lty = 2, lwd = 2)
+    lines(grid, fit, col = fit.col, lty = 4, lwd = 2)
     legend("topleft", c("True link", "Unrestricted", "Constrained", if (weighted) "Weighted Y"),
-           col = c("black", "steelblue4", "firebrick3", if (weighted) "darkorange2"),
+           col = c("black", free.col, fit.col, if (weighted) weighted.col),
            lty = c(1, 2, 4, if (weighted) NA), pch = c(NA_integer_, NA_integer_, NA_integer_, if (weighted) 1L),
            lwd = 2, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA, cex = .75)
   }
@@ -116,9 +121,9 @@ isotonic_index_demo <- function(n, noise, n.grid, distance, view, weighted,
          main = if (kernel == "uniform" && degree == 0L) "Slope within steps" else "Estimated link slope",
          xlab = "Index value (t)", ylab = "Slope")
     abline(h = 0, lty = 3, col = "grey45")
-    lines(grid, slope.free, col = "steelblue4", lty = 2, lwd = 2)
-    lines(grid, slope, col = "firebrick3", lty = 4, lwd = 2)
-    legend("topright", c("True slope", "Unrestricted", "Constrained"), col = c("black", "steelblue4", "firebrick3"),
+    lines(grid, slope.free, col = free.col, lty = 2, lwd = 2)
+    lines(grid, slope, col = fit.col, lty = 4, lwd = 2)
+    legend("topright", c("True slope", "Unrestricted", "Constrained"), col = c("black", free.col, fit.col),
            lty = c(1, 2, 4), lwd = 2, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA, cex = .75)
   }
   subtitle <- sprintf("%s kernel, degree %d, h = %.3g, beta = (1, %.3f)",
