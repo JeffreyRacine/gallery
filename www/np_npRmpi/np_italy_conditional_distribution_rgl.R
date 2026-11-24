@@ -4,8 +4,6 @@ library(np)
 # This example requires the suggested rgl package: install.packages("rgl")
 data("Italy_Updated")
 # gdp is real GDP per capita in thousands of 2020 euros.
-# With np < 0.80-3, use data("Italy") and data = Italy below.
-# np 0.80-2 requires the snake-case spelling data_rug = TRUE.
 
 ## Estimate F(gdp | year), then face its floor projection toward the viewer.
 Fhat <- npcdist(gdp ~ year, data = Italy_Updated)

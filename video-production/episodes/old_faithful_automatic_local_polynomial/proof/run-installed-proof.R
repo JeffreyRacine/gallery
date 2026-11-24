@@ -50,7 +50,7 @@ for (i in seq_along(plot_calls)) {
         plot(fit_npreg,
              errors = "bootstrap", band = "all", B = B,
              gradients = spec$gradients,
-             gradient_order = spec$gradient_order)
+             gradient.order = spec$gradient_order)
       },
       message = function(cnd) {
         messages <<- c(messages, conditionMessage(cnd))

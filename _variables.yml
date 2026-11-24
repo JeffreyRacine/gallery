@@ -1,10 +1,9 @@
 current-releases:
   np:
-    version: "0.80-2"
-    published: "November 13, 2026"
+    version: "0.80-3"
   npRmpi:
-    version: "0.80-2"
-    published: "November 13, 2026"
+    version: "0.80-3"
+    published: "November 24, 2026"
   crs:
     version: "0.15-46"
     published: "August 19, 2026"

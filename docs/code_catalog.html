@@ -455,6 +455,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#np-practitioner-oriented-extras" id="toc-np-practitioner-oriented-extras" class="nav-link" data-scroll-target="#np-practitioner-oriented-extras"><code>np</code>: practitioner-oriented extras</a></li>
   <li><a href="#nprmpi-modern-session-mode-quick-start" id="toc-nprmpi-modern-session-mode-quick-start" class="nav-link" data-scroll-target="#nprmpi-modern-session-mode-quick-start"><code>npRmpi</code>: modern session-mode quick start</a></li>
   <li><a href="#inline-source-for-common-scripts" id="toc-inline-source-for-common-scripts" class="nav-link" data-scroll-target="#inline-source-for-common-scripts">Inline source for common scripts</a></li>
+  <li><a href="#np-semiparametric-specification-tests" id="toc-np-semiparametric-specification-tests" class="nav-link" data-scroll-target="#np-semiparametric-specification-tests"><code>np</code>: semiparametric specification tests</a></li>
   <li><a href="#nprmpi-serial-and-mpi-comparison-scripts" id="toc-nprmpi-serial-and-mpi-comparison-scripts" class="nav-link" data-scroll-target="#nprmpi-serial-and-mpi-comparison-scripts"><code>npRmpi</code>: serial and MPI comparison scripts</a></li>
   <li><a href="#nprmpi-local-polynomial-constrained-examples" id="toc-nprmpi-local-polynomial-constrained-examples" class="nav-link" data-scroll-target="#nprmpi-local-polynomial-constrained-examples"><code>npRmpi</code>: local polynomial / constrained examples</a></li>
   <li><a href="#crs-spline-examples" id="toc-crs-spline-examples" class="nav-link" data-scroll-target="#crs-spline-examples"><code>crs</code>: spline examples</a></li>
@@ -975,7 +976,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Source file: <a href="www/np_npRmpi/np_density_bounds_quickstart.R">np_density_bounds_quickstart.R</a></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Known support bounds with the default Gaussian kernel (np 0.80-2).</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Known support bounds with the default Gaussian kernel (np 0.80-3).</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Source this file to fit and plot all six seed-42 examples.</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Save the plot with:</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="do">## png("density_bounds.png", width = 1800, height = 1400, res = 180)</span></span>
@@ -1516,7 +1517,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">residuals</span>(fit_iv))</span>
 <span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="do">## Use the dedicated IV plot controls for the fitted structural function.</span></span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_iv, <span class="at">data_overlay =</span> <span class="cn">TRUE</span>, <span class="at">data_rug =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_iv, <span class="at">data.overlay =</span> <span class="cn">TRUE</span>, <span class="at">data.rug =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -1858,6 +1859,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+</section>
+<section id="np-semiparametric-specification-tests" class="level2">
+<h2 class="anchored" data-anchor-id="np-semiparametric-specification-tests"><code>np</code>: semiparametric specification tests</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Script</th>
+<th>Main topic</th>
+<th>Start reading here</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="www/np_npRmpi/np_index_specification_quickstart.R">np_index_specification_quickstart.R</a></td>
+<td>Ichimura and Klein–Spady single-index nulls and alternatives</td>
+<td><a href="./significance_and_specification.html">Significance and Specification</a></td>
+</tr>
+<tr class="even">
+<td><a href="www/np_npRmpi/np_partially_linear_specification_quickstart.R">np_partially_linear_specification_quickstart.R</a></td>
+<td>Partially linear null and curved alternative</td>
+<td><a href="./significance_and_specification.html">Significance and Specification</a></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="nprmpi-serial-and-mpi-comparison-scripts" class="level2">
 <h2 class="anchored" data-anchor-id="nprmpi-serial-and-mpi-comparison-scripts"><code>npRmpi</code>: serial and MPI comparison scripts</h2>

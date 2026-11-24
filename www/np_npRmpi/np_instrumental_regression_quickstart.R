@@ -24,4 +24,4 @@ head(fitted(fit_iv))
 head(residuals(fit_iv))
 
 ## Use the dedicated IV plot controls for the fitted structural function.
-plot(fit_iv, data_overlay = TRUE, data_rug = TRUE)
+plot(fit_iv, data.overlay = TRUE, data.rug = TRUE)

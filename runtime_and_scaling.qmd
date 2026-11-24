@@ -16,39 +16,27 @@ This page describes the main computational costs in `np`, `npRmpi`, and `crs`,
 the controls that can reduce them, and the point at which an MPI workflow may
 be preferable to serial execution.
 
-## What changed in 0.80-2
+## What changed in 0.80-3
 
-The `np` and `npRmpi` 0.80-2 release focuses on a clearer plotting contract,
-broader bounded-density diagnostics, and stricter validation of calls that
-previously could be ambiguous.
+The `np` and `npRmpi` 0.80-3 release adds inferential tools while tightening
+numerical, search, plotting, and data-reuse contracts.
 
-- compound plot arguments now use snake_case, including `data_overlay`,
-  `data_rug`, `gradient_order`, `gaussian_draws`, `random_seed`,
-  `boot_control`, `grid_control`, and `render_control`; estimator arguments such
-  as `gradient.order` retain their established spellings,
-- `output = "data"` and `output = "plot-data"` return a common
-  `np_plot_data` object with absolute interval endpoints, named panels and
-  targets, compact inference metadata, and replay through `plot()`,
-- regression, partially linear, smooth-coefficient, and single-index estimators
-  now require numeric integer/double primary responses; factors and ordered
-  responses are rejected rather than silently interpreted through their codes,
-- plot-grid quantile controls use the requested lower and upper endpoints as a
-  range, and single-index plots apply that range to the fitted index,
-- class-probability plots restore omitted display positions after computing
-  uncertainty on complete rows, while conditional density and distribution
-  perspective plots retain undefined targets and range over finite results,
-- fixed-bound density plots support more corrected asymptotic and bootstrap
-  constructions across Gaussian, beta, uniform, and Epanechnikov kernels;
-  bias-corrected intervals remain experimental pre-beta research and are not
-  recommended for general-purpose inference,
-- formula routes consume bandwidth, data, subset, and missing-value promises
-  once; `npsigtest(bws = y ~ x, ...)` accepts a named formula, and density
-  selectors honor explicit `transform.bounds`,
-- temporary RNG scopes validate replay state more strictly instead of silently
-  changing generators or combining uncertified streams,
-- `npRmpi` checks package R/native source identity before adopting workers,
-  preserves supported attach-pool reuse, and coordinates automatic search and
-  plot ownership across ranks.
+- `npindextest()` tests a fitted Ichimura or Klein--Spady single-index
+  specification, while `nppltest()` tests a partially linear conditional mean
+  against an unrestricted alternative,
+- all ten public specification, significance, and distribution tests default
+  to 399 bootstrap draws, count ties as exceedances, and report the draw count
+  and elapsed time consistently,
+- interval-producing plots use `interval` for construction and `band` for
+  coverage scope; compound plot controls use dotted names, restoring the
+  convention used before the brief `0.80-2` underscore spellings,
+- degree searches respect explicit `degree.min` and `degree.max` baselines, and
+  several nearest-neighbour, bounded-support, hat-operator, and conditional-
+  distribution edge cases receive numerical or validation corrections,
+- `Italy_Updated` is bundled, and ordinary formula paths avoid copying columns
+  that can be reused safely,
+- `npRmpi` reuses more validated worker data and bandwidth state, reducing
+  repeated transmission while retaining the same estimator interface as `np`.
 
 The practical advice remains familiar: use the high-level calls normally,
 retain expensive bandwidth objects when you will reuse them, and move to

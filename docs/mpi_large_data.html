@@ -441,7 +441,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#short-version" id="toc-short-version" class="nav-link active" data-scroll-target="#short-version">Short version</a></li>
   <li><a href="#the-same-lp-shortcut-after-mpi-initialization" id="toc-the-same-lp-shortcut-after-mpi-initialization" class="nav-link" data-scroll-target="#the-same-lp-shortcut-after-mpi-initialization">The same LP shortcut after MPI initialization</a></li>
-  <li><a href="#what-0.80-2-changes-for-mpi-work" id="toc-what-0.80-2-changes-for-mpi-work" class="nav-link" data-scroll-target="#what-0.80-2-changes-for-mpi-work">What 0.80-2 changes for MPI work</a></li>
+  <li><a href="#what-0.80-3-changes-for-mpi-work" id="toc-what-0.80-3-changes-for-mpi-work" class="nav-link" data-scroll-target="#what-0.80-3-changes-for-mpi-work">What 0.80-3 changes for MPI work</a></li>
   <li><a href="#mode-chooser" id="toc-mode-chooser" class="nav-link" data-scroll-target="#mode-chooser">Mode chooser</a></li>
   <li><a href="#a-safe-validation-ladder" id="toc-a-safe-validation-ladder" class="nav-link" data-scroll-target="#a-safe-validation-ladder">A safe validation ladder</a></li>
   <li><a href="#platform-map" id="toc-platform-map" class="nav-link" data-scroll-target="#platform-map">Platform map</a></li>
@@ -533,11 +533,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>As in serial <code>np</code>, this shortcut requires the <code>crs</code> package because NOMAD degree search is provided there.</p>
 <p>In the current release line, that route now uses the native <code>crs</code> NOMAD runtime directly rather than the older transitional fallback path.</p>
 </section>
-<section id="what-0.80-2-changes-for-mpi-work" class="level2">
-<h2 class="anchored" data-anchor-id="what-0.80-2-changes-for-mpi-work">What 0.80-2 changes for MPI work</h2>
-<p>The 0.80-2 release carries the same plot-facing API changes as <code>np</code>: compound plot arguments use snake_case, and <code>output = "data"</code> or <code>output = "plot-data"</code> returns a common <code>np_plot_data</code> object. Estimator arguments such as <code>gradient.order</code> retain their established spellings.</p>
-<p>Package-owned startup and worker reuse now check loaded R and native source identities before accepting a pool. Same-source builds at different paths or on different platforms remain valid; a genuinely mismatched installation fails with restart/reinstall guidance instead of combining incompatible workers. Supported attach pools can be adopted and reused without repeating startup collectives.</p>
-<p>Automatic degree searches and plot tasks select one coordinated collective owner, while explicit manual broadcasts retain their established ownership. Formula data, subset, missing-value, bandwidth, and RNG promises are consumed once before rank fanout. Temporary RNG scopes also agree on admissibility before computation and restore supported caller state without silently changing the selected generator.</p>
+<section id="what-0.80-3-changes-for-mpi-work" class="level2">
+<h2 class="anchored" data-anchor-id="what-0.80-3-changes-for-mpi-work">What 0.80-3 changes for MPI work</h2>
+<p>The 0.80-3 release reduces repeated transmission by reusing validated worker training data, formula frames, and bandwidth state across more estimator and plot routes. <code>nppltest()</code> distributes projection work and bootstrap draws across ranks, while <code>npindextest()</code> retains the same public interface as in serial <code>np</code>.</p>
+<p>Plot calls use the restored dotted compound controls and separate interval construction (<code>interval</code>) from coverage scope (<code>band</code>). Package-owned startup, worker adoption, option agreement, and R/native source-identity checks continue to refuse incompatible pools rather than silently combining them.</p>
 <p>The ordinary <code>np</code>-style session workflow remains the same. When comparing worker counts, use a numerical tolerance because MPI reductions can change summation order at roundoff scale. An explicit RNG or source-identity refusal is a safety diagnostic, not an invitation to substitute another method or generator silently.</p>
 </section>
 <section id="mode-chooser" class="level2">
@@ -678,7 +677,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="build-and-install">3) Build and install</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Users/jracine/Development</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span> CMD build np-npRmpi</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span> CMD INSTALL npRmpi_0.80-2.tar.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span> CMD INSTALL npRmpi_0.80-3.tar.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="first-runtime-test" class="level3">
 <h3 class="anchored" data-anchor-id="first-runtime-test">4) First runtime test</h3>

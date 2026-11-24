@@ -25,17 +25,19 @@ by Wooldridge (2000).
 ::: {.callout-note}
 ## Current plotting interface
 
-This page reflects the `npRmpi` `0.80-2` and `np` `0.80-2` releases, both
+This page reflects the `npRmpi` `0.80-3` and `np` `0.80-3` releases, both
 available on CRAN.
 
-- use `errors`, `bootstrap`, `band`, and `alpha` for the main interval controls
-- use snake_case names such as `data_rug`, `data_overlay`, `common_scale`, and `coef_index`
+- use `errors` and `bootstrap` to select the uncertainty route, `interval` for
+  interval construction, and `band` for pointwise, Bonferroni, simultaneous,
+  or combined coverage
+- use dotted names such as `data.rug`, `data.overlay`, `common.scale`, and
+  `coef.index` for compound plot controls
 - use `np_boot_control()`, `np_grid_control()`, and `np_render_control()` only for the remaining detailed control groups
 
-The former dotted spellings of compound public plot controls are retired rather
-than silently translated. For example, use `data_rug`, not `data.rug`, and
-`render_control`, not `render.control`. Plot-facing derivative order is
-`gradient_order`; estimator calls continue to use `gradient.order`.
+Code written specifically for the short-lived `0.80-2` interface should restore
+the dotted spellings, for example `data.rug`, `render.control`, and
+`gradient.order`. Retired snake-case spellings fail with the replacement name.
 
 In estimator calls, uncertainty is requested with `se = TRUE`; predictions use
 `se.fit = TRUE`, and `gradients(object, se = TRUE)` requests gradient standard
@@ -112,8 +114,8 @@ plot(model.ll, errors = "asymptotic", band = "all")
 This common interface now covers supported regression, single-index,
 smooth-coefficient, partially linear, density/distribution, conditional
 quantile, location-scale quantile, class-probability, and copula plots,
-including eligible level surfaces. `gaussian_draws` controls the Gaussian
-maximum simulation and defaults to 9,999; `random_seed` makes that calibration
+including eligible level surfaces. `gaussian.draws` controls the Gaussian
+maximum simulation and defaults to 9,999; `random.seed` makes that calibration
 reproducible without changing the caller's RNG state.
 
 These are selected-smoothing variability bands over the displayed finite grid.
@@ -127,7 +129,7 @@ pointwise and Bonferroni results.
 ::: {.callout-warning}
 ## Bias-corrected density intervals remain experimental
 
-Version 0.80-2 extends corrected asymptotic and bootstrap plotting routes for
+Version 0.80-3 extends corrected asymptotic and bootstrap plotting routes for
 selected fixed-bound Gaussian, beta, uniform, and Epanechnikov density
 kernels. These bias-corrected intervals and bands are experimental pre-beta
 research, incomplete, and not recommended for general-purpose inference. Their
@@ -208,7 +210,7 @@ When `rgl` is installed, plot methods can also render interactive 3D surfaces
 via `renderer = "rgl"`. That gives you a manipulable display: drag with the
 mouse to rotate and use the scroll wheel to zoom. The same plotting surface now
 also supports 1D/2D rugs and data-overlay controls via the direct
-`data_rug` and `data_overlay` arguments.
+`data.rug` and `data.overlay` arguments.
 
 The current widget uses a high-DPI-aware canvas and construction-aware interval
 legends while preserving ordinary `rgl.*` overrides.
@@ -232,8 +234,8 @@ plot(fit_rgl,
   view = "fixed",
   renderer = "rgl",
   errors = "asymptotic",
-  data_overlay = FALSE,
-  data_rug = TRUE)
+  data.overlay = FALSE,
+  data.rug = TRUE)
 ```
 
 The same renderer is also useful for conditional density/distribution surfaces

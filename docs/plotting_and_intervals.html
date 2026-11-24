@@ -533,13 +533,13 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This page reflects the <code>npRmpi</code> <code>0.80-2</code> and <code>np</code> <code>0.80-2</code> releases, both available on CRAN.</p>
+<p>This page reflects the <code>npRmpi</code> <code>0.80-3</code> and <code>np</code> <code>0.80-3</code> releases, both available on CRAN.</p>
 <ul>
-<li>use <code>errors</code>, <code>bootstrap</code>, <code>band</code>, and <code>alpha</code> for the main interval controls</li>
-<li>use snake_case names such as <code>data_rug</code>, <code>data_overlay</code>, <code>common_scale</code>, and <code>coef_index</code></li>
+<li>use <code>errors</code> and <code>bootstrap</code> to select the uncertainty route, <code>interval</code> for interval construction, and <code>band</code> for pointwise, Bonferroni, simultaneous, or combined coverage</li>
+<li>use dotted names such as <code>data.rug</code>, <code>data.overlay</code>, <code>common.scale</code>, and <code>coef.index</code> for compound plot controls</li>
 <li>use <code>np_boot_control()</code>, <code>np_grid_control()</code>, and <code>np_render_control()</code> only for the remaining detailed control groups</li>
 </ul>
-<p>The former dotted spellings of compound public plot controls are retired rather than silently translated. For example, use <code>data_rug</code>, not <code>data.rug</code>, and <code>render_control</code>, not <code>render.control</code>. Plot-facing derivative order is <code>gradient_order</code>; estimator calls continue to use <code>gradient.order</code>.</p>
+<p>Code written specifically for the short-lived <code>0.80-2</code> interface should restore the dotted spellings, for example <code>data.rug</code>, <code>render.control</code>, and <code>gradient.order</code>. Retired snake-case spellings fail with the replacement name.</p>
 <p>In estimator calls, uncertainty is requested with <code>se = TRUE</code>; predictions use <code>se.fit = TRUE</code>, and <code>gradients(object, se = TRUE)</code> requests gradient standard errors. Plot methods deliberately retain the method-valued control <code>errors = "asymptotic"</code> or <code>errors = "bootstrap"</code>.</p>
 <p>Older plotting code that uses <code>plot.errors.*</code> names should translate those controls to the public arguments above. The retired <code>output = "both"</code> route is replaced by <code>output = "plot-data"</code>.</p>
 <p>Fitted objects and their bandwidth objects now retain the prepared sample used for plotting, including subset and missing-data decisions. Copula grid size is the exception to ordinary post-fit grid adjustment: set <code>neval</code> or supply <code>u</code> when constructing <code>npcopula()</code>, because <code>plot.npcopula()</code> rejects <code>neval</code>.</p>
@@ -579,7 +579,7 @@ window.Quarto = {
 <p>Supported plots can calibrate a Gaussian simultaneous band over the finite evaluation grid within each panel. Use <code>band = "all"</code> to compare pointwise, simultaneous, and Bonferroni bands on the same display.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Compare all supported asymptotic band constructions on one panel</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model.ll, <span class="at">errors =</span> <span class="st">"asymptotic"</span>, <span class="at">band =</span> <span class="st">"all"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This common interface now covers supported regression, single-index, smooth-coefficient, partially linear, density/distribution, conditional quantile, location-scale quantile, class-probability, and copula plots, including eligible level surfaces. <code>gaussian_draws</code> controls the Gaussian maximum simulation and defaults to 9,999; <code>random_seed</code> makes that calibration reproducible without changing the caller’s RNG state.</p>
+<p>This common interface now covers supported regression, single-index, smooth-coefficient, partially linear, density/distribution, conditional quantile, location-scale quantile, class-probability, and copula plots, including eligible level surfaces. <code>gaussian.draws</code> controls the Gaussian maximum simulation and defaults to 9,999; <code>random.seed</code> makes that calibration reproducible without changing the caller’s RNG state.</p>
 <p>These are selected-smoothing variability bands over the displayed finite grid. They do not correct smoothing bias, include bandwidth- or degree-selection uncertainty, cover points between the grid, or provide joint coverage across separate panels, quantiles, or response levels. If a joint band is not identified for a nonregular, degenerate, or resource-limited request, the plot reports the simultaneous limits as unavailable while retaining any valid pointwise and Bonferroni results.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -591,7 +591,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Version 0.80-2 extends corrected asymptotic and bootstrap plotting routes for selected fixed-bound Gaussian, beta, uniform, and Epanechnikov density kernels. These bias-corrected intervals and bands are experimental pre-beta research, incomplete, and not recommended for general-purpose inference. Their availability depends on the kernel, support, dimension, target grid, and calibration requested; an unavailable joint band is reported rather than silently replaced by another method. The underlying density estimates and ordinary no-error plots are not redefined by these opt-in interval routes.</p>
+<p>Version 0.80-3 extends corrected asymptotic and bootstrap plotting routes for selected fixed-bound Gaussian, beta, uniform, and Epanechnikov density kernels. These bias-corrected intervals and bands are experimental pre-beta research, incomplete, and not recommended for general-purpose inference. Their availability depends on the kernel, support, dimension, target grid, and calibration requested; an unavailable joint band is reported rather than silently replaced by another method. The underlying density estimates and ordinary no-error plots are not redefined by these opt-in interval routes.</p>
 </div>
 </div>
 </section>
@@ -622,7 +622,7 @@ window.Quarto = {
 </section>
 <section id="interactive-rgl-rendering-and-rugs" class="level2">
 <h2 class="anchored" data-anchor-id="interactive-rgl-rendering-and-rugs">Interactive <code>rgl</code> rendering and rugs</h2>
-<p>When <code>rgl</code> is installed, plot methods can also render interactive 3D surfaces via <code>renderer = "rgl"</code>. That gives you a manipulable display: drag with the mouse to rotate and use the scroll wheel to zoom. The same plotting surface now also supports 1D/2D rugs and data-overlay controls via the direct <code>data_rug</code> and <code>data_overlay</code> arguments.</p>
+<p>When <code>rgl</code> is installed, plot methods can also render interactive 3D surfaces via <code>renderer = "rgl"</code>. That gives you a manipulable display: drag with the mouse to rotate and use the scroll wheel to zoom. The same plotting surface now also supports 1D/2D rugs and data-overlay controls via the direct <code>data.rug</code> and <code>data.overlay</code> arguments.</p>
 <p>The current widget uses a high-DPI-aware canvas and construction-aware interval legends while preserving ordinary <code>rgl.*</code> overrides.</p>
 <p>These are best viewed in RStudio, where the interactive surface appears in the Viewer pane rather than the Plot pane.</p>
 <p>If you want a minimal runnable script for this route, use <a href="www/np_npRmpi/np_rgl_quickstart.R">np_rgl_quickstart.R</a>.</p>
@@ -638,8 +638,8 @@ window.Quarto = {
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">view =</span> <span class="st">"fixed"</span>,</span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">renderer =</span> <span class="st">"rgl"</span>,</span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">errors =</span> <span class="st">"asymptotic"</span>,</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_overlay =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_rug =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">data.overlay =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">data.rug =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The same renderer is also useful for conditional density/distribution surfaces when you want to inspect shape changes interactively rather than through a fixed static viewpoint.</p>
 </section>
 <section id="partial-regression-plots" class="level2">

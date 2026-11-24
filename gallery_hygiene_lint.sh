@@ -83,6 +83,8 @@ require_file "$ROOT/gallery_usage.qmd" "gallery usage source present"
 require_file "$ROOT/www/js/gallery-usage.js" "gallery usage client present"
 require_file "$ROOT/cloudflare/gallery-analytics-worker/src/index.js" "gallery analytics Worker present"
 require_file "$ROOT/www/np_npRmpi/nprmpi_session_quickstart.R" "gallery npRmpi session quickstart source present"
+require_file "$ROOT/www/np_npRmpi/np_index_specification_quickstart.R" "single-index specification quickstart source present"
+require_file "$ROOT/www/np_npRmpi/np_partially_linear_specification_quickstart.R" "partially linear specification quickstart source present"
 
 forbid_regex_in_tree \
   'CF_ANALYTICS_API_TOKEN|Authorization[^\n]{0,80}Bearer' \
@@ -139,8 +141,8 @@ expect_fixed \
 
 expect_fixed \
   "$ROOT/index.qmd" \
-  '{{< var current-releases.np.published >}}' \
-  "gallery overview uses shared current np publication metadata"
+  '{{< var current-releases.npRmpi.published >}}' \
+  "gallery overview uses shared current npRmpi publication metadata"
 
 expect_fixed \
   "$ROOT/plotting_and_intervals.qmd" \
@@ -285,58 +287,64 @@ forbid_regex_in_tree \
   -g '*.R' \
   -g '!docs/**'
 
-RETIRED_NP_PLOT_ARGUMENTS='(data\.overlay|factor\.boxplot|boxplot\.outliers|coef\.index|common\.scale|proper\.method|proper\.control|bias\.control|boot\.control|grid\.control|render\.control|gaussian\.draws|bar\.num|y\.vars|y\.dat|pair\.list)[[:space:]]*='
+RETIRED_NP_SNAKE_PLOT_ARGUMENTS='(data_overlay|data_rug|factor_boxplot|boxplot_outliers|coef_index|common_scale|proper_method|proper_control|bias_control|boot_control|grid_control|render_control|gaussian_draws|random_seed|gradient_order|plot_vars|fit_mean_train)[[:space:]]*='
 
 forbid_regex_in_tree \
-  "$RETIRED_NP_PLOT_ARGUMENTS" \
-  "current np/npRmpi pages avoid retired dotted plot arguments" \
+  "$RETIRED_NP_SNAKE_PLOT_ARGUMENTS" \
+  "current np/npRmpi pages avoid retired snake-case plot arguments" \
   "$ROOT" \
   -g '*.qmd' \
   -g '!crs.qmd' \
   -g '!docs/**'
 
 forbid_regex_in_tree \
-  "$RETIRED_NP_PLOT_ARGUMENTS" \
-  "current np/npRmpi scripts avoid retired dotted plot arguments" \
+  "$RETIRED_NP_SNAKE_PLOT_ARGUMENTS" \
+  "current np/npRmpi scripts avoid retired snake-case plot arguments" \
   "$ROOT" \
-  -g '*.R' \
-  -g '*.md' \
-  -g '!docs/**'
-
-# The landing-page widget is intentionally built with np 0.80-3, which restores
-# dotted public plot controls. Keep the 0.80-2 guard everywhere else until the
-# Gallery-wide migration is made with that release.
-forbid_regex_in_tree \
-  'data\.rug[[:space:]]*=' \
-  "current pages outside the 0.80-3 widget avoid dotted data.rug" \
-  "$ROOT" \
-  -g '*.qmd' \
-  -g '!index.qmd' \
-  -g '!crs.qmd' \
-  -g '!docs/**'
-
-forbid_regex_in_tree \
-  'data\.rug[[:space:]]*=' \
-  "current scripts outside the 0.80-3 widget avoid dotted data.rug" \
-  "$ROOT" \
-  -g '*.R' \
-  -g '*.md' \
-  -g '!tools/build_italy_conditional_distribution_widget.R' \
-  -g '!www/np_npRmpi/np_italy_conditional_distribution_rgl.R' \
+  -g 'www/**/*.R' \
+  -g '!www/crs/**' \
+  -g '!www/Fun/manipulate_wage1.R' \
   -g '!docs/**'
 
 forbid_multiline_regex_in_tree \
-  'plot[[:space:]]*\([^)]{0,1000}(gradient\.order|random\.seed)[[:space:]]*=' \
-  "current plot calls use snake_case derivative and RNG controls" \
+  'plot[[:space:]]*\([^)]{0,1000}(gradient_order|random_seed)[[:space:]]*=' \
+  "current np/npRmpi plot calls use dotted derivative and RNG controls" \
   "$ROOT" \
   -g '*.qmd' \
-  -g '*.R' \
+  -g 'www/**/*.R' \
+  -g '!crs.qmd' \
+  -g '!www/crs/**' \
   -g '!docs/**'
 
 expect_fixed \
   "$ROOT/faq.qmd" \
-  'the snake_case change is plot-facing' \
-  "0.80-2 migration guidance separates plot and estimator spellings"
+  'spellings existed only in `0.80-2`' \
+  "0.80-3 migration guidance records the short-lived underscore spellings"
+
+expect_fixed \
+  "$ROOT/faq.qmd" \
+  '`interval = "normal-sd", band = "pointwise"`' \
+  "0.80-3 migration guidance separates interval construction and scope"
+
+expect_fixed \
+  "$ROOT/www/np_npRmpi/np_rgl_quickstart.R" \
+  'data.rug = TRUE' \
+  "np rgl quickstart uses the current dotted data-rug control"
+
+expect_fixed \
+  "$ROOT/www/np_npRmpi/np_index_specification_quickstart.R" \
+  'ks_null_test$P > 0.05' \
+  "single-index quickstart verifies the binary null decision"
+
+expect_fixed \
+  "$ROOT/www/np_npRmpi/np_partially_linear_specification_quickstart.R" \
+  'pl_alt_test$P < 0.05' \
+  "partially linear quickstart verifies the alternative decision"
+
+expect_fixed \
+  "$ROOT/www/crs/sine_rgl.R" \
+  'data_rug = TRUE' \
+  "crs rgl quickstart retains its current snake-case data-rug control"
 
 forbid_regex_in_tree \
   'nptgauss[[:space:]]*\(' \
@@ -435,7 +443,7 @@ forbid_regex_in_tree \
 
 expect_fixed \
   "$ROOT/mpi_large_data.qmd" \
-  'R CMD INSTALL npRmpi_0.80-2.tar.gz' \
+  'R CMD INSTALL npRmpi_0.80-3.tar.gz' \
   "npRmpi source-install example uses the current release tarball"
 
 expect_fixed \

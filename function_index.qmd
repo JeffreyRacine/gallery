@@ -38,7 +38,7 @@ Use this table when you already know roughly what you want to do, but not which 
 | Mode estimation and classification | `npconmode` | [Classification and Modes](classification_modes.qmd) | [Quickstarts](quickstarts.qmd) |
 | Plotting, gradients, and intervals | `plot`, `predict`, `gradients` | [Plotting and Intervals](plotting_and_intervals.qmd) | [Quickstarts](quickstarts.qmd) |
 | Options, kernels, and plotting controls | `np.options`, `np.kernels`, `plot` | [Kernel Primer](kernel_primer.qmd) | [Plotting and Intervals](plotting_and_intervals.qmd) |
-| Model specification and significance tests | `npcmstest`, `npsigtest` | [Significance and Specification](significance_and_specification.qmd) | [Quickstarts](quickstarts.qmd) |
+| Model specification and significance tests | `npcmstest`, `npsigtest`, `npindextest`, `nppltest` | [Significance and Specification](significance_and_specification.qmd) | [Quickstarts](quickstarts.qmd) |
 | Entropy, equality, symmetry, and dependence tests | `npdeneqtest`, `npunitest`, `npsymtest`, `npdeptest`, `npsdeptest` | [Entropy and Testing](entropy_tests.qmd) | [Quickstarts](quickstarts.qmd) |
 | Hat operators and fast post-estimation maps | `npreghat`, `npindexhat`, `npplreghat`, `npscoefhat`, `npudenshat`, `npudisthat`, `npcdenshat`, `npcdisthat` | [Semiparametric Models](semiparametric_models.qmd) | [Code Catalog](code_catalog.qmd) |
 | Kernel sums and lower-level customization | `npksum` | [Build With npksum](npksum_custom.qmd) | [Code Catalog](code_catalog.qmd) |
@@ -60,7 +60,7 @@ Use this table when you already know roughly what you want to do, but not which 
 | Copulas | `npcopula` |
 | Options, kernels, and plotting controls | `np.options`, `np.kernels`, `plot` |
 | Hat operators and fast post-estimation maps | `npreghat`, `npindexhat`, `npplreghat`, `npscoefhat`, `npudenshat`, `npudisthat`, `npcdenshat`, `npcdisthat` |
-| Model specification and significance tests | `npcmstest`, `npsigtest`, `npdeneqtest`, `npunitest`, `npsymtest`, `npsdeptest`, `npdeptest` |
+| Model specification and significance tests | `npcmstest`, `npsigtest`, `npindextest`, `nppltest`, `npdeneqtest`, `npunitest`, `npsymtest`, `npsdeptest`, `npdeptest` |
 | Instrumental methods | `npregiv`, `npregivderiv` |
 | Kernel sums and lower-level support | `npksum` |
 | MPI session lifecycle | `npRmpi.init`, `npRmpi.quit`, `npRmpi.session.info` |
@@ -85,7 +85,7 @@ Use these when you want quick, reproducible examples without hunting for externa
 |---|---|
 | `cps71` | first regression fits with `npreg` |
 | `faithful` | unconditional density and distribution examples |
-| `Italy` | conditional density, distribution, and quantiles |
+| `Italy_Updated` | conditional distribution, quantiles, and interactive surfaces |
 | `wage1` | interactive and multivariate regression illustrations |
 | `oecdpanel` | larger-panel style workflows |
 
@@ -94,7 +94,7 @@ Use these when you want quick, reproducible examples without hunting for externa
 - `cps71`
 - `Engel95`
 - `wage1`
-- `Italy`
+- `Italy_Updated`
 - `oecdpanel`
 
 ## External package documentation

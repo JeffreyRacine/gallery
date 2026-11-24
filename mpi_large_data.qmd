@@ -44,26 +44,18 @@ degree search is provided there.
 In the current release line, that route now uses the native `crs` NOMAD
 runtime directly rather than the older transitional fallback path.
 
-## What 0.80-2 changes for MPI work
+## What 0.80-3 changes for MPI work
 
-The 0.80-2 release carries the same plot-facing API changes as `np`: compound
-plot arguments use snake_case, and `output = "data"` or
-`output = "plot-data"` returns a common `np_plot_data` object. Estimator
-arguments such as `gradient.order` retain their established spellings.
+The 0.80-3 release reduces repeated transmission by reusing validated worker
+training data, formula frames, and bandwidth state across more estimator and
+plot routes. `nppltest()` distributes projection work and bootstrap draws
+across ranks, while `npindextest()` retains the same public interface as in
+serial `np`.
 
-Package-owned startup and worker reuse now check loaded R and native source
-identities before accepting a pool. Same-source builds at different paths or on
-different platforms remain valid; a genuinely mismatched installation fails
-with restart/reinstall guidance instead of combining incompatible workers.
-Supported attach pools can be adopted and reused without repeating startup
-collectives.
-
-Automatic degree searches and plot tasks select one coordinated collective
-owner, while explicit manual broadcasts retain their established ownership.
-Formula data, subset, missing-value, bandwidth, and RNG promises are consumed
-once before rank fanout. Temporary RNG scopes also agree on admissibility
-before computation and restore supported caller state without silently
-changing the selected generator.
+Plot calls use the restored dotted compound controls and separate interval
+construction (`interval`) from coverage scope (`band`). Package-owned startup,
+worker adoption, option agreement, and R/native source-identity checks continue
+to refuse incompatible pools rather than silently combining them.
 
 The ordinary `np`-style session workflow remains the same. When comparing
 worker counts, use a numerical tolerance because MPI reductions can change
@@ -163,7 +155,7 @@ export CXX=mpicxx
 ```bash
 cd /Users/jracine/Development
 R CMD build np-npRmpi
-R CMD INSTALL npRmpi_0.80-2.tar.gz
+R CMD INSTALL npRmpi_0.80-3.tar.gz
 ```
 
 ### 4) First runtime test

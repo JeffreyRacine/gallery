@@ -61,39 +61,26 @@ This remains a sensible command:
 update.packages(checkBuilt = TRUE, ask = FALSE)
 ```
 
-## What should I check when moving to 0.80-2? {#what-should-i-check-when-moving-to-080-2}
+## What should I check when moving to 0.80-3? {#what-should-i-check-when-moving-to-080-3}
 
-If you are updating from `0.80-1`, the principal user-facing changes in `np`
-and `npRmpi` are concentrated in plotting and stricter input validation:
+Most code written for `0.80-2` is unchanged. The principal migration points in
+`np` and `npRmpi` are:
 
-- use snake_case for compound plot arguments, including `data_overlay`,
-  `data_rug`, `factor_boxplot`, `boxplot_outliers`, `coef_index`,
-  `common_scale`, `proper_method`, `proper_control`, `bias_control`,
-  `boot_control`, `grid_control`, `render_control`, `gaussian_draws`,
-  `random_seed`, and `gradient_order`; the former dotted plot spellings fail
-  with migration guidance,
-- keep established estimator spellings such as `gradient.order`, `se.type`,
-  and `random.seed`; the snake_case change is plot-facing rather than a
-  package-wide renaming exercise,
-- replace `output = "both"` with `output = "plot-data"`; both
-  `output = "data"` and `output = "plot-data"` return an `np_plot_data`
-  object whose interval columns are absolute endpoints,
-- supply numeric integer/double responses to `npreg()`, `npplreg()`,
-  `npscoef()`, and `npindex()` and their selectors; factors and ordered
-  responses now fail rather than being interpreted through internal codes,
-- treat the two values in `np_grid_control(xtrim = c(a, b))` as the lower and
-  upper quantile endpoints of the displayed range; single-index plots apply
-  that range to the fitted index and reject slice-holding `xq`,
-- a named formula is now accepted in `npsigtest(bws = y ~ x, ...)`, and density
-  selectors honor explicit `transform.bounds` through formula and native
-  adapters,
-- corrected bounded-density intervals cover more fixed-bound Gaussian, beta,
-  uniform, and Epanechnikov routes, but all bias-corrected intervals remain
-  experimental pre-beta research and are not recommended for general-purpose
-  inference,
-- RNG replay and MPI worker adoption are checked more strictly; unsupported
-  hidden generator state or mismatched package R/native identities fail clearly
-  rather than being silently remapped or combined.
+- compound plot controls again use their established dotted spellings, such as
+  `data.overlay`, `data.rug`, `common.scale`, `boot.control`,
+  `gaussian.draws`, `random.seed`, and `gradient.order`; the underscore
+  spellings existed only in `0.80-2` and now fail with the replacement name,
+- interval-producing plots use `interval` for construction and `band` for
+  coverage scope; replace `band = "pmzsd"` with
+  `interval = "normal-sd", band = "pointwise"`,
+- explicit interval constructions no longer belong in `np_boot_control()`;
+  rebuild a saved bootstrap control that contains a calibration and pass the
+  construction through `interval`,
+- saved `np_plot_data` field names, extraction methods, and graphical replay
+  controls are unchanged,
+- `npindextest()` and `nppltest()` add specification tests for single-index and
+  partially linear models, respectively, and `Italy_Updated` is now bundled
+  with `np` and `npRmpi`.
 
 ```r
 ## Compute a plot payload without drawing, then inspect and replay it
@@ -105,7 +92,7 @@ plot(plot_data)
 For several panels, targets, or bands, select the desired component explicitly
 with `as.data.frame(plot_data, panel = ..., target = ..., band = ...)`. Replay
 uses the retained geometry and does not refit, resample, or consume random
-numbers. Calls written for releases older than `0.80-1` may require additional
+numbers. Calls written for releases older than `0.80-2` may require additional
 migration; use the package `NEWS.md` files as the canonical historical record.
 
 ## Why can an external evaluation row return `NA`?

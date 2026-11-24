@@ -10,7 +10,7 @@ data(wage1, package = "np")
 ## Redraw the partial views after a control changes.
 
 manipulate(plot(bw.all,
-                common_scale = common_scale,
+                common.scale = common_scale,
                 errors = "asymptotic",
                 xq = c(0.5, 0.5, educ, exper, tenure)),
            common_scale = picker(TRUE, FALSE, label = "Common Scale for Y Axes"),

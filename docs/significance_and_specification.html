@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="keywords" content="npsigtest, npcmstest, significance test, model specification test, np tests">
+<meta name="keywords" content="npsigtest, npcmstest, npindextest, nppltest, significance test, model specification test, np tests">
 <meta name="description" content="Practical route to nonparametric significance testing and model-specification testing in np.">
 
 <title>Significance and Specification – Gallery of Code</title>
@@ -470,6 +470,8 @@ window.Quarto = {
   <ul>
   <li><a href="#significance-testing-npsigtest" id="toc-significance-testing-npsigtest" class="nav-link active" data-scroll-target="#significance-testing-npsigtest">Significance testing: <code>npsigtest</code></a></li>
   <li><a href="#model-specification-testing-npcmstest" id="toc-model-specification-testing-npcmstest" class="nav-link" data-scroll-target="#model-specification-testing-npcmstest">Model specification testing: <code>npcmstest</code></a></li>
+  <li><a href="#single-index-specification-npindextest" id="toc-single-index-specification-npindextest" class="nav-link" data-scroll-target="#single-index-specification-npindextest">Single-index specification: <code>npindextest</code></a></li>
+  <li><a href="#partial-linearity-specification-nppltest" id="toc-partial-linearity-specification-nppltest" class="nav-link" data-scroll-target="#partial-linearity-specification-nppltest">Partial-linearity specification: <code>nppltest</code></a></li>
   <li><a href="#practical-warning" id="toc-practical-warning" class="nav-link" data-scroll-target="#practical-warning">Practical warning</a></li>
   <li><a href="#when-should-i-use-these" id="toc-when-should-i-use-these" class="nav-link" data-scroll-target="#when-should-i-use-these">When should I use these?</a></li>
   <li><a href="#how-do-these-fit-with-the-rest-of-the-site" id="toc-how-do-these-fit-with-the-rest-of-the-site" class="nav-link" data-scroll-target="#how-do-these-fit-with-the-rest-of-the-site">How do these fit with the rest of the site?</a></li>
@@ -502,19 +504,21 @@ window.Quarto = {
 <div>
   <div class="keywords">
     <div class="block-title">Keywords</div>
-    <p>npsigtest, npcmstest, significance test, model specification test, np tests</p>
+    <p>npsigtest, npcmstest, npindextest, nppltest, significance test, model specification test, np tests</p>
   </div>
 </div>
 
 </header>
 
 
-<p>This page covers two regression tests:</p>
+<p>This page covers four regression tests:</p>
 <ul>
 <li><code>npsigtest</code> for nonparametric regression significance testing,</li>
-<li><code>npcmstest</code> for consistent model specification testing.</li>
+<li><code>npcmstest</code> for consistent model specification testing,</li>
+<li><code>npindextest</code> for a single-index restriction,</li>
+<li><code>nppltest</code> for a partially linear conditional mean.</li>
 </ul>
-<p>If you want minimal downloadable scripts for the two main routes on this page, start with:</p>
+<p>Minimal downloadable scripts for the two established routes are:</p>
 <ul>
 <li><a href="www/np_npRmpi/np_significance_quickstart.R">np_significance_quickstart.R</a></li>
 <li><a href="www/np_npRmpi/np_specification_quickstart.R">np_specification_quickstart.R</a></li>
@@ -561,6 +565,120 @@ window.Quarto = {
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_out)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
+<section id="single-index-specification-npindextest" class="level2">
+<h2 class="anchored" data-anchor-id="single-index-specification-npindextest">Single-index specification: <code>npindextest</code></h2>
+<p>For a continuous response, <code>npindextest()</code> asks whether <span class="math inline">\(E(Y\mid X)=g(X^\mathsf{T}\beta)\)</span>. For a binary response it tests the analogous restriction on the success probability. Every bootstrap draw refits the index direction and link bandwidth.</p>
+<p>The short script below fits correctly specified and off-index alternatives for both Ichimura and Klein–Spady models. With seed 42, the default test retains both nulls and rejects both alternatives at 5%.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Continuous and binary single-index examples
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Source file: <a href="www/np_npRmpi/np_index_specification_quickstart.R">np_index_specification_quickstart.R</a></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Test continuous and binary single-index specifications.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Build linear-index nulls and off-index interaction alternatives.</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">160</span>L</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x1 =</span> <span class="fu">rnorm</span>(n), <span class="at">x2 =</span> <span class="fu">rnorm</span>(n))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">with</span>(dat, x1 <span class="sc">+</span> <span class="fl">0.6</span> <span class="sc">*</span> x2)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>off_index <span class="ot">&lt;-</span> <span class="fu">with</span>(dat, x2 <span class="sc">-</span> <span class="fl">0.6</span> <span class="sc">*</span> x1)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>y_null <span class="ot">&lt;-</span> index <span class="sc">+</span> <span class="fl">0.45</span> <span class="sc">*</span> <span class="fu">sin</span>(index) <span class="sc">+</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  (<span class="fl">0.6</span> <span class="sc">+</span> <span class="fl">0.2</span> <span class="sc">*</span> <span class="fu">abs</span>(off_index)) <span class="sc">*</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>y_alt <span class="ot">&lt;-</span> dat<span class="sc">$</span>y_null <span class="sc">+</span> <span class="fl">1.8</span> <span class="sc">*</span> index <span class="sc">*</span> off_index</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>choice_alt <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(index <span class="sc">+</span> <span class="fl">1.8</span> <span class="sc">*</span> index <span class="sc">*</span> off_index))</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>choice_null <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(index))</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit Ichimura models and test the fitted object or its bandwidth object.</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>ich_null <span class="ot">&lt;-</span> <span class="fu">npindex</span>(y_null <span class="sc">~</span> x1 <span class="sc">+</span> x2,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"ichimura"</span>, <span class="at">data =</span> dat)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>ich_alt <span class="ot">&lt;-</span> <span class="fu">npindex</span>(y_alt <span class="sc">~</span> x1 <span class="sc">+</span> x2,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"ichimura"</span>, <span class="at">data =</span> dat)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>ich_null_test <span class="ot">&lt;-</span> <span class="fu">npindextest</span>(ich_null)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>ich_alt_test <span class="ot">&lt;-</span> <span class="fu">npindextest</span>(ich_alt<span class="sc">$</span>bws)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="do">## Repeat for Klein--Spady binary-choice models.</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>ks_null <span class="ot">&lt;-</span> <span class="fu">npindex</span>(choice_null <span class="sc">~</span> x1 <span class="sc">+</span> x2,</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"kleinspady"</span>, <span class="at">data =</span> dat)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>ks_alt <span class="ot">&lt;-</span> <span class="fu">npindex</span>(choice_alt <span class="sc">~</span> x1 <span class="sc">+</span> x2,</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"kleinspady"</span>, <span class="at">data =</span> dat)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>ks_null_test <span class="ot">&lt;-</span> <span class="fu">npindextest</span>(ks_null)</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>ks_alt_test <span class="ot">&lt;-</span> <span class="fu">npindextest</span>(ks_alt<span class="sc">$</span>bws)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ich_null_test)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ich_alt_test)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ks_null_test)</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ks_alt_test)</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="do">## At seed 42, retain both nulls and reject both alternatives at 5%.</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>  ich_null_test<span class="sc">$</span>P <span class="sc">&gt;</span> <span class="fl">0.05</span>,</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>  ich_alt_test<span class="sc">$</span>P <span class="sc">&lt;</span> <span class="fl">0.05</span>,</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>  ks_null_test<span class="sc">$</span>P <span class="sc">&gt;</span> <span class="fl">0.05</span>,</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>  ks_alt_test<span class="sc">$</span>P <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</section>
+<section id="partial-linearity-specification-nppltest" class="level2">
+<h2 class="anchored" data-anchor-id="partial-linearity-specification-nppltest">Partial-linearity specification: <code>nppltest</code></h2>
+<p><code>nppltest()</code> asks whether <span class="math inline">\(E(Y\mid X,Z)=X^\mathsf{T}\beta+g(Z)\)</span> rather than an unrestricted conditional mean. The default uses 2,048 shifted Sobol projection directions; <code>integration = "exact"</code> requests analytical angular integration.</p>
+<p>The script below retains a partially linear null and rejects an alternative with curvature in a regressor assigned to the linear component.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Partially linear null and alternative
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Source file: <a href="www/np_npRmpi/np_partially_linear_specification_quickstart.R">np_partially_linear_specification_quickstart.R</a></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Test a partially linear conditional-mean specification.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Under the null, X enters linearly while Z enters through an unknown function.</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">120</span>L</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x1 =</span> <span class="fu">rnorm</span>(n), <span class="at">x2 =</span> <span class="fu">rnorm</span>(n), <span class="at">z =</span> <span class="fu">runif</span>(n, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>noise <span class="ot">&lt;-</span> <span class="fu">with</span>(dat, (<span class="fl">0.45</span> <span class="sc">+</span> <span class="fl">0.30</span> <span class="sc">*</span> z<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="fu">rnorm</span>(n))</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>y_null <span class="ot">&lt;-</span> <span class="fu">with</span>(dat, <span class="fl">0.8</span> <span class="sc">*</span> x1 <span class="sc">-</span> <span class="fl">0.6</span> <span class="sc">*</span> x2 <span class="sc">+</span> <span class="fu">sin</span>(pi <span class="sc">*</span> z) <span class="sc">+</span> noise)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Curvature in x1 violates the partially linear restriction.</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>y_alt <span class="ot">&lt;-</span> <span class="fu">with</span>(dat, y_null <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> (x1<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="do">## The test accepts either a fitted object or its bandwidth object.</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>pl_null <span class="ot">&lt;-</span> <span class="fu">npplreg</span>(y_null <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">|</span> z,</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">regtype =</span> <span class="st">"ll"</span>, <span class="at">data =</span> dat)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>pl_alt_bw <span class="ot">&lt;-</span> <span class="fu">npplregbw</span>(y_alt <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">|</span> z,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">regtype =</span> <span class="st">"ll"</span>, <span class="at">data =</span> dat)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>pl_null_test <span class="ot">&lt;-</span> <span class="fu">nppltest</span>(pl_null)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>pl_alt_test <span class="ot">&lt;-</span> <span class="fu">nppltest</span>(pl_alt_bw)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pl_null_test)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pl_alt_test)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="do">## At seed 42, retain the null and reject the alternative at 5%.</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(pl_null_test<span class="sc">$</span>P <span class="sc">&gt;</span> <span class="fl">0.05</span>, pl_alt_test<span class="sc">$</span>P <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p>All ten public specification, significance, and distribution tests now default to 399 bootstrap draws. Their reported p-values count draws at least as extreme as the observed statistic, including ties, and summaries report elapsed time.</p>
+</section>
 <section id="practical-warning" class="level2">
 <h2 class="anchored" data-anchor-id="practical-warning">Practical warning</h2>
 <p>These tests can be computationally demanding because they may involve both bandwidth selection and bootstrap procedures.</p>
@@ -592,6 +710,14 @@ window.Quarto = {
 <tr class="even">
 <td>Does a parametric regression model look misspecified against a nonparametric alternative?</td>
 <td><code>npcmstest</code></td>
+</tr>
+<tr class="odd">
+<td>Does a fitted link depend on the covariates through one linear index?</td>
+<td><code>npindextest</code></td>
+</tr>
+<tr class="even">
+<td>Is the conditional mean partially linear in the designated regressors?</td>
+<td><code>nppltest</code></td>
 </tr>
 </tbody>
 </table>

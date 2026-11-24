@@ -4,17 +4,26 @@ description: "Practical route to nonparametric significance testing and model-sp
 keywords:
   - npsigtest
   - npcmstest
+  - npindextest
+  - nppltest
   - significance test
   - model specification test
   - np tests
 ---
 
-This page covers two regression tests:
+```{r significance-setup}
+#| include: false
+source("site_helpers.R")
+```
+
+This page covers four regression tests:
 
 - `npsigtest` for nonparametric regression significance testing,
-- `npcmstest` for consistent model specification testing.
+- `npcmstest` for consistent model specification testing,
+- `npindextest` for a single-index restriction,
+- `nppltest` for a partially linear conditional mean.
 
-If you want minimal downloadable scripts for the two main routes on this page, start with:
+Minimal downloadable scripts for the two established routes are:
 
 - [np_significance_quickstart.R](www/np_npRmpi/np_significance_quickstart.R)
 - [np_specification_quickstart.R](www/np_npRmpi/np_specification_quickstart.R)
@@ -76,6 +85,55 @@ test_out <- npcmstest(model = model_ols,
 summary(test_out)
 ```
 
+## Single-index specification: `npindextest`
+
+For a continuous response, `npindextest()` asks whether
+$E(Y\mid X)=g(X^\mathsf{T}\beta)$. For a binary response it tests the analogous
+restriction on the success probability. Every bootstrap draw refits the index
+direction and link bandwidth.
+
+The short script below fits correctly specified and off-index alternatives for
+both Ichimura and Klein--Spady models. With seed 42, the default test retains
+both nulls and rejects both alternatives at 5%.
+
+::: {.callout-note collapse="true"}
+## Continuous and binary single-index examples
+
+Source file: [np_index_specification_quickstart.R](www/np_npRmpi/np_index_specification_quickstart.R)
+
+```{r index-specification-source}
+#| echo: false
+#| results: asis
+emit_source("www/np_npRmpi/np_index_specification_quickstart.R")
+```
+:::
+
+## Partial-linearity specification: `nppltest`
+
+`nppltest()` asks whether
+$E(Y\mid X,Z)=X^\mathsf{T}\beta+g(Z)$ rather than an unrestricted conditional
+mean. The default uses 2,048 shifted Sobol projection directions;
+`integration = "exact"` requests analytical angular integration.
+
+The script below retains a partially linear null and rejects an alternative
+with curvature in a regressor assigned to the linear component.
+
+::: {.callout-note collapse="true"}
+## Partially linear null and alternative
+
+Source file: [np_partially_linear_specification_quickstart.R](www/np_npRmpi/np_partially_linear_specification_quickstart.R)
+
+```{r partially-linear-specification-source}
+#| echo: false
+#| results: asis
+emit_source("www/np_npRmpi/np_partially_linear_specification_quickstart.R")
+```
+:::
+
+All ten public specification, significance, and distribution tests now default
+to 399 bootstrap draws. Their reported p-values count draws at least as extreme
+as the observed statistic, including ties, and summaries report elapsed time.
+
 ## Practical warning
 
 These tests can be computationally demanding because they may involve both bandwidth selection and bootstrap procedures.
@@ -92,6 +150,8 @@ Practical advice:
 |---|---|
 | Is a regressor significant in a nonparametric regression setting? | `npsigtest` |
 | Does a parametric regression model look misspecified against a nonparametric alternative? | `npcmstest` |
+| Does a fitted link depend on the covariates through one linear index? | `npindextest` |
+| Is the conditional mean partially linear in the designated regressors? | `nppltest` |
 
 ## How do these fit with the rest of the site?
 
