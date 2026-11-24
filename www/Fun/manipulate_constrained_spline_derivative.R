@@ -8,7 +8,7 @@ library(quadprog)
 
 ## Refit and redraw the constrained spline after a control changes.
 
-manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lower, upper, deriv.order, which.plot, cv) {
+manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lower, upper, deriv.order, which.plot, weighted, smoothing, distance) {
 
   if (lower > upper) {
     lower <- upper - 0.01
@@ -17,6 +17,9 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lo
   if (identical(lower, upper)) {
     lower <- upper - 0.01
   }
+
+  if (smoothing != "joint" && spline.degree < deriv.order && (lower > 0 || upper < 0))
+    stop("This spline degree gives a zero derivative. Increase the degree or include zero in the bounds.")
 
   set.seed(42)
 
@@ -30,27 +33,14 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lo
 
   rm(x, y)
 
-  ## Select or retain the spline degree and segment count.
-  if (cv) {
-
-    model.unres <- crs(y ~ x,
-                       degree = spline.degree,
-                       segments = spline.segments,
-                       basis = "tensor",
-                       data = data.train)
-
-    spline.degree <- model.unres$degree
-    spline.segments <- model.unres$segments
-
-  } else {
-
-    model.unres <- crs(y ~ x,
-                       cv = "none",
-                       degree = spline.degree,
-                       segments = spline.segments,
-                       basis = "tensor",
-                       data = data.train)
-  }
+  ## Cross-validate segment count alone or jointly with spline degree.
+  model.unres <- crs(y ~ x, data = data.train, basis = "tensor",
+    cv = if (smoothing == "manual") "none" else "exhaustive",
+    complexity = if (smoothing == "segments") "knots" else "degree-knots",
+    degree = spline.degree, segments = spline.segments,
+    degree.min = deriv.order, deriv = deriv.order)
+  spline.degree <- model.unres$degree
+  spline.segments <- model.unres$segments
 
   if (which.plot == "Conditional mean and Partial derivative") {
     par(mfrow = c(2, 1))
@@ -58,26 +48,21 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lo
     par(mfrow = c(1, 1))
   }
 
-  ## Refit once with the requested derivative operator.
-  model.unres <- crs(y ~ x,
-                     cv = "none",
-                     deriv = deriv.order,
-                     degree = spline.degree,
-                     segments = spline.segments,
-                     basis = "tensor",
-                     data = data.train)
-
-  ## crshat() returns t(H_s) * y for the derivative constraints.
-  Aymat <- crshat(model.unres, y = data.train$y, output = "constraint",
-                  deriv = deriv.order, deriv.index = 1)
-
-  ## Find response weights satisfying lower <= g^(s)(x) <= upper.
-  QP.output <- solve.QP(Dmat = diag(n),
-                        dvec = rep(1, n),
-                        Amat = cbind(Aymat, -Aymat),
-                        bvec = c(rep(lower, n), -rep(upper, n)))
-
-  p.hat <- QP.output$solution
+  ## A.fit maps changes in response weights to changes in fitted levels
+  ## via its transpose. The bounds apply at the observed x.
+  A.fit <- crshat(model.unres, y = data.train$y, output = "constraint")
+  A <- crshat(model.unres, y = data.train$y, output = "constraint",
+    deriv = deriv.order, deriv.index = 1)
+  p.hat <- rep(1, n)
+  object.unres <- drop(crossprod(A, p.hat))
+  if (any(object.unres < lower | object.unres > upper)) {
+    ## Center the QP at unit weights; regularize the fitted-level objective.
+    D <- diag(n)
+    if (distance == "fits") D <- tcrossprod(A.fit) + sqrt(.Machine$double.eps) * D
+    delta <- solve.QP(Dmat = D, dvec = numeric(n), Amat = cbind(A, -A),
+      bvec = c(lower - object.unres, object.unres - upper))$solution
+    p.hat <- p.hat + delta
+  }
 
   ## Refit with the constrained response weights.
   data.trans <- data.frame(y = p.hat * data.train$y, data.train[, 2:ncol(data.train), drop = FALSE])
@@ -106,17 +91,19 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lo
 
     with(data.train, lines(x, dgp(x), lty = 1, col = 1))
 
-    legend("topleft",
-           c(paste("DGP: sin(", dgp.frequency, "*pi*x)", sep = ""), "Unconstrained Estimate", "Constrained Estimate"),
-           col = c(1, 2, 4),
-           lwd = c(1, 2, 2),
-           lty = c(1, 2, 4),
-           cex = 0.75,
-           bty = "n")
-
     with(data.train, lines(x, fitted(model.unres), lty = 2, col = 2, lwd = 2))
     with(data.train, lines(x, fitted(model.res), col = 4, lty = 4, lwd = 2))
+    ## Weighted responses are observations on the mean panel.
+    if (weighted) with(data.train, points(x, y * p.hat, col = "orange", cex = 0.35))
 
+    legend("topleft",
+           c(paste("DGP: sin(", dgp.frequency, "*pi*x)", sep = ""), "Unconstrained Estimate",
+             "Constrained Estimate", if (weighted) "Weighted Y"),
+           col = c(1, 2, 4, if (weighted) "orange"),
+           lwd = c(1, 2, 2, if (weighted) NA),
+           lty = c(1, 2, 4, if (weighted) NA),
+           pch = c(NA_integer_, NA_integer_, NA_integer_, if (weighted) 1L),
+           cex = 0.75, bty = "n")
   }
 
   if (which.plot == "Partial derivative" || which.plot == "Conditional mean and Partial derivative") {
@@ -152,7 +139,7 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lo
 
 }
 
-manipulate(manipulate.plot(n, spline.degree, spline.segments, dgp.frequency, lower, upper, deriv.order, which.plot, cv),
+manipulate(manipulate.plot(n, spline.degree, spline.segments, dgp.frequency, lower, upper, deriv.order, which.plot, weighted, smoothing, distance),
            n = slider(100, 1000, 500, step = 100, label = "Number of observations"),
            deriv.order = picker(1, 2, label = "Order of derivative"),
            which.plot = picker("Conditional mean", "Partial derivative", "Conditional mean and Partial derivative", label = "Function to plot"),
@@ -161,4 +148,11 @@ manipulate(manipulate.plot(n, spline.degree, spline.segments, dgp.frequency, low
            spline.segments = slider(1, 10, 2, label = "B-spline segments", step = 1, ticks = TRUE),
            lower = slider(-150, 150, -10, step = 1, label = "Lower bound"),
            upper = slider(-150, 150, 10, step = 1, label = "Upper bound"),
-           cv = checkbox(FALSE, "Cross-validate smoothing parameters"))
+           distance = picker("Weight deviation" = "weights",
+                             "Fit deviation (regularized)" = "fits",
+                             label = "Objective"),
+           smoothing = picker("Manual" = "manual",
+                              "Cross-validate segments" = "segments",
+                              "Cross-validate segments and degree" = "joint",
+                              label = "Smoothing parameter selection"),
+           weighted = checkbox(FALSE, "Show weighted Y"))

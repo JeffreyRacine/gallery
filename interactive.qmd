@@ -34,6 +34,7 @@ Download or open one of the scripts below in RStudio, then source it. Once the p
 ## Density and distribution demos
 
 - Univariate density with bandwidth, kernel, and sample-size controls: [manipulate_density.R](www/Fun/manipulate_density.R)
+- Compare a Gaussian kernel density estimate with one subject to bounds, monotonicity, curvature, or log-curvature. The second panel shows the derivative used for each shape restriction. [Constrained density demo](www/Fun/manipulate_constrained_density.R)
 - Old Faithful univariate density: [manipulate_eruptions.R](www/Fun/manipulate_eruptions.R)
 - Univariate distribution function: [manipulate_distribution.R](www/Fun/manipulate_distribution.R)
 - Bivariate density: [manipulate_bivariate_density.R](www/Fun/manipulate_bivariate_density.R)
@@ -43,8 +44,9 @@ Download or open one of the scripts below in RStudio, then source it. Once the p
 ## Regression and shape-restriction demos
 
 - Multivariate regression partial plots: [manipulate_wage1.R](www/Fun/manipulate_wage1.R)
-- Constrained local polynomial regression: [manipulate_constrained_local_polynomial.R](www/Fun/manipulate_constrained_local_polynomial.R)
-- Constrained production function example: [manipulate_constrained_local_polynomial_production.R](www/Fun/manipulate_constrained_local_polynomial_production.R)
+- Bound the level, slope, or curvature of a local polynomial fit to a sine curve. Compare minimizing changes in fitted values with minimizing changes in response weights. [Constrained local polynomial demo](www/Fun/manipulate_constrained_local_polynomial.R)
+- Fit a single-index model and impose a nonnegative link slope on the constraint grid. Compare the link and slope side by side as you change the kernel, polynomial degree, or bandwidth. [Isotonic single-index demo](www/Fun/manipulate_constrained_single_index.R)
+- Explore how monotonicity, concavity, and a frontier above the observations change the estimated production function. [Constrained production function demo](www/Fun/manipulate_constrained_local_polynomial_production.R)
 - Constrained spline illustrations: [manipulate_constrained_spline.R](www/Fun/manipulate_constrained_spline.R), [manipulate_constrained_spline_derivative.R](www/Fun/manipulate_constrained_spline_derivative.R)
 
 ## Other demos

@@ -521,6 +521,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="density-and-distribution-demos">Density and distribution demos</h2>
 <ul>
 <li>Univariate density with bandwidth, kernel, and sample-size controls: <a href="www/Fun/manipulate_density.R">manipulate_density.R</a></li>
+<li>Compare a Gaussian kernel density estimate with one subject to bounds, monotonicity, curvature, or log-curvature. The second panel shows the derivative used for each shape restriction. <a href="www/Fun/manipulate_constrained_density.R">Constrained density demo</a></li>
 <li>Old Faithful univariate density: <a href="www/Fun/manipulate_eruptions.R">manipulate_eruptions.R</a></li>
 <li>Univariate distribution function: <a href="www/Fun/manipulate_distribution.R">manipulate_distribution.R</a></li>
 <li>Bivariate density: <a href="www/Fun/manipulate_bivariate_density.R">manipulate_bivariate_density.R</a></li>
@@ -532,8 +533,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="regression-and-shape-restriction-demos">Regression and shape-restriction demos</h2>
 <ul>
 <li>Multivariate regression partial plots: <a href="www/Fun/manipulate_wage1.R">manipulate_wage1.R</a></li>
-<li>Constrained local polynomial regression: <a href="www/Fun/manipulate_constrained_local_polynomial.R">manipulate_constrained_local_polynomial.R</a></li>
-<li>Constrained production function example: <a href="www/Fun/manipulate_constrained_local_polynomial_production.R">manipulate_constrained_local_polynomial_production.R</a></li>
+<li>Bound the level, slope, or curvature of a local polynomial fit to a sine curve. Compare minimizing changes in fitted values with minimizing changes in response weights. <a href="www/Fun/manipulate_constrained_local_polynomial.R">Constrained local polynomial demo</a></li>
+<li>Fit a single-index model and impose a nonnegative link slope on the constraint grid. Compare the link and slope side by side as you change the kernel, polynomial degree, or bandwidth. <a href="www/Fun/manipulate_constrained_single_index.R">Isotonic single-index demo</a></li>
+<li>Explore how monotonicity, concavity, and a frontier above the observations change the estimated production function. <a href="www/Fun/manipulate_constrained_local_polynomial_production.R">Constrained production function demo</a></li>
 <li>Constrained spline illustrations: <a href="www/Fun/manipulate_constrained_spline.R">manipulate_constrained_spline.R</a>, <a href="www/Fun/manipulate_constrained_spline_derivative.R">manipulate_constrained_spline_derivative.R</a></li>
 </ul>
 </section>

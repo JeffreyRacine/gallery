@@ -8,7 +8,7 @@ library(quadprog)
 
 ## Refit and redraw the constrained spline after a control changes.
 
-manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lower, upper, weighted, cv) {
+manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lower, upper, weighted, smoothing, distance) {
 
   if (lower > upper) {
     lower <- upper - 0.01
@@ -31,27 +31,13 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lo
 
   rm(x, y)
 
-  ## Select or retain the spline degree and segment count.
-  if (cv) {
-
-    model.unres <- crs(y ~ x,
-      degree = spline.degree,
-      segments = spline.segments,
-      basis = "tensor",
-      data = data.train)
-
-    spline.degree <- model.unres$degree
-    spline.segments <- model.unres$segments
-
-  } else {
-
-    model.unres <- crs(y ~ x,
-      cv = "none",
-      degree = spline.degree,
-      segments = spline.segments,
-      basis = "tensor",
-      data = data.train)
-  }
+  ## Cross-validate segment count alone or jointly with spline degree.
+  model.unres <- crs(y ~ x, data = data.train, basis = "tensor",
+    cv = if (smoothing == "manual") "none" else "exhaustive",
+    complexity = if (smoothing == "segments") "knots" else "degree-knots",
+    degree = spline.degree, segments = spline.segments)
+  spline.degree <- model.unres$degree
+  spline.segments <- model.unres$segments
 
   with(data.train, plot(x, y,
     cex = 0.25,
@@ -69,16 +55,20 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lo
   ## Add the unrestricted fit.
   with(data.train, lines(x, fitted(model.unres), lty = 2, col = 2, lwd = 2))
 
-  ## crshat() returns t(H) * y for the fitted-mean constraints.
-  Aymat <- crshat(model.unres, y = data.train$y, output = "constraint")
-
-  ## Find response weights satisfying lower <= g(x) <= upper.
-  QP.output <- solve.QP(Dmat = diag(1, n, n),
-    dvec = rep(1, n),
-    Amat = cbind(Aymat, -Aymat),
-    bvec = c(rep(lower, n), -rep(upper, n)))
-
-  p.hat <- QP.output$solution
+  ## A.fit maps changes in response weights to changes in fitted levels
+  ## via its transpose. The bounds apply at the observed x.
+  A.fit <- crshat(model.unres, y = data.train$y, output = "constraint")
+  A <- A.fit
+  p.hat <- rep(1, n)
+  object.unres <- drop(crossprod(A, p.hat))
+  if (any(object.unres < lower | object.unres > upper)) {
+    ## Center the QP at unit weights; regularize the fitted-level objective.
+    D <- diag(n)
+    if (distance == "fits") D <- tcrossprod(A.fit) + sqrt(.Machine$double.eps) * D
+    delta <- solve.QP(Dmat = D, dvec = numeric(n), Amat = cbind(A, -A),
+      bvec = c(lower - object.unres, object.unres - upper))$solution
+    p.hat <- p.hat + delta
+  }
 
   ## Refit with the constrained response weights.
   data.trans <- data.frame(y = p.hat * data.train$y, data.train[, 2:ncol(data.train), drop = FALSE])
@@ -105,12 +95,18 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lo
 
 }
 
-manipulate(manipulate.plot(n, spline.degree, spline.segments, dgp.frequency, lower, upper, weighted, cv),
+manipulate(manipulate.plot(n, spline.degree, spline.segments, dgp.frequency, lower, upper, weighted, smoothing, distance),
            n = slider(100, 1000, 500, step = 100, label = "Number of observations"),
            dgp.frequency = slider(1, 4, 2, label = "DGP frequency (a*pi*x)", step = 1, ticks = TRUE),
            spline.degree = slider(0, 10, 5, label = "B-spline degree", step = 1, ticks = TRUE),
            spline.segments = slider(1, 10, 4, label = "B-spline segments", step = 1, ticks = TRUE),
            lower = slider(-1.5, 1.5, -1.5, step = 0.1, label = "Lower bound"),
            upper = slider(-1.5, 1.5, 1.5, step = 0.1, label = "Upper bound"),
-           weighted = checkbox(FALSE, "Show weighted Y"),
-           cv = checkbox(FALSE, "Cross-validate smoothing parameters"))
+           distance = picker("Weight deviation" = "weights",
+                             "Fit deviation (regularized)" = "fits",
+                             label = "Objective"),
+           smoothing = picker("Manual" = "manual",
+                              "Cross-validate segments" = "segments",
+                              "Cross-validate segments and degree" = "joint",
+                              label = "Smoothing parameter selection"),
+           weighted = checkbox(FALSE, "Show weighted Y"))

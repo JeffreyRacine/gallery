@@ -17,22 +17,16 @@ options(np.tree = "auto", np.messages = FALSE)
 ## Use TRUE/FALSE only when assessing the impact for this problem.
 library(quadprog)
 
-build_manual_lp_bw <- function(formula, data, degree, bw = NULL, ckertype, bandwidth.compute = TRUE) {
-  args <- list(
-    formula,
+build_fixed_degree_bw <- function(formula, data, degree, bw, ckertype) {
+  npregbw(formula,
     data = data,
     regtype = "lp",
     degree = as.integer(degree),
     degree.select = "manual",
     bernstein.basis = TRUE,
     ckertype = ckertype,
-    bandwidth.compute = bandwidth.compute)
-
-  if (!is.null(bw)) {
-    args$bws <- bw
-  }
-
-  do.call(npregbw, args)
+    bandwidth.compute = is.null(bw),
+    bws = bw)
 }
 
 build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.max, ckertype) {
@@ -53,7 +47,7 @@ build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.ma
 }
 
 ## Expose the estimator and constraint controls in an interactive panel.
-manipulate.plot <- function(n, p, bw, ckertype, constraints, weighted, unweighted, cv, cv.complexity) {
+manipulate.plot <- function(n, p, bw, ckertype, constraints, weighted, unweighted, smoothing, distance) {
 
   set.seed(42)
   npseed(42)
@@ -64,31 +58,15 @@ manipulate.plot <- function(n, p, bw, ckertype, constraints, weighted, unweighte
   y <- ifelse(y >= 0, y, 0)
   lp.data <- data.frame(y = y, x = x)
 
-  if (cv) {
-    lp.bw <- if (cv.complexity == "bandwidth") {
-      build_manual_lp_bw(formula = y ~ x,
-        data = lp.data,
-        degree = p,
-        ckertype = ckertype,
-        bandwidth.compute = TRUE)
-    } else {
-      build_nomad_lp_bw(formula = y ~ x,
-        data = lp.data,
-        degree.start = p,
-        degree.min = 2L,
-        degree.max = 7L,
-        ckertype = ckertype)
-    }
-    bw <- lp.bw$bw[1L]
-    p <- as.integer(lp.bw$degree[1L])
+  if (smoothing == "joint") {
+    lp.bw <- build_nomad_lp_bw(y ~ x, data = lp.data, degree.start = p,
+      degree.min = 2L, degree.max = 7L, ckertype = ckertype)
   } else {
-    lp.bw <- build_manual_lp_bw(formula = y ~ x,
-      data = lp.data,
-      degree = p,
-      bw = bw,
-      ckertype = ckertype,
-      bandwidth.compute = FALSE)
+    lp.bw <- build_fixed_degree_bw(y ~ x, data = lp.data, degree = p,
+      bw = if (smoothing == "manual") bw else NULL, ckertype = ckertype)
   }
+  bw <- lp.bw$bw[1L]
+  p <- as.integer(lp.bw$degree[1L])
 
   plot(x, dgp(x),
        ylab = "Y",
@@ -104,93 +82,51 @@ manipulate.plot <- function(n, p, bw, ckertype, constraints, weighted, unweighte
 
   if (unweighted) points(x, y, col = 1, cex = 0.2)
 
-  ## Estimate the unrestricted model
-
-  H.mean <- npreghat(bws = lp.bw,
-    txdat = data.frame(x = x),
-    output = "matrix")
-
-  ## Keep H.mean for fitted curves, and use the helper to obtain the
-  ## QP matrices t(H) * y directly.
-  A <- npreghat(bws = lp.bw,
-    txdat = data.frame(x = x),
-    y = y,
-    output = "constraint")
-  A.deriv.1 <- npreghat(bws = lp.bw,
-    txdat = data.frame(x = x),
-    y = y,
-    output = "constraint",
-    s = 1L)
-  A.deriv.2 <- npreghat(bws = lp.bw,
-    txdat = data.frame(x = x),
-    y = y,
-    output = "constraint",
-    s = 2L)
-
+  ## Each column maps response weights to the level at one observed x.
+  A <- npreghat(bws = lp.bw, txdat = lp.data["x"], y = y, output = "constraint")
   p.u <- rep(1, n)
+  p.hat <- p.u
+  fitted.unres <- drop(crossprod(A, p.u))
 
-  ## For the production function we have constraints
-  ## 1) \hat g(x|p) \ge y [A\ge y]
-  ## 2) \hat g^(1)(x|p) \ge 0 [A.deriv.1 \ge rep(0,n)]
-  ## 3) \hat g^(2)(x|p) \le 0 [-A.deriv.2 \ge rep(0,n)]
-
-  if (constraints == "g'(x)>=0, y<=g(x)") {
-    QP.output <- solve.QP(Dmat = diag(n),
-                          dvec = rep(1, n),
-                          Amat = cbind(A, A.deriv.1),
-                          bvec = c(y, rep(0, n)))
-    if (is.nan(QP.output$value)) stop(" solve.QP failed. Try smoother curve (larger bandwidths or polynomial order)")
-    p.hat <- QP.output$solution
-  } else if (constraints == "g''(x)<=0, y<=g(x)") {
-    QP.output <- solve.QP(Dmat = diag(n),
-                          dvec = rep(1, n),
-                          Amat = cbind(A, -A.deriv.2),
-                          bvec = c(y, rep(0, n)))
-    if (is.nan(QP.output$value)) stop(" solve.QP failed. Try smoother curve (larger bandwidths or polynomial order)")
-    p.hat <- QP.output$solution
-  } else if (constraints == "y<=g(x)") {
-    QP.output <- solve.QP(Dmat = diag(n),
-                          dvec = rep(1, n),
-                          Amat = cbind(A),
-                          bvec = y)
-    if (is.nan(QP.output$value)) stop(" solve.QP failed. Try smoother curve (larger bandwidths or polynomial order)")
-    p.hat <- QP.output$solution
-  } else if (constraints == "g'(x)>=0, g''(x)<=0, y<=g(x)") {
-    QP.output <- solve.QP(Dmat = diag(n),
-                          dvec = rep(1, n),
-                          Amat = cbind(A, A.deriv.1, -A.deriv.2),
-                          bvec = c(y, rep(0, n), rep(0, n)))
-    if (is.nan(QP.output$value)) stop(" solve.QP failed. Try smoother curve (larger bandwidths or polynomial order)")
-    p.hat <- QP.output$solution
-  } else if (constraints == "g'(x)>=0, g''(x)<=0") {
-    QP.output <- solve.QP(Dmat = diag(n),
-                          dvec = rep(1, n),
-                          Amat = cbind(A.deriv.1, -A.deriv.2),
-                          bvec = c(rep(0, n), rep(0, n)))
-    if (is.nan(QP.output$value)) stop(" solve.QP failed. Try smoother curve (larger bandwidths or polynomial order)")
-    p.hat <- QP.output$solution
-  } else if (constraints == "g''(x)<=0") {
-    QP.output <- solve.QP(Dmat = diag(n),
-                          dvec = rep(1, n),
-                          Amat = cbind(-A.deriv.2),
-                          bvec = c(rep(0, n)))
-    if (is.nan(QP.output$value)) stop(" solve.QP failed. Try smoother curve (larger bandwidths or polynomial order)")
-    p.hat <- QP.output$solution
-  } else if (constraints == "g'(x)>=0") {
-    QP.output <- solve.QP(Dmat = diag(n),
-                          dvec = rep(1, n),
-                          Amat = cbind(A.deriv.1),
-                          bvec = c(rep(0, n)))
-    if (is.nan(QP.output$value)) stop(" solve.QP failed. Try smoother curve (larger bandwidths or polynomial order)")
-    p.hat <- QP.output$solution
-  } else {
-    p.hat <- p.u
+  if (constraints != "none") {
+    ## Assemble only the selected restrictions. All are written as lower bounds.
+    active <- strsplit(constraints, ", ", fixed = TRUE)[[1L]]
+    Amat <- list()
+    target <- list()
+    if ("y<=g(x)" %in% active) {
+      Amat$frontier <- A
+      target$frontier <- y
+    }
+    if ("g'(x)>=0" %in% active) {
+      Amat$slope <- npreghat(bws = lp.bw, txdat = lp.data["x"], y = y,
+        output = "constraint", s = 1L)
+      target$slope <- numeric(n)
+    }
+    if ("g''(x)<=0" %in% active) {
+      Amat$curvature <- -npreghat(bws = lp.bw, txdat = lp.data["x"], y = y,
+        output = "constraint", s = 2L)
+      target$curvature <- numeric(n)
+    }
+    Amat <- do.call(cbind, Amat)
+    bounds <- unlist(target, use.names = FALSE)
+    gap <- bounds - drop(crossprod(Amat, p.u))
+    if (any(gap > 0)) {
+      ## With delta = p - 1, A' delta is the change in fitted levels.
+      D <- diag(n)
+      if (distance == "fits") D <- tcrossprod(A) + sqrt(.Machine$double.eps) * D
+      qp.message <- paste("Could not satisfy the selected production constraints.",
+                          "Try a larger bandwidth, another kernel, or fewer constraints.")
+      delta <- tryCatch(
+        solve.QP(Dmat = D, dvec = numeric(n), Amat = Amat, bvec = gap)$solution,
+        error = function(err) stop(qp.message, " (", conditionMessage(err), ")", call. = FALSE))
+      p.hat <- p.u + delta
+      ## Nearly dependent constraints can give a finite but infeasible solution.
+      achieved <- drop(crossprod(Amat, p.hat))
+      if (any(!is.finite(achieved)) || any(achieved < bounds - 1e-6 * pmax(1, abs(bounds))))
+        stop(qp.message, call. = FALSE)
+    }
   }
-
-  ## Get the solution and estimate the unrestricted and restricted models
-
-  fitted.unres <- drop(H.mean %*% y)
-  fitted.res <- drop(H.mean %*% (y * p.hat))
+  fitted.res <- drop(crossprod(A, p.hat))
 
   ## Plot the unrestricted and restricted models and restricted y
 
@@ -210,13 +146,18 @@ manipulate.plot <- function(n, p, bw, ckertype, constraints, weighted, unweighte
 
 }
 
-manipulate(manipulate.plot(n, p, bw, ckertype, constraints, weighted, unweighted, cv, cv.complexity),
+manipulate(manipulate.plot(n, p, bw, ckertype, constraints, weighted, unweighted, smoothing, distance),
            n = slider(100, 1000, 500, step = 100, label = "Number of observations"),
            p = slider(2, 5, 2, label = "Local Polynomial Order", step = 1, ticks = TRUE),
            bw = slider(0.01, 0.1, 0.04, step = 0.01, label = "Bandwidth"),
            constraints = picker("none", "g'(x)>=0, g''(x)<=0, y<=g(x)", "g''(x)<=0, y<=g(x)", "g'(x)>=0, y<=g(x)", "y<=g(x)", "g'(x)>=0, g''(x)<=0", "g''(x)<=0", "g'(x)>=0"),
            ckertype = picker("gaussian", "epanechnikov", "uniform", label = "Kernel function"),
-           weighted = checkbox(FALSE, "Show weighted Y"),
+           distance = picker("Weight deviation" = "weights",
+                             "Fit deviation (regularized)" = "fits",
+                             label = "Objective"),
+           smoothing = picker("Manual" = "manual",
+                              "Cross-validate bandwidth" = "bandwidth",
+                              "Cross-validate bandwidth and degree" = "joint",
+                              label = "Smoothing parameter selection"),
            unweighted = checkbox(TRUE, "Show unweighted Y"),
-           cv = checkbox(FALSE, "Cross-validate smoothing parameters"),
-           cv.complexity = picker("bandwidth", "degree-bandwidth", label = "Cross-validate target"))
+           weighted = checkbox(FALSE, "Show weighted Y"))

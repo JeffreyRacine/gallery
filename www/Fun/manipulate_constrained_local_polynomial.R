@@ -1,5 +1,5 @@
 ## Explore bounded local-polynomial regression while varying the
-## bandwidth, signal frequency, sample size, and constraint bounds.
+## bandwidth, sample size, constraint bounds, and distance criterion.
 ## The estimator follows Du, Parmeter and Racine (2013), Statistica Sinica.
 
 library(manipulate)
@@ -9,7 +9,7 @@ options(np.tree = "auto")
 ## Use TRUE/FALSE only when assessing the impact for this problem.
 library(quadprog)
 
-build_manual_lp_bw <- function(formula, data, degree, bw, ckertype) {
+build_fixed_degree_bw <- function(formula, data, degree, bw, ckertype) {
   npregbw(formula,
     data = data,
     regtype = "lp",
@@ -17,7 +17,7 @@ build_manual_lp_bw <- function(formula, data, degree, bw, ckertype) {
     degree.select = "manual",
     bernstein.basis = TRUE,
     ckertype = ckertype,
-    bandwidth.compute = FALSE,
+    bandwidth.compute = is.null(bw),
     bws = bw)
 }
 
@@ -39,9 +39,10 @@ build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.ma
 }
 
 ## Expose the estimator and constraint controls in an interactive panel.
-manipulate.plot <- function(n, dgp.frequency, p, gradient, bw, ckertype, lower, upper, weighted, cv) {
+manipulate.plot <- function(n, dgp.frequency, p, gradient, bw, ckertype, lower, upper, weighted, smoothing, distance = "weights") {
 
-  if (!cv && gradient > p) stop(" order of polynomial < gradient specified")
+  if (smoothing != "joint" && gradient > p)
+    stop("Choose a polynomial degree at least as large as the derivative order.")
 
   if (lower > upper) {
     lower <- upper - 0.01
@@ -61,24 +62,23 @@ manipulate.plot <- function(n, dgp.frequency, p, gradient, bw, ckertype, lower, 
   y <- dgp(x) + rnorm(n, sd = .5)
   lp.data <- data.frame(y = y, x = x)
 
-  if (cv) {
+  if (smoothing == "joint") {
     lp.bw <- build_nomad_lp_bw(formula = y ~ x,
       data = lp.data,
       degree.start = max(p, gradient),
       degree.min = gradient,
       degree.max = 5L,
       ckertype = ckertype)
-    bw <- lp.bw$bw[1L]
-    p <- as.integer(lp.bw$degree[1L])
   } else {
-    lp.bw <- build_manual_lp_bw(formula = y ~ x,
+    lp.bw <- build_fixed_degree_bw(formula = y ~ x,
       data = lp.data,
       degree = p,
-      bw = bw,
+      bw = if (smoothing == "manual") bw else NULL,
       ckertype = ckertype)
   }
 
-  if (gradient > p) stop(" order of polynomial < gradient specified")
+  bw <- lp.bw$bw[1L]
+  p <- as.integer(lp.bw$degree[1L])
 
   plot(x, y,
     cex = 0.2,
@@ -100,73 +100,35 @@ manipulate.plot <- function(n, dgp.frequency, p, gradient, bw, ckertype, lower, 
     abline(h = upper, lty = 2, col = 1)
   }
 
-  ## Estimate the unrestricted model
-
-  H.mean <- npreghat(bws = lp.bw,
-    txdat = data.frame(x = x),
-    output = "matrix")
-
-  H.object <- if (any(gradient > 0)) {
-    npreghat(bws = lp.bw,
-      txdat = data.frame(x = x),
-      output = "matrix",
-      s = as.integer(gradient))
-  } else {
-    H.mean
-  }
-
-  ## Use the helper to obtain the QP matrix t(H) * y directly.
+  ## Each column gives the response-weighted coefficients at one observed x.
+  ## Transposing A.fit maps weights to fitted levels; A supplies the constraints.
   p.u <- rep(1, n)
-  A <- if (any(gradient > 0)) {
-    npreghat(bws = lp.bw,
-      txdat = data.frame(x = x),
-      y = y,
-      output = "constraint",
-      s = as.integer(gradient))
-  } else {
-    npreghat(bws = lp.bw,
-      txdat = data.frame(x = x),
-      y = y,
-      output = "constraint")
-  }
+  A.fit <- npreghat(bws = lp.bw, txdat = lp.data["x"], y = y,
+    output = "constraint")
+  A <- if (gradient == 0) A.fit else
+    npreghat(bws = lp.bw, txdat = lp.data["x"], y = y,
+      output = "constraint", s = as.integer(gradient))
 
-  ## Compute the unrestricted model/object being constrained
-
-  object.unres <- drop(H.object %*% y)
-  fitted.unres <- drop(H.mean %*% y)
-
-  ## Solve the quadratic programming problem. We branch to avoid
-  ## imposing nonbinding constraints (solve.QP will handle these cases
-  ## but it imposes unnecessary (slack) variables).
-
-  if (all(object.unres >= lower & object.unres <= upper)) {
-    p.hat <- p.u
-  } else if (all(object.unres >= lower)) {
-    QP.output <- solve.QP(Dmat = diag(n),
-      dvec = rep(1, n),
-      Amat = cbind(-A),
-      bvec = c(-rep(upper, n)))
-    if (is.nan(QP.output$value)) stop(" solve.QP failed. Try smoother curve (larger bandwidths or polynomial order)")
-    p.hat <- QP.output$solution
-  } else if (all(object.unres <= upper)) {
-    QP.output <- solve.QP(Dmat = diag(n),
-      dvec = rep(1, n),
-      Amat = cbind(A),
-      bvec = c(rep(lower, n)))
-    if (is.nan(QP.output$value)) stop(" solve.QP failed. Try smoother curve (larger bandwidths or polynomial order)")
-    p.hat <- QP.output$solution
-  } else {
-    QP.output <- solve.QP(Dmat = diag(n),
-      dvec = rep(1, n),
+  fitted.unres <- drop(crossprod(A.fit, p.u))
+  object.unres <- drop(crossprod(A, p.u))
+  p.hat <- p.u
+  if (any(object.unres < lower | object.unres > upper)) {
+    ## With delta = p - p.u, the two distances are sums of squared changes
+    ## in the response weights or in the fitted levels at the observed x.
+    D <- diag(n)
+    if (distance == "fits") {
+      ## As in the Moment slides, add a small squared-weight penalty:
+      ## the fit Gram matrix can be singular and solve.QP requires PD.
+      D <- tcrossprod(A.fit) + sqrt(.Machine$double.eps) * D
+    }
+    ## Retain both bounds: satisfying one can make the other bind.
+    delta <- solve.QP(Dmat = D, dvec = numeric(n),
       Amat = cbind(A, -A),
-      bvec = c(rep(lower, n), -rep(upper, n)))
-    if (is.nan(QP.output$value)) stop(" solve.QP failed. Try smoother curve (larger bandwidths or polynomial order)")
-    p.hat <- QP.output$solution
+      bvec = c(lower - object.unres, object.unres - upper))$solution
+    p.hat <- p.u + delta
   }
 
-  ## Compute the restricted model
-
-  fitted.res <- drop(H.mean %*% (y * p.hat))
+  fitted.res <- drop(crossprod(A.fit, p.hat))
 
   ## Plot the unrestricted and restricted models and restricted y
 
@@ -186,14 +148,20 @@ manipulate.plot <- function(n, dgp.frequency, p, gradient, bw, ckertype, lower, 
 
 }
 
-manipulate(manipulate.plot(n, dgp.frequency, p, gradient, bw, ckertype, lower, upper, weighted, cv),
+manipulate(manipulate.plot(n, dgp.frequency, p, gradient, bw, ckertype, lower, upper, weighted, smoothing, distance),
            n = slider(100, 1000, 500, step = 100, label = "Number of observations"),
            dgp.frequency = slider(1, 4, 2, label = "DGP frequency (a*pi*x)", step = 1, ticks = TRUE),
            p = slider(0, 5, 1, label = "Local Polynomial Order", step = 1, ticks = TRUE),
            gradient = picker(0, 1, 2, label = "s (order of derivative)"),
-           ckertype = picker("epanechnikov", "gaussian", "uniform", label = "Kernel function"),
+           ckertype = picker("gaussian", "epanechnikov", "uniform", label = "Kernel function"),
            bw = slider(0.01, 0.1, 0.04, step = 0.01, label = "Bandwidth"),
            lower = slider(-10, 10, -1.5, step = 0.5, label = "Lower bound"),
            upper = slider(-10, 10, 1.5, step = 0.5, label = "Upper bound"),
-           weighted = checkbox(FALSE, "Show weighted Y"),
-           cv = checkbox(FALSE, "Cross-validate smoothing parameters"))
+           distance = picker("Weight deviation" = "weights",
+                             "Fit deviation (regularized)" = "fits",
+                             label = "Objective"),
+           smoothing = picker("Manual" = "manual",
+                              "Cross-validate bandwidth" = "bandwidth",
+                              "Cross-validate bandwidth and degree" = "joint",
+                              label = "Smoothing parameter selection"),
+           weighted = checkbox(FALSE, "Show weighted Y"))

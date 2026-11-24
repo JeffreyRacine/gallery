@@ -2446,7 +2446,7 @@
     "href": "interactive.html#density-and-distribution-demos",
     "title": "Interactive Demos",
     "section": "Density and distribution demos",
-    "text": "Density and distribution demos\n\nUnivariate density with bandwidth, kernel, and sample-size controls: manipulate_density.R\nOld Faithful univariate density: manipulate_eruptions.R\nUnivariate distribution function: manipulate_distribution.R\nBivariate density: manipulate_bivariate_density.R\nOld Faithful bivariate density: manipulate_faithful_density.R\nBivariate distribution function: manipulate_bivariate_distribution.R",
+    "text": "Density and distribution demos\n\nUnivariate density with bandwidth, kernel, and sample-size controls: manipulate_density.R\nCompare a Gaussian kernel density estimate with one subject to bounds, monotonicity, curvature, or log-curvature. The second panel shows the derivative used for each shape restriction. Constrained density demo\nOld Faithful univariate density: manipulate_eruptions.R\nUnivariate distribution function: manipulate_distribution.R\nBivariate density: manipulate_bivariate_density.R\nOld Faithful bivariate density: manipulate_faithful_density.R\nBivariate distribution function: manipulate_bivariate_distribution.R",
     "crumbs": [
       "Examples",
       "Interactive Demos"
@@ -2457,7 +2457,7 @@
     "href": "interactive.html#regression-and-shape-restriction-demos",
     "title": "Interactive Demos",
     "section": "Regression and shape-restriction demos",
-    "text": "Regression and shape-restriction demos\n\nMultivariate regression partial plots: manipulate_wage1.R\nConstrained local polynomial regression: manipulate_constrained_local_polynomial.R\nConstrained production function example: manipulate_constrained_local_polynomial_production.R\nConstrained spline illustrations: manipulate_constrained_spline.R, manipulate_constrained_spline_derivative.R",
+    "text": "Regression and shape-restriction demos\n\nMultivariate regression partial plots: manipulate_wage1.R\nBound the level, slope, or curvature of a local polynomial fit to a sine curve. Compare minimizing changes in fitted values with minimizing changes in response weights. Constrained local polynomial demo\nFit a single-index model and impose a nonnegative link slope on the constraint grid. Compare the link and slope side by side as you change the kernel, polynomial degree, or bandwidth. Isotonic single-index demo\nExplore how monotonicity, concavity, and a frontier above the observations change the estimated production function. Constrained production function demo\nConstrained spline illustrations: manipulate_constrained_spline.R, manipulate_constrained_spline_derivative.R",
     "crumbs": [
       "Examples",
       "Interactive Demos"
