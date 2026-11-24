@@ -35,29 +35,22 @@ manipulate.plot <- function(neval, sf.x, sf.y, ckertype, ckerorder, theta, cv) {
   x.eval <- seq(min(x) - sd(x), max(x) + sd(x), length.out = neval)
   y.eval <- seq(min(y) - sd(y), max(y) + sd(y), length.out = neval)
 
-  bws <- c(sf.x * np:::EssDee(x) * n^(-1 / (2 * ckerorder + 2)),
-           sf.y * np:::EssDee(y) * n^(-1 / (2 * ckerorder + 2)))
-
-  f.grid <- matrix(npksum(txdat = data.frame(x, y),
-                          exdat = expand.grid(x.eval, y.eval),
-                          bws = bws,
-                          bandwidth.divide = TRUE,
-                          ckertype = ckertype,
-                          ckerorder = ckerorder)$ksum / n,
-                   neval, neval)
-
-  if (cv) {
-    bw <- npudensbw(~ x + y, ckertype = ckertype, ckerorder = ckerorder)
-    sf.x <- bw$sfactor$x[1]
-    sf.y <- bw$sfactor$x[2]
+  bw <- if (cv) {
+    npudensbw(~ eruptions + waiting, data = faithful,
+              ckertype = ckertype, ckerorder = ckerorder)
+  } else {
+    npudensbw(~ eruptions + waiting, data = faithful,
+              ckertype = ckertype, ckerorder = ckerorder,
+              bandwidth.compute = FALSE, bwscaling = TRUE, bws = c(sf.x, sf.y))
   }
 
+  grid <- expand.grid(eruptions = x.eval, waiting = y.eval)
+  f.grid <- matrix(fitted(npudens(bws = bw, tdat = faithful, edat = grid)), neval, neval)
+  h <- bw$bandwidth$x
+
   persp(x.eval, y.eval, f.grid,
-        sub = paste("h.eruptions = ",
-          formatC(sf.x * sd(x) * n^(-1 / (2 * ckerorder + 2)), format = "f", digits = 2),
-          ", h.waiting = ",
-          formatC(sf.y * sd(y) * n^(-1 / (2 * ckerorder + 2)), format = "f", digits = 2),
-          ", n = ", n, sep = ""),
+        sub = sprintf("%s bandwidths (h.eruptions = %.3g, h.waiting = %.3g), n = %d",
+                      if (cv) "CV" else "Manual", h[1], h[2], n),
         theta = theta,
         phi = 30,
         ylab = "waiting",
@@ -75,7 +68,7 @@ manipulate(manipulate.plot(neval, sf.x, sf.y, ckertype, ckerorder, theta, cv),
            neval = slider(25, 150, 50, step = 25, label = "Evaluation points per axis"),
            ckertype = picker("gaussian", "epanechnikov", "uniform", label = "Kernel function"),
            ckerorder = picker(2, 4, 6, 8, label = "Kernel order"),
-           sf.x = slider(0.1, 2.5, 1, label = "Scale factor for x", step = 0.1, ticks = TRUE),
-           sf.y = slider(0.1, 2.5, 1, label = "Scale factor for y", step = 0.1, ticks = TRUE),
+           sf.x = slider(0.1, 2.5, 1, label = "Manual scale factor for eruptions", step = 0.1, ticks = TRUE),
+           sf.y = slider(0.1, 2.5, 1, label = "Manual scale factor for waiting", step = 0.1, ticks = TRUE),
            theta = slider(0, 360, 0, label = "Azimuthal viewing direction", step = 15, ticks = TRUE),
            cv = checkbox(FALSE, "Cross-validate smoothing parameters"))
