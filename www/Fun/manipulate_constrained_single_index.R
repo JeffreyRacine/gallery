@@ -3,15 +3,15 @@
 ## drug interactions", Statistics in Medicine 36, 655–670. doi:10.1002/sim.7158
 ## Their response function supplies the DGP. Here the link is estimated with
 ## npindex() and constrained by reweighting the responses on the fitted index.
-## The default reproduces the slide's Gaussian local-constant fit with a
-## cross-validated bandwidth and nonnegative slopes on the constraint grid.
+## Start with a Gaussian local-constant fit and a manual bandwidth. Select
+## "Cross-validate bandwidth" for the bandwidth selection used in the slides.
 library(manipulate)
 library(np)
 library(quadprog)
 
 isotonic_index_demo <- function(n, noise, n.grid, distance, view, weighted,
                                 kernel = "gaussian", degree = 0L, bandwidth = .3,
-                                smoothing = "bandwidth") {
+                                smoothing = "manual") {
   set.seed(42)
   X <- data.frame(x1 = runif(n), x2 = runif(n))
   t.true <- X$x1 + X$x2
@@ -130,7 +130,7 @@ manipulate(
                     label = "Objective"),
   smoothing = picker("Manual" = "manual", "Cross-validate bandwidth" = "bandwidth",
                      "Cross-validate bandwidth and degree" = "joint",
-                     initial = "Cross-validate bandwidth", label = "Smoothing parameter selection"),
+                     label = "Smoothing parameter selection"),
   view = picker("Link and derivative" = "both", "Link" = "link", "Derivative" = "slope",
                 label = "Display"),
   weighted = checkbox(FALSE, "Show weighted Y"))
