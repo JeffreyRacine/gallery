@@ -102,7 +102,7 @@ manipulate(
                    "Beta(0.75, 0.75) — convex" = "convex",
                    "Normal — log-concave" = "log-concave",
                    "Beta(0.75, 0.75) — log-convex" = "log-convex", label = "Example"),
-  n = slider(50, 200, initial = 100, step = 25, label = "Observations"),
+  n = slider(100, 1000, initial = 500, step = 100, label = "Observations"),
   smoothing = picker("Manual" = "manual", "Cross-validate bandwidth" = "cv",
                      label = "Bandwidth selection"),
   scale = slider(.2, 1, initial = .25, step = .05, label = "Manual bandwidth (sample SDs)"),

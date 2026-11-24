@@ -120,7 +120,7 @@ isotonic_index_demo <- function(n, noise, n.grid, distance, view, weighted,
 
 manipulate(
   isotonic_index_demo(n, noise, n.grid, distance, view, weighted, kernel, degree, bandwidth, smoothing),
-  n = slider(50, 200, initial = 100, step = 25, label = "Observations"),
+  n = slider(100, 1000, initial = 500, step = 100, label = "Observations"),
   noise = slider(.25, 1.5, initial = 1, step = .25, label = "Noise SD relative to signal SD"),
   kernel = picker("gaussian", "epanechnikov", "uniform", label = "Kernel function"),
   degree = slider(0, 5, initial = 0, step = 1, label = "Local polynomial degree"),
