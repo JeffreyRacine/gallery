@@ -76,7 +76,7 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency,
   legend("topleft", c("Population", "Unrestricted", "Constrained", if (weighted) "Weighted Y"),
          col = c("black", "steelblue4", "firebrick3", if (weighted) "darkorange2"),
          lty = c(1, 2, 4, if (weighted) NA), lwd = c(1, 2, 2, if (weighted) NA),
-         pch = c(NA_integer_, NA_integer_, NA_integer_, if (weighted) 1L), cex = .7, bty = "n")
+         pch = c(NA_integer_, NA_integer_, NA_integer_, if (weighted) 1L), cex = .7, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA)
 
   if (deriv.order > 0L) {
     deriv.truth <- if (deriv.order == 1L) omega * cos(omega * x) / scale else -omega^2 * truth
@@ -85,6 +85,9 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency,
     abline(h = guides, lty = 3, col = "grey50")
     lines(x, unrestricted, col = "steelblue4", lty = 2, lwd = 2)
     lines(x, restricted, col = "firebrick3", lty = 4, lwd = 2)
+    legend("topright", c(paste("True", tolower(quantity)), "Unrestricted", "Constrained"),
+           col = c("black", "steelblue4", "firebrick3"), lty = c(1, 2, 4), lwd = c(1, 2, 2),
+           cex = .7, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA)
   }
   mtext(sprintf("%s bounds [%g, %g] at observed x  |  Degree %d, segments %d, n = %d",
                 quantity, lower, upper, model$degree, model$segments, n),

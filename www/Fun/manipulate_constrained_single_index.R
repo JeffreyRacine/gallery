@@ -15,7 +15,8 @@ isotonic_index_demo <- function(n, noise, n.grid, distance, view, weighted,
   set.seed(42)
   X <- data.frame(x1 = runif(n), x2 = runif(n))
   t.true <- X$x1 + X$x2
-  mu <- 100 * t.true / (1 + t.true)
+  link <- function(t) 100 * t / (1 + t)
+  mu <- link(t.true)
   y <- mu + rnorm(n, sd = noise * sd(mu))
 
   ## All three modes estimate beta. In manual mode np converts the scale factor
@@ -84,6 +85,13 @@ isotonic_index_demo <- function(n, noise, n.grid, distance, view, weighted,
       (check.increments && min(diff(fit)) < -1e-6))
     stop("The fit failed the isotonic check on the constraint grid. Try a wider bandwidth.")
 
+  ## Both indices normalize the coefficient of x1 to one. Compare the links
+  ## at the same numerical argument t. The population index x1 + x2 has
+  ## support [0, 2]; the observations and estimates use the fitted index.
+  t.population <- seq(0, 2, length.out = 401)
+  link.population <- link(t.population)
+  slope.population <- 100 / (1 + t.population)^2
+  index.limits <- range(grid, t.population)
   old.par <- par(no.readonly = TRUE)
   on.exit(par(old.par), add = TRUE)
   par(mfrow = c(1, if (view == "both") 2 else 1), mar = c(3.8, 4.1, 2.3, .9),
@@ -91,25 +99,27 @@ isotonic_index_demo <- function(n, noise, n.grid, distance, view, weighted,
   if (view != "slope") {
     y.weighted <- if (weighted) y * p
     plot(index, y, pch = 16, cex = .45, col = "grey65",
-         ylim = range(y, fit, free, y.weighted), main = "Single-index link",
-         xlab = "Fitted index", ylab = "Response")
+         xlim = index.limits, ylim = range(y, fit, free, y.weighted, link.population), main = "Single-index link",
+         xlab = "Index t (points use fitted index)", ylab = "Response")
     if (weighted) points(index, y.weighted, col = "darkorange2", cex = .55)
-    lines(grid, free, col = "steelblue4", lwd = 2)
-    lines(grid, fit, col = "firebrick3", lty = 2, lwd = 2)
-    legend("topleft", c("Unrestricted", "Constrained", if (weighted) "Weighted Y"),
-           col = c("steelblue4", "firebrick3", if (weighted) "darkorange2"),
-           lty = c(1, 2, if (weighted) NA), pch = c(NA_integer_, NA_integer_, if (weighted) 1L),
-           lwd = 2, bty = "n", cex = .75)
+    lines(t.population, link.population, col = "black", lwd = 2)
+    lines(grid, free, col = "steelblue4", lty = 2, lwd = 2)
+    lines(grid, fit, col = "firebrick3", lty = 4, lwd = 2)
+    legend("topleft", c("True link", "Unrestricted", "Constrained", if (weighted) "Weighted Y"),
+           col = c("black", "steelblue4", "firebrick3", if (weighted) "darkorange2"),
+           lty = c(1, 2, 4, if (weighted) NA), pch = c(NA_integer_, NA_integer_, NA_integer_, if (weighted) 1L),
+           lwd = 2, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA, cex = .75)
   }
   if (view != "link") {
-    plot(grid, slope.free, type = "l", col = "steelblue4", lwd = 2,
-         ylim = range(0, slope, slope.free),
+    plot(t.population, slope.population, type = "l", lwd = 2, xlim = index.limits,
+         ylim = range(0, slope, slope.free, slope.population),
          main = if (kernel == "uniform" && degree == 0L) "Slope within steps" else "Estimated link slope",
-         xlab = "Fitted index", ylab = "Slope")
+         xlab = "Index value (t)", ylab = "Slope")
     abline(h = 0, lty = 3, col = "grey45")
-    lines(grid, slope, col = "firebrick3", lty = 2, lwd = 2)
-    legend("topright", c("Unrestricted", "Constrained"), col = c("steelblue4", "firebrick3"),
-           lty = 1:2, lwd = 2, bty = "n", cex = .75)
+    lines(grid, slope.free, col = "steelblue4", lty = 2, lwd = 2)
+    lines(grid, slope, col = "firebrick3", lty = 4, lwd = 2)
+    legend("topright", c("True slope", "Unrestricted", "Constrained"), col = c("black", "steelblue4", "firebrick3"),
+           lty = c(1, 2, 4), lwd = 2, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA, cex = .75)
   }
   subtitle <- sprintf("%s kernel, degree %d, h = %.3g, beta = (1, %.3f)",
                       kernel, degree, bw$bw[1L], coef(model)[2L])

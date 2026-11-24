@@ -521,12 +521,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="density-and-distribution-demos">Density and distribution demos</h2>
 <ul>
 <li>Univariate density with bandwidth, kernel, and sample-size controls: <a href="www/Fun/manipulate_density.R">manipulate_density.R</a></li>
-<li>Gaussian kernel density with bounds, monotonicity, curvature, or log-curvature, with a derivative panel for shape restrictions: <a href="www/Fun/manipulate_constrained_density.R">manipulate_constrained_density.R</a></li>
+<li>Gaussian kernel density with bounds, monotonicity, curvature, or log-curvature, with the corresponding population derivative: <a href="www/Fun/manipulate_constrained_density.R">manipulate_constrained_density.R</a></li>
 <li>Old Faithful univariate density: <a href="www/Fun/manipulate_eruptions.R">manipulate_eruptions.R</a></li>
 <li>Univariate distribution function: <a href="www/Fun/manipulate_distribution.R">manipulate_distribution.R</a></li>
-<li>Bivariate density: <a href="www/Fun/manipulate_bivariate_density.R">manipulate_bivariate_density.R</a></li>
+<li>Bivariate kernel density with a Gaussian population surface: <a href="www/Fun/manipulate_bivariate_density.R">manipulate_bivariate_density.R</a></li>
 <li>Old Faithful bivariate density: <a href="www/Fun/manipulate_faithful_density.R">manipulate_faithful_density.R</a></li>
-<li>Bivariate distribution function: <a href="www/Fun/manipulate_bivariate_distribution.R">manipulate_bivariate_distribution.R</a></li>
+<li>Bivariate kernel distribution with a Gaussian population CDF: <a href="www/Fun/manipulate_bivariate_distribution.R">manipulate_bivariate_distribution.R</a></li>
 </ul>
 </section>
 <section id="regression-and-shape-restriction-demos" class="level2">
@@ -534,8 +534,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Multivariate regression partial plots: <a href="www/Fun/manipulate_wage1.R">manipulate_wage1.R</a></li>
 <li>Local polynomial fit to a sine curve with level, slope, or curvature bounds and a choice of fit or weight deviation: <a href="www/Fun/manipulate_constrained_local_polynomial.R">manipulate_constrained_local_polynomial.R</a></li>
-<li>Isotonic single-index regression with a nonnegative slope on the constraint grid and side-by-side plots of the link and its slope: <a href="www/Fun/manipulate_constrained_single_index.R">manipulate_constrained_single_index.R</a></li>
-<li>Production function with monotonicity, concavity, and frontier constraints: <a href="www/Fun/manipulate_constrained_local_polynomial_production.R">manipulate_constrained_local_polynomial_production.R</a></li>
+<li>Isotonic single-index regression with a nonnegative slope on the constraint grid and the true link and slope for comparison: <a href="www/Fun/manipulate_constrained_single_index.R">manipulate_constrained_single_index.R</a></li>
+<li>Constrained production function with plots of the frontier, its slope, and its curvature: <a href="www/Fun/manipulate_constrained_local_polynomial_production.R">manipulate_constrained_local_polynomial_production.R</a></li>
 <li>Regression spline with bounds on the level, slope, or curvature at the observed points: <a href="www/Fun/manipulate_constrained_spline.R">manipulate_constrained_spline.R</a></li>
 <li>Regression spline with bounds on its first or second derivative: <a href="www/Fun/manipulate_constrained_spline_derivative.R">manipulate_constrained_spline_derivative.R</a></li>
 </ul>

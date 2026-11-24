@@ -57,11 +57,11 @@ manipulate.plot <- function(n, dgp.frequency, p, gradient, sf, ckertype, lower, 
   set.seed(42)
 
   x <- sort(runif(n))
-  dgp <- function(x) {
-    signal <- sin(dgp.frequency * pi * x)
-    signal / sd(signal)
-  }
-  y <- dgp(x) + rnorm(n, sd = .5)
+  omega <- dgp.frequency * pi
+  signal <- sin(omega * x)
+  signal.sd <- sd(signal)
+  truth <- signal / signal.sd
+  y <- truth + rnorm(n, sd = .5)
   lp.data <- data.frame(y = y, x = x)
 
   if (smoothing == "joint") {
@@ -81,26 +81,6 @@ manipulate.plot <- function(n, dgp.frequency, p, gradient, sf, ckertype, lower, 
 
   bw <- lp.bw$bandwidth$x[1L]
   p <- as.integer(lp.bw$degree[1L])
-
-  plot(x, y,
-    cex = 0.2,
-    col = "black",
-    ylab = "Y",
-    xlab = "X",
-    main = "Constrained Local Polynomial Regression",
-    sub = paste("Bandwidth = ", format(bw, digits = 3, format = "f"),
-      ", polynomial order = ", p,
-      ", n = ", n,
-      ", upper = ", formatC(upper, format = "f", digits = 1),
-      ", lower = ", formatC(lower, format = "f", digits = 1),
-      sep = ""))
-
-  lines(x, dgp(x), lty = 1, col = 1)
-
-  if (gradient == 0) {
-    abline(h = lower, lty = 2, col = 1)
-    abline(h = upper, lty = 2, col = 1)
-  }
 
   ## Each column gives the response-weighted coefficients at one observed x.
   ## Transposing A.fit maps weights to fitted levels; A supplies the constraints.
@@ -132,21 +112,40 @@ manipulate.plot <- function(n, dgp.frequency, p, gradient, sf, ckertype, lower, 
 
   fitted.res <- drop(crossprod(A.fit, p.hat))
 
-  ## Plot the unrestricted and restricted models and restricted y
+  old.par <- par(no.readonly = TRUE)
+  on.exit(par(old.par), add = TRUE)
+  par(mfrow = c(1, if (gradient > 0) 2 else 1), mar = c(3.7, 4, 2.3, .8),
+      oma = c(1.7, 0, 0, 0), mgp = c(2.2, .7, 0))
+  guides <- c(lower, upper)
+  plot(x, y, pch = 16, cex = .35, col = "grey65",
+       xlab = "X", ylab = "Y", main = "Local polynomial regression",
+       ylim = range(y, truth, fitted.res, fitted.unres, if (weighted) y * p.hat,
+                    if (gradient == 0) guides))
+  if (gradient == 0) abline(h = guides, lty = 3, col = "grey50")
+  if (weighted) points(x, y * p.hat, col = "darkorange2", cex = .45)
+  lines(x, truth)
+  lines(x, fitted.unres, lty = 2, col = "steelblue4", lwd = 2)
+  lines(x, fitted.res, lty = 4, col = "firebrick3", lwd = 2)
+  legend("topleft", c("True mean", "Unrestricted", "Constrained", if (weighted) "Weighted Y"),
+         col = c("black", "steelblue4", "firebrick3", if (weighted) "darkorange2"),
+         lty = c(1, 2, 4, if (weighted) NA), lwd = c(1, 2, 2, if (weighted) NA),
+         pch = c(NA_integer_, NA_integer_, NA_integer_, if (weighted) 1L), cex = .7, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA)
 
-  lines(x, fitted.unres, lty = 2, col = 2, lwd = 2)
-  lines(x, fitted.res, col = 4, lty = 4, lwd = 3)
-
-  if (weighted) points(x, y * p.hat, col = "orange", cex = 0.35)
-
-  legend("topleft",
-    c(paste("DGP: sin(", dgp.frequency, "*pi*x)", sep = ""), "Unconstrained Estimate", "Constrained Estimate", "Weighted Y", "Actual Y"),
-    col = c(1, 2, 4, "orange", "black"),
-    lwd = c(1, 2, 3, NA, NA),
-    lty = c(1, 2, 4, NA, NA),
-    pch = c(NA, NA, NA, 1, 1),
-    cex = 0.75,
-    bty = "n")
+  if (gradient > 0) {
+    quantity <- if (gradient == 1) "Slope" else "Curvature"
+    deriv.truth <- if (gradient == 1) omega * cos(omega * x) / signal.sd else -omega^2 * truth
+    deriv.res <- drop(crossprod(A, p.hat))
+    plot(x, deriv.truth, type = "l", xlab = "X", ylab = quantity,
+         main = paste(quantity, "bounds"), ylim = range(deriv.truth, object.unres, deriv.res, guides))
+    abline(h = guides, lty = 3, col = "grey50")
+    lines(x, object.unres, col = "steelblue4", lty = 2, lwd = 2)
+    lines(x, deriv.res, col = "firebrick3", lty = 4, lwd = 2)
+    legend("topright", c(paste("True", tolower(quantity)), "Unrestricted", "Constrained"),
+           col = c("black", "steelblue4", "firebrick3"), lty = c(1, 2, 4),
+           lwd = c(1, 2, 2), cex = .7, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA)
+  }
+  mtext(sprintf("h = %.3g, degree = %d, n = %d, bounds [%g, %g]", bw, p, n, lower, upper),
+        side = 1, outer = TRUE, line = .3, cex = .8)
 
 }
 

@@ -49,7 +49,7 @@ build_nomad_lp_bw <- function(formula, data, degree.start, degree.min, degree.ma
 }
 
 ## Expose the estimator and constraint controls in an interactive panel.
-manipulate.plot <- function(n, p, sf, ckertype, constraints, weighted, unweighted, smoothing, distance) {
+manipulate.plot <- function(n, p, sf, ckertype, constraints, weighted, unweighted, smoothing, distance, view = "frontier") {
 
   set.seed(42)
   npseed(42)
@@ -70,29 +70,19 @@ manipulate.plot <- function(n, p, sf, ckertype, constraints, weighted, unweighte
   bw <- lp.bw$bandwidth$x[1L]
   p <- as.integer(lp.bw$degree[1L])
 
-  plot(x, dgp(x),
-       ylab = "Y",
-       xlab = "X",
-       main = "Constrained Local Polynomial Regression",
-       sub = paste("Bandwidth = ", format(bw, digits = 3, format = "f"),
-         ", polynomial order = ", p,
-         ", n = ", n,
-         sep = ""),
-       type = "l",
-       lty = 1,
-       col = 1)
-
-  if (unweighted) points(x, y, col = 1, cex = 0.2)
-
   ## Each column maps response weights to the level at one observed x.
   A <- npreghat(bws = lp.bw, txdat = lp.data["x"], y = y, output = "constraint")
   p.u <- rep(1, n)
   p.hat <- p.u
   fitted.unres <- drop(crossprod(A, p.u))
 
+  active <- strsplit(constraints, ", ", fixed = TRUE)[[1L]]
+  if ("g'(x)>=0" %in% active || view == "slope")
+    slope.op <- npreghat(bws = lp.bw, txdat = lp.data["x"], y = y, output = "constraint", s = 1L)
+  if ("g''(x)<=0" %in% active || view == "curvature")
+    curvature.op <- npreghat(bws = lp.bw, txdat = lp.data["x"], y = y, output = "constraint", s = 2L)
   if (constraints != "none") {
     ## Assemble only the selected restrictions. All are written as lower bounds.
-    active <- strsplit(constraints, ", ", fixed = TRUE)[[1L]]
     Amat <- list()
     target <- list()
     if ("y<=g(x)" %in% active) {
@@ -100,13 +90,11 @@ manipulate.plot <- function(n, p, sf, ckertype, constraints, weighted, unweighte
       target$frontier <- y
     }
     if ("g'(x)>=0" %in% active) {
-      Amat$slope <- npreghat(bws = lp.bw, txdat = lp.data["x"], y = y,
-        output = "constraint", s = 1L)
+      Amat$slope <- slope.op
       target$slope <- numeric(n)
     }
     if ("g''(x)<=0" %in% active) {
-      Amat$curvature <- -npreghat(bws = lp.bw, txdat = lp.data["x"], y = y,
-        output = "constraint", s = 2L)
+      Amat$curvature <- -curvature.op
       target$curvature <- numeric(n)
     }
     Amat <- do.call(cbind, Amat)
@@ -130,25 +118,51 @@ manipulate.plot <- function(n, p, sf, ckertype, constraints, weighted, unweighte
   }
   fitted.res <- drop(crossprod(A, p.hat))
 
-  ## Plot the unrestricted and restricted models and restricted y
-
-  lines(x, fitted.unres, lty = 2, col = 2, lwd = 2)
-  lines(x, fitted.res, col = 4, lty = 4, lwd = 3)
-
-  if (weighted) points(x, y * p.hat, col = "orange", cex = 0.35)
-
-  legend("topleft",
-         c("DGP", "Unconstrained Estimate", "Constrained Estimate", "Weighted Y", "Actual Y"),
-         col = c(1, 2, 4, "orange", "black"),
-         lwd = c(1, 2, 3, NA, NA),
-         lty = c(1, 2, 4, NA, NA),
-         pch = c(NA, NA, NA, 1, 1),
-         cex = 0.75,
-         bty = "n")
+  ## The generating frontier is sqrt(x). The one-sided noise moves the
+  ## conditional mean below it; the reference in each view is the frontier.
+  if (view == "frontier") {
+    truth <- dgp(x)
+    unrestricted <- fitted.unres
+    restricted <- fitted.res
+    quantity <- "Frontier"
+  } else {
+    op <- if (view == "slope") slope.op else curvature.op
+    unrestricted <- drop(crossprod(op, p.u))
+    restricted <- drop(crossprod(op, p.hat))
+    truth <- if (view == "slope") 1 / (2 * sqrt(x)) else -1 / (4 * x^(3/2))
+    quantity <- if (view == "slope") "Frontier slope" else "Frontier curvature"
+  }
+  ## The frontier derivatives diverge near zero. Include both full estimates
+  ## and the reference for x >= .05 in the vertical scale.
+  ref.range <- if (view == "frontier") truth else truth[x >= .05]
+  limits <- range(ref.range, unrestricted, restricted, if (view != "frontier") 0,
+                  if (view == "frontier" && unweighted) y,
+                  if (view == "frontier" && weighted) y * p.hat)
+  plot(x, truth, type = "n", xlab = "X", ylab = quantity, ylim = limits,
+       main = paste("Production", tolower(quantity)),
+       sub = sprintf("h = %.3g, degree = %d, n = %d", bw, p, n))
+  if (view != "frontier") abline(h = 0, lty = 3, col = "grey55")
+  show.y <- view == "frontier" && unweighted
+  show.weighted <- view == "frontier" && weighted
+  if (show.y) points(x, y, col = "grey60", cex = .35)
+  if (show.weighted) points(x, y * p.hat, col = "darkorange2", cex = .45)
+  lines(x, truth)
+  lines(x, unrestricted, col = "steelblue4", lty = 2, lwd = 2)
+  lines(x, restricted, col = "firebrick3", lty = 4, lwd = 2)
+  if (any(truth < limits[1] | truth > limits[2]))
+    mtext("True derivative extends beyond the vertical scale near zero", side = 3, line = .1, cex = .7)
+  legend(if (view == "curvature") "bottomright" else "topright",
+         c(paste("True", tolower(quantity)), "Unrestricted", "Constrained",
+           if (show.y) "Observed Y", if (show.weighted) "Weighted Y"),
+         col = c("black", "steelblue4", "firebrick3", if (show.y) "grey60", if (show.weighted) "darkorange2"),
+         lty = c(1, 2, 4, if (show.y) NA, if (show.weighted) NA),
+         lwd = c(1, 2, 2, if (show.y) NA, if (show.weighted) NA),
+         pch = c(NA_integer_, NA_integer_, NA_integer_, if (show.y) 1L, if (show.weighted) 1L),
+         cex = .75, bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA)
 
 }
 
-manipulate(manipulate.plot(n, p, sf, ckertype, constraints, weighted, unweighted, smoothing, distance),
+manipulate(manipulate.plot(n, p, sf, ckertype, constraints, weighted, unweighted, smoothing, distance, view),
            n = slider(100, 1000, 500, step = 100, label = "Number of observations"),
            p = slider(2, 5, 2, label = "Local Polynomial Order", step = 1, ticks = TRUE),
            sf = slider(0.1, 2.5, 0.5, step = 0.1, label = "Manual bandwidth scale factor (x)"),
@@ -161,5 +175,7 @@ manipulate(manipulate.plot(n, p, sf, ckertype, constraints, weighted, unweighted
                               "Cross-validate bandwidth" = "bandwidth",
                               "Cross-validate bandwidth and degree" = "joint",
                               label = "Smoothing parameter selection"),
+           view = picker("Frontier" = "frontier", "Frontier slope" = "slope",
+                         "Frontier curvature" = "curvature", label = "Display"),
            unweighted = checkbox(TRUE, "Show unweighted Y"),
            weighted = checkbox(FALSE, "Show weighted Y"))

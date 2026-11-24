@@ -190,9 +190,9 @@ render_quickstart_callouts(subset(quickstarts, section == "crs"), prefix_package
 | [manipulate_constrained_density.R](www/Fun/manipulate_constrained_density.R) | Shape-constrained Gaussian kernel density | uses `npuniden.sc()` |
 | [manipulate_eruptions.R](www/Fun/manipulate_eruptions.R) | Old Faithful density | RStudio + `manipulate` |
 | [manipulate_distribution.R](www/Fun/manipulate_distribution.R) | Univariate distribution | RStudio + `manipulate` |
-| [manipulate_bivariate_density.R](www/Fun/manipulate_bivariate_density.R) | Bivariate density | RStudio + `manipulate` |
+| [manipulate_bivariate_density.R](www/Fun/manipulate_bivariate_density.R) | Bivariate density | Gaussian population surface |
 | [manipulate_faithful_density.R](www/Fun/manipulate_faithful_density.R) | Old Faithful bivariate density | RStudio + `manipulate` |
-| [manipulate_bivariate_distribution.R](www/Fun/manipulate_bivariate_distribution.R) | Bivariate distribution | RStudio + `manipulate` |
+| [manipulate_bivariate_distribution.R](www/Fun/manipulate_bivariate_distribution.R) | Bivariate distribution | uses `mnormt` for the Gaussian population CDF |
 | [manipulate_wage1.R](www/Fun/manipulate_wage1.R) | Multivariate regression partial plots | RStudio + `manipulate` |
 | [manipulate_constrained_local_polynomial.R](www/Fun/manipulate_constrained_local_polynomial.R) | Constrained local polynomial regression | requires `quadprog` |
 | [manipulate_constrained_single_index.R](www/Fun/manipulate_constrained_single_index.R) | Isotonic single-index regression | requires `quadprog` |

@@ -61,20 +61,25 @@ constrained_density_demo <- function(example, n, smoothing, scale, distance,
   both <- view == "both" && !bounded
   par(mfrow = c(1, if (both) 2 else 1), mar = c(3.8, 4.1, 2.3, .9),
       oma = c(if (length(detail)) 2.8 else 1.6, 0, 0, 0), mgp = c(2.2, .7, 0))
-  draw <- function(raw, restricted, title, ylabel, reference = NULL, guides = NULL) {
-    values <- c(raw, if (solved) restricted, reference, guides)
+  draw <- function(raw, restricted, title, ylabel, reference = NULL, guides = NULL, interior = FALSE) {
+    ## Beta curvature diverges at the endpoints. Keep the fits visible and
+    ## indicate when the population curve runs beyond the displayed range.
+    ref.range <- if (interior) reference[x >= .1 & x <= .9] else reference
+    values <- c(raw, if (solved) restricted, ref.range, guides)
     plot(x, raw, type = "n", main = title, xlab = "x", ylab = ylabel, ylim = range(values))
     if (length(guides)) abline(h = guides, lty = 3, col = "grey55")
     if (length(reference)) lines(x, reference, col = "grey35")
     if (solved) lines(x, restricted, col = "firebrick3", lwd = 2)
     ## Draw the dashed line last so both colours remain visible on overlap.
     lines(x, raw, col = "steelblue4", lty = 2, lwd = 2)
+    if (interior && any(reference > max(values) | reference < min(values)))
+      mtext("Population curve extends beyond the vertical scale", side = 3, line = .1, cex = .65)
     if (show.rug) rug(x, col = "grey65")
     legend(if (example == "mono.incr") "topleft" else "topright",
            c("Unrestricted", if (solved) "Constrained", if (length(reference)) "Population"),
            col = c("steelblue4", if (solved) "firebrick3", if (length(reference)) "grey35"),
            lty = c(2, if (solved) 1, if (length(reference)) 1),
-           lwd = c(2, if (solved) 2, if (length(reference)) 1), bty = "n", cex = .75)
+           lwd = c(2, if (solved) 2, if (length(reference)) 1), bty = "o", bg = grDevices::adjustcolor("white", alpha.f = .9), box.col = NA, cex = .75)
   }
   if (bounded || view != "restriction")
     draw(fit$f, fit$f.sc, if (bounded) "Density bounds on the constraint grid" else "Density",
@@ -85,7 +90,20 @@ constrained_density_demo <- function(example, n, smoothing, scale, distance,
                      "Second derivative")
     title <- if (example %in% c("mono.incr", "convex", "log-convex"))
       "Nonnegative derivative" else "Nonpositive derivative"
-    draw(fit$f.deriv, fit$f.sc.deriv, title, ylabel, guides = 0)
+    ## For a beta density f, f' = f (log f)' and
+    ## f'' = f {[(log f)']^2 + (log f)''}. Use (log f)'' itself for log shape.
+    if (is.null(shape)) {
+      deriv.truth <- if (example == "log-concave") rep(-1, n) else (x^2 - 1) * truth
+    } else {
+      score <- (shape[1] - 1) / x - (shape[2] - 1) / (1 - x)
+      log.curvature <- -(shape[1] - 1) / x^2 - (shape[2] - 1) / (1 - x)^2
+      deriv.truth <- switch(example,
+        mono.incr =, mono.decr = truth * score,
+        convex = truth * (score^2 + log.curvature),
+        `log-convex` = log.curvature)
+    }
+    draw(fit$f.deriv, fit$f.sc.deriv, title, ylabel, deriv.truth, guides = 0,
+         interior = example %in% c("convex", "log-convex"))
   }
   mtext(note, side = 1, outer = TRUE, line = .2, cex = .8)
   if (length(detail)) mtext(paste(detail, collapse = " | "), side = 1, outer = TRUE, line = 1.4, cex = .8)
