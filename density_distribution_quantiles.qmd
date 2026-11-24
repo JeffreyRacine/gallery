@@ -331,8 +331,8 @@ For LP-capable conditional families, the same modern shortcut is now available:
 
 ```r
 ## nomad = "auto" uses exhaustive search for p = 1 and NOMAD otherwise.
-fhat_lp <- npcdens(eruptions ~ waiting, data = dat, nomad = "auto")
-Fhat_lp <- npcdist(eruptions ~ waiting, data = dat, nomad = "auto")
+fhat_lp <- npcdens(eruptions ~ waiting, data = datasets::faithful, nomad = "auto")
+Fhat_lp <- npcdist(eruptions ~ waiting, data = datasets::faithful, nomad = "auto")
 ```
 
 That is the convenience route for automatic local-polynomial degree and
@@ -340,9 +340,9 @@ bandwidth search in a single call. As with regression, it requires the `crs`
 package because NOMAD degree search is provided there.
 
 When the local-polynomial degree is above zero, `proper = TRUE` is also
-available in the `npc*` calls and related plot routes. This enforces proper
-conditional density/distribution output in the practical sense used here:
-non-negative and integrating to one conditional on `x`.
+available in the `npc*` calls and related plot routes. At a fixed `x`, a proper conditional density is nonnegative and integrates
+to one. A proper conditional CDF is nondecreasing in the response and takes
+values in $[0,1]$.
 
 The same local-polynomial extensions now also broaden derivative support across
 the conditional family. In practice, that means conditional density,

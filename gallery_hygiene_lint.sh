@@ -164,8 +164,8 @@ expect_fixed \
 
 expect_fixed \
   "$ROOT/www/np_npRmpi/np_plotting_quickstart.R" \
-  'as.data.frame(plot_data)' \
-  "plotting quickstart exercises the common plot-data schema"
+  'as.data.frame(plot_data, band = "pointwise")' \
+  "plotting quickstart extracts the plotted pointwise intervals"
 
 expect_fixed \
   "$ROOT/plotting_and_intervals.qmd" \

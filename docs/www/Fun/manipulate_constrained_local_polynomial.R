@@ -46,13 +46,8 @@ manipulate.plot <- function(n, dgp.frequency, p, gradient, sf, ckertype, lower, 
   if (smoothing != "joint" && gradient > p)
     stop("Choose a polynomial degree at least as large as the derivative order.")
 
-  if (lower > upper) {
-    lower <- upper - 0.01
-  }
-
-  if (identical(lower, upper)) {
-    lower <- upper - 0.01
-  }
+  if (lower > upper)
+    stop("Set the lower bound at or below the upper bound.")
 
   ramp <- grDevices::hcl.colors(256L, "viridis")
   free.col <- ramp[35L]
@@ -108,12 +103,27 @@ manipulate.plot <- function(n, dgp.frequency, p, gradient, sf, ckertype, lower, 
       ## the fit Gram matrix can be singular and solve.QP requires PD.
       D <- tcrossprod(A.fit) + sqrt(.Machine$double.eps) * D
     }
-    ## Retain both bounds: satisfying one can make the other bind.
-    delta <- solve.QP(Dmat = D, dvec = numeric(n),
-      Amat = cbind(A, -A),
-      bvec = c(lower - object.unres, object.unres - upper))$solution
+    ## Solve for changes from unit weights. Equal bounds prescribe an exact
+    ## value; only independent equations are needed in the quadratic program.
+    if (lower == upper) {
+      ## If A = U diag(d) V', the independent restrictions on p are
+      ## U' p = V' rep(lower, n) / d. Center them at the unit weights.
+      basis <- svd(A)
+      keep <- basis$d > max(basis$d) * n * .Machine$double.eps
+      if (!any(keep)) stop("The selected polynomial cannot attain this bound.")
+      Q <- basis$u[, keep, drop = FALSE]
+      target <- lower * colSums(basis$v[, keep, drop = FALSE]) / basis$d[keep]
+      delta <- solve.QP(D, numeric(n), Q, target - colSums(Q), meq = ncol(Q))$solution
+    } else {
+      delta <- solve.QP(D, numeric(n), cbind(A, -A),
+                        c(lower - object.unres, object.unres - upper))$solution
+    }
     p.hat <- p.u + delta
   }
+  achieved <- drop(crossprod(A, p.hat))
+  if (any(!is.finite(achieved)) || max(lower - achieved, achieved - upper) > 1e-6)
+    stop("The selected bounds were not attained on the observation grid.")
+
 
   fitted.res <- drop(crossprod(A.fit, p.hat))
 
@@ -140,7 +150,7 @@ manipulate.plot <- function(n, dgp.frequency, p, gradient, sf, ckertype, lower, 
   if (gradient > 0) {
     quantity <- if (gradient == 1) "Slope" else "Curvature"
     deriv.truth <- if (gradient == 1) omega * cos(omega * x) / signal.sd else -omega^2 * truth
-    deriv.res <- drop(crossprod(A, p.hat))
+    deriv.res <- achieved
     plot(x, deriv.truth, type = if (population) "l" else "n", xlab = "X", ylab = quantity,
          main = paste(quantity, "bounds"), ylim = range(deriv.truth, object.unres, deriv.res, guides))
     abline(h = guides, lty = 3, col = "grey50")

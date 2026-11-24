@@ -121,14 +121,15 @@ linear-additive parametric model.
 
 ```r
 ## The same modeling interface works directly through a formula and data frame
-bw <- npregbw(y ~ x1 + x2 + x3, data = mydat)
+bw <- npregbw(y ~ x_cont + x_unordered + x_ordered, data = mydat)
 ```
 
 The data-frame interface is also available and can feel more natural in some workflows:
 
 ```r
-## The unconditional density route also accepts a whole data frame
-bw <- npudensbw(dat = mydat)
+## Select bandwidths for the same response and predictors directly
+x <- mydat[c("x_cont", "x_unordered", "x_ordered")]
+bw <- npregbw(xdat = x, ydat = mydat$y)
 ```
 
 The important point is that the variable classes in the data frame should be correct. If a categorical variable is not classed as a factor or ordered factor when appropriate, the wrong kernel treatment will follow.
@@ -213,8 +214,9 @@ fit_lc <- npreg(logwage ~ age, data = cps71)
 fit_ll <- npreg(logwage ~ age, data = cps71, regtype = "ll")
 
 ## Plot the first fit, then add the second fit and a legend
-plot(fit_lc)
-lines(cps71$age, fitted(fit_ll), col = 2, lty = 2)
+plot(fit_lc, col = 1)
+age_order <- order(cps71$age)
+lines(cps71$age[age_order], fitted(fit_ll)[age_order], col = 2, lty = 2)
 
 legend("topleft",
   c("Local constant", "Local linear"),

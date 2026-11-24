@@ -3,8 +3,7 @@
 ## This code was written with Sonali Das during a CSIR visit in April 2016.
 
 ## We are grateful to SOCCO for their assistance and for making the
-## data available (Southern Ocean Carbon & Climate Observatory
-## (socco.org.za)
+## data available (Southern Ocean Carbon & Climate Observatory, socco.org.za).
 
 library(manipulate)
 library(np)
@@ -29,7 +28,7 @@ integrate.trapezoidal <- function(x, y) {
   int.vec[n]
 }
 
-## Expose the predictor and bandwidth controls in an interactive panel.
+## Evaluate both conditional functions at the selected predictor quantiles.
 
 manipulate.plot <- function(sf.co2f, sf.chl, sf.sal, sf.temp, sf.mld,
                             xq.chl, xq.sal, xq.temp, xq.mld,
@@ -53,8 +52,7 @@ manipulate.plot <- function(sf.co2f, sf.chl, sf.sal, sf.temp, sf.mld,
   if (foo.name == "Leg 6 Pooled") foo.data <- foo.leg6
   if (foo.name == "Leg 1 and Leg 6 Pooled") foo.data <- foo.pooled
 
-  ## Extendrange for accurate integration when conditional PDF s
-  ## non-zero at boundary of support
+  ## Extend the response grid to include density beyond the observed range.
 
   CO2f_sst.er <- with(foo.data, extendrange(CO2f_sst, f = 0.25))
 
@@ -85,13 +83,20 @@ manipulate.plot <- function(sf.co2f, sf.chl, sf.sal, sf.temp, sf.mld,
     bws = c(sf.co2f, sf.chl, sf.sal, sf.temp, sf.mld)))
 
 
-  mean.CO2f <- formatC(integrate.trapezoidal(CO2f_sst.seq, CO2f_sst.seq * f), format = "f", digits = 1)
+  ## Approximate the conditional mean by integrating over the extended response grid.
+  mean.CO2f <- integrate.trapezoidal(CO2f_sst.seq, CO2f_sst.seq * f)
 
-  ## Compute the median from the CDF using Nelson's quasi-inverse
-
-  cond.quantile.CO2f <- formatC(min(CO2f_sst.seq[cdf_fit >= quantile.co2f]), format = "f", digits = 1)
-  with(foo.data, if (cond.quantile.CO2f < min(CO2f_sst)) cond.quantile.CO2f <- min(CO2f_sst))
-  with(foo.data, if (cond.quantile.CO2f > max(CO2f_sst)) cond.quantile.CO2f <- max(CO2f_sst))
+  ## For an interior probability, mark the first grid crossing of the conditional CDF.
+  ## A Gaussian smoother has unbounded tails at probabilities zero and one.
+  i <- match(TRUE, cdf_fit >= quantile.co2f)
+  quantile.label <- "outside evaluation grid"
+  cond.quantile.CO2f <- NA_real_
+  if (quantile.co2f == 0 || quantile.co2f == 1) {
+    quantile.label <- if (quantile.co2f == 0) "-Inf" else "+Inf"
+  } else if (!is.na(i) && (i > 1L || cdf_fit[1L] == quantile.co2f)) {
+    cond.quantile.CO2f <- CO2f_sst.seq[i]
+    quantile.label <- sprintf("%.1f (mu atm)", cond.quantile.CO2f)
+  }
 
   par(mfrow = c(2, 1))
 
@@ -108,7 +113,7 @@ manipulate.plot <- function(sf.co2f, sf.chl, sf.sal, sf.temp, sf.mld,
     paste("Salt_tsg = ", legend.dat[2], " (PSU)", sep = ""),
     paste("Temp_intake = ", legend.dat[3], " (C)", sep = ""),
     paste("MLD = ", legend.dat[4], " (meters)", sep = ""),
-    paste("Conditional mean = ", mean.CO2f, " (mu atm)", sep = ""))
+    sprintf("Conditional mean = %.1f (mu atm)", mean.CO2f))
 
   ylim <- c(0, max(f))
   xlim <- with(foo.data, c(uocquantile(CO2f_sst, yq.min.co2f),
@@ -136,7 +141,7 @@ manipulate.plot <- function(sf.co2f, sf.chl, sf.sal, sf.temp, sf.mld,
     paste("Salt_tsg = ", legend.dat[2], " (PSU)", sep = ""),
     paste("Temp_intake = ", legend.dat[3], " (C)", sep = ""),
     paste("MLD = ", legend.dat[4], " (meters)", sep = ""),
-    paste("Conditional ", formatC(100 * quantile.co2f, format = "f", digits = 0), "th quantile = ", cond.quantile.CO2f, " (mu atm)", sep = ""))
+    sprintf("Conditional quantile (p = %.1f): %s", quantile.co2f, quantile.label))
 
   ylim <- c(0, 1)
 
@@ -151,12 +156,13 @@ manipulate.plot <- function(sf.co2f, sf.chl, sf.sal, sf.temp, sf.mld,
 
   with(foo.data, rug(CO2f_sst, col = "lightgrey", quiet = TRUE))
 
-  abline(v = cond.quantile.CO2f, col = "grey", lty = 2, lwd = 2)
+  if (is.finite(cond.quantile.CO2f)) abline(v = cond.quantile.CO2f, col = "grey", lty = 2, lwd = 2)
 
-  legend("topleft", legend.txt, cex = 0.8, lty = c(NA, NA, NA, NA, 2), col = c(NA, NA, NA, NA, "grey"), lwd = c(NA, NA, NA, NA, 2), bty = "n")
+  legend("topleft", legend.txt, cex = 0.8, lty = c(rep(NA, 4), if (is.finite(cond.quantile.CO2f)) 2 else NA), col = c(NA, NA, NA, NA, "grey"), lwd = c(NA, NA, NA, NA, 2), bty = "n")
 
 }
 
+## Expose the predictor and bandwidth controls in an interactive panel.
 manipulate(manipulate.plot(sf.co2f, sf.chl, sf.sal, sf.temp, sf.mld,
                            xq.chl, xq.sal, xq.temp, xq.mld,
                            yq.min.co2f, yq.max.co2f,

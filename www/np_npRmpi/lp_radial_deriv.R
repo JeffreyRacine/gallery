@@ -78,16 +78,29 @@ fitted.res <- matrix(fit.res, n.eval, n.eval)
 
 zlim.res.unres <- c(min(fit.unres, fit.res), max(fit.unres, fit.res))
 
+## Use np's translucent viridis facets. A shared height scale makes the panels comparable.
+surface_colours <- function(z, limits) {
+  ramp <- grDevices::hcl.colors(1000L, "viridis")
+  if (diff(limits) == 0) return(grDevices::adjustcolor(ramp[1L], alpha.f = 0.5))
+  nr <- nrow(z)
+  nc <- ncol(z)
+  height <- (z[-1L, -1L] + z[-nr, -1L] + z[-1L, -nc] + z[-nr, -nc]) / 4
+  index <- 1L + floor((length(ramp) - 1L) * (height - limits[1L]) / diff(limits))
+  grDevices::adjustcolor(ramp[as.vector(index)], alpha.f = 0.5)
+}
+
 pdf(file = "lp_radial_deriv_unres.pdf")
 persp(x1.seq, x2.seq, fitted.unres,
-  col = "lightgrey", ticktype = "detailed", xlab = "X1", ylab = "X2",
+  col = surface_colours(fitted.unres, zlim.res.unres), border = "#3E3375",
+  ticktype = "detailed", xlab = "X1", ylab = "X2",
   zlab = "Conditional expectation", zlim = zlim.res.unres,
   theta = 300, phi = 30)
 dev.off()
 
 pdf(file = "lp_radial_deriv_res.pdf")
 persp(x1.seq, x2.seq, fitted.res,
-  col = "lightgrey", ticktype = "detailed", xlab = "X1", ylab = "X2",
+  col = surface_colours(fitted.res, zlim.res.unres), border = "#3E3375",
+  ticktype = "detailed", xlab = "X1", ylab = "X2",
   zlab = "Conditional expectation", zlim = zlim.res.unres,
   theta = 300, phi = 30)
 dev.off()

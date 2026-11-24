@@ -7,9 +7,9 @@ data(cps71, package = "np")
 
 ## Fit the default local-constant model and display its fitted curve.
 model.lc <- npreg(logwage ~ age, data = cps71)
-plot(model.lc)
+plot(model.lc, col = 1)
 
-## Fit a local-linear model, then add its curve in sample order.
+## Fit a local-linear model, then add its curve in ascending age order.
 model.ll <- npreg(logwage ~ age,
   regtype = "ll",
   data = cps71)

@@ -62,15 +62,16 @@ rm(Amat, bvec)
 
 p.hat <- QP.output$solution
 
-## Refit the spline with the constrained response weights.
+## Reuse the fitted spline basis and knots with the reweighted responses.
 data.trans <- data.frame(y = p.hat * data.train$y, data.train[, 2:ncol(data.train), drop = FALSE])
 
 model.res <- crs(y ~ x1 + x2, cv = "none",
                  degree = model.unres$degree,
                  segments = model.unres$segments,
+                 knots = model.unres$knots,
                  basis = model.unres$basis,
                  data = data.trans,
-                 deriv = 1)
+                 deriv = 2)
 
 ## Create perspective plots of the constrained and unconstrained surfaces.
 

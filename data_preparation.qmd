@@ -105,15 +105,19 @@ the retained variable names and reordered as needed. Extra columns are ignored,
 while missing, duplicate, or ambiguous required columns are rejected. Explicit
 native evaluation arguments retain precedence over `newdata`.
 
-## A common plotting trap
+## Plot the fitted sample
 
-If you create factor or ordered variables inside a data-frame call and then plot a fitted object later, you can sometimes get an error about an object not being found. The safe habit is simple: pass the original data frame to `plot()` when needed.
+A regression fit retains its estimation data, including factor levels. Call
+`plot(fit)` to draw the fitted model. To use a different training sample,
+supply it when fitting the model.
 
 ```r
-## Pass the original data frame back to plot() when needed
-bw <- npregbw(y ~ x + z, data = mydat)
-fit <- npreg(bws = bw, data = mydat)
-plot(fit, data = mydat)
+## Select bandwidths and plot using the retained wage sample
+library(np)
+data(wage1, package = "np")
+bw <- npregbw(lwage ~ female + exper, data = wage1)
+fit <- npreg(bws = bw)
+plot(fit)
 ```
 
 ## Name variables cleanly

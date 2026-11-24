@@ -10,13 +10,8 @@ library(quadprog)
 
 manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lower, upper, deriv.order, which.plot, weighted, smoothing, distance, population = TRUE) {
 
-  if (lower > upper) {
-    lower <- upper - 0.01
-  }
-
-  if (identical(lower, upper)) {
-    lower <- upper - 0.01
-  }
+  if (lower > upper)
+    stop("Set the lower bound at or below the upper bound.")
 
   if (smoothing != "joint" && spline.degree < deriv.order && (lower > 0 || upper < 0))
     stop("This spline degree gives a zero derivative. Increase the degree or include zero in the bounds.")
@@ -64,18 +59,36 @@ manipulate.plot <- function(n, spline.degree, spline.segments, dgp.frequency, lo
     ## Center the QP at unit weights; regularize the fitted-level objective.
     D <- diag(n)
     if (distance == "fits") D <- tcrossprod(A.fit) + sqrt(.Machine$double.eps) * D
-    delta <- solve.QP(Dmat = D, dvec = numeric(n), Amat = cbind(A, -A),
-      bvec = c(lower - object.unres, object.unres - upper))$solution
+    ## Solve for changes from unit weights. Equal bounds prescribe an exact
+    ## value; only independent equations are needed in the quadratic program.
+    if (lower == upper) {
+      ## If A = U diag(d) V', the independent restrictions on p are
+      ## U' p = V' rep(lower, n) / d. Center them at the unit weights.
+      basis <- svd(A)
+      keep <- basis$d > max(basis$d) * n * .Machine$double.eps
+      if (!any(keep)) stop("The selected spline cannot attain this bound.")
+      Q <- basis$u[, keep, drop = FALSE]
+      target <- lower * colSums(basis$v[, keep, drop = FALSE]) / basis$d[keep]
+      delta <- solve.QP(D, numeric(n), Q, target - colSums(Q), meq = ncol(Q))$solution
+    } else {
+      delta <- solve.QP(D, numeric(n), cbind(A, -A),
+                        c(lower - object.unres, object.unres - upper))$solution
+    }
     p.hat <- p.hat + delta
   }
+  achieved <- drop(crossprod(A, p.hat))
+  if (any(!is.finite(achieved)) || max(lower - achieved, achieved - upper) > 1e-6)
+    stop("The selected bounds were not attained on the observation grid.")
 
-  ## Refit with the constrained response weights.
+
+  ## Reuse the fitted spline basis and knots with the reweighted responses.
   data.trans <- data.frame(y = p.hat * data.train$y, data.train[, 2:ncol(data.train), drop = FALSE])
 
   model.res <- crs(y ~ x, cv = "none",
                    deriv = deriv.order,
                    degree = model.unres$degree,
                    segments = model.unres$segments,
+                   knots = model.unres$knots,
                    basis = model.unres$basis,
                    data = data.trans)
 

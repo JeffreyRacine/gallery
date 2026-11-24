@@ -67,7 +67,7 @@ manipulate.plot <- function(neval, sf.x, sf.y, ckertype, ckerorder, theta, cv) {
 manipulate(manipulate.plot(neval, sf.x, sf.y, ckertype, ckerorder, theta, cv),
            neval = slider(25, 150, 50, step = 25, label = "Evaluation points per axis"),
            ckertype = picker("gaussian", "epanechnikov", "uniform", label = "Kernel function"),
-           ckerorder = picker(2, 4, 6, 8, label = "Kernel order"),
+           ckerorder = picker(2, 4, 6, 8, label = "Kernel order (Gaussian/Epanechnikov)"),
            sf.x = slider(0.1, 2.5, 1, label = "Manual scale factor for eruptions", step = 0.1, ticks = TRUE),
            sf.y = slider(0.1, 2.5, 1, label = "Manual scale factor for waiting", step = 0.1, ticks = TRUE),
            theta = slider(0, 360, 0, label = "Azimuthal viewing direction", step = 15, ticks = TRUE),

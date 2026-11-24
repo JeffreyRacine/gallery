@@ -31,7 +31,7 @@ fit_lc <- npreg(logwage ~ age, data = cps71)
 fit_ll <- npreg(logwage ~ age, data = cps71, regtype = "ll")
 
 ## Plot the first fit, then add the second fit and a legend
-plot(fit_lc)
+plot(fit_lc, col = 1)
 age_order <- order(cps71$age)
 lines(cps71$age[age_order], fitted(fit_ll)[age_order],
   col = 2, lty = 2)

@@ -46,42 +46,23 @@ manipulate.plot <- function(n, neval, rho, object, sf.x, sf.y, q.min, q.max, cke
   mydat <- rmnorm(n = n, mu, Sigma)
 
   mydat <- data.frame(x = mydat[, 1], y = mydat[, 2])
-  x <- mydat$x
-  y <- mydat$y
 
   grid.seq <- seq(q.min, q.max, length.out = neval)
   grid.dat <- cbind(grid.seq, grid.seq)
 
-  if (cv) {
-    if (object == "copula" || object == "copula contour") {
-      bw <- npudistbw(~ x + y, ckertype = ckertype, ckerorder = ckerorder, bwscaling = TRUE)
-    } else {
-      bw <- npudensbw(~ x + y, ckertype = ckertype, ckerorder = ckerorder, bwscaling = TRUE)
-    }
-    sf.x <- bw$sfactor$x[1]
-    sf.y <- bw$sfactor$x[2]
-  }
-
-  if (object == "copula" || object == "copula contour") {
-    bw <- npudistbw(~ x + y,
-      bandwidth.compute = FALSE,
-      bwscaling = TRUE,
-      ckertype = ckertype,
-      ckerorder = ckerorder,
-      bws = c(sf.x, sf.y))
+  ## Use distribution bandwidths for the CDF and density bandwidths for its density.
+  is.cdf <- object %in% c("copula", "copula contour")
+  select.bw <- if (is.cdf) npudistbw else npudensbw
+  bw <- if (cv) {
+    select.bw(~ x + y, data = mydat, ckertype = ckertype,
+              ckerorder = ckerorder, bwscaling = TRUE)
   } else {
-    bw <- npudensbw(~ x + y,
-      bandwidth.compute = FALSE,
-      bwscaling = TRUE,
-      ckertype = ckertype,
-      ckerorder = ckerorder,
-      bws = c(sf.x, sf.y))
+    select.bw(~ x + y, data = mydat, ckertype = ckertype, ckerorder = ckerorder,
+              bandwidth.compute = FALSE, bwscaling = TRUE, bws = c(sf.x, sf.y))
   }
 
   copula <- npcopula(bws = bw, data = mydat, u = grid.dat)
-
   estimate <- matrix(copula$copula, neval, neval)
-  is.cdf <- object %in% c("copula", "copula contour")
   reference <- NULL
   if (dgp) {
     ## Evaluate the Gaussian population at the requested probabilities.
@@ -119,9 +100,8 @@ manipulate.plot <- function(n, neval, rho, object, sf.x, sf.y, q.min, q.max, cke
       xlab = "u1", ylab = "u2", zlab = if (is.cdf) "Copula" else "Copula Density",
       zlim = if (is.cdf) c(0, 1) else range(estimate, reference, finite = TRUE),
       theta = theta, ticktype = "detailed", col = surface_colours(estimate), border = grid.col,
-      sub = sprintf("h.x = %.2f, h.y = %.2f, n = %d, rho = %.2f",
-                    sf.x * sd(x) * n^(-1 / (2 * ckerorder + 2)),
-                    sf.y * sd(y) * n^(-1 / (2 * ckerorder + 2)), n, rho))
+      sub = sprintf("%s bandwidths (h.x = %.3g, h.y = %.3g), n = %d, rho = %.2f",
+                    if (cv) "CV" else "Manual", bw$bandwidth$x[1], bw$bandwidth$x[2], n, rho))
     if (dgp) {
       draw_population_mesh(grid.seq, grid.seq, reference, projection, mesh.col)
       legend("topleft", c("Kernel estimate", "Population"), pch = c(22, NA),
@@ -140,7 +120,7 @@ manipulate(manipulate.plot(n, neval, rho, object, sf.x, sf.y, q.min, q.max, cker
            rho = slider(-0.95, 0.95, 0.95, step = 0.05, label = "Correlation between x and y"),
            object = picker("copula", "copula contour", "copula density", "copula density contour", label = "Copula object to plot"),
            ckertype = picker("gaussian", "epanechnikov", "uniform", label = "Kernel function"),
-           ckerorder = picker(2, 4, 6, 8, label = "Kernel order"),
+           ckerorder = picker(2, 4, 6, 8, label = "Kernel order (Gaussian/Epanechnikov)"),
            sf.x = slider(0.1, 2.5, 0.25, label = "Scale factor for x", step = 0.1, ticks = TRUE),
            sf.y = slider(0.1, 2.5, 0.25, label = "Scale factor for y", step = 0.1, ticks = TRUE),
            dgp = checkbox(FALSE, "Show population surface"),

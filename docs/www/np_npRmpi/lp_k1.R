@@ -124,7 +124,7 @@ if (isTRUE(all.equal(p.u, p.hat))) warning("constraints not binding")
 fit.unres <- drop(H.mean %*% y)
 fit.res <- drop(H.mean %*% (y * p.hat))
 
-## Compare the DGP, both fits, and the translated responses y * p.hat.
+## Compare fitted levels. Only level restrictions have bounds on this axis.
 pdf(file = "lp_k1.pdf")
 
 ylim <- c(min(dgp, fit.unres, fit.res, y),
@@ -137,8 +137,10 @@ points(x, y * p.hat, col = "orange", cex = 0.25)
 lines(x, dgp, col = 1, lty = 1)
 lines(x, fit.unres, col = 2, lty = 1, lwd = 2)
 lines(x, fit.res, col = 3, lty = 1, lwd = 2)
-lines(x, lower[seq_len(n)], lty = 1, col = "lightgrey")
-lines(x, upper[seq_len(n)], lty = 1, col = "lightgrey")
+if (all(gradient.vec == 0)) {
+  lines(x, lower[seq_len(n)], lty = 1, col = "lightgrey")
+  lines(x, upper[seq_len(n)], lty = 1, col = "lightgrey")
+}
 
 legend("bottomleft",
        c("DGP", "Unconstrained", "Constrained"),
@@ -151,8 +153,10 @@ plot(x, y, cex = .25, ylab = "g(x)", ylim = ylim, col = "grey", sub = subtext)
 lines(x, dgp, col = 1, lty = 1)
 lines(x, fit.unres, col = 2, lty = 1, lwd = 2)
 lines(x, fit.res, col = 3, lty = 1, lwd = 2)
-lines(x, lower[seq_len(n)], lty = 1, col = "lightgrey")
-lines(x, upper[seq_len(n)], lty = 1, col = "lightgrey")
+if (all(gradient.vec == 0)) {
+  lines(x, lower[seq_len(n)], lty = 1, col = "lightgrey")
+  lines(x, upper[seq_len(n)], lty = 1, col = "lightgrey")
+}
 
 legend("bottomleft",
        c("DGP", "Unconstrained", "Constrained"),

@@ -4,10 +4,8 @@
 library(manipulate)
 library(np)
 
-## Load the wage1 data which contains the precomputed bandwidth object
-## `bw.all'
-
-data(wage1)
+## Load the wage data and its precomputed local-linear bandwidth object, bw.all.
+data(wage1, package = "np")
 
 ## Redraw the partial views after a control changes.
 

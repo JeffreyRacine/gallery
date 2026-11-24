@@ -212,7 +212,7 @@ Because in `np` the bandwidth object is often the key object in the workflow.
 
 ```r
 ## Create the bandwidth object explicitly before fitting
-bw <- npregbw(y ~ x1 + x2, data = mydat)
+bw <- npregbw(y ~ x_cont + x_unordered + x_ordered, data = mydat)
 summary(bw)
 fit <- npreg(bws = bw)
 ```
@@ -223,7 +223,7 @@ If you instead begin with a single high-level estimator call, the fitted object 
 
 ```r
 ## Search and fit first; later request gradients without searching again
-fit <- npreg(y ~ x1 + x2, data = mydat)
+fit <- npreg(y ~ x_cont + x_unordered + x_ordered, data = mydat)
 fit_grad <- npreg(bws = fit$bws, gradients = TRUE)
 ```
 

@@ -1,27 +1,7 @@
-## ----OPTIONS,cache=FALSE,echo=FALSE,results='hide',message=FALSE,warning=FALSE----
-library(knitr)
-opts_chunk$set(concordance = TRUE,
-               echo = FALSE,
-               autodep = TRUE,
-               tidy = FALSE,
-               cache = TRUE,
-               message = FALSE,
-               warning = FALSE,
-               results = "hide",
-               size = "scriptsize",
-               comment = NA,
-               out.width = ".75\\textwidth",
-               fig.show = "hold")
-
-## Do not cache reading of libraries or options - these are one
-## of the few things that cannot be cached!
-library(np)
-options(np.messages = FALSE, crs.messages = FALSE)
+## Plot the Leg 1 measurements and map each variable by its pooled deciles.
 library(maps)
-if (requireNamespace("mapdata", quietly = TRUE)) library(mapdata)
 load("data.RData")
 
-## ----out.width='.5\\textwidth'-------------------------------------------
 foo <- foo.leg1.50
 plot(CO2f_sst ~ Chl_conc,
      data = foo,
@@ -30,9 +10,8 @@ plot(CO2f_sst ~ Chl_conc,
      type = "b")
 
 
-## ------------------------------------------------------------------------
+## Offset overlapping cruise tracks in longitude for display.
 lon.adjust <- 1
-foo.leg1.50$Lon <- foo.leg1.50$Lon
 foo.leg1.51$Lon <- foo.leg1.51$Lon - lon.adjust
 foo.leg1.52$Lon <- foo.leg1.52$Lon + lon.adjust
 foo.leg1.53$Lon <- foo.leg1.53$Lon - 2 * lon.adjust
@@ -46,393 +25,34 @@ foo <- rbind(foo.leg1.50,
 
 foo <- na.omit(subset(foo, CruiseLeg == 1))
 
-## Note - we use the entire pooled sample for computing the color
-## palatte here, so all is good.
+plot_leg_map <- function(z, title, end.colour) {
+  ## The points and colour key use the same ten bins and colours.
+  breaks <- quantile(z, (0:10) / 10)
+  colours <- colorRampPalette(c("black", "lightblue", "yellow", end.colour),
+                             interpolate = "spline")(10L)
+  bins <- cut(z, breaks, include.lowest = TRUE, labels = FALSE)
+  trips <- sort(unique(foo$Trip))
+  symbols <- 20L + seq_along(trips)
 
-z <- foo$Chl_conc
-z.main <- "Chlorophyll-a Leg 1"
+  map(database = "world", regions = c("antarctica", "south africa"),
+      xlim = c(-30, 40), ylim = c(-75, -25), fill = TRUE,
+      col = "lightgrey", resolution = 0, bg = "white")
+  box()
+  points(foo$Lon, foo$Lat, bg = colours[bins], pch = symbols[match(foo$Trip, trips)],
+         cex = .5, col = NA)
+  legend("topleft", trips, pch = symbols, bty = "n", cex = .5)
+  axis(1)
+  axis(2)
+  grid()
+  title(main = title, xlab = "Longitude", ylab = "Latitude")
 
-map(database = "world",
-    regions = c("antarctica", "south africa"),
-    xlim = c(-30, 40), ## longitude
-    ylim = c(-75, -25), ## latitude
-    fill = TRUE,
-    col = "lightgrey",
-    resolution = 0,
-    bg = "white")
-
-box()
-
-## Scalebar
-
-## colorRampPalette returns a function that takes an integer argument
-## (the required number of colors, here num.color) and returns a
-## character vector of colors (see rgb) interpolating the given
-## sequence
-
-num.colors <- 10
-color.pal <- c("black", "lightblue", "yellow", "green")
-zcol <- colorRampPalette(colors = color.pal, interpolate = "spline")(num.colors)[as.numeric(cut(z, breaks = quantile(z, seq(0, 1, length.out = num.colors)), include.lowest = TRUE))]
-
-pch.ctr <- 21
-Trip <- sort(unique(foo$Trip))
-
-for (t in Trip) {
-  points(foo$Lon[foo$Trip == t],
-    foo$Lat[foo$Trip == t],
-    bg = zcol[foo$Trip == t],
-    pch = pch.ctr,
-    cex = .5,
-    col = NA)
-  pch.ctr <- pch.ctr + 1
+  edges <- seq(-65, -50, length.out = length(breaks))
+  rect(-20, head(edges, -1L), -15, tail(edges, -1L), border = NA, col = colours)
+  text(-20.2, edges, labels = formatC(breaks, format = "f", digits = 2), cex = .8, pos = 2)
 }
 
-legend("topleft", Trip, pch = 21:25, bty = "n", cex = .5)
-
-axis(1, labels = TRUE)
-axis(2, labels = TRUE)
-grid()
-
-title(xlab = "Longitude",
-      ylab = "Latitude",
-      main = z.main)
-
-## set the location and the colorbar gradation
-xleft <- -20
-xright <- -15
-yint <- (65 - 50) / num.colors
-ybot <- -65 - yint
-ytop <- ybot + yint
-
-## create the bar by stacking a bunch of colored rectangles
-for (c in colorRampPalette(colors = color.pal)(num.colors)) {
-  ybot <- ybot + yint
-  ytop <- ytop + yint
-  rect(xleft, ybot, xright, ytop, border = NA, col = c)
-}
-
-## generate labels
-
-label.length <- 11 ## deciles
-
-labels <- formatC(quantile(z, seq(0, 1, length.out = label.length)), format = "f", digits = 2)
-
-## add the labels to the plot
-text(c(xleft - 0.2),
-     seq(-65, -50, length.out = label.length),
-     labels = as.character(labels),
-     cex = 0.8,
-     pos = 2)
-
-## ------------------------------------------------------------------------
-###############################################################################
-
-z <- foo$CO2f_sst
-z.main <- "fCO2 Leg 1"
-
-map(database = "world",
-    regions = c("antarctica", "south africa"),
-    xlim = c(-30, 40), ## longitude
-    ylim = c(-75, -25), ## latitude
-    fill = TRUE,
-    col = "lightgrey",
-    resolution = 0,
-    bg = "white")
-
-box()
-
-## Scalebar
-
-## colorRampPalette returns a function that takes an integer argument
-## (the required number of colors, here num.color) and returns a
-## character vector of colors (see rgb) interpolating the given
-## sequence
-
-color.pal <- c("black", "lightblue", "yellow", "purple")
-zcol <- colorRampPalette(colors = color.pal, interpolate = "spline")(num.colors)[as.numeric(cut(z, breaks = quantile(z, seq(0, 1, length.out = num.colors)), include.lowest = TRUE))]
-
-pch.ctr <- 21
-Trip <- sort(unique(foo$Trip))
-
-for (t in Trip) {
-  points(foo$Lon[foo$Trip == t],
-    foo$Lat[foo$Trip == t],
-    bg = zcol[foo$Trip == t],
-    pch = pch.ctr,
-    cex = .5,
-    col = NA)
-  pch.ctr <- pch.ctr + 1
-}
-
-legend("topleft", Trip, pch = 21:25, bty = "n", cex = .5)
-
-axis(1, labels = TRUE)
-axis(2, labels = TRUE)
-grid()
-
-title(xlab = "Longitude",
-      ylab = "Latitude",
-      main = z.main)
-
-## set the location and the colorbar gradation
-xleft <- -20
-xright <- -15
-yint <- (65 - 50) / num.colors
-ybot <- -65 - yint
-ytop <- ybot + yint
-
-## create the bar by stacking a bunch of colored rectangles
-for (c in colorRampPalette(colors = color.pal)(num.colors)) {
-  ybot <- ybot + yint
-  ytop <- ytop + yint
-  rect(xleft, ybot, xright, ytop, border = NA, col = c)
-}
-
-## generate labels
-
-label.length <- 11 ## deciles
-
-labels <- formatC(quantile(z, seq(0, 1, length.out = label.length)), format = "f", digits = 2)
-
-## add the labels to the plot
-text(c(xleft - 0.2),
-     seq(-65, -50, length.out = label.length),
-     labels = as.character(labels),
-     cex = 0.8,
-     pos = 2)
-
-
-## ------------------------------------------------------------------------
-###############################################################################
-
-z <- foo$Salt_tsg
-z.main <- "Salinity Leg 1"
-
-map(database = "world",
-    regions = c("antarctica", "south africa"),
-    xlim = c(-30, 40), ## longitude
-    ylim = c(-75, -25), ## latitude
-    fill = TRUE,
-    col = "lightgrey",
-    resolution = 0,
-    bg = "white")
-
-box()
-
-## Scalebar
-
-## colorRampPalette returns a function that takes an integer argument
-## (the required number of colors, here num.color) and returns a
-## character vector of colors (see rgb) interpolating the given
-## sequence
-
-color.pal <- c("black", "lightblue", "yellow", "orange")
-zcol <- colorRampPalette(colors = color.pal, interpolate = "spline")(num.colors)[as.numeric(cut(z, breaks = quantile(z, seq(0, 1, length.out = num.colors)), include.lowest = TRUE))]
-
-pch.ctr <- 21
-Trip <- sort(unique(foo$Trip))
-
-for (t in Trip) {
-  points(foo$Lon[foo$Trip == t],
-    foo$Lat[foo$Trip == t],
-    bg = zcol[foo$Trip == t],
-    pch = pch.ctr,
-    cex = .5,
-    col = NA)
-  pch.ctr <- pch.ctr + 1
-}
-
-legend("topleft", Trip, pch = 21:25, bty = "n", cex = .5)
-
-axis(1, labels = TRUE)
-axis(2, labels = TRUE)
-grid()
-
-title(xlab = "Longitude",
-      ylab = "Latitude",
-      main = z.main)
-
-## set the location and the colorbar gradation
-xleft <- -20
-xright <- -15
-yint <- (65 - 50) / num.colors
-ybot <- -65 - yint
-ytop <- ybot + yint
-
-## create the bar by stacking a bunch of colored rectangles
-for (c in colorRampPalette(colors = color.pal)(num.colors)) {
-  ybot <- ybot + yint
-  ytop <- ytop + yint
-  rect(xleft, ybot, xright, ytop, border = NA, col = c)
-}
-
-## generate labels
-
-label.length <- 11 ## deciles
-
-labels <- formatC(quantile(z, seq(0, 1, length.out = label.length)), format = "f", digits = 2)
-
-## add the labels to the plot
-text(c(xleft - 0.2),
-     seq(-65, -50, length.out = label.length),
-     labels = as.character(labels),
-     cex = 0.8,
-     pos = 2)
-
-
-## ------------------------------------------------------------------------
-###############################################################################
-
-z <- foo$Temp_intake
-z.main <- "Temperature Leg 1"
-
-map(database = "world",
-    regions = c("antarctica", "south africa"),
-    xlim = c(-30, 40), ## longitude
-    ylim = c(-75, -25), ## latitude
-    fill = TRUE,
-    col = "lightgrey",
-    resolution = 0,
-    bg = "white")
-
-box()
-
-## Scalebar
-
-## colorRampPalette returns a function that takes an integer argument
-## (the required number of colors, here num.color) and returns a
-## character vector of colors (see rgb) interpolating the given
-## sequence
-
-color.pal <- c("black", "lightblue", "yellow", "red")
-zcol <- colorRampPalette(colors = color.pal, interpolate = "spline")(num.colors)[as.numeric(cut(z, breaks = quantile(z, seq(0, 1, length.out = num.colors)), include.lowest = TRUE))]
-
-pch.ctr <- 21
-Trip <- sort(unique(foo$Trip))
-
-for (t in Trip) {
-  points(foo$Lon[foo$Trip == t],
-    foo$Lat[foo$Trip == t],
-    bg = zcol[foo$Trip == t],
-    pch = pch.ctr,
-    cex = .5,
-    col = NA)
-  pch.ctr <- pch.ctr + 1
-}
-
-legend("topleft", Trip, pch = 21:25, bty = "n", cex = .5)
-
-axis(1, labels = TRUE)
-axis(2, labels = TRUE)
-grid()
-
-title(xlab = "Longitude",
-      ylab = "Latitude",
-      main = z.main)
-
-## set the location and the colorbar gradation
-xleft <- -20
-xright <- -15
-yint <- (65 - 50) / num.colors
-ybot <- -65 - yint
-ytop <- ybot + yint
-
-## create the bar by stacking a bunch of colored rectangles
-for (c in colorRampPalette(colors = color.pal)(num.colors)) {
-  ybot <- ybot + yint
-  ytop <- ytop + yint
-  rect(xleft, ybot, xright, ytop, border = NA, col = c)
-}
-
-## generate labels
-
-label.length <- 11 ## deciles
-
-labels <- formatC(quantile(z, seq(0, 1, length.out = label.length)), format = "f", digits = 2)
-
-## add the labels to the plot
-text(c(xleft - 0.2),
-     seq(-65, -50, length.out = label.length),
-     labels = as.character(labels),
-     cex = 0.8,
-     pos = 2)
-
-
-## ------------------------------------------------------------------------
-###############################################################################
-
-z <- foo$MLD
-z.main <- "MLD Leg 1"
-
-map(database = "world",
-    regions = c("antarctica", "south africa"),
-    xlim = c(-30, 40), ## longitude
-    ylim = c(-75, -25), ## latitude
-    fill = TRUE,
-    col = "lightgrey",
-    resolution = 0,
-    bg = "white")
-
-box()
-
-## Scalebar
-
-## colorRampPalette returns a function that takes an integer argument
-## (the required number of colors, here num.color) and returns a
-## character vector of colors (see rgb) interpolating the given
-## sequence
-
-color.pal <- c("black", "lightblue", "yellow", "maroon")
-zcol <- colorRampPalette(colors = color.pal, interpolate = "spline")(num.colors)[as.numeric(cut(z, breaks = quantile(z, seq(0, 1, length.out = num.colors)), include.lowest = TRUE))]
-
-pch.ctr <- 21
-Trip <- sort(unique(foo$Trip))
-
-for (t in Trip) {
-  points(foo$Lon[foo$Trip == t],
-    foo$Lat[foo$Trip == t],
-    bg = zcol[foo$Trip == t],
-    pch = pch.ctr,
-    cex = .5,
-    col = NA)
-  pch.ctr <- pch.ctr + 1
-}
-
-legend("topleft", Trip, pch = 21:25, bty = "n", cex = .5)
-
-axis(1, labels = TRUE)
-axis(2, labels = TRUE)
-grid()
-
-title(xlab = "Longitude",
-      ylab = "Latitude",
-      main = z.main)
-
-## set the location and the colorbar gradation
-xleft <- -20
-xright <- -15
-yint <- (65 - 50) / num.colors
-ybot <- -65 - yint
-ytop <- ybot + yint
-
-## create the bar by stacking a bunch of colored rectangles
-for (c in colorRampPalette(colors = color.pal)(num.colors)) {
-  ybot <- ybot + yint
-  ytop <- ytop + yint
-  rect(xleft, ybot, xright, ytop, border = NA, col = c)
-}
-
-## generate labels
-
-label.length <- 11 ## deciles
-
-labels <- formatC(quantile(z, seq(0, 1, length.out = label.length)), format = "f", digits = 2)
-
-## add the labels to the plot
-text(c(xleft - 0.2),
-     seq(-65, -50, length.out = label.length),
-     labels = as.character(labels),
-     cex = 0.8,
-     pos = 2)
-
-dev.off()
+plot_leg_map(foo$Chl_conc, "Chlorophyll-a Leg 1", "green")
+plot_leg_map(foo$CO2f_sst, "fCO2 Leg 1", "purple")
+plot_leg_map(foo$Salt_tsg, "Salinity Leg 1", "orange")
+plot_leg_map(foo$Temp_intake, "Temperature Leg 1", "red")
+plot_leg_map(foo$MLD, "MLD Leg 1", "maroon")

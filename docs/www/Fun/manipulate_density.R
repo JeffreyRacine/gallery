@@ -11,7 +11,7 @@ options(np.tree = "auto")
 
 manipulate.plot <- function(n, df, sf, nn, bwtype, ckertype, ckerorder, hist, rug, cv, cv.type, population = TRUE) {
 
-  if (nn >= n) {
+  if (!cv && bwtype != "fixed" && nn >= n) {
     warning(paste("Knn bandwidth must be less than", n))
     nn <- n - 1
   }
@@ -40,16 +40,23 @@ manipulate.plot <- function(n, df, sf, nn, bwtype, ckertype, ckerorder, hist, ru
                     bws = ifelse(bwtype == "fixed", sf, nn))
   }
 
+  ## Use the same bandwidth object for the curve and its caption.
   f.kernel <- fitted(npudens(tdat = x, edat = x.eval, bws = bw))
+  h <- bw$bandwidth$x[1L]
+  bandwidth.label <- if (bwtype == "fixed") {
+    sprintf("h = %.3g", h)
+  } else {
+    sprintf("k = %d", as.integer(h))
+  }
 
-  ylim <- c(0, max(hist.max, f.kernel, f.dgp))
+  ylim <- range(0, hist.max, f.kernel, f.dgp)
 
   plot(x.eval, f.kernel,
        ylim = ylim,
        type = "l",
        ylab = "Density",
        xlab = "Data",
-       sub = paste(ifelse(bwtype == "fixed", paste("Bandwidth = ", formatC(bw$bw[1] * sd(x) * n^(-1 / (2 * ckerorder + 1)), format = "f", digits = 2), sep = ""), paste("Kth nearest neighbor = ", bw$bw[1], sep = "")), ", n = ", n, sep = ""),
+       sub = sprintf("%s bandwidth (%s), n = %d", if (cv) "CV" else "Manual", bandwidth.label, n),
        lty = 1,
        col = "#3E3375")
 
@@ -73,7 +80,7 @@ manipulate(manipulate.plot(n, df, sf, nn, bwtype, ckertype, ckerorder, hist, rug
            n = slider(100, 1000, 500, step = 100, label = "Number of observations"),
            df = slider(10, 120, 10, step = 10, label = "Chi-square degrees of freedom"),
            ckertype = picker("gaussian", "epanechnikov", "uniform", label = "Kernel function"),
-           ckerorder = picker(2, 4, 6, 8, label = "Kernel order"),
+           ckerorder = picker(2, 4, 6, 8, label = "Kernel order (Gaussian/Epanechnikov)"),
            bwtype = picker("fixed", "adaptive_nn", "generalized_nn", label = "Bandwidth type"),
            sf = slider(0.1, 2.5, 1, label = "Scale factor (bwtype=\"fixed\")", step = 0.1, ticks = TRUE),
            nn = slider(2, 1000, 50, label = "Kth nn (bwtype=*_nn)", step = 1, ticks = TRUE),

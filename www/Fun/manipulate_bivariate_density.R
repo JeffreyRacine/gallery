@@ -95,7 +95,7 @@ manipulate(manipulate.plot(n, neval, rho, sf.x, sf.y, ckertype, ckerorder, theta
            neval = slider(25, 100, 50, step = 25, label = "Evaluation points per axis"),
            rho = slider(0, 0.95, 0.1, step = 0.05, label = "Correlation between x and y"),
            ckertype = picker("gaussian", "epanechnikov", "uniform", label = "Kernel function"),
-           ckerorder = picker(2, 4, 6, 8, label = "Kernel order"),
+           ckerorder = picker(2, 4, 6, 8, label = "Kernel order (Gaussian/Epanechnikov)"),
            sf.x = slider(0.1, 2.5, 1, label = "Scale factor for x", step = 0.1, ticks = TRUE),
            sf.y = slider(0.1, 2.5, 1, label = "Scale factor for y", step = 0.1, ticks = TRUE),
            theta = slider(0, 360, 0, label = "Azimuthal viewing direction", step = 15, ticks = TRUE),
