@@ -467,6 +467,7 @@ window.Quarto = {
   <ul>
   <li><a href="#gallery-of-code-for-np-nprmpi-and-crs" id="toc-gallery-of-code-for-np-nprmpi-and-crs" class="nav-link active" data-scroll-target="#gallery-of-code-for-np-nprmpi-and-crs">Gallery of code for <code>np</code>, <code>npRmpi</code>, and <code>crs</code></a>
   <ul class="collapse">
+  <li><a href="#run-your-first-example" id="toc-run-your-first-example" class="nav-link" data-scroll-target="#run-your-first-example">Run your first example</a></li>
   <li><a href="#explore-a-conditional-distribution" id="toc-explore-a-conditional-distribution" class="nav-link" data-scroll-target="#explore-a-conditional-distribution">Explore a conditional distribution</a>
   <ul class="collapse">
   <li><a href="#what-is-being-estimated" id="toc-what-is-being-estimated" class="nav-link" data-scroll-target="#what-is-being-estimated">What is being estimated?</a></li>
@@ -503,39 +504,34 @@ window.Quarto = {
 
 <section id="gallery-of-code-for-np-nprmpi-and-crs" class="level1">
 <h1>Gallery of code for <code>np</code>, <code>npRmpi</code>, and <code>crs</code></h1>
-<p>This site is meant to help you get to working code quickly. Use the sidebar to browse by task, or search directly for function names such as <code>npreg</code>, <code>npudens</code>, <code>crs</code>, and <code>npRmpi.init</code>.</p>
-<p>This gallery complements the package help pages, examples, and vignettes. The aim is simple: make it easy to see what each package is for, copy a small working example, and then move on to longer scripts only if you need them.</p>
-<p>If you are new to these packages, start with <a href="./primer.html">Choose a Package</a>. If you want runnable code immediately, go to <a href="./quickstarts.html">Quickstarts</a>. If you already know the method you want, go directly to <a href="./np_npRmpi.html">Kernel Methods</a>, <a href="./mpi_large_data.html">MPI and Large Data</a>, <a href="./crs.html">Splines</a>, or <a href="./regression.html">Worked Examples</a>.</p>
-<div class="quick-note">
-<p>This website is a practical working companion to the package manuals and the underlying papers, not a substitute for them.</p>
+<p>Work with continuous and categorical data in R, from a first fitted curve to parallel kernel estimation and regression splines.</p>
+<section id="run-your-first-example" class="level2">
+<h2 class="anchored" data-anchor-id="run-your-first-example"><a href="./quickstarts.html">Run your first example</a></h2>
+<div class="grid">
+<div class="g-col-12 g-col-md-4">
+<section id="np" class="level3 home-card">
+<h3 class="anchored" data-anchor-id="np"><code>np</code></h3>
+<p><a href="./quickstarts.html#np-quickstarts">Fit a kernel regression</a></p>
+<p>Start with a small regression before using the same tools with mixed data.</p>
+</section>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<div class="g-col-12 g-col-md-4">
+<section id="nprmpi" class="level3 home-card">
+<h3 class="anchored" data-anchor-id="nprmpi"><code>npRmpi</code></h3>
+<p><a href="./quickstarts.html#nprmpi-quickstarts">Start an MPI session</a></p>
+<p>Use the same kernel workflow for larger jobs.</p>
+</section>
 </div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>New to <code>np</code>?</strong> Watch <a href="./video_demos.html#first-np-result">Your first <code>np</code> result</a>, a half-minute RStudio demonstration, then continue with the copyable script.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Current package status
+<div class="g-col-12 g-col-md-4">
+<section id="crs" class="level3 home-card">
+<h3 class="anchored" data-anchor-id="crs"><code>crs</code></h3>
+<p><a href="./quickstarts.html#crs-quickstart">Fit a regression spline</a></p>
+<p>Use splines with continuous and categorical predictors.</p>
+</section>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>The examples use <code>np</code> <code>0.80-3</code>, <code>npRmpi</code> <code>0.80-3</code> (published November 24, 2026), and <code>crs</code> <code>0.15-46</code> (published August 19, 2026).</p>
-<p>Current estimator controls include <code>se</code>, <code>se.fit</code>, and <code>gradient.order</code>, together with plot controls such as <code>errors</code>, <code>bootstrap</code>, <code>interval</code>, <code>band</code>, <code>data.rug</code>, and <code>data.overlay</code>. The <a href="./faq.html#what-should-i-check-when-moving-to-080-3">0.80-3 migration note</a> summarizes the argument changes most likely to affect older code.</p>
-</div>
-</div>
+<p><a href="./primer.html">Choose a package</a> · <a href="./R_RStudio.html">Installation</a> · <a href="./video_demos.html#first-np-result">Watch a half-minute RStudio walkthrough</a></p>
+</section>
 <section id="explore-a-conditional-distribution" class="level2">
 <h2 class="anchored" data-anchor-id="explore-a-conditional-distribution">Explore a conditional distribution</h2>
 <div class="gallery-live-demo">
@@ -565,7 +561,7 @@ Tip
 </section>
 <div class="gallery-code-disclosure">
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -574,7 +570,7 @@ Tip
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Load the package and updated Italian regional panel</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(np)</span>
@@ -609,7 +605,7 @@ Tip
 </div>
 <div class="gallery-code-disclosure">
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -618,7 +614,7 @@ Tip
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The first panel below estimates each year’s CDF separately, including a separate GDP bandwidth. The second remains cell-based by fixing the ordered year bandwidth at <code>lambda = 0</code>, but selects one common GDP bandwidth across years. The final <code>npcdist()</code> fit also borrows strength across the ordered year axis. Comparing all three separates the effect of a common bandwidth from the additional smoothing supplied by neighboring years. With only 20 regions per year, the joint fit produces a markedly steadier year-to-year CDF and median path than independent annual fits in this example.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Load the data and define a common evaluation grid</span></span>
@@ -711,6 +707,20 @@ Tip
 <span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>rgl<span class="sc">::</span><span class="fu">rglwidget</span>(<span class="at">width =</span> <span class="dv">2100</span>, <span class="at">height =</span> <span class="dv">720</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Current package status
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The examples use <code>np</code> <code>0.80-3</code>, <code>npRmpi</code> <code>0.80-3</code> (published November 24, 2026), and <code>crs</code> <code>0.15-46</code> (published August 19, 2026).</p>
+<p>The <a href="./faq.html#what-should-i-check-when-moving-to-080-3">0.80-3 migration note</a> summarizes the argument changes most likely to affect older code.</p>
 </div>
 </div>
 </section>

@@ -4,38 +4,45 @@ title: "Start Here"
 
 # Gallery of code for `np`, `npRmpi`, and `crs`
 
-This site is meant to help you get to working code quickly. Use the sidebar to
-browse by task, or search directly for function names such as `npreg`,
-`npudens`, `crs`, and `npRmpi.init`.
+Work with continuous and categorical data in R, from a first fitted curve to
+parallel kernel estimation and regression splines.
 
-This gallery complements the package help pages, examples, and vignettes. The aim is simple: make it easy to see what each package is for, copy a small working example, and then move on to longer scripts only if you need them.
+## [Run your first example](quickstarts.qmd)
 
-If you are new to these packages, start with [Choose a Package](primer.qmd). If you want runnable code immediately, go to [Quickstarts](quickstarts.qmd). If you already know the method you want, go directly to [Kernel Methods](np_npRmpi.qmd), [MPI and Large Data](mpi_large_data.qmd), [Splines](crs.qmd), or [Worked Examples](regression.qmd).
+::: {.grid}
+::: {.g-col-12 .g-col-md-4}
+::: {.home-card}
+### `np`
 
-::: {.quick-note}
-This website is a practical working companion to the package manuals and the
-underlying papers, not a substitute for them.
+[Fit a kernel regression](quickstarts.qmd#np-quickstarts)
+
+Start with a small regression before using the same tools with mixed data.
+:::
 :::
 
-::: {.callout-tip}
-**New to `np`?** Watch [Your first `np` result](video_demos.qmd#first-np-result),
-a half-minute RStudio demonstration, then continue with the copyable script.
+::: {.g-col-12 .g-col-md-4}
+::: {.home-card}
+### `npRmpi`
+
+[Start an MPI session](quickstarts.qmd#nprmpi-quickstarts)
+
+Use the same kernel workflow for larger jobs.
+:::
 :::
 
-::: {.callout-note}
-## Current package status
+::: {.g-col-12 .g-col-md-4}
+::: {.home-card}
+### `crs`
 
-The examples use `np` `{{< var current-releases.np.version >}}`, `npRmpi`
-`{{< var current-releases.npRmpi.version >}}` (published
-{{< var current-releases.npRmpi.published >}}), and `crs`
-`{{< var current-releases.crs.version >}}` (published
-{{< var current-releases.crs.published >}}).
+[Fit a regression spline](quickstarts.qmd#crs-quickstart)
 
-Current estimator controls include `se`, `se.fit`, and
-`gradient.order`, together with plot controls such as `errors`, `bootstrap`,
-`interval`, `band`, `data.rug`, and `data.overlay`. The [0.80-3 migration note](faq.qmd#what-should-i-check-when-moving-to-080-3)
-summarizes the argument changes most likely to affect older code.
+Use splines with continuous and categorical predictors.
 :::
+:::
+:::
+
+[Choose a package](primer.qmd) · [Installation](R_RStudio.qmd) ·
+[Watch a half-minute RStudio walkthrough](video_demos.qmd#first-np-result)
 
 ## Explore a conditional distribution
 
@@ -224,6 +231,19 @@ draw_panel(joint_fit$cdf, joint_fit$quantile,
 rgl::rglwidget(width = 2100, height = 720)
 ```
 :::
+:::
+
+::: {.callout-note}
+## Current package status
+
+The examples use `np` `{{< var current-releases.np.version >}}`, `npRmpi`
+`{{< var current-releases.npRmpi.version >}}` (published
+{{< var current-releases.npRmpi.published >}}), and `crs`
+`{{< var current-releases.crs.version >}}` (published
+{{< var current-releases.crs.published >}}).
+
+The [0.80-3 migration note](faq.qmd#what-should-i-check-when-moving-to-080-3)
+summarizes the argument changes most likely to affect older code.
 :::
 
 ## Current Capabilities
