@@ -1,6 +1,7 @@
 current-releases:
   np:
     version: "0.80-3"
+    published: "November 24, 2026"
   npRmpi:
     version: "0.80-3"
     published: "November 24, 2026"

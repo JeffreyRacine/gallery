@@ -236,8 +236,9 @@ rgl::rglwidget(width = 2100, height = 720)
 ::: {.callout-note}
 ## Current package status
 
-The examples use `np` `{{< var current-releases.np.version >}}`, `npRmpi`
-`{{< var current-releases.npRmpi.version >}}` (published
+The examples use `np` `{{< var current-releases.np.version >}}` (published on
+CRAN {{< var current-releases.np.published >}}), `npRmpi`
+`{{< var current-releases.npRmpi.version >}}` (published on CRAN
 {{< var current-releases.npRmpi.published >}}), and `crs`
 `{{< var current-releases.crs.version >}}` (published
 {{< var current-releases.crs.published >}}).

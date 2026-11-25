@@ -141,6 +141,11 @@ expect_fixed \
 
 expect_fixed \
   "$ROOT/index.qmd" \
+  '{{< var current-releases.np.published >}}' \
+  "gallery overview uses shared current np publication metadata"
+
+expect_fixed \
+  "$ROOT/index.qmd" \
   '{{< var current-releases.npRmpi.published >}}' \
   "gallery overview uses shared current npRmpi publication metadata"
 
